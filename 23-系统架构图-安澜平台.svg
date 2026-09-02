@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1680" height="1220" viewBox="0 0 1680 1220" font-family="Microsoft YaHei, PingFang SC, SimHei, sans-serif">
+  <!-- 背景 -->
+  <rect x="0" y="0" width="1680" height="1220" fill="#F4F7FB"/>
+
+  <!-- ===== 标题区 ===== -->
+  <text x="40" y="38" font-size="26" font-weight="bold" fill="#17324D">安澜（ANLAN）智能体平台 · 系统架构</text>
+  <line x1="40" y1="56" x2="1660" y2="56" stroke="#17324D" stroke-width="2"/>
+
+  <!-- ============================================================ -->
+  <!-- 应用层 y:70-330 -->
+  <!-- ============================================================ -->
+  <g id="layer-app">
+    <rect x="40" y="70" width="1330" height="260" rx="6" fill="#FFF3F1" stroke="#E9573F" stroke-width="1.5"/>
+    <rect x="40" y="70" width="1330" height="34" rx="6" fill="#E9573F"/>
+    <text x="56" y="92" font-size="17" font-weight="bold" fill="#FFFFFF">应用层｜安全生产智能体（入口：Web / App / 语音上报 / 拍照识别 / 应急指挥大屏）</text>
+
+    <!-- 隐患判级 Agent -->
+    <g>
+      <rect x="60" y="114" width="400" height="206" rx="4" fill="#FFFFFF" stroke="#E9573F" stroke-width="1.5"/>
+      <rect x="60" y="114" width="400" height="30" rx="4" fill="#F4C7C3"/>
+      <text x="76" y="134" font-size="15" font-weight="bold" fill="#8C2F1F">隐患判级 Agent（S1）</text>
+      <text x="76" y="168" font-size="13" fill="#333333"><tspan x="76" dy="0">▪ 隐患上报：语音 / 拍照 / 文本，引导式多轮</tspan><tspan x="76" dy="20">▪ 双通道判级（规则 + LLM）仲裁</tspan><tspan x="76" dy="20">▪ 条款引用校验（防幻觉条款）</tspan><tspan x="76" dy="20">▪ 复查证据链（CV + VLM 时序对比）</tspan><tspan x="76" dy="20">▪ 超期督办主动对话（业务驱动）</tspan></text>
+    </g>
+
+    <!-- 作业审批 Agent -->
+    <g>
+      <rect x="490" y="114" width="400" height="206" rx="4" fill="#FFFFFF" stroke="#E9573F" stroke-width="1.5"/>
+      <rect x="490" y="114" width="400" height="30" rx="4" fill="#F4C7C3"/>
+      <text x="506" y="134" font-size="15" font-weight="bold" fill="#8C2F1F">作业审批 Agent（S2）</text>
+      <text x="506" y="168" font-size="13" fill="#333333"><tspan x="506" dy="0">▪ 填报引导（按作业类型模板）</tspan><tspan x="506" dy="20">▪ 材料预审：material_review Skill</tspan><tspan x="506" dy="20">▪ 开工核验：start_check（传感器联动）</tspan><tspan x="506" dy="20">▪ 过程监控：超标告警 / 建议中断</tspan><tspan x="506" dy="20">▪ 审批链问答与责任留痕</tspan></text>
+    </g>
+
+    <!-- 应急指挥 Agent 群 -->
+    <g>
+      <rect x="920" y="114" width="410" height="206" rx="4" fill="#FFFFFF" stroke="#E9573F" stroke-width="1.5"/>
+      <rect x="920" y="114" width="410" height="30" rx="4" fill="#F4C7C3"/>
+      <text x="936" y="134" font-size="15" font-weight="bold" fill="#8C2F1F">应急指挥 Agent 群（S3）</text>
+      <text x="936" y="168" font-size="13" fill="#333333"><tspan x="936" dy="0">▪ 事件识别 Agent（多源接入 / 分级）</tspan><tspan x="936" dy="20">▪ 先期处置 Agent（T0 毫秒级联动）</tspan><tspan x="936" dy="20">▪ 决策增强 Agent（T0+ LLM 并行）</tspan><tspan x="936" dy="20">▪ 指挥助手 / 现场协同 / 复盘 Agent</tspan><tspan x="936" dy="20">▪ 多 Agent 协作：LangGraph 状态共享</tspan></text>
+    </g>
+  </g>
+
+  <!-- 层间标注 -->
+  <text x="700" y="348" font-size="13" fill="#6B7A89" text-anchor="middle">结果 / 回复 ↑ ｜ 请求 / 指令 ↓ ｜ Badcase · 事件回流 ↔（经 Harness / 事件总线）</text>
+
+  <!-- ============================================================ -->
+  <!-- AI 能力层 y:356-664 -->
+  <!-- ============================================================ -->
+  <g id="layer-ai">
+    <rect x="40" y="356" width="1330" height="308" rx="6" fill="#F4F0FB" stroke="#967ADC" stroke-width="1.5"/>
+    <rect x="40" y="356" width="1330" height="34" rx="6" fill="#967ADC"/>
+    <text x="56" y="378" font-size="17" font-weight="bold" fill="#FFFFFF">AI 能力层｜Agent 编排与智能资产（LangGraph / LangChain 为主 · 行业治理扩展自研）</text>
+
+    <!-- 编排与治理 -->
+    <g>
+      <rect x="60" y="400" width="400" height="254" rx="4" fill="#FFFFFF" stroke="#967ADC" stroke-width="1.5"/>
+      <rect x="60" y="400" width="400" height="30" rx="4" fill="#D9CCF0"/>
+      <text x="76" y="420" font-size="15" font-weight="bold" fill="#4C2F77">编排内核与行业治理</text>
+      <text x="76" y="454" font-size="13" fill="#333333"><tspan x="76" dy="0">▪ LangGraph 编排内核</tspan><tspan x="76" dy="20">▪ 确定性流程 = 预定义 StateGraph</tspan><tspan x="76" dy="20">▪ 开放场景 = ReAct 动态图</tspan><tspan x="76" dy="20">▪ checkpoint：长时会话挂起 / 恢复</tspan><tspan x="76" dy="20">▪ 行业治理扩展（自研层）</tspan><tspan x="76" dy="20">▪ 副作用分级 · 多租户 ACL · 审计</tspan></text>
+    </g>
+
+    <!-- 智能资产 -->
+    <g>
+      <rect x="490" y="400" width="400" height="254" rx="4" fill="#FFFFFF" stroke="#967ADC" stroke-width="1.5"/>
+      <rect x="490" y="400" width="400" height="30" rx="4" fill="#D9CCF0"/>
+      <text x="506" y="420" font-size="15" font-weight="bold" fill="#4C2F77">Skill · MCP · 记忆</text>
+      <text x="506" y="454" font-size="13" fill="#333333"><tspan x="506" dy="0">▪ Skill 工程（声明式 + 评测绑定）</tspan><tspan x="506" dy="20">▪ 判级 / 预审 / 预案匹配 / 证据链</tspan><tspan x="506" dy="20">▪ MCP 工具注册中心</tspan><tspan x="506" dy="20">▪ LangChain @tool + mcp-adapters</tspan><tspan x="506" dy="20">▪ 工具契约测试（L0）</tspan><tspan x="506" dy="20">▪ 记忆：会话 / 状态 / 长期画像</tspan></text>
+    </g>
+
+    <!-- 模型服务与 Harness -->
+    <g>
+      <rect x="920" y="400" width="410" height="254" rx="4" fill="#FFFFFF" stroke="#967ADC" stroke-width="1.5"/>
+      <rect x="920" y="400" width="410" height="30" rx="4" fill="#D9CCF0"/>
+      <text x="936" y="420" font-size="15" font-weight="bold" fill="#4C2F77">模型服务与 Harness 评测</text>
+      <text x="936" y="454" font-size="13" fill="#333333"><tspan x="936" dy="0">▪ 模型服务（vLLM 私有化）</tspan><tspan x="936" dy="20">▪ Qwen-32B 判级 · 7B 轻任务</tspan><tspan x="936" dy="20">▪ VLM 视觉 · bge Embedding / Rerank</tspan><tspan x="936" dy="20">▪ Harness 三层评测（L0 / L1 / L2）</tspan><tspan x="936" dy="20">▪ 轨迹 Replay · 演练注入 · 发布门禁</tspan><tspan x="936" dy="20">▪ LLMOps：Trace→Kafka→Iceberg→Doris</tspan></text>
+    </g>
+  </g>
+
+  <!-- 层间标注 -->
+  <text x="700" y="680" font-size="13" fill="#6B7A89" text-anchor="middle">Skill / 工具调用 ↓ ｜ 工具结果 / 业务状态事件 ↑</text>
+
+  <!-- ============================================================ -->
+  <!-- 平台底座层 y:688-912 -->
+  <!-- ============================================================ -->
+  <g id="layer-platform">
+    <rect x="40" y="688" width="1330" height="232" rx="6" fill="#FEF5E8" stroke="#F6A821" stroke-width="1.5"/>
+    <rect x="40" y="688" width="1330" height="34" rx="6" fill="#F6A821"/>
+    <text x="56" y="710" font-size="17" font-weight="bold" fill="#FFFFFF">平台底座｜业务工具层（Java）：设备能力中台 · MCP 能力开放 · 业务闭环权威源</text>
+
+    <!-- MCP 能力开放条 -->
+    <g>
+      <rect x="60" y="730" width="1270" height="46" rx="4" fill="#FDF3DC" stroke="#F6A821" stroke-width="1.5"/>
+      <text x="76" y="750" font-size="14" font-weight="bold" fill="#8A5A00">MCP 能力开放（平台对设备 / 子系统能力的统一适配 · 面向 Agent）</text>
+      <text x="76" y="768" font-size="12" fill="#333333">物联中台 · 视频中台 · 门禁 · 广播 · 短信 · 工单 → 工具注册中心（Schema · 副作用分级 · 契约测试）→ Agent 工具调用</text>
+    </g>
+
+    <!-- 安全业务服务 -->
+    <g>
+      <rect x="60" y="786" width="760" height="124" rx="4" fill="#FFFFFF" stroke="#F6A821" stroke-width="1.5"/>
+      <rect x="60" y="786" width="760" height="26" rx="4" fill="#FADDB3"/>
+      <text x="76" y="804" font-size="14" font-weight="bold" fill="#8A5A00">安全业务服务（状态机 · 规则 · 执行）</text>
+      <text x="76" y="834" font-size="13" fill="#333333"><tspan x="76" dy="0">▪ 隐患 / 作业票状态机（事件溯源 · 断点续办 · 非法迁移防护）</tspan><tspan x="76" dy="19">▪ Drools 规则引擎（制度配置化 · 硬校验拦截）· 超期督办</tspan><tspan x="76" dy="19">▪ 应急联动执行（副作用分级）· 审批链责任留痕 · 全量审计</tspan></text>
+    </g>
+
+    <!-- 知识数据 -->
+    <g>
+      <rect x="840" y="786" width="490" height="124" rx="4" fill="#FFFFFF" stroke="#F6A821" stroke-width="1.5"/>
+      <rect x="840" y="786" width="490" height="26" rx="4" fill="#FADDB3"/>
+      <text x="856" y="804" font-size="14" font-weight="bold" fill="#8A5A00">知识与数据底座</text>
+      <text x="856" y="834" font-size="13" fill="#333333"><tspan x="856" dy="0">▪ 条款 · 规程 · 预案知识库（版本化 + 引用校验）</tspan><tspan x="856" dy="19">▪ 资质台账 · 空间树与传感器映射</tspan><tspan x="856" dy="19">▪ OTel → Kafka → Flink → Iceberg → Doris</tspan></text>
+    </g>
+  </g>
+
+  <!-- 层间标注 -->
+  <text x="700" y="930" font-size="13" fill="#6B7A89" text-anchor="middle">告警 / 状态 / 感知数据上送 ↑ ｜ 联动指令 / 核验请求 ↓</text>
+
+  <!-- ============================================================ -->
+  <!-- 接入层 y:940-1034 -->
+  <!-- ============================================================ -->
+  <g id="layer-gateway">
+    <rect x="40" y="940" width="1330" height="94" rx="6" fill="#ECF7F1" stroke="#37BC9B" stroke-width="1.5"/>
+    <rect x="40" y="940" width="1330" height="30" rx="6" fill="#37BC9B"/>
+    <text x="56" y="960" font-size="16" font-weight="bold" fill="#FFFFFF">接入 / 传输层｜设备协议接入（视频 · 物联 · 边缘，弱网容错）</text>
+
+    <g>
+      <rect x="60" y="980" width="380" height="44" rx="4" fill="#FFFFFF" stroke="#37BC9B" stroke-width="1.5"/>
+      <text x="76" y="1000" font-size="13" fill="#333333">视频协议接入</text>
+      <text x="76" y="1018" font-size="12" fill="#666666">GB28181 / ONVIF（摄像机 · 球机 · AI 事件源）</text>
+    </g>
+    <g>
+      <rect x="460" y="980" width="380" height="44" rx="4" fill="#FFFFFF" stroke="#37BC9B" stroke-width="1.5"/>
+      <text x="476" y="1000" font-size="13" fill="#333333">物联协议接入</text>
+      <text x="476" y="1018" font-size="12" fill="#666666">MQTT / Modbus（气体 · 烟感 · 电气）→ Kafka 告警流</text>
+    </g>
+    <g>
+      <rect x="860" y="980" width="470" height="44" rx="4" fill="#FFFFFF" stroke="#37BC9B" stroke-width="1.5"/>
+      <text x="876" y="1000" font-size="13" fill="#333333">边缘节点（断网 T0 兜底）</text>
+      <text x="876" y="1018" font-size="12" fill="#666666">1.5B 轻模型 · 预案缓存 · 本地规则引擎</text>
+    </g>
+  </g>
+
+  <!-- 层间标注 -->
+  <text x="700" y="1044" font-size="13" fill="#6B7A89" text-anchor="middle">感知数据 / 事件 / 人机交互上送 ↑（视频 · 传感器 · 告警 · 语音 · 照片）</text>
+
+  <!-- ============================================================ -->
+  <!-- 感知层 y:1054-1208 -->
+  <!-- ============================================================ -->
+  <g id="layer-sense">
+    <rect x="40" y="1054" width="1330" height="154" rx="6" fill="#EAF2FB" stroke="#4A89DC" stroke-width="1.5"/>
+    <rect x="40" y="1054" width="1330" height="30" rx="6" fill="#4A89DC"/>
+    <text x="56" y="1074" font-size="16" font-weight="bold" fill="#FFFFFF">感知层｜多源感知与现场终端（物联感知 · 视频 · 安防 · 人员）</text>
+
+    <g>
+      <rect x="60" y="1094" width="230" height="104" rx="4" fill="#FFFFFF" stroke="#4A89DC" stroke-width="1.5"/>
+      <text x="76" y="1118" font-size="13" font-weight="bold" fill="#1C4E8C">视频感知</text>
+      <text x="76" y="1140" font-size="12" fill="#333333">摄像机 / 球机</text>
+      <text x="76" y="1158" font-size="12" fill="#333333">烟火 · 未戴安全帽</text>
+      <text x="76" y="1176" font-size="12" fill="#333333">人员聚集等 AI 事件</text>
+    </g>
+    <g>
+      <rect x="310" y="1094" width="230" height="104" rx="4" fill="#FFFFFF" stroke="#4A89DC" stroke-width="1.5"/>
+      <text x="326" y="1118" font-size="13" font-weight="bold" fill="#1C4E8C">物联感知</text>
+      <text x="326" y="1140" font-size="12" fill="#333333">可燃气体 / 烟感</text>
+      <text x="326" y="1158" font-size="12" fill="#333333">温湿度 · 电气监控</text>
+      <text x="326" y="1176" font-size="12" fill="#333333">作业票传感器挂点</text>
+    </g>
+    <g>
+      <rect x="560" y="1094" width="230" height="104" rx="4" fill="#FFFFFF" stroke="#4A89DC" stroke-width="1.5"/>
+      <text x="576" y="1118" font-size="13" font-weight="bold" fill="#1C4E8C">安防设备</text>
+      <text x="576" y="1140" font-size="12" fill="#333333">门禁 / 疏散门</text>
+      <text x="576" y="1158" font-size="12" fill="#333333">应急广播</text>
+      <text x="576" y="1176" font-size="12" fill="#333333">周界报警</text>
+    </g>
+    <g>
+      <rect x="810" y="1094" width="270" height="104" rx="4" fill="#FFFFFF" stroke="#4A89DC" stroke-width="1.5"/>
+      <text x="826" y="1118" font-size="13" font-weight="bold" fill="#1C4E8C">现场终端</text>
+      <text x="826" y="1140" font-size="12" fill="#333333">巡查 App（语音 / 拍照）</text>
+      <text x="826" y="1158" font-size="12" fill="#333333">一键报警 · 语音对讲</text>
+      <text x="826" y="1176" font-size="12" fill="#333333">复查拍照（Exif + 定位）</text>
+    </g>
+    <g>
+      <rect x="1100" y="1094" width="230" height="104" rx="4" fill="#FFFFFF" stroke="#4A89DC" stroke-width="1.5"/>
+      <text x="1116" y="1118" font-size="13" font-weight="bold" fill="#1C4E8C">空间与现场</text>
+      <text x="1116" y="1140" font-size="12" fill="#333333">园区空间树节点</text>
+      <text x="1116" y="1158" font-size="12" fill="#333333">作业点 / 动火区域</text>
+      <text x="1116" y="1176" font-size="12" fill="#333333">区域传感器绑定</text>
+    </g>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- 右侧纵切：安全合规 -->
+  <!-- ============================================================ -->
+  <g id="side-security">
+    <rect x="1400" y="70" width="260" height="460" rx="6" fill="#FDEDED" stroke="#D9534F" stroke-width="1.5"/>
+    <rect x="1400" y="70" width="260" height="34" rx="6" fill="#D9534F"/>
+    <text x="1416" y="92" font-size="15" font-weight="bold" fill="#FFFFFF">安全合规（纵切贯穿）</text>
+    <text x="1416" y="132" font-size="13" fill="#333333"><tspan x="1416" dy="0" font-weight="bold">多租户隔离</tspan><tspan x="1416" dy="19">租户-组织-部门-个人四级</tspan><tspan x="1416" dy="24" font-weight="bold">字段级脱敏</tspan><tspan x="1416" dy="19">作业票 / 隐患 / 人员信息</tspan><tspan x="1416" dy="24" font-weight="bold">全量操作审计</tspan><tspan x="1416" dy="19">≥ 1 年 · 可导出（安监）</tspan><tspan x="1416" dy="24" font-weight="bold">引用溯源校验</tspan><tspan x="1416" dy="19">条款 / 预案锚点必可查</tspan><tspan x="1416" dy="24" font-weight="bold">越权访问拦截</tspan><tspan x="1416" dy="19">命中即告警（演练验证）</tspan><tspan x="1416" dy="24" font-weight="bold">数据不出园</tspan><tspan x="1416" dy="19">私有化 + 信创适配</tspan></text>
+  </g>
+
+  <!-- 右侧纵切：部署运维 -->
+  <g id="side-ops">
+    <rect x="1400" y="550" width="260" height="658" rx="6" fill="#EAF2FB" stroke="#33658A" stroke-width="1.5"/>
+    <rect x="1400" y="550" width="260" height="34" rx="6" fill="#33658A"/>
+    <text x="1416" y="572" font-size="15" font-weight="bold" fill="#FFFFFF">部署与运维（纵切贯穿）</text>
+    <text x="1416" y="612" font-size="13" fill="#333333"><tspan x="1416" dy="0" font-weight="bold">GPU 集群</tspan><tspan x="1416" dy="19">A800-80G / 昇腾 910B（信创）</tspan><tspan x="1416" dy="24" font-weight="bold">推理与量化</tspan><tspan x="1416" dy="19">vLLM · AWQ INT4 · FP8 KV</tspan><tspan x="1416" dy="24" font-weight="bold">模型分档</tspan><tspan x="1416" dy="19">32B 判级 · 7B 轻 · 1.5B 边缘</tspan><tspan x="1416" dy="24" font-weight="bold">边缘节点</tspan><tspan x="1416" dy="19">4090 · 断网 T0 联动可用</tspan><tspan x="1416" dy="24" font-weight="bold">LLMOps 可观测</tspan><tspan x="1416" dy="19">轨迹回放 · 监控大盘 · 计量</tspan><tspan x="1416" dy="24" font-weight="bold">Harness 发布门禁</tspan><tspan x="1416" dy="19">L0 / L1 / L2 · CI 集成</tspan><tspan x="1416" dy="24" font-weight="bold">容量核算</tspan><tspan x="1416" dy="19">业务量→峰值吞吐→卡数</tspan></text>
+  </g>
+
+  <!-- 右侧贯穿箭头装饰（示意纵切贯穿各层） -->
+  <line x1="1390" y1="80" x2="1390" y2="1190" stroke="#B9C6D0" stroke-width="1.5" stroke-dasharray="4 4"/>
+</svg>
