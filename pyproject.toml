@@ -1,0 +1,35 @@
+[project]
+name = "anlan"
+version = "0.1.0"
+description = "Synthetic hot-work preparation workflow for learning enterprise agents"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+  "langgraph>=1.0,<2",
+  "pydantic>=2.10,<3",
+  "httpx>=0.28,<0.29",
+]
+
+[project.scripts]
+anlan = "anlan.cli:main"
+
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/anlan"]
+
+[dependency-groups]
+dev = ["pytest>=8,<10", "pytest-asyncio>=0.25,<2", "ruff>=0.11,<1"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]

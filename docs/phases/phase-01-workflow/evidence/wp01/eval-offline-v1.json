@@ -1,0 +1,126 @@
+{
+  "created_at": "2026-09-17T15:59:12.241502+00:00",
+  "mode": "offline",
+  "dataset_version": "materials-v1-dev-seen",
+  "dataset_sha256": "a501062186e1b2f80c488fb18e625e5495819dd8b18cb6a33570222b17673b2b",
+  "limitation": "Three seen synthetic dev examples; not holdout or enterprise quality.",
+  "results": [
+    {
+      "case_id": "anlan2-dev-001",
+      "state": {
+        "task_id": "2503dc32-f531-4de5-ae6c-4dee72698b9e",
+        "thread_id": "f6af9c11-d037-40b5-9632-a006fa38f341",
+        "session_id": "5d90046d-b513-46f1-8921-a0029794493d",
+        "run_id": "2369c0ac-cdd5-4f56-8997-53b06fcaebbb",
+        "correlation_id": "762ab815-e66c-4b2c-9da4-3f07e4149b9a",
+        "fields": {
+          "work_location_description": "SYNTHETIC：北侧实训平台2号台",
+          "work_object_description": "SYNTHETIC：管段P-02的支架",
+          "work_method_description": "SYNTHETIC：手工电弧焊连接支架",
+          "attachment_description": "SYNTHETIC：附管段P-02支架定位示意图"
+        },
+        "revision": 1,
+        "status": "awaiting_review",
+        "analysis": {
+          "issues": [],
+          "semantic_status": "offline_not_checked",
+          "error": null,
+          "model": null,
+          "prompt_version": null,
+          "usage": null
+        },
+        "trace_warning": null
+      },
+      "elapsed_ms": 8.01,
+      "scores": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "precision": null,
+        "recall": null,
+        "exact_match": true
+      }
+    },
+    {
+      "case_id": "anlan2-dev-002",
+      "state": {
+        "task_id": "c6d5c04d-9996-4d44-a0d8-a82a657951fb",
+        "thread_id": "aad3e946-5725-4ac0-9a6d-eb7934a561b5",
+        "session_id": "1c4ddc65-1c8f-48be-9714-a8ba0af00d9e",
+        "run_id": "1724eec4-fb1b-4ed3-963b-c478c6da035e",
+        "correlation_id": "e4e536c5-d826-4ff8-8393-8dc70b344c92",
+        "fields": {
+          "work_location_description": "",
+          "work_object_description": "SYNTHETIC：管段P-02的支架",
+          "work_method_description": "SYNTHETIC：手工电弧焊连接支架",
+          "attachment_description": "SYNTHETIC：附管段P-02支架定位示意图"
+        },
+        "revision": 1,
+        "status": "waiting_input",
+        "analysis": {
+          "issues": [
+            {
+              "field": "work_location_description",
+              "kind": "missing",
+              "quote": "",
+              "reason": "字段为空（合成填报规则）",
+              "question": "请补充作业位置，说明区域与具体作业点。",
+              "source": "rule"
+            }
+          ],
+          "semantic_status": "offline_not_checked",
+          "error": null,
+          "model": null,
+          "prompt_version": null,
+          "usage": null
+        },
+        "trace_warning": null
+      },
+      "elapsed_ms": 5.72,
+      "scores": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "exact_match": true
+      }
+    },
+    {
+      "case_id": "anlan2-dev-003",
+      "state": {
+        "task_id": "69b98fc0-cc89-4631-b093-c8ba5b5d7b7e",
+        "thread_id": "3306e0fb-5c0b-422e-b7ef-e43294bc85ff",
+        "session_id": "63c9cc7a-52d4-4fc5-919a-243b045692da",
+        "run_id": "899b4974-ebae-42bd-bcb7-5012d48a0d53",
+        "correlation_id": "8e6e6091-cc32-42ba-9393-74fbe6d00e4c",
+        "fields": {
+          "work_location_description": "SYNTHETIC：到那里操作",
+          "work_object_description": "SYNTHETIC：管段P-02的支架",
+          "work_method_description": "SYNTHETIC：手工电弧焊连接支架",
+          "attachment_description": "SYNTHETIC：附管段P-02支架定位示意图"
+        },
+        "revision": 1,
+        "status": "awaiting_review",
+        "analysis": {
+          "issues": [],
+          "semantic_status": "offline_not_checked",
+          "error": null,
+          "model": null,
+          "prompt_version": null,
+          "usage": null
+        },
+        "trace_warning": null
+      },
+      "elapsed_ms": 6.56,
+      "scores": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "precision": null,
+        "recall": 0.0,
+        "exact_match": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+# 架构：当前基线与已确定的演进边界
+
+当前工作包设计：Python CLI、Pydantic 边界校验、LangGraph 外层状态图，单分析节点；内存 checkpoint 仅支持当前进程。实现及验证状态以 [status](status.md) 为准。PostgreSQL 是持久化目标，向量检索后续使用 pgvector；FastAPI、Langfuse、Compose 在相应业务增量引入，尚未安装或验证。
+
+```mermaid
+flowchart LR
+    U[安全管理人员 / 合成申请] --> V[可信身份入口 + 输入校验]
+    subgraph G[LangGraph 外层显式状态与条件边]
+      V --> A[材料分析：规则 + 可选模型]
+      A -->|缺项或歧义| Q[interrupt：补充问题]
+      Q -->|Command resume| P[白名单字段合并 / 版本更新]
+      P --> A
+      A -->|无待补充项或模型失败| H[待人工复核 / 标明分析能力与失败]
+    end
+    G --> C[checkpoint：当前内存 / 下一工作包 PostgreSQL]
+    G --> T[关联轨迹：task / run / correlation]
+```
+
+节点像 Java 的应用服务方法；TypedDict 描述图状态的形状，不负责运行时校验；Pydantic 类类似带 Bean Validation 的 DTO。节点返回部分状态更新，由 LangGraph 合并。材料始终只由经校验的用户输入更新；模型仅返回候选问题。`interrupt` 所在节点恢复时会从头执行，所以模型请求不放在该节点中。
+
+首轮字段为位置、对象、方式、附件说明（沿用旧素材的字段名便于理解，判定规则是新版合成假设）。空字段由代码提问；模型识别明确歧义、缺细节、矛盾，必须返回字段内原文引用。引用存在只证明定位正确，不证明缺陷判断正确。模型无工具、无身份写入权、无批准字段。
+
+身份与状态：tenant/user 是 CLI 本地测试入口注入的模拟可信身份，不来自材料或模型，尚不是生产鉴权。session 表示本次交互容器，task 是业务材料任务，thread 是 checkpoint 游标，run 表示一次提交/恢复执行，correlation 串联任务；不能把框架 thread 当租户隔离机制。应用入口先检查归属，再读写图状态。CLI 单进程顺序运行，不支持并发写同任务。
+
+## 全周期数据流（已确定产品方向，尚未实现）
+
+```mermaid
+flowchart TD
+    PRE[作业前材料 / 当前事实 / 知识] --> R[综合研判与人工复核]
+    R --> CTX[带版本的作业上下文]
+    E[可信接入：结构化视频与传感器事件] --> LINK[去重 / 时间窗口 / 作业关联]
+    LINK --> ER[事件联合研判 / 人工确认与反馈]
+    CTX --> ER
+    ER -->|条件变化| PRE
+    RAW[原始传感器 / 视频告警] --> SAFE[确定性阈值 / 紧急报警 / 联锁与实时控制]
+    RAW --> E
+    R --> DATA[轨迹 + 工具 + 检索 + 反馈 + 业务结果]
+    ER --> DATA
+    DATA --> BAD[Badcase / 失败归因 / 只读回放]
+    BAD --> EXP[开发集改进 / 留出评测 / 版本对照]
+    EXP --> ASSET[受控记忆 / Prompt / Skill / 工具与工作流资产]
+    ASSET --> PRE
+```
+
+SAFE 不依赖 Agent 成功、响应或存在；Agent 无 SAFE 的写权限。原始事件不可被推断覆盖。视频事件契约包含 event_id、event_type、site_id、occurred_at、confidence、attributes、evidence_ref；传感器增加测点、读数、单位、阈值版本。可信接入绑定 tenant/site/event 身份；模型不能补造。乱序、重复、过期和错误关联要保留可查原因。
+
+## 多 Agent 协作方向（P4 才实现）
+
+```mermaid
+flowchart TD
+    LG[LangGraph：生命周期 / interrupt / 持久化 / 预算与取消] --> ROUTE[固定路由优先 / 可选受限协调 Agent]
+    ROUTE --> K[知识研究 Agent]
+    ROUTE --> F[事实核验 Agent]
+    K --> JOIN[代码 fan-in：超时 / 部分失败 / 来源与版本检查]
+    F --> JOIN
+    JOIN --> R[风险研判 Agent]
+    R --> C[证据复核 Agent]
+    C --> HUMAN[安全管理人员复核]
+    PER[感知事件研判 Agent：P5] -->|有效关联上下文| ROUTE
+    LG -.->|父子预算 / deadline / 取消| JOIN
+```
+
+| 职责 | 最小上下文 | 工具权限 | 输出 / 不拥有的权力 |
+|---|---|---|---|
+| 协调 | 任务摘要、专业角色目录、剩余预算、执行状态 | 委派白名单 | 有界计划与执行状态；不能任意调用工具或写业务状态 |
+| 知识研究 | 风险主题、租户过滤、有效时点 | 示例知识/案例检索、引用解析 | 带版本有效期证据；案例不等于当前事实 |
+| 事实核验 | 对象引用、所需事实类别和时效 | 资质/设备/区域/天气/相邻作业只读查询 | 来源时间明确的事实或错误；不猜工具结果 |
+| 风险研判 | 申请版本、事实、知识、只读规则结果 | 初版无工具，消费证据包 | 候选风险、未知、冲突和建议；不覆盖规则、不批准 |
+| 证据复核 | 主张与引用映射、来源元数据 | 引用与有效性只读检查 | 支持性、冲突与缺证报告；不补造证据 |
+| 感知事件研判 | 结构化事件、作业/区域/时间窗口 | 关联对象只读查询 | 保留 evidence_ref/confidence 的可用上下文；不关闭或降级告警 |
+
+所有子任务传递 task_id/run_id/correlation_id、输入版本、deadline 和预算，独立上下文与白名单；身份另由执行上下文提供。Graph 节点校验子结果后才更新共享状态，不能让 Agent 直接写共享状态。两只读分支先并行；超时/部分失败返回显式未知，取消传递到子任务，重试不得突破父预算。冲突由来源与时效检查汇总给人，不以多数 Agent 同意替代证据。
+
+演进顺序：单工作流 → 单 Agent 受控工具循环与综合研判基线 → 知识/事实两个专业 Agent 并行 → 风险/证据复核与受限协调 → 感知协作扩展。用同任务集比较成功率、调用正确率、引用支持、冲突发现、token/费用与延迟，再做去掉证据复核的消融；无收益的拆分允许退出主链。
+
+## 官方接口依据
+
+2026-09-17 核实：[LangGraph interrupts](https://docs.langchain.com/oss/python/langgraph/interrupts)（节点重入、checkpoint、Command resume），[官方包元数据](https://pypi.org/project/langgraph/)（Python ≥3.10），[DeepSeek JSON Output](https://api-docs.deepseek.com/guides/json_mode/) 与 [Chat Completions](https://api-docs.deepseek.com/api/create-chat-completion/)（JSON 模式与非思考请求）。实际解析出的版本保存在根目录 uv.lock；联网和效果验证另记，文档兼容不替代运行验证。
+
+## 历史资料来源与适用范围
+
+旧仓库 `D:/src/agent学习/gpt下的安澜` 只读；本轮未复制原文数据或源码，未迁移任务清单/旧状态/旧架构。以下路径均相对旧仓库，链接指回原文件；这些链接失效不影响新仓库运行。
+
+| 已读来源 | 2.0 提取的内容 | 明确不继承 |
+|---|---|---|
+| [用例](D:/src/agent学习/gpt下的安澜/docs/02-requirements/04-hot-work-use-cases.md) | 材料补充、事实查询、知识、辅助分析、人工复核、模型/工具故障场景 | 完整审批状态机、Java 唯一权威、旧 Phase 与签核 |
+| [任务规格](D:/src/agent学习/gpt下的安澜/docs/02-requirements/06-agent-task-specification.md) | 输入/输出、来源/未知/冲突与评估问题 | 任务号作为节点、固定旧预算、Memory 默认禁用 |
+| [B3 数据说明](D:/src/agent学习/gpt下的安澜/datasets/b3/application-completeness/v1/README.md)、同目录 manifest / inputs / gold / boundary-cases | 四字段问题形式、局部误报和类型/权限/输出边界思路；24 语义样本+12 边界样本 | 全部已见，只能做开发/回归参考；本包未迁移数据文件；以后迁移保留原件与来源，适配另版 |
+| [旧报告](D:/src/agent学习/gpt下的安澜/evidence/b3-cloud-live/reports/20260916T141104448855Z-continuation/final-report.md) 与 [findings](D:/src/agent学习/gpt下的安澜/evidence/b3-cloud-live/reports/20260916T141104448855Z-continuation/agent-findings.md) | 结构有效与语义正确分离；额外字段误报、类别混淆、传输失败分开归因 | 53.3% precision 仅属旧四字段合成口径，不能沿用为新版基线；旧费用/批准非本项目无限授权 |
+
+旧报告有 23/24 收到候选、23/23 结构有效、45 条建议中 24 命中/21 误报；20 个误报是额外字段缺陷，另 1 个是类别混淆。有效原文引用不保证主张得到支持。这些观察只指导本包保守 Prompt 与输出复验设计，尚未证明新版 Prompt 更好。旧 B4 设计/Prompt/数据本轮未读取，尤其未打开 holdout-gold；等真实优化问题出现再有选择参考。

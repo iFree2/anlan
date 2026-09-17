@@ -1,0 +1,34 @@
+# P1：多轮材料工作流（第 1—2 周）
+
+目标：看得见状态变化、能中断补充并恢复、能区分模型/规则/人工边界；随后完成 PostgreSQL 进程重启恢复。
+
+## WP01：内存工作流与可选真实模型（本轮）
+
+用户原始需求已明确授权此增量；采用其指定目录和最小文档结构。无需五个 Agent、RAG、前端、Java、真实企业数据或新审批流程。空仓库冷启动，无历史 smoke 可运行；先写行为测试建立基线。用当前目录的新独立 Git 分支工作，无既有内容需移开。
+
+设计选择：
+1. **内存 checkpoint → PostgreSQL**（采用）：先理解 Graph 与节点重入，下一包处理持久存储和并发边界。
+2. 直接 PostgreSQL：终态一致，但本轮要同时排查 DB 环境；推迟到 WP02。
+3. SQLite 过渡：重启方便，但增加一种存储与迁移成本；不采用。
+
+入口仅接受四字段字典；默认规则模式明确为离线基线，只识别空字段，不伪称语言理解。真实 DeepSeek 为可选分析器，独立超时、单进程最多 3 次请求、无重试；只发送合成材料。模型输出是问题候选，不是材料补值。每轮最多四个字段问题，白名单合并，expected_revision 防止旧回答覆盖；无问题也只到待人工复核。模型失败标明未完成语义核查。
+
+身份 tenant/user 保存在服务归属索引；图状态包含 session/task/thread/run/correlation、字段、revision、analysis、status；thread ID 内部生成。模型仅见字段和判定说明，不见身份和凭据。服务入口先做归属检查；用户输入不能更新身份/任务控制字段。图中 analysis 与 ask 分离，resume 只重入 ask，补充成功才重新分析。状态不可用 JSONL 日志反向恢复。WP02 需要同时持久化归属索引与 checkpoint。
+
+## WP01 实施步骤（执行状态由 status 汇总）
+
+- [x] 建立依赖锁和测试框架：`pyproject.toml`、`uv.lock`；`uv sync --locked` 可重建环境。
+- [x] 先写 `tests/test_workflow.py`：空字段追问、两轮局部合并、旧 revision 拒绝、跨租户/用户拒绝、未知字段拒绝、节点重入不多调分析器、模型失败只到待人工复核；已观察缺模块失败。
+- [x] `src/anlan/contracts.py` 定义字段与补充 DTO、问题候选；`analysis.py` 提供规则与模型契约；`workflow.py` 实现 Graph，`service.py` 负责可信上下文和生命周期入口。核心断言：初始 revision=1；局部补充后 revision=2，未修改字段保留；返回给用户的状态为 waiting_input/awaiting_review。
+- [x] `tests/test_model.py` 使用 HTTP 替身测适配器请求、无效 JSON/伪引用/批准额外字段、超时和预算；`model.py` 只用官方 DeepSeek 端点、非思考模式，不记录响应隐藏思维链或错误正文。
+- [x] `cli.py` / `__main__.py` 提供 `demo` 与 `chat`；demo 顺序展示两轮，chat 使用字段 JSON 局部补充，验证错误不消耗模型请求。
+- [x] 本地 JSONL 记录关联 ID、状态版本、问题字段/类别、时长、模型/Prompt 版本与 usage；仅合成数据模式，默认不写字段原文和密钥。基础 smoke 与命令结果存阶段 evidence。
+- [x] 三个新编已见开发样本与 TP/FP/FN 评分入口；离线歧义漏检保留，不能作为模型效果验证。
+- [ ] 凭据路径提供后最多 3 次真实请求，结果与网络替身分开；目前缺路径，真实模型未验证。
+- [x] 已更新 status/矩阵/学习练习与 WP handoff，停在本工作包边界；本人练习仍待验证。
+
+计划自查：无 SQLite/五 Agent 空壳；无真实报警/审批；规则模式不能验证歧义识别；内存恢复不能声称进程重启恢复；每项个人掌握默认待验证。
+
+## WP02（下一包，尚未实现）
+
+先检验 PostgreSQL 可用环境及官方 checkpointer 兼容，制定小计划。采用数据库归属索引与 checkpoint，使用本包同样输入/输出合同；验证进程重启、旧 revision、重复提交、状态与身份绑定和失败恢复。涉及持久化重要取舍时再写 ADR。验收通过后 P1 Gate；不在 WP01 顺带实现。

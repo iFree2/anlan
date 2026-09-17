@@ -1,0 +1,39 @@
+[
+  {
+    "command": [
+      "uv",
+      "sync",
+      "--locked",
+      "--link-mode",
+      "copy"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "Resolved 47 packages in 1ms\nAudited 46 packages in 0.29ms\n"
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "anlan",
+      "demo",
+      "--trace",
+      "docs\\phases\\phase-01-workflow\\evidence\\wp01\\demo.trace.jsonl"
+    ],
+    "exit_code": 0,
+    "stdout": "{\"data_origin\": \"SYNTHETIC\", \"mode\": \"offline\", \"notice\": \"仅材料辅助核查，需安全管理人员复核；不是作业批准或合规结论。\", \"task_id\": \"81d97e5d-49b2-47b8-8f23-8194f6d8afea\", \"thread_id\": \"6e0c6d5e-dd1c-4582-9576-b2e3e24a5295\", \"session_id\": \"9f6e044b-2a4a-4b3c-a093-43cdaa368917\", \"run_id\": \"0598f3d5-1827-4aad-9b87-ac8195c2b570\", \"correlation_id\": \"bf6ae99c-b10e-4274-a341-a1235c50cb54\", \"fields\": {\"work_location_description\": \"\", \"work_object_description\": \"SYNTHETIC：演示试件 A 接缝\", \"work_method_description\": \"\", \"attachment_description\": \"SYNTHETIC：试件 A 的位置标记示意图\"}, \"revision\": 1, \"status\": \"waiting_input\", \"analysis\": {\"issues\": [{\"field\": \"work_location_description\", \"kind\": \"missing\", \"quote\": \"\", \"reason\": \"字段为空（合成填报规则）\", \"question\": \"请补充作业位置，说明区域与具体作业点。\", \"source\": \"rule\"}, {\"field\": \"work_method_description\", \"kind\": \"missing\", \"quote\": \"\", \"reason\": \"字段为空（合成填报规则）\", \"question\": \"请补充作业方式。\", \"source\": \"rule\"}], \"semantic_status\": \"offline_not_checked\", \"error\": null, \"model\": null, \"prompt_version\": null, \"usage\": null}, \"trace_warning\": null}\n{\"data_origin\": \"SYNTHETIC\", \"mode\": \"offline\", \"notice\": \"仅材料辅助核查，需安全管理人员复核；不是作业批准或合规结论。\", \"task_id\": \"81d97e5d-49b2-47b8-8f23-8194f6d8afea\", \"thread_id\": \"6e0c6d5e-dd1c-4582-9576-b2e3e24a5295\", \"session_id\": \"9f6e044b-2a4a-4b3c-a093-43cdaa368917\", \"run_id\": \"9ff4155e-4375-41f1-be5f-f4b2167c2d9a\", \"correlation_id\": \"bf6ae99c-b10e-4274-a341-a1235c50cb54\", \"fields\": {\"work_location_description\": \"SYNTHETIC：演示 A 区 1 号台\", \"work_object_description\": \"SYNTHETIC：演示试件 A 接缝\", \"work_method_description\": \"\", \"attachment_description\": \"SYNTHETIC：试件 A 的位置标记示意图\"}, \"revision\": 2, \"status\": \"waiting_input\", \"analysis\": {\"issues\": [{\"field\": \"work_method_description\", \"kind\": \"missing\", \"quote\": \"\", \"reason\": \"字段为空（合成填报规则）\", \"question\": \"请补充作业方式。\", \"source\": \"rule\"}], \"semantic_status\": \"offline_not_checked\", \"error\": null, \"model\": null, \"prompt_version\": null, \"usage\": null}, \"trace_warning\": null}\n{\"data_origin\": \"SYNTHETIC\", \"mode\": \"offline\", \"notice\": \"仅材料辅助核查，需安全管理人员复核；不是作业批准或合规结论。\", \"task_id\": \"81d97e5d-49b2-47b8-8f23-8194f6d8afea\", \"thread_id\": \"6e0c6d5e-dd1c-4582-9576-b2e3e24a5295\", \"session_id\": \"9f6e044b-2a4a-4b3c-a093-43cdaa368917\", \"run_id\": \"6c9c225b-baa3-456c-9e30-f97774679045\", \"correlation_id\": \"bf6ae99c-b10e-4274-a341-a1235c50cb54\", \"fields\": {\"work_location_description\": \"SYNTHETIC：演示 A 区 1 号台\", \"work_object_description\": \"SYNTHETIC：演示试件 A 接缝\", \"work_method_description\": \"SYNTHETIC：电弧焊连接接缝\", \"attachment_description\": \"SYNTHETIC：试件 A 的位置标记示意图\"}, \"revision\": 3, \"status\": \"awaiting_review\", \"analysis\": {\"issues\": [], \"semantic_status\": \"offline_not_checked\", \"error\": null, \"model\": null, \"prompt_version\": null, \"usage\": null}, \"trace_warning\": null}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "ruff",
+      "check",
+      "."
+    ],
+    "exit_code": 0,
+    "stdout": "All checks passed!\n",
+    "stderr": ""
+  }
+]
