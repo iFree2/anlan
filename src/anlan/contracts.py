@@ -20,7 +20,7 @@ LABELS: dict[FieldName, str] = {
 QUESTIONS: dict[FieldName, str] = {
     "work_location_description": "请补充作业位置，说明区域与具体作业点。",
     "work_object_description": "请补充作业对象，说明部件或对象标识。",
-    "work_method_description": "请补充作业方式。",
+    "work_method_description": "请补充作业方式，说明安全作业的方式方法",
     "attachment_description": "请说明附件描述的对象及内容；尚未提供时请如实说明。",
 }
 

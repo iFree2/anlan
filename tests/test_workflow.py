@@ -23,6 +23,13 @@ async def test_partial_updates_preserve_material_and_interrupt_again(tmp_path):
     assert first["status"] == "waiting_input"
     assert first["revision"] == 1
     assert len(first["analysis"]["issues"]) == 2
+    # 按字段找到“作业方式”的问题，不依赖它在列表中的位置。
+    method_issue = next(
+        issue
+        for issue in first["analysis"]["issues"]
+        if issue["field"] == "work_method_description"
+    )
+    assert method_issue["question"] == "请补充作业方式，说明安全作业的方式方法"
     second = await service.resume(
         OWNER, first["task_id"], 1, {"work_location_description": "SYNTHETIC：A 区 1 号台"}
     )

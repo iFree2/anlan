@@ -4,7 +4,11 @@
 
 | 工作包 | 本人实践 / 讲解证据 | 掌握情况 |
 |---|---|---|
-| P1-WP01 | AI 已实现离线基线并验证；本人尚未提交修改、排错或讲解证据 | 待验证 |
+| P1-WP01 | 2026-09-18 本人修改 QUESTIONS 中作业方式追问并提交 demo 三轮输出；导师核对 Git diff，改动已进入输出 | 已验证这次文案修改与演示；测试断言、状态合并讲解及核心修改/排错仍待验证 |
+
+本次反馈：追问改为“请补充作业方式，说明安全作业的方式方法”。revision 1/2 均展示新句子，revision 3 补齐后无问题且待人工复核；offline_not_checked 保留。文案中的“安全作业”可能把回答引向安全措施或自我保证，仍需改得更中立、明确指向实际方法/工艺。导师未代改。
+
+2026-09-18 本人随后明确要求导师直接补测试。AI 已在 tests/test_workflow.py 首个测试中按 field 查找作业方式问题，并断言 question 等于本人当前文案；运行 `uv run pytest tests/test_workflow.py -q` 得到 12 passed，`uv run ruff check tests/test_workflow.py` 通过。断言由 AI 编写和运行，不计作本人独立测试实践；本人对断言与状态合并的理解仍待验证。
 
 本轮要理解：
 1. TypedDict 与 Pydantic 各在哪个边界起作用？对应 Java 的哪些概念？
@@ -13,6 +17,6 @@
 4. 无缺项、模型结构有效、人工复核分别能证明什么？
 5. task/thread/run/tenant 如何区分；为什么知道 thread_id 不代表有权限？
 
-本轮练习（本人完成）：修改 `src/anlan/contracts.py` 中 `QUESTIONS` 的“作业方式”追问，让它说明需要提供何种信息但不暗示某个安全/合规答案；在 `tests/test_workflow.py` 加入一个对应行为断言，运行 `uv run pytest -q` 和 `uv run anlan demo`。请本人提交改动及解释，导师不代做，不提前标记掌握。
+本轮练习进展：本人已修改 `src/anlan/contracts.py` 中的追问并演示；对应断言按本人后续要求由 AI 补齐。接下来可以阅读这一小段断言、解释它在检查什么；不强制重新独立编写，不提前标记掌握。文案中立性仍可后续完善。
 
 可参照但不能记作本人实践的 AI 排错：trace 文件不可写令图在补充后卡住；先用目录当日志路径复现，再将 OSError 转为显式 trace_warning，保持后续补充可用。该回归测试由 AI 编写，本人的独立定位能力尚未验证。
