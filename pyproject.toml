@@ -7,6 +7,8 @@ dependencies = [
   "langgraph>=1.0,<2",
   "pydantic>=2.10,<3",
   "httpx>=0.28,<0.29",
+  "langgraph-checkpoint-postgres>=3.1,<4",
+  "psycopg[binary]>=3.2,<4",
 ]
 
 [project.scripts]
@@ -26,6 +28,7 @@ dev = ["pytest>=8,<10", "pytest-asyncio>=0.25,<2", "ruff>=0.11,<1"]
 pythonpath = ["src"]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+markers = ["postgres: requires explicit ANLAN_TEST_DATABASE_URL and real PostgreSQL"]
 
 [tool.ruff]
 target-version = "py313"

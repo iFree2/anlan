@@ -2,11 +2,11 @@
 
 面向企业安全管理人员的高风险作业全周期安全协同 Agent。先深入动火作业，从准备与预审发展到依据/风险分析、作业中感知协同和事后质量闭环。所有演示均为 **SYNTHETIC 合成数据**，不是企业制度或合规依据；不自动批准，不控制或关闭报警。
 
-当前是 P1 / WP01：CLI 单工作流，可观察“材料分析 → 追问 → 补充 → 更新状态 → 再分析”。外层使用真实 LangGraph `StateGraph`、条件边、`interrupt`/`Command(resume=...)`，不是手写对话循环冒充 Graph。默认离线规则仅识别空字段；DeepSeek 模式是独立、可选的真实 HTTP 调用适配器，联网验证状态见 [当前状态](docs/status.md)。
+当前是 P1 / WP02：CLI 单工作流，可观察“材料分析 → 追问 → 补充 → 更新状态 → 再分析”，并通过 PostgreSQL 跨进程续接。外层使用 LangGraph `StateGraph`、条件边、`interrupt`/`Command(resume=...)`。默认离线规则仅识别空字段；DeepSeek 模式是独立、可选的真实 HTTP 调用适配器，联网验证状态见 [当前状态](docs/status.md)。
 
 ## 启动（PowerShell）
 
-前提：Python 3.13、uv；项目锁定版本见 `uv.lock`。无需 Java、前端或数据库。
+前提：Python 3.13、uv；项目锁定版本见 `uv.lock`。以下内存演示无需数据库，持久化演示见下一节。
 
 ```powershell
 Set-Location 'D:\src\agent学习\安澜2.0'
@@ -32,6 +32,48 @@ uv run ruff check .
 
 四个白名单字段为 `work_location_description`、`work_object_description`、`work_method_description`、`attachment_description`。补充只覆盖提交的字段，每字段最多 2000 字符。错误输入不消费模型请求，不修改已有状态；`/quit` 结束。最终 `awaiting_review` 仅表示本次辅助材料检查结束、需要人工复核。
 
+## PostgreSQL 跨进程演示（WP02）
+
+当前 Windows 环境已准备独立 PostgreSQL 17.11，监听 `127.0.0.1:55432`，不改动系统原有 PG10 服务。在其他 Windows 环境首次运行以下安装命令会下载约380 MB的固定 EDB 官方 ZIP，校验本次已记录的 SHA256，再提取 server/bin/lib/share；来源是 [PostgreSQL 官网的 EDB ZIP 链接](https://www.postgresql.org/download/windows/)。
+
+```powershell
+uv run python scripts/install_postgres.py
+.\scripts\dev-postgres.ps1 -Action Start
+uv run anlan db-init
+$task = (uv run anlan start | ConvertFrom-Json).task_id
+uv run anlan show --task $task
+uv run anlan resume --task $task --revision 1 --request-id location-1 --fields-file examples/synthetic/location.json
+# 重复同一条命令：返回同一份 revision=2 结果，不重新分析
+uv run anlan resume --task $task --revision 1 --request-id location-1 --fields-file examples/synthetic/location.json
+uv run anlan resume --task $task --revision 2 --request-id method-1 --fields-file examples/synthetic/method.json
+uv run anlan history --task $task
+```
+
+**每条 `uv run anlan` 命令都是一个新的 Python 进程。** `start` 在分析前向 stderr 输出 task_created 回执，最终 JSON 仍只写 stdout。若进程中途失败，保留回执中的 task_id，在新终端执行：
+
+```powershell
+.\scripts\dev-postgres.ps1 -Action Env
+# 下方用你实际保存的 task_id 替换占位符
+uv run anlan show --task <task_id>
+uv run anlan recover --task <task_id>
+```
+
+正常等待补充时继续使用 `resume`；`recover` 只续接未完成提交，没有未完成提交时只返回当前状态。同 request_id 同载荷返回原快照，已有更新时该快照可能不是最新版本；用 show 查看最新状态。同 ID 不同载荷、过期 revision、其他 tenant/user 被拒绝。固定 ID 仅在同一 task 内去重；重复 start 会新建任务。
+
+`start/show/resume/recover/history/db-init` 默认 PostgreSQL；`demo/chat` 默认内存，也支持 `--storage postgres`。`--tenant`/`--user` 仅为本地测试身份入口，拥有本机终端或数据库权限的人可自行设置，不能算生产认证。续接必须使用原来的 `--mode`；show/history 不调用模型。
+
+数据库目录在 `%LOCALAPPDATA%\Anlan2Runtime\postgres-17.11\anlan2-data`，避免本机 PG 在中文路径初始化时的 UTF8 编码失败。随机开发密码在 Git 忽略的 `.runtime/postgres-dev/connection.json`，脚本只将 DSN 放进当前进程环境，不打印密码。也可自行设置 `ANLAN_DATABASE_URL` 指向专用开发库并运行 db-init（会建立 anlan_v2 schema）。本地脚本仅适配这一套开发实例，不作为多项目实例管理器。
+
+```powershell
+# 对真实本地 PostgreSQL 跑集成测试；未设置测试DSN时明确跳过，不能算通过
+.\scripts\dev-postgres.ps1 -Action Env
+uv run pytest -q
+# 不再使用时停止本项目实例（保留数据，既有系统服务不受影响）
+.\scripts\dev-postgres.ps1 -Action Stop
+```
+
+服务层保存归属和提交记录，Graph 保存当前状态，详见 [ADR002](docs/decisions/002-postgres-recovery.md)。两者不是单一事务；通过 pending 提交与 recover 协调。锁和 checkpoint 使用同一数据库连接，避免丢锁后旧执行写回。模型已请求但节点结果未保存时，恢复可能再次调用模型；本包不声称模型调用 exactly-once。
+
 ## 可选真实模型
 
 仅在进程环境中配置 `DEEPSEEK_API_KEY`，不要将密钥写进脚本、Git、日志或聊天。不自动扫描/加载旧仓库 `.env`，不使用其他开发工具的凭据。由用户指定的既有配置可只读加载到当前进程。
@@ -51,7 +93,9 @@ uv run anlan demo --mode deepseek
 
 1. [contracts.py](src/anlan/contracts.py)：Pydantic 输入输出 DTO，像 Java Bean Validation；`QUESTIONS` 是本轮练习入口。
 2. [workflow.py](src/anlan/workflow.py)：状态、analyze/ask 节点、条件边及恢复；TypedDict 只描述形状。
-3. [service.py](src/anlan/service.py)：模拟可信身份、任务归属、revision 与生命周期入口。
+3. [service.py](src/anlan/service.py)：模拟可信身份、任务归属、revision、幂等提交与恢复入口。
+
+本轮新增 [registry.py](src/anlan/registry.py)（任务/提交合同与内存实现）、[postgres.py](src/anlan/postgres.py)（官方 saver 与 SQL 存储）、[迁移 SQL](src/anlan/sql/001_registry.sql)。应用模块在 src/anlan，测试在 tests，环境脚本在 scripts，数据/评测分别在 examples/evals；按真实职责增长再拆子包，不提前建空架构。
 
 随后看 [model.py](src/anlan/model.py) 的请求与候选复验、[test_workflow.py](tests/test_workflow.py) 的行为断言。入口在 [cli.py](src/anlan/cli.py)，最小关联轨迹写入 `.runtime/traces.jsonl`，可通过 `--trace` 指定其他路径。轨迹仅记来源标签、关联 ID、版本、问题字段、耗时与用量，不记原始字段、密钥、响应正文或隐藏思维链。
 
@@ -61,9 +105,9 @@ uv run anlan demo --mode deepseek
 
 ## 重要限制
 
-- 当前 checkpoint、归属索引均在内存；退出进程即丢失任务，JSONL 不是恢复数据源。PostgreSQL 是下一工作包目标。
-- 身份由 CLI 本地测试入口模拟，不是生产认证；仅支持单进程顺序调用，不宣称并发隔离或生产 SLA。
-- 已结束的任务修改、取消/恢复、持久化幂等、工具、长期 Memory、企业事件接入尚未实现。
+- 内存模式退出即丢失任务；PostgreSQL 模式持久化归属/提交/checkpoint，JSONL 始终不是恢复数据源。
+- 身份为本地模拟；已验证任务级并发互斥与丢锁拒写，不宣称生产权限、任意故障下 exactly-once 或生产 SLA。
+- 已结束的任务重新修改、显式取消、业务写工具、长期 Memory、RAG、多 Agent、企业事件接入尚未实现。
 - 功能测试和 HTTP 替身证明控制流/协议处理，不能证明真实模型质量；个人掌握见学习记录，默认待验证。
 
 长期入口：[产品范围](docs/product-scope.md) · [架构与三张数据流图](docs/architecture.md) · [半年路线](docs/roadmap.md) · [能力矩阵](docs/capability-matrix.md) · [当前状态](docs/status.md) · [本人练习](docs/learning-log.md)。

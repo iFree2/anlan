@@ -1,6 +1,6 @@
 # 架构：当前基线与已确定的演进边界
 
-当前工作包设计：Python CLI、Pydantic 边界校验、LangGraph 外层状态图，单分析节点；内存 checkpoint 仅支持当前进程。实现及验证状态以 [status](status.md) 为准。PostgreSQL 是持久化目标，向量检索后续使用 pgvector；FastAPI、Langfuse、Compose 在相应业务增量引入，尚未安装或验证。
+当前实际架构：Python CLI、Pydantic 边界校验、LangGraph 外层状态图，单分析节点。WP01 内存模式仅支持当前进程；WP02 接入官方 AsyncPostgresSaver、持久化归属/提交记录，支持跨进程读取、补充和恢复。实现及验证状态以 [status](status.md) 为准。向量检索后续使用 pgvector；FastAPI、Langfuse、Compose 在相应业务增量引入，尚未安装或验证。
 
 ```mermaid
 flowchart LR
@@ -12,7 +12,7 @@ flowchart LR
       P --> A
       A -->|无待补充项或模型失败| H[待人工复核 / 标明分析能力与失败]
     end
-    G --> C[checkpoint：当前内存 / 下一工作包 PostgreSQL]
+    G --> C[checkpoint：可选内存或 PostgreSQL]
     G --> T[关联轨迹：task / run / correlation]
 ```
 
@@ -20,7 +20,27 @@ flowchart LR
 
 首轮字段为位置、对象、方式、附件说明（沿用旧素材的字段名便于理解，判定规则是新版合成假设）。空字段由代码提问；模型识别明确歧义、缺细节、矛盾，必须返回字段内原文引用。引用存在只证明定位正确，不证明缺陷判断正确。模型无工具、无身份写入权、无批准字段。
 
-身份与状态：tenant/user 是 CLI 本地测试入口注入的模拟可信身份，不来自材料或模型，尚不是生产鉴权。session 表示本次交互容器，task 是业务材料任务，thread 是 checkpoint 游标，run 表示一次提交/恢复执行，correlation 串联任务；不能把框架 thread 当租户隔离机制。应用入口先检查归属，再读写图状态。CLI 单进程顺序运行，不支持并发写同任务。
+身份与状态：tenant/user 是 CLI 本地测试入口注入的模拟可信身份，不来自材料或模型，尚不是生产鉴权。session 表示本次交互容器，task 是业务材料任务，thread 是 checkpoint 游标，run 表示一次提交执行；故障恢复沿用未完成提交的 run_id，correlation 串联任务。request_id 标识一次用户提交，重试保留；不能把框架 thread 当租户隔离机制。应用入口先检查归属再读写状态，PG 模式使用任务级锁与同连接写入阻止并发消费和丢锁后旧写。
+
+### WP02 的持久化调用链
+
+```mermaid
+flowchart LR
+  CLI[start / show / resume / recover] --> S[service：身份 / 版本 / 请求去重]
+  S --> R[registry：任务归属 / 原始提交 / 返回快照]
+  S --> G[Graph：当前状态与节点]
+  R --> DB[(PostgreSQL anlan_v2)]
+  G --> CP[官方 AsyncPostgresSaver]
+  CP --> DB
+  LOCK[同一连接：advisory lock + checkpoint 写入] -.-> R
+  LOCK -.-> CP
+```
+
+`postgres.py` 在同一专用连接上组合 registry 与 saver，连接丢失即同时丢锁且无法写 checkpoint。初始创建先写归属，CLI 输出 task_id 回执后执行图。每次补充先持久化 operation，然后以 `durability="sync"` 写节点 checkpoint，最后保存完成回执；各次提交并非一个跨系统事务。故障留下 pending，recover 判断该 run 是否已合并输入，再继续未完成节点；已完成请求直接返回旧回执，用 show 取最新状态。分析完成但尚未进入 ask 的节点边界也需继续至 interrupt，不能仅凭 status 字符串认定可补充。
+
+相关实现：`registry.py` 的合同/内存实现、`postgres.py` 的 SQL/官方 saver、`sql/001_registry.sql` 的任务/提交表及迁移版本、`service.py` 的幂等/恢复决策。图状态不接受模型写身份/批准。checkpoint 的受限反序列化不开放 pickle 回退。详细取舍见 [ADR002](decisions/002-postgres-recovery.md)。
+
+部署实测使用独立 PG17.11（端口55432）。本机中文路径触发 PG 初始化编码失败，数据库运行文件放在用户 LocalAppData 的英文目录，源码不移动；脚本、位置和停止方法见 README。系统原 PG10 服务保持原样。记忆、生产认证、数据库备份和最终状态修改不在 WP02 范围。
 
 ## 全周期数据流（已确定产品方向，尚未实现）
 

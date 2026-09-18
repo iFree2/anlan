@@ -23,9 +23,10 @@ class TaskState(TypedDict):
     status: str
     analysis: dict[str, Any]
     trace_warning: str | None
+    analysis_mode: str
 
 
-def build_graph(analyzer: Analyzer, trace: JsonlTrace):
+def build_graph(analyzer: Analyzer, trace: JsonlTrace, checkpointer=None):
     async def analyze(state: TaskState) -> dict[str, Any]:
         started = perf_counter()
         application = Application.model_validate(state["fields"])
@@ -71,4 +72,4 @@ def build_graph(analyzer: Analyzer, trace: JsonlTrace):
         {"waiting_input": "ask", "awaiting_review": END},
     )
     graph.add_edge("ask", "analyze")
-    return graph.compile(checkpointer=InMemorySaver())
+    return graph.compile(checkpointer=checkpointer if checkpointer is not None else InMemorySaver())
