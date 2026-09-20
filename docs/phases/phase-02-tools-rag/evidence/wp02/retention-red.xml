@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="6.635" timestamp="2026-09-20T20:02:15.387224+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_tool_loop" name="test_loop_timeout_records_already_reserved_http_attempt" time="0.152"><failure message="AssertionError: assert 0 == 1&#10; +  where 1 = len([{'package': 'P2-WP02', 'run_id': 'c3cd8ae8-ba27-492b-851e-9157b7e708bb', 'status': 'reserved'}])&#10; +    where [{'package': 'P2-WP02', 'run_id': 'c3cd8ae8-ba27-492b-851e-9157b7e708bb', 'status': 'reserved'}] = &lt;test_tool_model.FakeLedger object at 0x000001D4AADCF620&gt;.attempts">tests\test_tool_loop.py:156: in test_loop_timeout_records_already_reserved_http_attempt
+    assert report["requests_this_run"] == len(ledger.attempts) == 1
+E   AssertionError: assert 0 == 1
+E    +  where 1 = len([{'package': 'P2-WP02', 'run_id': 'c3cd8ae8-ba27-492b-851e-9157b7e708bb', 'status': 'reserved'}])
+E    +    where [{'package': 'P2-WP02', 'run_id': 'c3cd8ae8-ba27-492b-851e-9157b7e708bb', 'status': 'reserved'}] = &lt;test_tool_model.FakeLedger object at 0x000001D4AADCF620&gt;.attempts</failure></testcase><testcase classname="tests.test_facts" name="test_cli_budget_snapshot_failure_does_not_swallow_finished_evidence" time="3.000"><failure message="anlan.budget.BudgetUnavailable: safe failure">tests\test_facts.py:144: in test_cli_budget_snapshot_failure_does_not_swallow_finished_evidence
+    await cli.run(SimpleNamespace(
+src\anlan\cli.py:87: in run
+    report["budget_snapshot"] = await ledger.snapshot()
+                                ^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_facts.py:134: in snapshot
+    raise BudgetUnavailable("safe failure")
+E   anlan.budget.BudgetUnavailable: safe failure</failure></testcase></testsuite></testsuites>

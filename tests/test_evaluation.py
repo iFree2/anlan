@@ -52,6 +52,12 @@ async def test_live_mode_and_partial_usage_are_reported_with_http_double(tmp_pat
     runner = load_runner()
     monkeypatch.setenv("DEEPSEEK_API_KEY", "test-not-real")
     requests = []
+    from test_tool_model import FakeLedger
+
+    async def fake_ledger():
+        return FakeLedger()
+
+    monkeypatch.setattr(runner, "production_ledger", fake_ledger)
 
     def handler(request):
         requests.append(request)

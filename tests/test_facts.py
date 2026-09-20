@@ -114,3 +114,40 @@ async def test_cli_fact_path_never_initializes_model(monkeypatch, tmp_path, caps
     assert report["clock_mode"] == "simulated"
     assert report["requests_this_run"] == 0
     assert [r["outcome"] for r in report["results"]] == ["ok", "ok"]
+
+
+async def test_cli_budget_snapshot_failure_does_not_swallow_finished_evidence(
+        monkeypatch, tmp_path, capsys):
+    from anlan import cli
+    from anlan.budget import BudgetUnavailable
+    from anlan.tool_model import ScriptedToolModel
+
+    service = WorkflowService(OfflineAnalyzer())
+    state = await service.start(OWNER, DEMO_FIELDS)
+
+    @asynccontextmanager
+    async def fake_pg(*args, **kwargs):
+        yield service
+
+    class Ledger:
+        async def snapshot(self):
+            raise BudgetUnavailable("safe failure")
+
+    async def fake_ledger():
+        return Ledger()
+
+    monkeypatch.setattr(cli, "postgres_service", fake_pg)
+    monkeypatch.setattr(cli, "database_url", lambda: "unused")
+    monkeypatch.setattr(cli, "production_ledger", fake_ledger)
+    monkeypatch.setattr(cli.ModelConfig, "from_env", lambda: None)
+    monkeypatch.setattr(cli, "DeepSeekToolModel", lambda *args: ScriptedToolModel())
+    await cli.run(SimpleNamespace(
+        command="check-facts-agent", tenant=OWNER.tenant_id, user=OWNER.user_id,
+        mode="deepseek", storage="postgres", task=state["task_id"],
+        refs_file=Path("examples/synthetic/fact-refs.json"),
+        facts_dir=Path("examples/synthetic/facts-v1"), as_of=NOW.isoformat(),
+        trace=tmp_path / "trace.jsonl"))
+    report = json.loads(capsys.readouterr().out)
+    assert report["stop_reason"] == "completed"
+    assert report["budget_warning"] == "snapshot_unavailable"
+    assert [r["outcome"] for r in report["results"]] == ["ok", "ok"]

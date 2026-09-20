@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="1.778" timestamp="2026-09-20T20:07:50.534705+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_tool_model" name="test_bad_response_consumes_reserved_attempt_and_retains_failure[deep_json]" time="0.087"><failure message="RecursionError: maximum recursion depth exceeded while decoding a JSON array from a unicode string">tests\test_tool_model.py:82: in test_bad_response_consumes_reserved_attempt_and_retains_failure
+    await model.next([{"role": "user", "content": "SYNTHETIC"}], "run-test")
+src\anlan\tool_model.py:75: in next
+    turn, usage, attempt = await self.gateway.call({
+src\anlan\model_gateway.py:54: in call
+    envelope = json.loads(content)
+               ^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\json\__init__.py:346: in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\json\decoder.py:345: in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\json\decoder.py:361: in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+E   RecursionError: maximum recursion depth exceeded while decoding a JSON array from a unicode string</failure></testcase><testcase classname="tests.test_model" name="test_material_deep_json_is_recorded_as_invalid_output" time="0.014"><failure message="RecursionError: maximum recursion depth exceeded while decoding a JSON array from a unicode string">tests\test_model.py:136: in test_material_deep_json_is_recorded_as_invalid_output
+    await DeepSeekAnalyzer(ModelConfig(api_key="test"), client,
+src\anlan\model.py:83: in analyze
+    result = await self._analyze(application)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\model.py:134: in _analyze
+    envelope = response.json()
+               ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\httpx\_models.py:832: in json
+    return jsonlib.loads(self.content, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\json\__init__.py:346: in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\json\decoder.py:345: in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\json\decoder.py:361: in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+E   RecursionError: maximum recursion depth exceeded while decoding a JSON array from a unicode string</failure></testcase></testsuite></testsuites>

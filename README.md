@@ -2,7 +2,7 @@
 
 面向企业安全管理人员的高风险作业全周期安全协同 Agent。先深入动火作业，从准备与预审发展到依据/风险分析、作业中感知协同和事后质量闭环。所有演示均为 **SYNTHETIC 合成数据**，不是企业制度或合规依据；不自动批准，不控制或关闭报警。
 
-P1材料工作流的工程Gate已通过，P2受控工具与知识入口已准备。当前可运行能力是“材料分析 → 追问 → 补充 → 更新状态 → 再分析”，可通过 PostgreSQL 跨进程续接，并已完成DeepSeek三例真实合成联调。外层使用LangGraph状态/条件边/interrupt/resume，默认离线规则仅识别空字段；限定结论见 [P1 Gate](docs/phases/phase-01-workflow/evidence/wp04/gate-report.md)，当前入口见 [status](docs/status.md)。
+P1材料工作流工程Gate与P2两个工具工作包已通过。当前CLI支持材料多轮补充、PostgreSQL跨进程恢复、固定事实查询及有界模型工具循环；材料与工具分别完成过三个已见合成任务的真实联调。外层使用LangGraph状态/条件边/interrupt/resume，默认离线规则仅识别空字段；限定结论见 [P1 Gate](docs/phases/phase-01-workflow/evidence/wp04/gate-report.md)，当前入口见 [status](docs/status.md)。
 
 ## 启动（PowerShell）
 
@@ -94,6 +94,21 @@ uv run python scripts/smoke_facts.py --output .runtime/wp01-facts-demo.json
 
 演示脚本包含真实CLI/PG/文件查询、越权拒绝、无记录/过期，以及明确标记的延迟注入；不是模型效果实验。详细证据与限制见[P2-WP01交接](docs/phases/phase-02-tools-rag/wp01-handoff.md)。
 
+## P2-WP02：模型工具循环与共享预算
+
+```powershell
+.\scripts\dev-postgres.ps1 -Action Env
+uv run anlan db-init
+$task = (uv run anlan start | ConvertFrom-Json).task_id
+# 默认是明确标注的协议替身，不发模型请求
+uv run anlan check-facts-agent --task $task --refs-file examples/synthetic/fact-refs.json --as-of 2026-09-20T12:00:00Z
+uv run anlan budget-status
+```
+
+已有模型环境时添加`--mode deepseek`才发真实请求；每次核验最多3个模型回合/4次工具动作，循环最多75秒。工具选择由模型提出，权限、参数、业务对象范围和停止由代码决定。结果保留事实/未知与来源，最终摘要标记为未验证候选，不能自动批准或改材料状态。模拟时钟下的结果只用于合成演示。
+
+生产累计账本在项目PG，固定授权ID `20260920-long-term-v1`。每次HTTP前提交预占，失败/硬退出/未知也占用，没有退款或CLI重置接口。`budget-status`不发请求；JSON证据里的预算快照只是档案，续接时以PG为准。本包已完成3任务/6次真实联调，查看[结果与限制](docs/phases/phase-02-tools-rag/evidence/wp02/live-report.md)无需重新调用。更多说明见[WP02交接](docs/phases/phase-02-tools-rag/wp02-handoff.md)。
+
 ## 可选真实模型
 
 仅在进程环境中配置 `DEEPSEEK_API_KEY`，不要将密钥写进脚本、Git、日志或聊天。不自动扫描/加载旧仓库 `.env`，不使用其他开发工具的凭据。由用户指定的既有配置可只读加载到当前进程。
@@ -103,9 +118,9 @@ uv run python scripts/smoke_facts.py --output .runtime/wp01-facts-demo.json
 uv run anlan demo --mode deepseek
 ```
 
-固定官方端点、默认 `deepseek-flash`、非思考模式；单个分析器生命周期最多 **3 次尝试**，每次输出上限 1024 token、20 秒超时、无自动重试。三次上限不是账户预算或跨进程配额，重新启动会重置；不要通过反复启动绕过本轮小样本约定。失败尝试也计入预算，用量未知记 null。仅发送四字段合成材料和 Prompt，不发送身份/历史/凭据内容。
+固定官方端点、`deepseek-flash`、非思考模式；单个分析器生命周期最多 **3 次尝试**，每次输出上限1024 token、20秒超时、无自动重试。P2-WP02起真实入口还必须先加载项目PG环境，使用唯一共享预占账本：每包10次、新授权后累计100次保守上限，重启进程不会重置；失败和未完成预占也计数，用量未知记null。额度详情见[ADR003](docs/decisions/003-model-budget-and-tool-loop.md)。材料分析仅发送四字段合成材料和Prompt，不发送身份/凭据内容。
 
-模型候选必须符合 Schema，字段和类别白名单、引用必须出自对应字段、同字段不可重复；失败保留确定性缺项并标 `failed`。这些校验不能证明语义正确。当前未实现工具循环、RAG 或五 Agent 协作。
+模型候选必须符合 Schema，字段和类别白名单、引用必须出自对应字段、同字段不可重复；失败保留确定性缺项并标 `failed`。这些校验不能证明语义正确。P2另有受控工具循环；RAG与多Agent尚未实现。
 
 首次真实联调三次、无重试，返回输入1126/输出58 token；最终问题集合3/3符合当前已见开发标注，其中空字段来自规则、歧义来自模型。不是泛化准确率或生产验证；实际扣费未查询。查看结果直接读已保存报告，不必再次调用。各阶段需要掌握的内容已列入 [路线图](docs/roadmap.md)，AI先验证工程，个人掌握独立记录。
 

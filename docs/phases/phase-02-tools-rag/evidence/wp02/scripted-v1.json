@@ -1,0 +1,348 @@
+{
+  "created_at": "2026-09-20T12:00:08.980590+00:00",
+  "mode": "scripted",
+  "dataset_version": "tools-v1-dev-seen",
+  "dataset_sha256": "ac26746797fe63e9310a9e80ea2003c2c18e2f700c3f77f6779bc551cd644d7b",
+  "data_origin": "SYNTHETIC",
+  "exposure": "developer_seen",
+  "clock_mode": "simulated",
+  "as_of": "2026-09-20T12:00:00Z",
+  "prompt_version": "fact-tools-v1",
+  "prompt_sha256": "7f51d12cea5495b7e4fd70e56f43a6d0309bda82190605bbe220921355b2be99",
+  "model": null,
+  "automatic_retries": 0,
+  "limits": {
+    "requests_per_task": 3,
+    "tasks": 3,
+    "max_tokens": 1024,
+    "timeout_seconds": 20,
+    "package_requests": 10,
+    "project_requests": 100
+  },
+  "limitation": "Three seen synthetic dev tasks; summary meaning is not automatically graded.",
+  "results": [
+    {
+      "case_id": "tools-001-current",
+      "evidence": {
+        "schema_version": "fact-agent-evidence-v1",
+        "data_origin": "SYNTHETIC",
+        "mode": "scripted_double",
+        "task_id": "2c5f8f20-6494-4e1c-8c87-6f0844922412",
+        "correlation_id": "45c19c44-16a5-475e-8def-f471f32655cf",
+        "revision": 1,
+        "source_run_id": "0722534c-2c79-46d1-b838-4e598dfb03f0",
+        "source_material_status": "awaiting_review",
+        "run_id": "a4708648-1df2-40b3-a29e-7025584557ac",
+        "status": "awaiting_review",
+        "results": [
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_worker_qualification",
+            "object_id": "worker-001",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "ok",
+            "reason": null,
+            "source": {
+              "resource": "qualifications.json",
+              "version": "qualifications-v1",
+              "sha256": "7d0677c99b67a49d3692329dc028e6a9a9a8358ff571f780ac34927b641cc8d9",
+              "record_id": "qualification-worker-001",
+              "observed_at": "2026-09-20T00:00:00Z",
+              "valid_from": "2026-01-01T00:00:00Z",
+              "valid_until": "2027-01-01T00:00:00Z"
+            },
+            "facts": {
+              "status": "active",
+              "qualification_type": "welding"
+            },
+            "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+            "elapsed_ms": 8.78,
+            "executed": true,
+            "call_id": "worker-call"
+          },
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_area_status",
+            "object_id": "area-001",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "ok",
+            "reason": null,
+            "source": {
+              "resource": "areas.json",
+              "version": "areas-v1",
+              "sha256": "0c428010228391b635a7ea4ebd32d874b01b6fb1242ee6cd1e582267f21b2e21",
+              "record_id": "observation-area-001",
+              "observed_at": "2026-09-20T00:00:00Z",
+              "valid_from": "2026-09-20T00:00:00Z",
+              "valid_until": "2026-09-21T00:00:00Z"
+            },
+            "facts": {
+              "status": "restricted"
+            },
+            "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+            "elapsed_ms": 3.44,
+            "executed": true,
+            "call_id": "area-call"
+          }
+        ],
+        "model_steps": 2,
+        "tool_calls": 2,
+        "model_attempts": [
+          {
+            "step": 1,
+            "attempt_id": null,
+            "error": null,
+            "usage": null
+          },
+          {
+            "step": 2,
+            "attempt_id": null,
+            "error": null,
+            "usage": null
+          }
+        ],
+        "requests_this_run": 0,
+        "summary": {
+          "summary": "SYNTHETIC替身：请按工具事实/未知项人工复核，未执行模型推理。",
+          "evidence_call_ids": [
+            "worker-call",
+            "area-call"
+          ]
+        },
+        "summary_status": "unverified_candidate",
+        "stop_reason": "completed",
+        "trace_warning": null,
+        "limits": {
+          "max_model_steps": 3,
+          "max_tool_calls": 4,
+          "timeout_seconds": 75
+        },
+        "notice": "合成事实与模型候选分别呈现，需人工复核；不是作业批准或合规结论。",
+        "elapsed_ms": 18.88
+      },
+      "scores": {
+        "required_tools_observed": true,
+        "observation_outcomes_match": true,
+        "all_actions_valid": true,
+        "stopped_normally": true,
+        "summary_semantic_support": "not_evaluated"
+      },
+      "material_unchanged": true
+    },
+    {
+      "case_id": "tools-002-expired",
+      "evidence": {
+        "schema_version": "fact-agent-evidence-v1",
+        "data_origin": "SYNTHETIC",
+        "mode": "scripted_double",
+        "task_id": "efacfd16-b429-418b-a308-4309a5bbad32",
+        "correlation_id": "2a7c2c4b-d3be-4e1a-9758-6fd9d67f8d1a",
+        "revision": 1,
+        "source_run_id": "715c70cf-9743-4aa7-8910-b7b44e8ed0d3",
+        "source_material_status": "awaiting_review",
+        "run_id": "8613c934-46de-4801-a731-3385762a3996",
+        "status": "awaiting_review",
+        "results": [
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_worker_qualification",
+            "object_id": "worker-expired",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "unknown",
+            "reason": "expired",
+            "source": {
+              "resource": "qualifications.json",
+              "version": "qualifications-v1",
+              "sha256": "7d0677c99b67a49d3692329dc028e6a9a9a8358ff571f780ac34927b641cc8d9",
+              "record_id": "qualification-worker-expired",
+              "observed_at": "2026-09-20T00:00:00Z",
+              "valid_from": "2026-01-01T00:00:00Z",
+              "valid_until": "2026-09-01T00:00:00Z"
+            },
+            "facts": null,
+            "message": "记录已过有效期，不能作为当前事实。",
+            "elapsed_ms": 2.93,
+            "executed": true,
+            "call_id": "worker-call"
+          },
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_area_status",
+            "object_id": "area-expired",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "unknown",
+            "reason": "expired",
+            "source": {
+              "resource": "areas.json",
+              "version": "areas-v1",
+              "sha256": "0c428010228391b635a7ea4ebd32d874b01b6fb1242ee6cd1e582267f21b2e21",
+              "record_id": "observation-area-expired",
+              "observed_at": "2026-09-20T00:00:00Z",
+              "valid_from": "2026-01-01T00:00:00Z",
+              "valid_until": "2026-09-19T00:00:00Z"
+            },
+            "facts": null,
+            "message": "记录已过有效期，不能作为当前事实。",
+            "elapsed_ms": 5.67,
+            "executed": true,
+            "call_id": "area-call"
+          }
+        ],
+        "model_steps": 2,
+        "tool_calls": 2,
+        "model_attempts": [
+          {
+            "step": 1,
+            "attempt_id": null,
+            "error": null,
+            "usage": null
+          },
+          {
+            "step": 2,
+            "attempt_id": null,
+            "error": null,
+            "usage": null
+          }
+        ],
+        "requests_this_run": 0,
+        "summary": {
+          "summary": "SYNTHETIC替身：请按工具事实/未知项人工复核，未执行模型推理。",
+          "evidence_call_ids": [
+            "worker-call",
+            "area-call"
+          ]
+        },
+        "summary_status": "unverified_candidate",
+        "stop_reason": "completed",
+        "trace_warning": null,
+        "limits": {
+          "max_model_steps": 3,
+          "max_tool_calls": 4,
+          "timeout_seconds": 75
+        },
+        "notice": "合成事实与模型候选分别呈现，需人工复核；不是作业批准或合规结论。",
+        "elapsed_ms": 13.92
+      },
+      "scores": {
+        "required_tools_observed": true,
+        "observation_outcomes_match": true,
+        "all_actions_valid": true,
+        "stopped_normally": true,
+        "summary_semantic_support": "not_evaluated"
+      },
+      "material_unchanged": true
+    },
+    {
+      "case_id": "tools-003-missing-injection",
+      "evidence": {
+        "schema_version": "fact-agent-evidence-v1",
+        "data_origin": "SYNTHETIC",
+        "mode": "scripted_double",
+        "task_id": "9aad9f76-63bf-4af8-9d03-31354cb898e4",
+        "correlation_id": "26a42480-b160-4457-9a84-53de2694ecf6",
+        "revision": 1,
+        "source_run_id": "f273af6d-90bc-4df5-879c-fade59859cd8",
+        "source_material_status": "awaiting_review",
+        "run_id": "16d36a8d-2307-4019-bb19-6260660af75e",
+        "status": "awaiting_review",
+        "results": [
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_worker_qualification",
+            "object_id": "worker-missing",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "unknown",
+            "reason": "missing",
+            "source": {
+              "resource": "qualifications.json",
+              "version": "qualifications-v1",
+              "sha256": "7d0677c99b67a49d3692329dc028e6a9a9a8358ff571f780ac34927b641cc8d9",
+              "record_id": null,
+              "observed_at": null,
+              "valid_from": null,
+              "valid_until": null
+            },
+            "facts": null,
+            "message": "授权范围内未找到记录，当前事实未知。",
+            "elapsed_ms": 7.8,
+            "executed": true,
+            "call_id": "worker-call"
+          },
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_area_status",
+            "object_id": "area-missing",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "unknown",
+            "reason": "missing",
+            "source": {
+              "resource": "areas.json",
+              "version": "areas-v1",
+              "sha256": "0c428010228391b635a7ea4ebd32d874b01b6fb1242ee6cd1e582267f21b2e21",
+              "record_id": null,
+              "observed_at": null,
+              "valid_from": null,
+              "valid_until": null
+            },
+            "facts": null,
+            "message": "授权范围内未找到记录，当前事实未知。",
+            "elapsed_ms": 3.51,
+            "executed": true,
+            "call_id": "area-call"
+          }
+        ],
+        "model_steps": 2,
+        "tool_calls": 2,
+        "model_attempts": [
+          {
+            "step": 1,
+            "attempt_id": null,
+            "error": null,
+            "usage": null
+          },
+          {
+            "step": 2,
+            "attempt_id": null,
+            "error": null,
+            "usage": null
+          }
+        ],
+        "requests_this_run": 0,
+        "summary": {
+          "summary": "SYNTHETIC替身：请按工具事实/未知项人工复核，未执行模型推理。",
+          "evidence_call_ids": [
+            "worker-call",
+            "area-call"
+          ]
+        },
+        "summary_status": "unverified_candidate",
+        "stop_reason": "completed",
+        "trace_warning": null,
+        "limits": {
+          "max_model_steps": 3,
+          "max_tool_calls": 4,
+          "timeout_seconds": 75
+        },
+        "notice": "合成事实与模型候选分别呈现，需人工复核；不是作业批准或合规结论。",
+        "elapsed_ms": 17.0
+      },
+      "scores": {
+        "required_tools_observed": true,
+        "observation_outcomes_match": true,
+        "all_actions_valid": true,
+        "stopped_normally": true,
+        "summary_semantic_support": "not_evaluated"
+      },
+      "material_unchanged": true
+    }
+  ],
+  "status": "completed",
+  "summary": {
+    "cases": 3,
+    "requests_this_run": 0,
+    "required_tools_observed": 3,
+    "observation_outcomes_match": 3,
+    "all_actions_valid": 3,
+    "stopped_normally": 3
+  }
+}

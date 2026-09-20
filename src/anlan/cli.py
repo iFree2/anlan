@@ -13,12 +13,16 @@ import psycopg
 from pydantic import ValidationError
 
 from anlan.analysis import OfflineAnalyzer
+from anlan.budget import BudgetError, BudgetLedger
 from anlan.contracts import Identity
 from anlan.facts import check_facts
+from anlan.live import production_ledger
 from anlan.model import DeepSeekAnalyzer, ModelConfig
 from anlan.postgres import database_url, initialize_database, postgres_service
 from anlan.registry import TaskBusy
 from anlan.service import AccessDenied, InvalidTransition, WorkflowService
+from anlan.tool_loop import check_facts_agent
+from anlan.tool_model import DeepSeekToolModel, ScriptedToolModel
 from anlan.tools.queries import FactTools
 from anlan.trace import JsonlTrace
 
@@ -50,28 +54,54 @@ def created_receipt(task_id: str):
 async def run(args):
     # Local test identity is host input, not read from material or model output.
     identity = Identity(tenant_id=args.tenant, user_id=args.user)
-    if args.command == "check-facts":
+    if args.command == "budget-status":
+        print(json.dumps(await BudgetLedger(database_url()).snapshot(), ensure_ascii=False))
+        return
+    if args.command in {"check-facts", "check-facts-agent"}:
         # 只读核验在模型初始化之前分流，即使mode=deepseek也不读取模型配置。
         as_of = datetime.fromisoformat(args.as_of) if args.as_of else None
         if as_of is not None and (as_of.tzinfo is None or as_of.utcoffset() is None):
             raise ValueError("核验时间必须带时区")
         tools = FactTools(args.facts_dir, clock=(lambda: as_of) if as_of else None)
         trace = JsonlTrace(args.trace)
-        async with postgres_service(database_url(), OfflineAnalyzer()) as service:
+        async with AsyncExitStack() as stack:
+            service = await stack.enter_async_context(
+                postgres_service(database_url(), OfflineAnalyzer()))
             references = json.loads(args.refs_file.read_text(encoding="utf-8-sig"))
-            report = await check_facts(service, identity, args.task, references, tools, trace)
+            if args.command == "check-facts":
+                report = await check_facts(service, identity, args.task, references, tools, trace)
+            else:
+                # 在加载模型配置或预算之前验证归属；循环入口仍再次校验快照。
+                await service.get(identity, args.task)
+                model = ScriptedToolModel()
+                ledger = None
+                if args.mode == "deepseek":
+                    config = ModelConfig.from_env()
+                    ledger = await production_ledger()
+                    client = await stack.enter_async_context(
+                        httpx.AsyncClient(follow_redirects=False))
+                    model = DeepSeekToolModel(config, client, ledger)
+                report = await check_facts_agent(
+                    service, identity, args.task, references, tools, model, trace)
+                if ledger is not None:
+                    try:
+                        report["budget_snapshot"] = await ledger.snapshot()
+                    except BudgetError:
+                        report["budget_snapshot"] = None
+                        report["budget_warning"] = "snapshot_unavailable"
         report["clock_mode"] = "simulated" if as_of else "system_utc"
         print(json.dumps(report, ensure_ascii=False))
         return
     if args.command == "db-init":
         await initialize_database(database_url())
+        await production_ledger()
         print(json.dumps({"status": "database_ready", "schema": "anlan_v2"}))
         return
     async with AsyncExitStack() as stack:
         if args.mode == "deepseek" and args.command not in ("show", "history"):
             config = ModelConfig.from_env()
             client = await stack.enter_async_context(httpx.AsyncClient(follow_redirects=False))
-            analyzer = DeepSeekAnalyzer(config, client)
+            analyzer = DeepSeekAnalyzer(config, client, ledger=await production_ledger())
         else:
             analyzer = OfflineAnalyzer()
         if args.storage == "postgres":
@@ -137,7 +167,8 @@ async def run(args):
 
 def main():
     parser = argparse.ArgumentParser(description="安澜 2.0 合成动火材料工作流")
-    persistent = {"db-init", "start", "show", "resume", "recover", "history", "check-facts"}
+    persistent = {"db-init", "start", "show", "resume", "recover", "history", "check-facts",
+                  "check-facts-agent", "budget-status"}
     parser.add_argument("command", choices=["demo", "chat", *sorted(persistent)])
     parser.add_argument("--mode", choices=["offline", "deepseek"], default="offline")
     parser.add_argument("--trace", type=Path, default=Path(".runtime/traces.jsonl"))
@@ -156,14 +187,15 @@ def main():
     args.storage = args.storage or ("postgres" if args.command in persistent else "memory")
     if args.command in persistent and args.storage != "postgres":
         parser.error("持久化子命令需要 PostgreSQL；内存演示请用 demo/chat")
-    if args.command in {"show", "resume", "recover", "history", "check-facts"} and not args.task:
+    if args.command in {"show", "resume", "recover", "history", "check-facts",
+                        "check-facts-agent"} and not args.task:
         parser.error("需要 --task")
     if args.command == "resume" and any(value is None for value in (
         args.revision, args.request_id, args.fields_file
     )):
         parser.error("resume 需要 --revision、--request-id 和 --fields-file")
-    if args.command == "check-facts" and args.refs_file is None:
-        parser.error("check-facts 需要 --refs-file")
+    if args.command in {"check-facts", "check-facts-agent"} and args.refs_file is None:
+        parser.error("事实核验需要 --refs-file")
     try:
         # Psycopg async I/O requires a selector loop on Windows; Python 3.13 supports loop_factory.
         asyncio.run(run(args), loop_factory=asyncio.SelectorEventLoop)
@@ -171,14 +203,16 @@ def main():
         print("已结束会话；PostgreSQL 任务可用 show/recover 读取或续接，内存任务已结束。")
     except (AccessDenied, InvalidTransition, TaskBusy) as exc:
         parser.exit(2, f"{exc}\n")
+    except BudgetError as exc:
+        parser.exit(2, f"{exc}\n")
     except psycopg.Error:
         parser.exit(2, "数据库操作失败；请检查本地服务、配置和 db-init，不输出凭据。\n")
     except (OSError, json.JSONDecodeError, ValidationError):
         parser.exit(2, "无法读取或校验输入；请检查 UTF-8 JSON 和字段类型。\n")
     except ValueError:
         # Do not print a ValidationError that could include config secrets.
-        if args.command == "check-facts":
-            parser.exit(2, "核验配置无效；请检查数据库配置和带时区的 --as-of。\n")
+        if args.command in {"check-facts", "check-facts-agent"}:
+            parser.exit(2, "核验配置无效；请检查数据库/模型配置和带时区的 --as-of。\n")
         parser.exit(2, "配置无效；请检查 ANLAN_DATABASE_URL / DEEPSEEK_API_KEY。\n")
     except Exception:
         print("执行中断；持久化任务保留提交记录，可用 show/history/recover 排查。", file=sys.stderr)

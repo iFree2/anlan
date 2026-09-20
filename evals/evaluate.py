@@ -12,8 +12,10 @@ from time import perf_counter
 import httpx
 
 from anlan.analysis import OfflineAnalyzer
+from anlan.budget import BudgetError
 from anlan.contracts import Identity
 from anlan.evaluation import score_issues
+from anlan.live import production_ledger
 from anlan.model import PROMPT_VERSION, SYSTEM_PROMPT, DeepSeekAnalyzer, ModelConfig
 from anlan.service import WorkflowService
 from anlan.trace import JsonlTrace
@@ -45,6 +47,7 @@ def summarize(results: list[dict], request_attempts: int) -> dict:
 
 async def evaluate(args):
     config = ModelConfig.from_env() if args.mode == "deepseek" else None
+    ledger = await production_ledger() if config else None
     dataset = Path(__file__).parent / "materials-v1" / "dev.jsonl"
     samples = [json.loads(line) for line in dataset.read_text(encoding="utf-8").splitlines()]
     report = {
@@ -70,7 +73,7 @@ async def evaluate(args):
         async with AsyncExitStack() as stack:
             if args.mode == "deepseek":
                 client = await stack.enter_async_context(httpx.AsyncClient(follow_redirects=False))
-                analyzer = DeepSeekAnalyzer(config, client)
+                analyzer = DeepSeekAnalyzer(config, client, ledger=ledger)
             else:
                 analyzer = OfflineAnalyzer()
             service = WorkflowService(analyzer, JsonlTrace(args.output.with_suffix(".trace.jsonl")),
@@ -103,8 +106,10 @@ if __name__ == "__main__":
     parser.add_argument("--output", type=Path, required=True)
     options = parser.parse_args()
     try:
-        asyncio.run(evaluate(options))
+        asyncio.run(evaluate(options), loop_factory=asyncio.SelectorEventLoop)
     except FileExistsError:
         parser.exit(2, "结果文件已存在；请选择新的文件名，保留旧结果。\n")
     except ValueError:
         parser.exit(2, "配置无效或缺少 DEEPSEEK_API_KEY；未开始模型请求。\n")
+    except BudgetError as exc:
+        parser.exit(2, f"{exc}\n")

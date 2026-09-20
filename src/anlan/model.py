@@ -4,6 +4,7 @@ import asyncio
 import json
 import os
 from typing import Literal
+from uuid import uuid4
 
 import httpx
 from pydantic import BaseModel, ConfigDict, Field, SecretStr, ValidationError
@@ -58,18 +59,43 @@ class Candidates(StrictModel):
 
 
 class DeepSeekAnalyzer:
-    def __init__(self, config: ModelConfig, client: httpx.AsyncClient):
+    def __init__(self, config: ModelConfig, client: httpx.AsyncClient, *, ledger=None,
+                 work_package: str = "P2-WP02"):
         self.config = config
         self.client = client
         self.requests_used = 0
+        self.ledger = ledger
+        self.work_package = work_package
 
     async def analyze(self, application: Application) -> Analysis:
         try:
-            return await self._analyze(application)
+            if self.config.model != "deepseek-flash":
+                raise AnalysisFailure("model_not_authorized")
+            if self.requests_used >= self.config.max_requests:
+                raise AnalysisFailure("budget_exceeded")
+            try:
+                attempt = await self.ledger.reserve(self.work_package, str(uuid4()))
+            except Exception as exc:
+                category = "budget_exceeded" if type(exc).__name__ == "BudgetExceeded" \
+                    else "budget_unavailable"
+                raise AnalysisFailure(category) from None
+            try:
+                result = await self._analyze(application)
+            except AnalysisFailure as exc:
+                await self._finish(attempt, "failed", exc.usage, exc.category)
+                raise
+            await self._finish(attempt, "succeeded", result.usage)
+            return result
         except AnalysisFailure as exc:
             exc.model = self.config.model
             exc.prompt_version = PROMPT_VERSION
             raise
+
+    async def _finish(self, attempt, status, usage, error=None):
+        try:
+            await self.ledger.finish(attempt, status, usage=usage, error=error)
+        except Exception:
+            raise AnalysisFailure("budget_write_failed", usage=usage) from None
 
     async def _analyze(self, application: Application) -> Analysis:
         if self.requests_used >= self.config.max_requests:
@@ -133,6 +159,6 @@ class DeepSeekAnalyzer:
                 prompt_version=PROMPT_VERSION, usage=usage,
             )
         except (ValidationError, ValueError, TypeError, KeyError, IndexError, AttributeError,
-                json.JSONDecodeError):
+                json.JSONDecodeError, RecursionError):
             # Never expose raw HTTP errors/bodies or provider reasoning in logs.
             raise AnalysisFailure("invalid_output", usage=usage) from None

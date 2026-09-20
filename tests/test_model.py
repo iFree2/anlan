@@ -3,6 +3,7 @@ import json
 
 import httpx
 import pytest
+from test_tool_model import FakeLedger
 
 from anlan.analysis import AnalysisFailure
 from anlan.contracts import Application
@@ -39,7 +40,7 @@ async def test_real_adapter_request_and_content_contract_with_http_double():
 
     config = ModelConfig(api_key="test-not-a-real-key", max_requests=1)
     async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
-        analyzer = DeepSeekAnalyzer(config, client)
+        analyzer = DeepSeekAnalyzer(config, client, ledger=FakeLedger())
         result = await analyzer.analyze(MATERIAL)
         assert result.issues[0].source == "model"
         assert result.semantic_status == "checked"
@@ -70,7 +71,7 @@ async def test_invalid_output_is_rejected_and_usage_retained(content, finish):
     async with httpx.AsyncClient(transport=httpx.MockTransport(
         lambda request: response(content, finish)
     )) as client:
-        analyzer = DeepSeekAnalyzer(ModelConfig(api_key="test"), client)
+        analyzer = DeepSeekAnalyzer(ModelConfig(api_key="test"), client, ledger=FakeLedger())
         with pytest.raises(AnalysisFailure, match="invalid_output") as error:
             await analyzer.analyze(MATERIAL)
         assert error.value.usage["total_tokens"] == 80
@@ -93,7 +94,7 @@ async def test_failure_is_bounded_and_does_not_leak_response_or_credentials(fail
 
     async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
         analyzer = DeepSeekAnalyzer(ModelConfig(api_key="secret-sentinel", timeout_seconds=.01),
-                                    client)
+                                    client, ledger=FakeLedger())
         with pytest.raises(AnalysisFailure) as error:
             await analyzer.analyze(MATERIAL)
         assert "secret-sentinel" not in str(error.value)
@@ -111,3 +112,27 @@ def test_missing_key_fails_locally_and_config_repr_hides_secret(monkeypatch):
     with pytest.raises(ValueError, match="DEEPSEEK_API_KEY"):
         ModelConfig.from_env()
     assert "secret-sentinel" not in repr(ModelConfig(api_key="secret-sentinel"))
+
+
+async def test_material_adapter_cannot_send_without_shared_ledger():
+    sent = []
+
+    def handler(request):
+        sent.append(request)
+        return response('{"issues":[]}')
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        with pytest.raises(AnalysisFailure, match="budget_unavailable"):
+            await DeepSeekAnalyzer(ModelConfig(api_key="test"), client).analyze(MATERIAL)
+    assert sent == []
+
+
+async def test_material_deep_json_is_recorded_as_invalid_output():
+    ledger = FakeLedger()
+    async with httpx.AsyncClient(transport=httpx.MockTransport(
+        lambda request: httpx.Response(200, text="[" * 20000 + "0" + "]" * 20000)
+    )) as client:
+        with pytest.raises(AnalysisFailure, match="invalid_output"):
+            await DeepSeekAnalyzer(ModelConfig(api_key="test"), client,
+                                   ledger=ledger).analyze(MATERIAL)
+    assert ledger.attempts[0]["status"] == "failed"

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="5" failures="23" skipped="0" tests="28" time="2.221" timestamp="2026-09-20T19:47:57.107045+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_budget" name="test_budget_module_exists" time="0.023"><failure message="AssertionError: assert None is not None&#10; +  where None = &lt;function find_spec at 0x0000022BF82AF1A0&gt;('anlan.budget')&#10; +    where &lt;function find_spec at 0x0000022BF82AF1A0&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec&#10; +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util">tests\test_budget.py:19: in test_budget_module_exists
+    assert importlib.util.find_spec("anlan.budget") is not None
+E   AssertionError: assert None is not None
+E    +  where None = &lt;function find_spec at 0x0000022BF82AF1A0&gt;('anlan.budget')
+E    +    where &lt;function find_spec at 0x0000022BF82AF1A0&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec
+E    +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util</failure></testcase><testcase classname="tests.test_budget" name="test_reconnect_failed_unknown_and_new_attempts_remain_charged" time="0.002"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'anlan.budget'&quot;">tests\test_budget.py:24: in ledger
+    from anlan.budget import BudgetLedger, BudgetUnavailable
+E   ModuleNotFoundError: No module named 'anlan.budget'</error></testcase><testcase classname="tests.test_budget" name="test_concurrent_reservations_never_exceed_package_or_total_limit" time="0.007"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'anlan.budget'&quot;">tests\test_budget.py:24: in ledger
+    from anlan.budget import BudgetLedger, BudgetUnavailable
+E   ModuleNotFoundError: No module named 'anlan.budget'</error></testcase><testcase classname="tests.test_budget" name="test_initialize_never_changes_limits_or_reservations" time="0.002"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'anlan.budget'&quot;">tests\test_budget.py:24: in ledger
+    from anlan.budget import BudgetLedger, BudgetUnavailable
+E   ModuleNotFoundError: No module named 'anlan.budget'</error></testcase><testcase classname="tests.test_budget" name="test_finish_is_idempotent_but_cannot_overwrite_or_cross_authorization" time="0.004"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'anlan.budget'&quot;">tests\test_budget.py:24: in ledger
+    from anlan.budget import BudgetLedger, BudgetUnavailable
+E   ModuleNotFoundError: No module named 'anlan.budget'</error></testcase><testcase classname="tests.test_budget" name="test_hard_exit_after_reserve_keeps_unknown_attempt" time="0.002"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'anlan.budget'&quot;">tests\test_budget.py:24: in ledger
+    from anlan.budget import BudgetLedger, BudgetUnavailable
+E   ModuleNotFoundError: No module named 'anlan.budget'</error></testcase><testcase classname="tests.test_budget" name="test_invalid_packages_rejected_before_connecting[P0-WP02]" time="0.003"><failure message="ModuleNotFoundError: No module named 'anlan.budget'">tests\test_budget.py:149: in test_invalid_packages_rejected_before_connecting
+    from anlan.budget import BudgetLedger
+E   ModuleNotFoundError: No module named 'anlan.budget'</failure></testcase><testcase classname="tests.test_budget" name="test_invalid_packages_rejected_before_connecting[P8-WP02]" time="0.003"><failure message="ModuleNotFoundError: No module named 'anlan.budget'">tests\test_budget.py:149: in test_invalid_packages_rejected_before_connecting
+    from anlan.budget import BudgetLedger
+E   ModuleNotFoundError: No module named 'anlan.budget'</failure></testcase><testcase classname="tests.test_budget" name="test_invalid_packages_rejected_before_connecting[P2-WP2]" time="0.004"><failure message="ModuleNotFoundError: No module named 'anlan.budget'">tests\test_budget.py:149: in test_invalid_packages_rejected_before_connecting
+    from anlan.budget import BudgetLedger
+E   ModuleNotFoundError: No module named 'anlan.budget'</failure></testcase><testcase classname="tests.test_budget" name="test_invalid_packages_rejected_before_connecting[P2-WP002]" time="0.005"><failure message="ModuleNotFoundError: No module named 'anlan.budget'">tests\test_budget.py:149: in test_invalid_packages_rejected_before_connecting
+    from anlan.budget import BudgetLedger
+E   ModuleNotFoundError: No module named 'anlan.budget'</failure></testcase><testcase classname="tests.test_budget" name="test_invalid_packages_rejected_before_connecting[ P2-WP02]" time="0.003"><failure message="ModuleNotFoundError: No module named 'anlan.budget'">tests\test_budget.py:149: in test_invalid_packages_rejected_before_connecting
+    from anlan.budget import BudgetLedger
+E   ModuleNotFoundError: No module named 'anlan.budget'</failure></testcase><testcase classname="tests.test_budget" name="test_invalid_packages_rejected_before_connecting[P2-WP02\n]" time="0.011"><failure message="ModuleNotFoundError: No module named 'anlan.budget'">tests\test_budget.py:149: in test_invalid_packages_rejected_before_connecting
+    from anlan.budget import BudgetLedger
+E   ModuleNotFoundError: No module named 'anlan.budget'</failure></testcase><testcase classname="tests.test_budget" name="test_invalid_packages_rejected_before_connecting[garbage]" time="0.003"><failure message="ModuleNotFoundError: No module named 'anlan.budget'">tests\test_budget.py:149: in test_invalid_packages_rejected_before_connecting
+    from anlan.budget import BudgetLedger
+E   ModuleNotFoundError: No module named 'anlan.budget'</failure></testcase><testcase classname="tests.test_budget" name="test_invalid_packages_rejected_before_connecting[None]" time="0.009"><failure message="ModuleNotFoundError: No module named 'anlan.budget'">tests\test_budget.py:149: in test_invalid_packages_rejected_before_connecting
+    from anlan.budget import BudgetLedger
+E   ModuleNotFoundError: No module named 'anlan.budget'</failure></testcase><testcase classname="tests.test_budget" name="test_invalid_finish_payload_rejected_before_connecting[arguments0]" time="0.004"><failure message="ModuleNotFoundError: No module named 'anlan.budget'">tests\test_budget.py:163: in test_invalid_finish_payload_rejected_before_connecting
+    from anlan.budget import BudgetLedger
+E   ModuleNotFoundError: No module named 'anlan.budget'</failure></testcase><testcase classname="tests.test_budget" name="test_invalid_finish_payload_rejected_before_connecting[arguments1]" time="0.005"><failure message="ModuleNotFoundError: No module named 'anlan.budget'">tests\test_budget.py:163: in test_invalid_finish_payload_rejected_before_connecting
+    from anlan.budget import BudgetLedger
+E   ModuleNotFoundError: No module named 'anlan.budget'</failure></testcase><testcase classname="tests.test_budget" name="test_invalid_finish_payload_rejected_before_connecting[arguments2]" time="0.008"><failure message="ModuleNotFoundError: No module named 'anlan.budget'">tests\test_budget.py:163: in test_invalid_finish_payload_rejected_before_connecting
+    from anlan.budget import BudgetLedger
+E   ModuleNotFoundError: No module named 'anlan.budget'</failure></testcase><testcase classname="tests.test_budget" name="test_invalid_finish_payload_rejected_before_connecting[arguments3]" time="0.008"><failure message="ModuleNotFoundError: No module named 'anlan.budget'">tests\test_budget.py:163: in test_invalid_finish_payload_rejected_before_connecting
+    from anlan.budget import BudgetLedger
+E   ModuleNotFoundError: No module named 'anlan.budget'</failure></testcase><testcase classname="tests.test_budget" name="test_invalid_finish_payload_rejected_before_connecting[arguments4]" time="0.004"><failure message="ModuleNotFoundError: No module named 'anlan.budget'">tests\test_budget.py:163: in test_invalid_finish_payload_rejected_before_connecting
+    from anlan.budget import BudgetLedger
+E   ModuleNotFoundError: No module named 'anlan.budget'</failure></testcase><testcase classname="tests.test_budget" name="test_invalid_finish_payload_rejected_before_connecting[arguments5]" time="0.006"><failure message="ModuleNotFoundError: No module named 'anlan.budget'">tests\test_budget.py:163: in test_invalid_finish_payload_rejected_before_connecting
+    from anlan.budget import BudgetLedger
+E   ModuleNotFoundError: No module named 'anlan.budget'</failure></testcase><testcase classname="tests.test_budget" name="test_invalid_finish_payload_rejected_before_connecting[arguments6]" time="0.004"><failure message="ModuleNotFoundError: No module named 'anlan.budget'">tests\test_budget.py:163: in test_invalid_finish_payload_rejected_before_connecting
+    from anlan.budget import BudgetLedger
+E   ModuleNotFoundError: No module named 'anlan.budget'</failure></testcase><testcase classname="tests.test_budget" name="test_connection_errors_do_not_reveal_dsn_or_driver_error" time="0.003"><failure message="ModuleNotFoundError: No module named 'anlan.budget'">tests\test_budget.py:169: in test_connection_errors_do_not_reveal_dsn_or_driver_error
+    from anlan.budget import BudgetLedger, BudgetUnavailable
+E   ModuleNotFoundError: No module named 'anlan.budget'</failure></testcase><testcase classname="tests.test_budget" name="test_invalid_or_excessive_limits_rejected[limits0]" time="0.003"><failure message="ModuleNotFoundError: No module named 'anlan.budget'">tests\test_budget.py:181: in test_invalid_or_excessive_limits_rejected
+    from anlan.budget import BudgetLedger
+E   ModuleNotFoundError: No module named 'anlan.budget'</failure></testcase><testcase classname="tests.test_budget" name="test_invalid_or_excessive_limits_rejected[limits1]" time="0.003"><failure message="ModuleNotFoundError: No module named 'anlan.budget'">tests\test_budget.py:181: in test_invalid_or_excessive_limits_rejected
+    from anlan.budget import BudgetLedger
+E   ModuleNotFoundError: No module named 'anlan.budget'</failure></testcase><testcase classname="tests.test_budget" name="test_invalid_or_excessive_limits_rejected[limits2]" time="0.004"><failure message="ModuleNotFoundError: No module named 'anlan.budget'">tests\test_budget.py:181: in test_invalid_or_excessive_limits_rejected
+    from anlan.budget import BudgetLedger
+E   ModuleNotFoundError: No module named 'anlan.budget'</failure></testcase><testcase classname="tests.test_budget" name="test_invalid_or_excessive_limits_rejected[limits3]" time="0.009"><failure message="ModuleNotFoundError: No module named 'anlan.budget'">tests\test_budget.py:181: in test_invalid_or_excessive_limits_rejected
+    from anlan.budget import BudgetLedger
+E   ModuleNotFoundError: No module named 'anlan.budget'</failure></testcase><testcase classname="tests.test_budget" name="test_invalid_or_excessive_limits_rejected[limits4]" time="0.004"><failure message="ModuleNotFoundError: No module named 'anlan.budget'">tests\test_budget.py:181: in test_invalid_or_excessive_limits_rejected
+    from anlan.budget import BudgetLedger
+E   ModuleNotFoundError: No module named 'anlan.budget'</failure></testcase><testcase classname="tests.test_budget" name="test_invalid_or_excessive_limits_rejected[limits5]" time="0.019"><failure message="ModuleNotFoundError: No module named 'anlan.budget'">tests\test_budget.py:181: in test_invalid_or_excessive_limits_rejected
+    from anlan.budget import BudgetLedger
+E   ModuleNotFoundError: No module named 'anlan.budget'</failure></testcase></testsuite></testsuites>

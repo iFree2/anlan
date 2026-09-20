@@ -1,0 +1,13 @@
+{
+  "authorization_id": "20260920-long-term-v1",
+  "total_limit": 100,
+  "package_limit": 10,
+  "total_reserved": 0,
+  "packages": {},
+  "status_counts": {
+    "reserved": 0,
+    "succeeded": 0,
+    "failed": 0
+  },
+  "attempts": []
+}
