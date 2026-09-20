@@ -1,0 +1,126 @@
+{
+  "data_origin": "SYNTHETIC",
+  "version": "knowledge-v1",
+  "withdraw": [
+    "withdrawn-policy"
+  ],
+  "documents": [
+    {
+      "data_origin": "SYNTHETIC",
+      "doc_id": "preparation",
+      "version": 1,
+      "title": "示例材料准备",
+      "source": "synthetic-policy/preparation",
+      "valid_from": "2026-01-01T00:00:00Z",
+      "valid_until": "2027-01-01T00:00:00Z",
+      "allowed_users": [],
+      "paragraphs": [
+        "SYNTHETIC：作业开始前，安全管理人员核对作业对象、位置、方式和附件。位置或附件含糊时应先补充材料，再重新辅助核查；材料齐备不等于作业已批准。"
+      ]
+    },
+    {
+      "data_origin": "SYNTHETIC",
+      "doc_id": "watcher",
+      "version": 1,
+      "title": "示例现场监护",
+      "source": "synthetic-policy/watcher",
+      "valid_from": "2026-01-01T00:00:00Z",
+      "valid_until": "2027-01-01T00:00:00Z",
+      "allowed_users": [],
+      "paragraphs": [
+        "SYNTHETIC：动火现场安排专门的监护人员持续观察作业及周边变化，保持与安全管理人员联系。监护人离开或无法履职时应提交人工重新确认；助手不得代替监护人员。"
+      ]
+    },
+    {
+      "data_origin": "SYNTHETIC",
+      "doc_id": "gas-event",
+      "version": 1,
+      "title": "示例气体事件",
+      "source": "synthetic-policy/gas-event",
+      "valid_from": "2026-01-01T00:00:00Z",
+      "valid_until": "2027-01-01T00:00:00Z",
+      "allowed_users": [],
+      "paragraphs": [
+        "SYNTHETIC：收到可燃气体浓度异常事件时，保留原始读数、单位、时间和测点，关联当前作业并通知安全管理人员复核。助手不得关闭、静音、压制或降低原始告警，报警和联锁独立运行。"
+      ]
+    },
+    {
+      "data_origin": "SYNTHETIC",
+      "doc_id": "isolation",
+      "version": 1,
+      "title": "示例隔离核查",
+      "source": "synthetic-policy/isolation",
+      "valid_from": "2026-01-01T00:00:00Z",
+      "valid_until": "2027-01-01T00:00:00Z",
+      "allowed_users": [],
+      "paragraphs": [
+        "SYNTHETIC：作业点隔离核查包括周边可燃物、相邻作业和现场隔离措施的记录与人工确认。助手只汇总来源和未知，不生成阀门或设备的实时控制指令。"
+      ]
+    },
+    {
+      "data_origin": "SYNTHETIC",
+      "doc_id": "qualification",
+      "version": 1,
+      "title": "示例资质依据",
+      "source": "synthetic-policy/qualification",
+      "valid_from": "2026-01-01T00:00:00Z",
+      "valid_until": "2027-01-01T00:00:00Z",
+      "allowed_users": [],
+      "paragraphs": [
+        "SYNTHETIC：人员资质的当前状态必须查询业务记录并核对适用类型、有效期与来源。历史记忆、口头描述或知识文档不能替代本次资质查询；无记录或过期时应明确未知。"
+      ]
+    },
+    {
+      "data_origin": "SYNTHETIC",
+      "doc_id": "condition-change",
+      "version": 1,
+      "title": "示例条件变更",
+      "source": "synthetic-policy/condition-change",
+      "valid_from": "2026-01-01T00:00:00Z",
+      "valid_until": "2027-01-01T00:00:00Z",
+      "allowed_users": [],
+      "paragraphs": [
+        "SYNTHETIC：申请位置、人员、作业方式或区域条件改变时，标记条件变更并重新核查相关材料与当前事实。旧版本核查结果不能直接当作新条件下的结论，需要安全管理人员复核。"
+      ]
+    },
+    {
+      "data_origin": "SYNTHETIC",
+      "doc_id": "withdrawn-policy",
+      "version": 1,
+      "title": "已撤回的示例文件",
+      "source": "synthetic-policy/withdrawn-policy",
+      "valid_from": "2026-01-01T00:00:00Z",
+      "valid_until": "2027-01-01T00:00:00Z",
+      "allowed_users": [],
+      "paragraphs": [
+        "SYNTHETIC：这一旧示例允许略去监护核对；该文档用于撤回过滤测试，不得作为当前依据。"
+      ]
+    },
+    {
+      "data_origin": "SYNTHETIC",
+      "doc_id": "future-policy",
+      "version": 1,
+      "title": "未来生效的示例",
+      "source": "synthetic-policy/future-policy",
+      "valid_from": "2027-01-01T00:00:00Z",
+      "valid_until": "2028-01-01T00:00:00Z",
+      "allowed_users": [],
+      "paragraphs": [
+        "SYNTHETIC：未来生效版本要求额外记录示例编号K9；尚未生效时不得用于当前核查。"
+      ]
+    },
+    {
+      "data_origin": "SYNTHETIC",
+      "doc_id": "expired-policy",
+      "version": 1,
+      "title": "过期的示例",
+      "source": "synthetic-policy/expired-policy",
+      "valid_from": "2026-01-01T00:00:00Z",
+      "valid_until": "2026-09-01T00:00:00Z",
+      "allowed_users": [],
+      "paragraphs": [
+        "SYNTHETIC：过期示例编号OLD-7不得用于当前核查。"
+      ]
+    }
+  ]
+}

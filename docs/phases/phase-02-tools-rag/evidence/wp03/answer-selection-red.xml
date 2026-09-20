@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="3" time="1.872" timestamp="2026-09-20T21:58:11.917218+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_knowledge" name="test_answer_selects_primary_excerpt_and_keeps_other_candidates_for_review" time="0.746"><failure message="AssertionError: assert 3 == 1&#10; +  where 3 = len([{'claim': 'SYNTHETIC：监护人员。', 'chunk_id': '04758ad3bd86cfcc35177499'}, {'claim': 'SYNTHETIC：人员资质。', 'chunk_id': '5cee424ba63d4191d7dda3c5'}, {'claim': 'SYNTHETIC：隔离措施。', 'chunk_id': '88318b71b64cb605dc58c173'}])">tests\test_knowledge.py:159: in test_answer_selects_primary_excerpt_and_keeps_other_candidates_for_review
+    run(scenario())
+tests\test_knowledge.py:28: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_knowledge.py:157: in scenario
+    assert len(result["answer"]) == 1
+E   AssertionError: assert 3 == 1
+E    +  where 3 = len([{'claim': 'SYNTHETIC：监护人员。', 'chunk_id': '04758ad3bd86cfcc35177499'}, {'claim': 'SYNTHETIC：人员资质。', 'chunk_id': '5cee424ba63d4191d7dda3c5'}, {'claim': 'SYNTHETIC：隔离措施。', 'chunk_id': '88318b71b64cb605dc58c173'}])</failure></testcase><testcase classname="tests.test_knowledge_evaluation" name="test_no_answer_is_not_counted_as_a_supported_quote" time="0.004"><failure message="assert True is None">tests\test_knowledge_evaluation.py:15: in test_no_answer_is_not_counted_as_a_supported_quote
+    assert scores["quote_fidelity"] is None
+E   assert True is None</failure></testcase><testcase classname="tests.test_knowledge_evaluation" name="test_retrieval_hit_does_not_hide_irrelevant_answer" time="0.002" /></testsuite></testsuites>

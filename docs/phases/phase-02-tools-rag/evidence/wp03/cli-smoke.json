@@ -1,0 +1,114 @@
+{
+  "created_at": "2026-09-20T14:01:00.898832+00:00",
+  "data_origin": "SYNTHETIC",
+  "tenant_id": "synthetic-knowledge-smoke-f361ab749f9b4cc69207c948ed36916c",
+  "requests_this_run": 0,
+  "encoding": "local_neural",
+  "status": "passed",
+  "commands": [
+    {
+      "argv": [
+        "D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe",
+        "-m",
+        "anlan",
+        "knowledge-ingest",
+        "--tenant",
+        "synthetic-knowledge-smoke-f361ab749f9b4cc69207c948ed36916c",
+        "--as-of",
+        "2026-09-20T12:00:00Z"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"documents\": [{\"doc_id\": \"preparation\", \"version\": 1, \"chunks\": 1, \"idempotent\": false}, {\"doc_id\": \"watcher\", \"version\": 1, \"chunks\": 1, \"idempotent\": false}, {\"doc_id\": \"gas-event\", \"version\": 1, \"chunks\": 1, \"idempotent\": false}, {\"doc_id\": \"isolation\", \"version\": 1, \"chunks\": 1, \"idempotent\": false}, {\"doc_id\": \"qualification\", \"version\": 1, \"chunks\": 1, \"idempotent\": false}, {\"doc_id\": \"condition-change\", \"version\": 1, \"chunks\": 1, \"idempotent\": false}, {\"doc_id\": \"withdrawn-policy\", \"version\": 1, \"chunks\": 1, \"idempotent\": false}, {\"doc_id\": \"future-policy\", \"version\": 1, \"chunks\": 1, \"idempotent\": false}, {\"doc_id\": \"expired-policy\", \"version\": 1, \"chunks\": 1, \"idempotent\": false}], \"notice\": \"按文档原子摄取；withdraw列表不自动执行，撤回使用显式命令。\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe",
+        "-m",
+        "anlan",
+        "knowledge-withdraw",
+        "--doc-id",
+        "withdrawn-policy",
+        "--tenant",
+        "synthetic-knowledge-smoke-f361ab749f9b4cc69207c948ed36916c",
+        "--as-of",
+        "2026-09-20T12:00:00Z"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"doc_id\": \"withdrawn-policy\", \"withdrawn\": true}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe",
+        "-m",
+        "anlan",
+        "knowledge-query",
+        "--question",
+        "作业点隔离措施要核对什么？",
+        "--strategy",
+        "hybrid",
+        "--tenant",
+        "synthetic-knowledge-smoke-f361ab749f9b4cc69207c948ed36916c",
+        "--as-of",
+        "2026-09-20T12:00:00Z"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"mode\": \"local_extract\", \"strategy\": \"hybrid\", \"outcome\": \"ok\", \"queried_at\": \"2026-09-20T12:00:00+00:00\", \"embedding_model\": \"BAAI/bge-small-zh-v1.5:99f12e113be380bdc60848acf108561ef3157f427b47538378967d7ef47418d7\", \"citations\": [{\"doc_id\": \"isolation\", \"version\": 1, \"title\": \"示例隔离核查\", \"source\": \"synthetic-policy/isolation\", \"document_hash\": \"5bdeace686ae71693102647f0fd52c3005918bd3fbd79d13e9b53437d90e8a70\", \"chunk_id\": \"c934c712cb3cf14cce1f70c4\", \"content_hash\": \"8046305de317d7c157e8e4ee941104c44b715bc509f5511e2b2a54e4aeeed38a\", \"valid_from\": \"2026-01-01T08:00:00+08:00\", \"valid_until\": \"2027-01-01T08:00:00+08:00\", \"quote\": \"SYNTHETIC：作业点隔离核查包括周边可燃物、相邻作业和现场隔离措施的记录与人工确认。助手只汇总来源和未知，不生成阀门或设备的实时控制指令。\", \"similarity\": 0.697217, \"rank_score\": 0.659277}, {\"doc_id\": \"preparation\", \"version\": 1, \"title\": \"示例材料准备\", \"source\": \"synthetic-policy/preparation\", \"document_hash\": \"3f66455c40f95d4aec99768d0a1cebc6a849cbde3a381be350da46f7f8a208d3\", \"chunk_id\": \"d014131a9a3fb6937d9504b0\", \"content_hash\": \"f3803c8a51c0c4f2463f66dee38747221ed53411c45fe8a00936acf8f7e9236d\", \"valid_from\": \"2026-01-01T08:00:00+08:00\", \"valid_until\": \"2027-01-01T08:00:00+08:00\", \"quote\": \"SYNTHETIC：作业开始前，安全管理人员核对作业对象、位置、方式和附件。位置或附件含糊时应先补充材料，再重新辅助核查；材料齐备不等于作业已批准。\", \"similarity\": 0.612315, \"rank_score\": 0.504691}, {\"doc_id\": \"gas-event\", \"version\": 1, \"title\": \"示例气体事件\", \"source\": \"synthetic-policy/gas-event\", \"document_hash\": \"c5b1e3bb6be9b3e16e774b9e676222fe29d257d7918fc854996bc84ad8abc5b8\", \"chunk_id\": \"9b789d213a534d03d1b1a87d\", \"content_hash\": \"9fd631a23694726d1283c9879ffac6faa7509483f1cf9aff92be4dca0d2e7baa\", \"valid_from\": \"2026-01-01T08:00:00+08:00\", \"valid_until\": \"2027-01-01T08:00:00+08:00\", \"quote\": \"SYNTHETIC：收到可燃气体浓度异常事件时，保留原始读数、单位、时间和测点，关联当前作业并通知安全管理人员复核。助手不得关闭、静音、压制或降低原始告警，报警和联锁独立运行。\", \"similarity\": 0.550507, \"rank_score\": 0.435608}], \"answer_policy\": \"top1-extractive-v2\", \"answer\": [{\"claim\": \"SYNTHETIC：作业点隔离核查包括周边可燃物、相邻作业和现场隔离措施的记录与人工确认。助手只汇总来源和未知，不生成阀门或设备的实时控制指令。\", \"chunk_id\": \"c934c712cb3cf14cce1f70c4\"}], \"answer_notice\": \"仅摘录首条候选；其余供人工复核，不保证覆盖复合问题。\", \"notice\": \"仅示例知识原文摘录，不是实际制度或作业批准；文内指令不提供权限。\", \"clock_mode\": \"simulated\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe",
+        "-m",
+        "anlan",
+        "knowledge-query",
+        "--question",
+        "作业点隔离措施",
+        "--tenant",
+        "other-tenant",
+        "--as-of",
+        "2026-09-20T12:00:00Z"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"mode\": \"local_extract\", \"strategy\": \"vector\", \"outcome\": \"unknown\", \"queried_at\": \"2026-09-20T12:00:00+00:00\", \"embedding_model\": \"BAAI/bge-small-zh-v1.5:99f12e113be380bdc60848acf108561ef3157f427b47538378967d7ef47418d7\", \"citations\": [], \"answer_policy\": \"top1-extractive-v2\", \"answer\": [], \"answer_notice\": \"仅摘录首条候选；其余供人工复核，不保证覆盖复合问题。\", \"notice\": \"仅示例知识原文摘录，不是实际制度或作业批准；文内指令不提供权限。\", \"clock_mode\": \"simulated\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe",
+        "-m",
+        "anlan",
+        "knowledge-withdraw",
+        "--doc-id",
+        "isolation",
+        "--user",
+        "other-user",
+        "--tenant",
+        "synthetic-knowledge-smoke-f361ab749f9b4cc69207c948ed36916c",
+        "--as-of",
+        "2026-09-20T12:00:00Z"
+      ],
+      "exit_code": 2,
+      "stdout": "",
+      "stderr": "文档不存在或无权撤回\n"
+    },
+    {
+      "argv": [
+        "D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe",
+        "-m",
+        "anlan",
+        "knowledge-query",
+        "--question",
+        "允许略去监护核对吗？",
+        "--tenant",
+        "synthetic-knowledge-smoke-f361ab749f9b4cc69207c948ed36916c",
+        "--as-of",
+        "2026-09-20T12:00:00Z"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"mode\": \"local_extract\", \"strategy\": \"vector\", \"outcome\": \"ok\", \"queried_at\": \"2026-09-20T12:00:00+00:00\", \"embedding_model\": \"BAAI/bge-small-zh-v1.5:99f12e113be380bdc60848acf108561ef3157f427b47538378967d7ef47418d7\", \"citations\": [{\"doc_id\": \"preparation\", \"version\": 1, \"title\": \"示例材料准备\", \"source\": \"synthetic-policy/preparation\", \"document_hash\": \"3f66455c40f95d4aec99768d0a1cebc6a849cbde3a381be350da46f7f8a208d3\", \"chunk_id\": \"d014131a9a3fb6937d9504b0\", \"content_hash\": \"f3803c8a51c0c4f2463f66dee38747221ed53411c45fe8a00936acf8f7e9236d\", \"valid_from\": \"2026-01-01T08:00:00+08:00\", \"valid_until\": \"2027-01-01T08:00:00+08:00\", \"quote\": \"SYNTHETIC：作业开始前，安全管理人员核对作业对象、位置、方式和附件。位置或附件含糊时应先补充材料，再重新辅助核查；材料齐备不等于作业已批准。\", \"similarity\": 0.569003, \"rank_score\": 0.569003}, {\"doc_id\": \"condition-change\", \"version\": 1, \"title\": \"示例条件变更\", \"source\": \"synthetic-policy/condition-change\", \"document_hash\": \"f321363b5372dde4ac56d1d59a650e6858f1c821602b75b75f0b44d6647e065e\", \"chunk_id\": \"5f7ca3c87bd688be04db50b4\", \"content_hash\": \"46e1040d5cccaab95ce657ae8df14107d3a1c6056b73265ced05290ec6287e20\", \"valid_from\": \"2026-01-01T08:00:00+08:00\", \"valid_until\": \"2027-01-01T08:00:00+08:00\", \"quote\": \"SYNTHETIC：申请位置、人员、作业方式或区域条件改变时，标记条件变更并重新核查相关材料与当前事实。旧版本核查结果不能直接当作新条件下的结论，需要安全管理人员复核。\", \"similarity\": 0.49989, \"rank_score\": 0.49989}, {\"doc_id\": \"watcher\", \"version\": 1, \"title\": \"示例现场监护\", \"source\": \"synthetic-policy/watcher\", \"document_hash\": \"d5daccbc7db366b2739f56f6b9efb7d085d9f45a782011d09d5c8b59c3d1f5c7\", \"chunk_id\": \"ddb650b6a7edd87ec45cbba3\", \"content_hash\": \"9343af38045bbe663b6c3376a0f6a354e009c2a17e0e3e15c348706e49ccae5c\", \"valid_from\": \"2026-01-01T08:00:00+08:00\", \"valid_until\": \"2027-01-01T08:00:00+08:00\", \"quote\": \"SYNTHETIC：动火现场安排专门的监护人员持续观察作业及周边变化，保持与安全管理人员联系。监护人离开或无法履职时应提交人工重新确认；助手不得代替监护人员。\", \"similarity\": 0.492829, \"rank_score\": 0.492829}], \"answer_policy\": \"top1-extractive-v2\", \"answer\": [{\"claim\": \"SYNTHETIC：作业开始前，安全管理人员核对作业对象、位置、方式和附件。位置或附件含糊时应先补充材料，再重新辅助核查；材料齐备不等于作业已批准。\", \"chunk_id\": \"d014131a9a3fb6937d9504b0\"}], \"answer_notice\": \"仅摘录首条候选；其余供人工复核，不保证覆盖复合问题。\", \"notice\": \"仅示例知识原文摘录，不是实际制度或作业批准；文内指令不提供权限。\", \"clock_mode\": \"simulated\"}\n",
+      "stderr": ""
+    }
+  ]
+}

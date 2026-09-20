@@ -1,6 +1,6 @@
 # P2：受控工具与知识依据
 
-入口：[P1 handoff](../phase-01-workflow/handoff.md)。本阶段仍以单工作流/受控单Agent为基线；不创建五个Agent，不建立通用工具平台。WP01/WP02已通过，后续工作包仍为计划；当前状态以docs/status.md为准。
+入口：[P1 handoff](../phase-01-workflow/handoff.md)。本阶段仍以单工作流/受控单Agent为基线；不创建五个Agent，不建立通用工具平台。WP01—WP03已通过，后续知识工具整合与平台追踪仍为计划；当前状态以docs/status.md为准。
 
 ## 阶段目标与顺序
 

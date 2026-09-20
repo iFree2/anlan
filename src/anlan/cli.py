@@ -15,7 +15,9 @@ from pydantic import ValidationError
 from anlan.analysis import OfflineAnalyzer
 from anlan.budget import BudgetError, BudgetLedger
 from anlan.contracts import Identity
+from anlan.embeddings import LocalEmbeddings
 from anlan.facts import check_facts
+from anlan.knowledge import KnowledgeStore
 from anlan.live import production_ledger
 from anlan.model import DeepSeekAnalyzer, ModelConfig
 from anlan.postgres import database_url, initialize_database, postgres_service
@@ -54,6 +56,29 @@ def created_receipt(task_id: str):
 async def run(args):
     # Local test identity is host input, not read from material or model output.
     identity = Identity(tenant_id=args.tenant, user_id=args.user)
+    if args.command in {"knowledge-ingest", "knowledge-query", "knowledge-withdraw"}:
+        as_of = datetime.fromisoformat(args.as_of) if args.as_of else None
+        if as_of is not None and (as_of.tzinfo is None or as_of.utcoffset() is None):
+            raise ValueError("知识查询时间必须带时区")
+        embeddings = None if args.command == "knowledge-withdraw" \
+            else await LocalEmbeddings.create()
+        store = KnowledgeStore(database_url(), embeddings, clock=(lambda: as_of) if as_of else None)
+        if args.command == "knowledge-ingest":
+            payload = json.loads(args.knowledge_file.read_text(encoding="utf-8-sig"))
+            await store.initialize()
+            receipts = []
+            for document in payload["documents"]:
+                receipts.append(await store.ingest(identity, document))
+            result = {"data_origin": "SYNTHETIC", "documents": receipts,
+                      "notice": "按文档原子摄取；withdraw列表不自动执行，撤回使用显式命令。"}
+        elif args.command == "knowledge-withdraw":
+            result = await store.withdraw(identity, args.doc_id)
+        else:
+            result = await store.search(identity, {"question": args.question,
+                                                   "strategy": args.strategy})
+            result["clock_mode"] = "simulated" if as_of else "system_utc"
+        print(json.dumps(result, ensure_ascii=False))
+        return
     if args.command == "budget-status":
         print(json.dumps(await BudgetLedger(database_url()).snapshot(), ensure_ascii=False))
         return
@@ -168,7 +193,8 @@ async def run(args):
 def main():
     parser = argparse.ArgumentParser(description="安澜 2.0 合成动火材料工作流")
     persistent = {"db-init", "start", "show", "resume", "recover", "history", "check-facts",
-                  "check-facts-agent", "budget-status"}
+                  "check-facts-agent", "budget-status", "knowledge-ingest", "knowledge-query",
+                  "knowledge-withdraw"}
     parser.add_argument("command", choices=["demo", "chat", *sorted(persistent)])
     parser.add_argument("--mode", choices=["offline", "deepseek"], default="offline")
     parser.add_argument("--trace", type=Path, default=Path(".runtime/traces.jsonl"))
@@ -181,6 +207,11 @@ def main():
     parser.add_argument("--facts-dir", type=Path, default=Path("examples/synthetic/facts-v1"),
                         help="宿主指定的合成事实与授权目录，不来自工具参数")
     parser.add_argument("--as-of", help="带时区ISO时间；仅用于明确标注的合成时钟演示")
+    parser.add_argument("--knowledge-file", type=Path,
+                        default=Path("examples/synthetic/knowledge-v1/documents.json"))
+    parser.add_argument("--question", help="示例知识查询问题")
+    parser.add_argument("--strategy", choices=["vector", "hybrid"], default="vector")
+    parser.add_argument("--doc-id", help="需要撤回的自有示例文档ID")
     parser.add_argument("--tenant", default="synthetic-demo", help="本地模拟入口身份，非生产认证")
     parser.add_argument("--user", default="safety-manager-demo", help="本地模拟入口用户")
     args = parser.parse_args()
@@ -196,6 +227,10 @@ def main():
         parser.error("resume 需要 --revision、--request-id 和 --fields-file")
     if args.command in {"check-facts", "check-facts-agent"} and args.refs_file is None:
         parser.error("事实核验需要 --refs-file")
+    if args.command == "knowledge-query" and not args.question:
+        parser.error("knowledge-query需要 --question")
+    if args.command == "knowledge-withdraw" and not args.doc_id:
+        parser.error("knowledge-withdraw需要 --doc-id")
     try:
         # Psycopg async I/O requires a selector loop on Windows; Python 3.13 supports loop_factory.
         asyncio.run(run(args), loop_factory=asyncio.SelectorEventLoop)
@@ -211,6 +246,8 @@ def main():
         parser.exit(2, "无法读取或校验输入；请检查 UTF-8 JSON 和字段类型。\n")
     except ValueError:
         # Do not print a ValidationError that could include config secrets.
+        if args.command.startswith("knowledge-"):
+            parser.exit(2, "知识配置或本地编码器无效；检查模型缓存和带时区的 --as-of。\n")
         if args.command in {"check-facts", "check-facts-agent"}:
             parser.exit(2, "核验配置无效；请检查数据库/模型配置和带时区的 --as-of。\n")
         parser.exit(2, "配置无效；请检查 ANLAN_DATABASE_URL / DEEPSEEK_API_KEY。\n")

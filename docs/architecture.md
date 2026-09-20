@@ -1,6 +1,6 @@
 # 架构：当前基线与已确定的演进边界
 
-当前实际架构：Python CLI、Pydantic 边界校验、LangGraph 外层状态图，单分析节点。P1-WP01内存模式仅支持当前进程；P1-WP02接入官方 AsyncPostgresSaver、持久化归属/提交记录，支持跨进程读取、补充和恢复。P2-WP01新增独立只读事实核验入口。实现及验证状态以 [status](status.md) 为准。向量检索后续使用 pgvector；FastAPI、Langfuse、Compose 在相应业务增量引入，尚未安装或验证。
+当前实际架构：Python CLI、Pydantic、LangGraph材料状态图与官方PG checkpoint；P2新增固定事实查询、有界模型工具循环、共享请求预占和独立示例知识检索。pgvector0.8.6、本地中文BGE/512维、知识版本/过滤已实现；平台追踪、FastAPI和Compose仍后续引入。实现与验证状态以[status](status.md)为准。
 
 ```mermaid
 flowchart LR
@@ -59,6 +59,12 @@ flowchart LR
 `check-facts-agent` → 已授权材料快照/引用 → 模型动作 → 白名单/严格参数/引用范围校验 → 只读工具 → 按call_id反馈观察 → 模型停止或代码预算截止。每次核验最多3回合/4动作/75秒；非法动作被拒绝并形成观察，最终摘要必须引用两个工具的观察但仍是未验证候选。
 
 `model_gateway.py`在HTTP前调用`budget.py.reserve`并等待提交。SQL002新增项目级授权/尝试表，以授权行锁串行化计数与插入；成功、失败、未知预占都计数，无重置退款。`live.py`集中固定生产授权，P1材料模型入口也接入。超时、输出无效、用量未知与附加快照失败都有显式记录；隐藏推理不进入报告。决定与边界见[ADR003](decisions/003-model-budget-and-tool-loop.md)，原始小样本证据见[WP02交接](phases/phase-02-tools-rag/wp02-handoff.md)。
+
+### P2-WP03 知识依据
+
+`knowledge-ingest`校验SYNTHETIC文档→确定性片段/摘要→本地BGE真实512维编码→知识版本与片段同事务提交。tenant/owner来自入口，读者清单属示例文档元数据。新版本使旧版本非current，同版本变内容拒绝；撤回后不得升版静默恢复，修改/撤回仅限owner。
+
+`knowledge-query`本地编码问题→PG先筛tenant/user/current/withdrawn/有效期/编码器→精确余弦候选→可选词项混合重排→首条摘录与其他候选。无合格候选返回unknown，输出原文/版本/内容摘要/有效期；文内指令不变成权限。当前每篇一个片段的8题开发对照显示混合无收益，选择简单默认；摘录式回答与未来模型生成质量分开。细节见[ADR004](decisions/004-synthetic-knowledge-retrieval.md)。
 
 ## 全周期数据流（已确定产品方向，尚未实现）
 

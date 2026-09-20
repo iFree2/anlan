@@ -1,0 +1,64 @@
+{
+  "version": "knowledge-v1-dev-seen",
+  "data_origin": "SYNTHETIC",
+  "exposure": "developer_seen",
+  "as_of": "2026-09-20T12:00:00Z",
+  "top_k": 3,
+  "minimum_score": 0.45,
+  "cases": [
+    {
+      "case_id": "k-001",
+      "question": "动火现场要有人持续看着吗？",
+      "supporting_doc_ids": [
+        "watcher"
+      ]
+    },
+    {
+      "case_id": "k-002",
+      "question": "之前记住他有焊工资质，能代替现在查记录吗？",
+      "supporting_doc_ids": [
+        "qualification"
+      ]
+    },
+    {
+      "case_id": "k-003",
+      "question": "可燃气体告警出现以后助手能静音吗？",
+      "supporting_doc_ids": [
+        "gas-event"
+      ]
+    },
+    {
+      "case_id": "k-004",
+      "question": "申请里换了作业地点怎么办？",
+      "supporting_doc_ids": [
+        "condition-change"
+      ]
+    },
+    {
+      "case_id": "k-005",
+      "question": "附件和作业位置说不清楚怎么办？",
+      "supporting_doc_ids": [
+        "preparation"
+      ]
+    },
+    {
+      "case_id": "k-006",
+      "question": "作业点隔离措施要核对什么？",
+      "supporting_doc_ids": [
+        "isolation"
+      ]
+    },
+    {
+      "case_id": "k-007",
+      "question": "材料齐备就代表作业已经批准吗？",
+      "supporting_doc_ids": [
+        "preparation"
+      ]
+    },
+    {
+      "case_id": "k-008",
+      "question": "食堂今天供应什么菜？",
+      "supporting_doc_ids": []
+    }
+  ]
+}
