@@ -1,0 +1,11 @@
+{
+  "version": "rag-v1-dev-seen",
+  "data_origin": "SYNTHETIC",
+  "exposure": "developer_seen",
+  "as_of": "2026-09-20T12:00:00Z",
+  "cases": [
+    {"case_id": "rag-001-current", "question": "动火现场需要怎样安排监护人员？", "worker_id": "worker-001", "area_id": "area-001", "supporting_doc_ids": ["watcher"], "fact_reason": null},
+    {"case_id": "rag-002-expired", "question": "之前记住他有焊工资质，能代替现在查记录吗？", "worker_id": "worker-expired", "area_id": "area-expired", "supporting_doc_ids": ["qualification"], "fact_reason": "expired"},
+    {"case_id": "rag-003-no-knowledge", "question": "食堂今天供应什么菜？", "worker_id": "worker-001", "area_id": "area-001", "supporting_doc_ids": [], "fact_reason": null}
+  ]
+}

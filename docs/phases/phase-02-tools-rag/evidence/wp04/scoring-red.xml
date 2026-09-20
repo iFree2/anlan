@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="3.150" timestamp="2026-09-20T22:42:03.074463+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_rag_evaluation" name="test_absent_knowledge_step_is_not_supported_unknown_answer" time="2.076"><failure message="assert True is False">tests\test_rag_evaluation.py:15: in test_absent_knowledge_step_is_not_supported_unknown_answer
+    assert result["knowledge_answer_supported"] is False
+E   assert True is False</failure></testcase><testcase classname="tests.test_rag_evaluation" name="test_fact_score_does_not_accept_wrong_fact_values" time="0.005"><failure message="assert True is False">tests\test_rag_evaluation.py:27: in test_fact_score_does_not_accept_wrong_fact_values
+    assert result["facts_match"] is False
+E   assert True is False</failure></testcase></testsuite></testsuites>

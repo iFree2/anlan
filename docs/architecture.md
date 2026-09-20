@@ -66,6 +66,12 @@ flowchart LR
 
 `knowledge-query`本地编码问题→PG先筛tenant/user/current/withdrawn/有效期/编码器→精确余弦候选→可选词项混合重排→首条摘录与其他候选。无合格候选返回unknown，输出原文/版本/内容摘要/有效期；文内指令不变成权限。当前每篇一个片段的8题开发对照显示混合无收益，选择简单默认；摘录式回答与未来模型生成质量分开。细节见[ADR004](decisions/004-synthetic-knowledge-retrieval.md)。
 
+### P2-WP04 同一链路的知识引用
+
+可选knowledge_question启用第三个固定工具query_knowledge；模型只能逐字传入口问题，不能传身份/SQL或注册新工具。复用原循环预算与task/run/correlation，必须观察三个工具。最终chunk/quote与本轮返回原文逐字校验，摘要保持未验证候选，不写Graph。知识初始化/原生推理异常转明确错误观察，其他事实仍保留；用户取消继续传播。
+
+真实三例验证证明小样本动作与引用链路可用，不证明自由摘要的每条主张都被充分引用；第二例的引用覆盖Badcase保留于[WP04实验](phases/phase-02-tools-rag/evidence/wp04/live-report.md)。模型引用模式的真实调用归P2-WP04，使用同一项目累计授权，不重置总额。
+
 ## 全周期数据流（已确定产品方向，尚未实现）
 
 ```mermaid

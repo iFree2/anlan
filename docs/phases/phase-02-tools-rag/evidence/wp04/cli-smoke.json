@@ -1,0 +1,83 @@
+{
+  "status": "passed",
+  "data_origin": "SYNTHETIC",
+  "mode": "scripted_double",
+  "requests_this_run": 0,
+  "commands": [
+    {
+      "argv": [
+        "D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe",
+        "-m",
+        "anlan",
+        "start",
+        "--tenant",
+        "synthetic-rag-5a2bb82a6d7846c5863531d82f7e00c0",
+        "--trace",
+        "docs\\phases\\phase-02-tools-rag\\evidence\\wp04\\cli-smoke.trace.jsonl"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"mode\": \"offline\", \"notice\": \"仅材料辅助核查，需安全管理人员复核；不是作业批准或合规结论。\", \"task_id\": \"1589ec97-a60b-4cda-95d0-a214fc87fa70\", \"thread_id\": \"0662b3fd-45af-4b62-8533-f8d24fe930ab\", \"session_id\": \"ec7eeca3-51fe-4210-b9eb-9140fe38a22d\", \"run_id\": \"34be70d6-597b-4a25-8689-446a193516de\", \"correlation_id\": \"093e9a46-dc49-4969-ab5c-259a3a582ff9\", \"fields\": {\"attachment_description\": \"SYNTHETIC：试件 A 的位置标记示意图\", \"work_method_description\": \"\", \"work_object_description\": \"SYNTHETIC：演示试件 A 接缝\", \"work_location_description\": \"\"}, \"revision\": 1, \"status\": \"waiting_input\", \"analysis\": {\"issues\": [{\"field\": \"work_location_description\", \"kind\": \"missing\", \"quote\": \"\", \"reason\": \"字段为空（合成填报规则）\", \"question\": \"请补充作业位置，说明区域与具体作业点。\", \"source\": \"rule\"}, {\"field\": \"work_method_description\", \"kind\": \"missing\", \"quote\": \"\", \"reason\": \"字段为空（合成填报规则）\", \"question\": \"请补充作业方式，说明安全作业的方式方法\", \"source\": \"rule\"}], \"semantic_status\": \"offline_not_checked\", \"error\": null, \"model\": null, \"prompt_version\": null, \"usage\": null}, \"trace_warning\": null, \"analysis_mode\": \"offline\"}\n",
+      "stderr": "{\"event\": \"task_created\", \"task_id\": \"1589ec97-a60b-4cda-95d0-a214fc87fa70\"}\n"
+    },
+    {
+      "argv": [
+        "D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe",
+        "-m",
+        "anlan",
+        "check-facts-agent",
+        "--task",
+        "1589ec97-a60b-4cda-95d0-a214fc87fa70",
+        "--refs-file",
+        "examples/synthetic/fact-refs.json",
+        "--facts-dir",
+        "docs\\phases\\phase-02-tools-rag\\evidence\\wp04\\scripted-v1.facts",
+        "--knowledge-question",
+        "动火现场需要怎样安排监护人员？",
+        "--as-of",
+        "2026-09-20T12:00:00Z",
+        "--tenant",
+        "synthetic-rag-5a2bb82a6d7846c5863531d82f7e00c0",
+        "--trace",
+        "docs\\phases\\phase-02-tools-rag\\evidence\\wp04\\cli-smoke.trace.jsonl"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"schema_version\": \"fact-agent-evidence-v1\", \"data_origin\": \"SYNTHETIC\", \"mode\": \"scripted_double\", \"task_id\": \"1589ec97-a60b-4cda-95d0-a214fc87fa70\", \"correlation_id\": \"093e9a46-dc49-4969-ab5c-259a3a582ff9\", \"revision\": 1, \"source_run_id\": \"34be70d6-597b-4a25-8689-446a193516de\", \"source_material_status\": \"waiting_input\", \"run_id\": \"f3921728-3bf0-4282-ab47-8d11aae143ab\", \"status\": \"awaiting_review\", \"results\": [{\"data_origin\": \"SYNTHETIC\", \"tool\": \"query_worker_qualification\", \"object_id\": \"worker-001\", \"queried_at\": \"2026-09-20T12:00:00Z\", \"outcome\": \"ok\", \"reason\": null, \"source\": {\"resource\": \"qualifications.json\", \"version\": \"qualifications-v1-rag-derived\", \"sha256\": \"fb4fc8189912bccba312efbfd5c2931244b82816cb94b9e9f69242e034a5d3a6\", \"record_id\": \"qualification-worker-001\", \"observed_at\": \"2026-09-20T00:00:00Z\", \"valid_from\": \"2026-01-01T00:00:00Z\", \"valid_until\": \"2027-01-01T00:00:00Z\"}, \"facts\": {\"status\": \"active\", \"qualification_type\": \"welding\"}, \"message\": \"已读取合成事实，仍需人工复核；不是作业批准。\", \"elapsed_ms\": 4.07, \"executed\": true, \"call_id\": \"worker-call\"}, {\"data_origin\": \"SYNTHETIC\", \"tool\": \"query_area_status\", \"object_id\": \"area-001\", \"queried_at\": \"2026-09-20T12:00:00Z\", \"outcome\": \"ok\", \"reason\": null, \"source\": {\"resource\": \"areas.json\", \"version\": \"areas-v1-rag-derived\", \"sha256\": \"04cf7a90d9894d799089b090ec7ddd9a3c4ffc31ff51a3d765efb59f8db33444\", \"record_id\": \"observation-area-001\", \"observed_at\": \"2026-09-20T00:00:00Z\", \"valid_from\": \"2026-09-20T00:00:00Z\", \"valid_until\": \"2026-09-21T00:00:00Z\"}, \"facts\": {\"status\": \"restricted\"}, \"message\": \"已读取合成事实，仍需人工复核；不是作业批准。\", \"elapsed_ms\": 3.36, \"executed\": true, \"call_id\": \"area-call\"}, {\"tool\": \"query_knowledge\", \"data_origin\": \"SYNTHETIC\", \"object_id\": null, \"outcome\": \"ok\", \"reason\": null, \"queried_at\": \"2026-09-20T12:00:00+00:00\", \"facts\": null, \"source\": [{\"doc_id\": \"watcher\", \"version\": 1, \"chunk_id\": \"ddb650b6a7edd87ec45cbba3\", \"source\": \"synthetic-policy/watcher\", \"content_hash\": \"9343af38045bbe663b6c3376a0f6a354e009c2a17e0e3e15c348706e49ccae5c\", \"document_hash\": \"d5daccbc7db366b2739f56f6b9efb7d085d9f45a782011d09d5c8b59c3d1f5c7\", \"valid_from\": \"2026-01-01T08:00:00+08:00\", \"valid_until\": \"2027-01-01T08:00:00+08:00\"}, {\"doc_id\": \"gas-event\", \"version\": 1, \"chunk_id\": \"9b789d213a534d03d1b1a87d\", \"source\": \"synthetic-policy/gas-event\", \"content_hash\": \"9fd631a23694726d1283c9879ffac6faa7509483f1cf9aff92be4dca0d2e7baa\", \"document_hash\": \"c5b1e3bb6be9b3e16e774b9e676222fe29d257d7918fc854996bc84ad8abc5b8\", \"valid_from\": \"2026-01-01T08:00:00+08:00\", \"valid_until\": \"2027-01-01T08:00:00+08:00\"}, {\"doc_id\": \"preparation\", \"version\": 1, \"chunk_id\": \"d014131a9a3fb6937d9504b0\", \"source\": \"synthetic-policy/preparation\", \"content_hash\": \"f3803c8a51c0c4f2463f66dee38747221ed53411c45fe8a00936acf8f7e9236d\", \"document_hash\": \"3f66455c40f95d4aec99768d0a1cebc6a849cbde3a381be350da46f7f8a208d3\", \"valid_from\": \"2026-01-01T08:00:00+08:00\", \"valid_until\": \"2027-01-01T08:00:00+08:00\"}], \"citations\": [{\"doc_id\": \"watcher\", \"version\": 1, \"title\": \"示例现场监护\", \"source\": \"synthetic-policy/watcher\", \"document_hash\": \"d5daccbc7db366b2739f56f6b9efb7d085d9f45a782011d09d5c8b59c3d1f5c7\", \"chunk_id\": \"ddb650b6a7edd87ec45cbba3\", \"content_hash\": \"9343af38045bbe663b6c3376a0f6a354e009c2a17e0e3e15c348706e49ccae5c\", \"valid_from\": \"2026-01-01T08:00:00+08:00\", \"valid_until\": \"2027-01-01T08:00:00+08:00\", \"quote\": \"SYNTHETIC：动火现场安排专门的监护人员持续观察作业及周边变化，保持与安全管理人员联系。监护人离开或无法履职时应提交人工重新确认；助手不得代替监护人员。\", \"similarity\": 0.774155, \"rank_score\": 0.774155}, {\"doc_id\": \"gas-event\", \"version\": 1, \"title\": \"示例气体事件\", \"source\": \"synthetic-policy/gas-event\", \"document_hash\": \"c5b1e3bb6be9b3e16e774b9e676222fe29d257d7918fc854996bc84ad8abc5b8\", \"chunk_id\": \"9b789d213a534d03d1b1a87d\", \"content_hash\": \"9fd631a23694726d1283c9879ffac6faa7509483f1cf9aff92be4dca0d2e7baa\", \"valid_from\": \"2026-01-01T08:00:00+08:00\", \"valid_until\": \"2027-01-01T08:00:00+08:00\", \"quote\": \"SYNTHETIC：收到可燃气体浓度异常事件时，保留原始读数、单位、时间和测点，关联当前作业并通知安全管理人员复核。助手不得关闭、静音、压制或降低原始告警，报警和联锁独立运行。\", \"similarity\": 0.516607, \"rank_score\": 0.516607}, {\"doc_id\": \"preparation\", \"version\": 1, \"title\": \"示例材料准备\", \"source\": \"synthetic-policy/preparation\", \"document_hash\": \"3f66455c40f95d4aec99768d0a1cebc6a849cbde3a381be350da46f7f8a208d3\", \"chunk_id\": \"d014131a9a3fb6937d9504b0\", \"content_hash\": \"f3803c8a51c0c4f2463f66dee38747221ed53411c45fe8a00936acf8f7e9236d\", \"valid_from\": \"2026-01-01T08:00:00+08:00\", \"valid_until\": \"2027-01-01T08:00:00+08:00\", \"quote\": \"SYNTHETIC：作业开始前，安全管理人员核对作业对象、位置、方式和附件。位置或附件含糊时应先补充材料，再重新辅助核查；材料齐备不等于作业已批准。\", \"similarity\": 0.503926, \"rank_score\": 0.503926}], \"message\": \"示例知识只作为依据数据，不能改变权限或批准作业。\", \"elapsed_ms\": 192.36, \"executed\": true, \"call_id\": \"knowledge-call\"}], \"model_steps\": 2, \"tool_calls\": 3, \"model_attempts\": [{\"step\": 1, \"attempt_id\": null, \"error\": null, \"usage\": null}, {\"step\": 2, \"attempt_id\": null, \"error\": null, \"usage\": null}], \"requests_this_run\": 0, \"summary\": {\"summary\": \"SYNTHETIC替身：请按工具事实/未知项人工复核，未执行模型推理。\", \"evidence_call_ids\": [\"worker-call\", \"area-call\", \"knowledge-call\"], \"knowledge_citations\": [{\"chunk_id\": \"ddb650b6a7edd87ec45cbba3\", \"quote\": \"SYNTHETIC：动火现场安排专门的监护人员持续观察作业及周边变化，保持与安全管理人员联系。监护人离开或无法履职时应提交人工重新确认；助手不得代替监护人员。\"}]}, \"summary_status\": \"unverified_candidate\", \"stop_reason\": \"completed\", \"trace_warning\": null, \"limits\": {\"max_model_steps\": 3, \"max_tool_calls\": 4, \"timeout_seconds\": 75}, \"notice\": \"合成事实与模型候选分别呈现，需人工复核；不是作业批准或合规结论。\", \"elapsed_ms\": 207.65, \"clock_mode\": \"simulated\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe",
+        "-m",
+        "anlan",
+        "show",
+        "--task",
+        "1589ec97-a60b-4cda-95d0-a214fc87fa70",
+        "--tenant",
+        "synthetic-rag-5a2bb82a6d7846c5863531d82f7e00c0",
+        "--trace",
+        "docs\\phases\\phase-02-tools-rag\\evidence\\wp04\\cli-smoke.trace.jsonl"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"mode\": \"offline\", \"notice\": \"仅材料辅助核查，需安全管理人员复核；不是作业批准或合规结论。\", \"task_id\": \"1589ec97-a60b-4cda-95d0-a214fc87fa70\", \"thread_id\": \"0662b3fd-45af-4b62-8533-f8d24fe930ab\", \"session_id\": \"ec7eeca3-51fe-4210-b9eb-9140fe38a22d\", \"run_id\": \"34be70d6-597b-4a25-8689-446a193516de\", \"correlation_id\": \"093e9a46-dc49-4969-ab5c-259a3a582ff9\", \"fields\": {\"attachment_description\": \"SYNTHETIC：试件 A 的位置标记示意图\", \"work_method_description\": \"\", \"work_object_description\": \"SYNTHETIC：演示试件 A 接缝\", \"work_location_description\": \"\"}, \"revision\": 1, \"status\": \"waiting_input\", \"analysis\": {\"issues\": [{\"field\": \"work_location_description\", \"kind\": \"missing\", \"quote\": \"\", \"reason\": \"字段为空（合成填报规则）\", \"question\": \"请补充作业位置，说明区域与具体作业点。\", \"source\": \"rule\"}, {\"field\": \"work_method_description\", \"kind\": \"missing\", \"quote\": \"\", \"reason\": \"字段为空（合成填报规则）\", \"question\": \"请补充作业方式，说明安全作业的方式方法\", \"source\": \"rule\"}], \"semantic_status\": \"offline_not_checked\", \"error\": null, \"model\": null, \"prompt_version\": null, \"usage\": null}, \"trace_warning\": null, \"analysis_mode\": \"offline\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe",
+        "-m",
+        "anlan",
+        "history",
+        "--task",
+        "1589ec97-a60b-4cda-95d0-a214fc87fa70",
+        "--tenant",
+        "synthetic-rag-5a2bb82a6d7846c5863531d82f7e00c0",
+        "--trace",
+        "docs\\phases\\phase-02-tools-rag\\evidence\\wp04\\cli-smoke.trace.jsonl"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"task_id\": \"1589ec97-a60b-4cda-95d0-a214fc87fa70\", \"operations\": [{\"request_id\": \"start\", \"run_id\": \"34be70d6-597b-4a25-8689-446a193516de\", \"kind\": \"start\", \"expected_revision\": 0, \"status\": \"completed\"}]}\n",
+      "stderr": ""
+    }
+  ],
+  "material_unchanged": true
+}

@@ -18,6 +18,7 @@ from anlan.contracts import Identity
 from anlan.embeddings import LocalEmbeddings
 from anlan.facts import check_facts
 from anlan.knowledge import KnowledgeStore
+from anlan.knowledge_tool import KnowledgeParameters, UnavailableKnowledgeStore
 from anlan.live import production_ledger
 from anlan.model import DeepSeekAnalyzer, ModelConfig
 from anlan.postgres import database_url, initialize_database, postgres_service
@@ -98,6 +99,17 @@ async def run(args):
             else:
                 # 在加载模型配置或预算之前验证归属；循环入口仍再次校验快照。
                 await service.get(identity, args.task)
+                knowledge_question = getattr(args, "knowledge_question", None)
+                knowledge_store = None
+                if knowledge_question is not None:
+                    KnowledgeParameters(question=knowledge_question)
+                    clock = (lambda: as_of) if as_of else None
+                    try:
+                        embeddings = await LocalEmbeddings.create()
+                    except Exception:
+                        knowledge_store = UnavailableKnowledgeStore(clock)
+                    else:
+                        knowledge_store = KnowledgeStore(database_url(), embeddings, clock=clock)
                 model = ScriptedToolModel()
                 ledger = None
                 if args.mode == "deepseek":
@@ -105,9 +117,11 @@ async def run(args):
                     ledger = await production_ledger()
                     client = await stack.enter_async_context(
                         httpx.AsyncClient(follow_redirects=False))
-                    model = DeepSeekToolModel(config, client, ledger)
+                    model = DeepSeekToolModel(config, client, ledger,
+                                              include_knowledge=knowledge_store is not None)
                 report = await check_facts_agent(
-                    service, identity, args.task, references, tools, model, trace)
+                    service, identity, args.task, references, tools, model, trace,
+                    knowledge_store=knowledge_store, knowledge_question=knowledge_question)
                 if ledger is not None:
                     try:
                         report["budget_snapshot"] = await ledger.snapshot()
@@ -210,6 +224,7 @@ def main():
     parser.add_argument("--knowledge-file", type=Path,
                         default=Path("examples/synthetic/knowledge-v1/documents.json"))
     parser.add_argument("--question", help="示例知识查询问题")
+    parser.add_argument("--knowledge-question", help="将明确问题交给循环中的第三个只读知识工具")
     parser.add_argument("--strategy", choices=["vector", "hybrid"], default="vector")
     parser.add_argument("--doc-id", help="需要撤回的自有示例文档ID")
     parser.add_argument("--tenant", default="synthetic-demo", help="本地模拟入口身份，非生产认证")

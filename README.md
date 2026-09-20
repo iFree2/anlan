@@ -2,7 +2,7 @@
 
 面向企业安全管理人员的高风险作业全周期安全协同 Agent。先深入动火作业，从准备与预审发展到依据/风险分析、作业中感知协同和事后质量闭环。所有演示均为 **SYNTHETIC 合成数据**，不是企业制度或合规依据；不自动批准，不控制或关闭报警。
 
-P1材料工作流工程Gate与P2前三个工作包已通过。当前CLI支持材料多轮补充、PostgreSQL跨进程恢复、固定事实查询及有界模型工具循环；材料与工具分别完成过三个已见合成任务的真实联调。外层使用LangGraph状态/条件边/interrupt/resume，默认离线规则仅识别空字段；限定结论见 [P1 Gate](docs/phases/phase-01-workflow/evidence/wp04/gate-report.md)，当前入口见 [status](docs/status.md)。
+P1材料工作流工程Gate与P2前四个工作包已通过。当前CLI支持材料多轮补充、PostgreSQL跨进程恢复、固定事实查询及有界模型工具循环；材料与工具分别完成过三个已见合成任务的真实联调。外层使用LangGraph状态/条件边/interrupt/resume，默认离线规则仅识别空字段；限定结论见 [P1 Gate](docs/phases/phase-01-workflow/evidence/wp04/gate-report.md)，当前入口见 [status](docs/status.md)。
 
 ## 启动（PowerShell）
 
@@ -109,6 +109,8 @@ uv run anlan budget-status
 
 生产累计账本在项目PG，固定授权ID `20260920-long-term-v1`。每次HTTP前提交预占，失败/硬退出/未知也占用，没有退款或CLI重置接口。`budget-status`不发请求；JSON证据里的预算快照只是档案，续接时以PG为准。本包已完成3任务/6次真实联调，查看[结果与限制](docs/phases/phase-02-tools-rag/evidence/wp02/live-report.md)无需重新调用。更多说明见[WP02交接](docs/phases/phase-02-tools-rag/wp02-handoff.md)。
 
+WP04起，准备好同租户示例知识后，可给`check-facts-agent`加`--knowledge-question "动火现场如何安排监护？"`，启用第三只读知识工具。默认仍是明确替身，真实模式使用P2-WP04共享包额度。摘要需附本轮chunk与原文引用，错误保留其余事实；[真实实验](docs/phases/phase-02-tools-rag/evidence/wp04/live-report.md)中有一例额外主张缺少显式引用，不能将引用格式合法当成全摘要都有依据。
+
 ## P2-WP03：示例知识检索
 
 ```powershell
@@ -138,7 +140,7 @@ uv run anlan demo --mode deepseek
 
 固定官方端点、`deepseek-flash`、非思考模式；单个分析器生命周期最多 **3 次尝试**，每次输出上限1024 token、20秒超时、无自动重试。P2-WP02起真实入口还必须先加载项目PG环境，使用唯一共享预占账本：每包10次、新授权后累计100次保守上限，重启进程不会重置；失败和未完成预占也计数，用量未知记null。额度详情见[ADR003](docs/decisions/003-model-budget-and-tool-loop.md)。材料分析仅发送四字段合成材料和Prompt，不发送身份/凭据内容。
 
-模型候选必须符合 Schema，字段和类别白名单、引用必须出自对应字段、同字段不可重复；失败保留确定性缺项并标 `failed`。这些校验不能证明语义正确。P2另有受控工具循环；示例知识检索已实现，模型依据生成与多Agent仍在后续工作包。
+模型候选必须符合 Schema，字段和类别白名单、引用必须出自对应字段、同字段不可重复；失败保留确定性缺项并标 `failed`。这些校验不能证明语义正确。P2另有受控工具循环；示例知识已支持可选模型引用摘要，多Agent仍在后续阶段。
 
 首次真实联调三次、无重试，返回输入1126/输出58 token；最终问题集合3/3符合当前已见开发标注，其中空字段来自规则、歧义来自模型。不是泛化准确率或生产验证；实际扣费未查询。查看结果直接读已保存报告，不必再次调用。各阶段需要掌握的内容已列入 [路线图](docs/roadmap.md)，AI先验证工程，个人掌握独立记录。
 

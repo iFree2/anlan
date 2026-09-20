@@ -9,8 +9,9 @@ from pydantic import Field, ValidationError
 
 from anlan.analysis import AnalysisFailure
 from anlan.contracts import Identity, StrictModel
+from anlan.knowledge_tool import KnowledgeParameters, query_knowledge
 from anlan.service import WorkflowService
-from anlan.tool_model import SYSTEM_PROMPT
+from anlan.tool_model import KNOWLEDGE_PROMPT, SYSTEM_PROMPT
 from anlan.tools.contracts import AreaQuery, FactReferences, WorkerQuery
 from anlan.tools.queries import FactTools
 from anlan.trace import JsonlTrace
@@ -24,9 +25,14 @@ class LoopLimits(StrictModel):
 
 async def check_facts_agent(service: WorkflowService, identity: Identity, task_id: str,
                             references: dict, tools: FactTools, model, trace: JsonlTrace, *,
-                            limits: LoopLimits | None = None) -> dict:
+                            limits: LoopLimits | None = None, knowledge_store=None,
+                            knowledge_question: str | None = None) -> dict:
     snapshot = await service.get(identity, task_id)
     refs = FactReferences.model_validate(references)
+    if (knowledge_store is None) != (knowledge_question is None):
+        raise ValueError("knowledge store and explicit question are required together")
+    if knowledge_question is not None:
+        KnowledgeParameters(question=knowledge_question)
     limits = limits or LoopLimits()
     started = perf_counter()
     report = {
@@ -40,15 +46,22 @@ async def check_facts_agent(service: WorkflowService, identity: Identity, task_i
         "trace_warning": None, "limits": limits.model_dump(),
         "notice": "合成事实与模型候选分别呈现，需人工复核；不是作业批准或合规结论。",
     }
-    messages = [{"role": "system", "content": SYSTEM_PROMPT}, {"role": "user", "content":
+    messages = [{"role": "system", "content": SYSTEM_PROMPT + (
+        KNOWLEDGE_PROMPT if knowledge_store is not None else "")}, {"role": "user", "content":
         json.dumps({"data_origin": "SYNTHETIC", "materials": snapshot["fields"],
-                    "references": refs.model_dump()}, ensure_ascii=False)}]
+                    "references": refs.model_dump(), "knowledge_question": knowledge_question},
+                   ensure_ascii=False)}]
     allowed = {
         "query_worker_qualification": (WorkerQuery, tools.query_worker_qualification,
                                        {"worker_id": refs.worker_id,
                                         "qualification_type": refs.qualification_type}),
         "query_area_status": (AreaQuery, tools.query_area_status, {"area_id": refs.area_id}),
     }
+    if knowledge_store is not None:
+        async def knowledge_query(actor, parameters):
+            return await query_knowledge(knowledge_store, actor, parameters)
+        allowed["query_knowledge"] = (KnowledgeParameters, knowledge_query,
+                                      {"question": knowledge_question})
     seen_ids = set()
 
     def emit(event, **details):
@@ -82,6 +95,15 @@ async def check_facts_agent(service: WorkflowService, identity: Identity, task_i
                 if (len(citations) != len(set(citations)) or not set(citations) <= actual.keys()
                         or {actual[c] for c in citations} != set(allowed)):
                     return "unsupported_citation"
+                knowledge_chunks = {c["chunk_id"]: c["quote"] for r in report["results"]
+                                    if r["tool"] == "query_knowledge" and r["executed"]
+                                    for c in r.get("citations", [])}
+                knowledge_refs = turn.final.knowledge_citations
+                if (bool(knowledge_chunks) != bool(knowledge_refs) or any(
+                    c.chunk_id not in knowledge_chunks or not c.quote.strip()
+                    or c.quote not in knowledge_chunks[c.chunk_id] for c in knowledge_refs
+                )):
+                    return "unsupported_knowledge_citation"
                 report["summary"] = turn.final.model_dump()
                 report["summary_status"] = "unverified_candidate"
                 return "completed"

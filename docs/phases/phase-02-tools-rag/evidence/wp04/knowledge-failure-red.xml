@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="5.428" timestamp="2026-09-20T22:32:08.795547+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_knowledge_tool_loop" name="test_onnx_failure_is_kept_as_knowledge_error" time="1.042"><failure message="onnxruntime.capi.onnxruntime_pybind11_state.Fail: native-inference-error-sentinel">tests\test_knowledge_tool_loop.py:119: in test_onnx_failure_is_kept_as_knowledge_error
+    report = await scenario(ScriptedToolModel(), tmp_path, knowledge_store=Failed(),
+tests\test_tool_loop.py:29: in scenario
+    report = await check_facts_agent(service, OWNER, before["task_id"], REFS, tools(), model,
+src\anlan\tool_loop.py:152: in check_facts_agent
+    report["stop_reason"] = await run_loop()
+                            ^^^^^^^^^^^^^^^^
+src\anlan\tool_loop.py:139: in run_loop
+    result = await query(identity, parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\tool_loop.py:62: in knowledge_query
+    return await query_knowledge(knowledge_store, actor, parameters)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\knowledge_tool.py:37: in query_knowledge
+    result = await asyncio.wait_for(store.search(identity, parameters.model_dump()), timeout=5)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\tasks.py:507: in wait_for
+    return await fut
+           ^^^^^^^^^
+tests\test_knowledge_tool_loop.py:117: in search
+    raise Fail("native-inference-error-sentinel")
+E   onnxruntime.capi.onnxruntime_pybind11_state.Fail: native-inference-error-sentinel</failure></testcase><testcase classname="tests.test_facts" name="test_cli_embedding_initialization_failure_still_returns_fact_evidence" time="0.047"><failure message="ValueError: cache-invalid-sentinel">tests\test_facts.py:172: in test_cli_embedding_initialization_failure_still_returns_fact_evidence
+    await cli.run(SimpleNamespace(
+src\anlan\cli.py:107: in run
+    database_url(), await LocalEmbeddings.create(),
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_facts.py:167: in unavailable
+    raise ValueError("cache-invalid-sentinel")
+E   ValueError: cache-invalid-sentinel</failure></testcase></testsuite></testsuites>

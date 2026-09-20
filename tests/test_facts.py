@@ -140,7 +140,7 @@ async def test_cli_budget_snapshot_failure_does_not_swallow_finished_evidence(
     monkeypatch.setattr(cli, "database_url", lambda: "unused")
     monkeypatch.setattr(cli, "production_ledger", fake_ledger)
     monkeypatch.setattr(cli.ModelConfig, "from_env", lambda: None)
-    monkeypatch.setattr(cli, "DeepSeekToolModel", lambda *args: ScriptedToolModel())
+    monkeypatch.setattr(cli, "DeepSeekToolModel", lambda *args, **kwargs: ScriptedToolModel())
     await cli.run(SimpleNamespace(
         command="check-facts-agent", tenant=OWNER.tenant_id, user=OWNER.user_id,
         mode="deepseek", storage="postgres", task=state["task_id"],
@@ -151,3 +151,32 @@ async def test_cli_budget_snapshot_failure_does_not_swallow_finished_evidence(
     assert report["stop_reason"] == "completed"
     assert report["budget_warning"] == "snapshot_unavailable"
     assert [r["outcome"] for r in report["results"]] == ["ok", "ok"]
+
+
+async def test_cli_embedding_initialization_failure_still_returns_fact_evidence(
+        monkeypatch, tmp_path, capsys):
+    from anlan import cli
+    service = WorkflowService(OfflineAnalyzer())
+    state = await service.start(OWNER, DEMO_FIELDS)
+
+    @asynccontextmanager
+    async def fake_pg(*args, **kwargs):
+        yield service
+
+    async def unavailable():
+        raise ValueError("cache-invalid-sentinel")
+
+    monkeypatch.setattr(cli, "postgres_service", fake_pg)
+    monkeypatch.setattr(cli, "database_url", lambda: "unused")
+    monkeypatch.setattr(cli.LocalEmbeddings, "create", unavailable)
+    await cli.run(SimpleNamespace(
+        command="check-facts-agent", tenant=OWNER.tenant_id, user=OWNER.user_id,
+        mode="offline", storage="postgres", task=state["task_id"],
+        refs_file=Path("examples/synthetic/fact-refs.json"),
+        facts_dir=Path("examples/synthetic/facts-v1"), as_of=NOW.isoformat(),
+        knowledge_question="监护要求？", trace=tmp_path / "trace.jsonl"))
+    output = capsys.readouterr().out
+    report = json.loads(output)
+    assert [r["outcome"] for r in report["results"]] == ["ok", "ok", "error"]
+    assert report["results"][-1]["reason"] == "knowledge_unavailable"
+    assert "cache-invalid-sentinel" not in output

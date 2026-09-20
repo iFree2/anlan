@@ -1,0 +1,40 @@
+{
+  "mode": "archived_prediction_rescore",
+  "requests_this_run": 0,
+  "metric_version": "rag-observations-selected-citations-v2",
+  "results": [
+    {
+      "case_id": "rag-001-current",
+      "scores": {
+        "three_tools_observed": true,
+        "facts_match": true,
+        "knowledge_answer_supported": true,
+        "support_scope": "selected_citations_only_not_all_summary_claims",
+        "stopped_normally": true,
+        "summary_semantics": "manual_review_required"
+      }
+    },
+    {
+      "case_id": "rag-002-expired",
+      "scores": {
+        "three_tools_observed": true,
+        "facts_match": true,
+        "knowledge_answer_supported": true,
+        "support_scope": "selected_citations_only_not_all_summary_claims",
+        "stopped_normally": true,
+        "summary_semantics": "manual_review_required"
+      }
+    },
+    {
+      "case_id": "rag-003-no-knowledge",
+      "scores": {
+        "three_tools_observed": true,
+        "facts_match": true,
+        "knowledge_answer_supported": true,
+        "support_scope": "selected_citations_only_not_all_summary_claims",
+        "stopped_normally": true,
+        "summary_semantics": "manual_review_required"
+      }
+    }
+  ]
+}
