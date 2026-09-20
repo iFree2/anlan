@@ -1,6 +1,6 @@
 # 架构：当前基线与已确定的演进边界
 
-当前实际架构：Python CLI、Pydantic 边界校验、LangGraph 外层状态图，单分析节点。WP01 内存模式仅支持当前进程；WP02 接入官方 AsyncPostgresSaver、持久化归属/提交记录，支持跨进程读取、补充和恢复。实现及验证状态以 [status](status.md) 为准。向量检索后续使用 pgvector；FastAPI、Langfuse、Compose 在相应业务增量引入，尚未安装或验证。
+当前实际架构：Python CLI、Pydantic 边界校验、LangGraph 外层状态图，单分析节点。P1-WP01内存模式仅支持当前进程；P1-WP02接入官方 AsyncPostgresSaver、持久化归属/提交记录，支持跨进程读取、补充和恢复。P2-WP01新增独立只读事实核验入口。实现及验证状态以 [status](status.md) 为准。向量检索后续使用 pgvector；FastAPI、Langfuse、Compose 在相应业务增量引入，尚未安装或验证。
 
 ```mermaid
 flowchart LR
@@ -10,13 +10,15 @@ flowchart LR
       A -->|缺项或歧义| Q[interrupt：补充问题]
       Q -->|Command resume| P[白名单字段合并 / 版本更新]
       P --> A
-      A -->|无待补充项或模型失败| H[待人工复核 / 标明分析能力与失败]
+      A -->|无待补充项| H[待人工复核 / 标明分析能力与失败]
     end
     G --> C[checkpoint：可选内存或 PostgreSQL]
     G --> T[关联轨迹：task / run / correlation]
 ```
 
 节点像 Java 的应用服务方法；TypedDict 描述图状态的形状，不负责运行时校验；Pydantic 类类似带 Bean Validation 的 DTO。节点返回部分状态更新，由 LangGraph 合并。材料始终只由经校验的用户输入更新；模型仅返回候选问题。`interrupt` 所在节点恢复时会从头执行，所以模型请求不放在该节点中。
+
+模型失败不直接决定进入复核：代码保留规则缺项，有缺项仍进入 `waiting_input`，无缺项才进入 `awaiting_review`，同时保留 `semantic_status=failed`。依据 `workflow.py` 的规则合并与条件路由，以及冻结案例 `p1-08-model-timeout`；P2冷启动时修正了图中“或模型失败”的不准确简写。
 
 首轮字段为位置、对象、方式、附件说明（沿用旧素材的字段名便于理解，判定规则是新版合成假设）。空字段由代码提问；模型识别明确歧义、缺细节、矛盾，必须返回字段内原文引用。引用存在只证明定位正确，不证明缺陷判断正确。模型无工具、无身份写入权、无批准字段。
 
@@ -41,6 +43,16 @@ flowchart LR
 相关实现：`registry.py` 的合同/内存实现、`postgres.py` 的 SQL/官方 saver、`sql/001_registry.sql` 的任务/提交表及迁移版本、`service.py` 的幂等/恢复决策。图状态不接受模型写身份/批准。checkpoint 的受限反序列化不开放 pickle 回退。详细取舍见 [ADR002](decisions/002-postgres-recovery.md)。
 
 部署实测使用独立 PG17.11（端口55432）。本机中文路径触发 PG 初始化编码失败，数据库运行文件放在用户 LocalAppData 的英文目录，源码不移动；脚本、位置和停止方法见 README。系统原 PG10 服务保持原样。记忆、生产认证、数据库备份和最终状态修改不在 WP02 范围。
+
+## P2-WP01 当前事实核验
+
+`check-facts`在模型初始化前分流：宿主Identity → `service.get`校验任务归属并取材料快照 → `FactReferences`校验独立对象引用 → 固定顺序两个工具 → 独立证据包/JSONL。`tools/queries.py`先按合成access清单检查tenant/user/object，再读取资质或区域记录；路径由宿主配置，业务ID不拼接文件路径。
+
+参数、记录、结果由`tools/contracts.py`校验。单文件256KiB上限，带时区有效区间[start,end)，查询时点不能早于观察时点；同租户对象/资质类型键必须唯一。来源版本和原始字节摘要随证据返回；只有ok携带当前事实，unknown与error保留不同原因。工具默认2秒，无重试；异步超时加发布前单调时钟检查防止迟到成功。线程中的底层文件读取不能强制取消，但不发布迟到结果。
+
+`facts.py`新建核验run，沿用task/correlation并记录源revision/source_run/material_status；不写入Graph、registry或operation。输出的awaiting_review只描述证据包，原材料状态不变。快照之后允许材料继续更新，消费者须比较源revision，不能把旧证据视为当前材料的最终结论。两个工具之一失败时仍保留另一个结果。JSONL记录工具名、原因、来源和时点，不保存事实正文；轨迹写入失败显示缺口。
+
+这是代码固定路由，不是模型自主选择工具；身份仍是本地模拟，合成文件不代表企业数据。后续WP02复用工具执行边界并增加模型循环及共享调用预占账本。
 
 ## 全周期数据流（已确定产品方向，尚未实现）
 

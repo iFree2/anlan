@@ -1,0 +1,281 @@
+{
+  "created_at": "2026-09-20T11:35:33.344162+00:00",
+  "data_origin": "SYNTHETIC",
+  "requests_this_run": 0,
+  "tokens_this_run": 0,
+  "status": "passed",
+  "clock_mode": "simulated",
+  "as_of": "2026-09-20T12:00:00+00:00",
+  "commands": [
+    {
+      "argv": [
+        "D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe",
+        "-m",
+        "anlan",
+        "start",
+        "--trace",
+        "docs\\phases\\phase-02-tools-rag\\evidence\\wp01\\cli-smoke.trace.jsonl"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"mode\": \"offline\", \"notice\": \"仅材料辅助核查，需安全管理人员复核；不是作业批准或合规结论。\", \"task_id\": \"0eec8cb1-a4bb-4c67-9e27-e02dbbfb243d\", \"thread_id\": \"0a7bd546-eedb-403a-abbb-0ff233c73553\", \"session_id\": \"234596b8-c554-44dd-9aa2-58fcc46f7bc7\", \"run_id\": \"be8d388f-3d77-49ac-9105-f8ed9856b7ff\", \"correlation_id\": \"542d7739-01fd-4bd1-9c6d-07aa6c2b4a13\", \"fields\": {\"attachment_description\": \"SYNTHETIC：试件 A 的位置标记示意图\", \"work_method_description\": \"\", \"work_object_description\": \"SYNTHETIC：演示试件 A 接缝\", \"work_location_description\": \"\"}, \"revision\": 1, \"status\": \"waiting_input\", \"analysis\": {\"issues\": [{\"field\": \"work_location_description\", \"kind\": \"missing\", \"quote\": \"\", \"reason\": \"字段为空（合成填报规则）\", \"question\": \"请补充作业位置，说明区域与具体作业点。\", \"source\": \"rule\"}, {\"field\": \"work_method_description\", \"kind\": \"missing\", \"quote\": \"\", \"reason\": \"字段为空（合成填报规则）\", \"question\": \"请补充作业方式，说明安全作业的方式方法\", \"source\": \"rule\"}], \"semantic_status\": \"offline_not_checked\", \"error\": null, \"model\": null, \"prompt_version\": null, \"usage\": null}, \"trace_warning\": null, \"analysis_mode\": \"offline\"}\n",
+      "stderr": "{\"event\": \"task_created\", \"task_id\": \"0eec8cb1-a4bb-4c67-9e27-e02dbbfb243d\"}\n",
+      "passed": true
+    },
+    {
+      "argv": [
+        "D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe",
+        "-m",
+        "anlan",
+        "check-facts",
+        "--task",
+        "0eec8cb1-a4bb-4c67-9e27-e02dbbfb243d",
+        "--refs-file",
+        "examples/synthetic/fact-refs.json",
+        "--as-of",
+        "2026-09-20T12:00:00+00:00",
+        "--trace",
+        "docs\\phases\\phase-02-tools-rag\\evidence\\wp01\\cli-smoke.trace.jsonl"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"schema_version\": \"fact-evidence-v1\", \"data_origin\": \"SYNTHETIC\", \"mode\": \"fixed_read_only_tools\", \"requests_this_run\": 0, \"notice\": \"合成事实证据需人工复核，不是作业批准；仅对应所列材料版本。\", \"task_id\": \"0eec8cb1-a4bb-4c67-9e27-e02dbbfb243d\", \"correlation_id\": \"542d7739-01fd-4bd1-9c6d-07aa6c2b4a13\", \"revision\": 1, \"source_run_id\": \"be8d388f-3d77-49ac-9105-f8ed9856b7ff\", \"source_material_status\": \"waiting_input\", \"run_id\": \"e2144eec-39b7-4b23-8df3-f91ff4affd39\", \"status\": \"awaiting_review\", \"trace_warning\": null, \"results\": [{\"data_origin\": \"SYNTHETIC\", \"tool\": \"query_worker_qualification\", \"object_id\": \"worker-001\", \"queried_at\": \"2026-09-20T12:00:00Z\", \"outcome\": \"ok\", \"reason\": null, \"source\": {\"resource\": \"qualifications.json\", \"version\": \"qualifications-v1\", \"sha256\": \"7d0677c99b67a49d3692329dc028e6a9a9a8358ff571f780ac34927b641cc8d9\", \"record_id\": \"qualification-worker-001\", \"observed_at\": \"2026-09-20T00:00:00Z\", \"valid_from\": \"2026-01-01T00:00:00Z\", \"valid_until\": \"2027-01-01T00:00:00Z\"}, \"facts\": {\"status\": \"active\", \"qualification_type\": \"welding\"}, \"message\": \"已读取合成事实，仍需人工复核；不是作业批准。\", \"elapsed_ms\": 5.25}, {\"data_origin\": \"SYNTHETIC\", \"tool\": \"query_area_status\", \"object_id\": \"area-001\", \"queried_at\": \"2026-09-20T12:00:00Z\", \"outcome\": \"ok\", \"reason\": null, \"source\": {\"resource\": \"areas.json\", \"version\": \"areas-v1\", \"sha256\": \"0c428010228391b635a7ea4ebd32d874b01b6fb1242ee6cd1e582267f21b2e21\", \"record_id\": \"observation-area-001\", \"observed_at\": \"2026-09-20T00:00:00Z\", \"valid_from\": \"2026-09-20T00:00:00Z\", \"valid_until\": \"2026-09-21T00:00:00Z\"}, \"facts\": {\"status\": \"restricted\"}, \"message\": \"已读取合成事实，仍需人工复核；不是作业批准。\", \"elapsed_ms\": 3.92}], \"clock_mode\": \"simulated\"}\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "argv": [
+        "D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe",
+        "-m",
+        "anlan",
+        "check-facts",
+        "--task",
+        "0eec8cb1-a4bb-4c67-9e27-e02dbbfb243d",
+        "--tenant",
+        "other-tenant",
+        "--refs-file",
+        "examples/synthetic/fact-refs.json",
+        "--trace",
+        "docs\\phases\\phase-02-tools-rag\\evidence\\wp01\\cli-smoke.trace.jsonl"
+      ],
+      "exit_code": 2,
+      "stdout": "",
+      "stderr": "任务不存在或当前测试身份无权访问\n",
+      "passed": true
+    },
+    {
+      "argv": [
+        "D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe",
+        "-m",
+        "anlan",
+        "show",
+        "--task",
+        "0eec8cb1-a4bb-4c67-9e27-e02dbbfb243d",
+        "--trace",
+        "docs\\phases\\phase-02-tools-rag\\evidence\\wp01\\cli-smoke.trace.jsonl"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"mode\": \"offline\", \"notice\": \"仅材料辅助核查，需安全管理人员复核；不是作业批准或合规结论。\", \"task_id\": \"0eec8cb1-a4bb-4c67-9e27-e02dbbfb243d\", \"thread_id\": \"0a7bd546-eedb-403a-abbb-0ff233c73553\", \"session_id\": \"234596b8-c554-44dd-9aa2-58fcc46f7bc7\", \"run_id\": \"be8d388f-3d77-49ac-9105-f8ed9856b7ff\", \"correlation_id\": \"542d7739-01fd-4bd1-9c6d-07aa6c2b4a13\", \"fields\": {\"attachment_description\": \"SYNTHETIC：试件 A 的位置标记示意图\", \"work_method_description\": \"\", \"work_object_description\": \"SYNTHETIC：演示试件 A 接缝\", \"work_location_description\": \"\"}, \"revision\": 1, \"status\": \"waiting_input\", \"analysis\": {\"issues\": [{\"field\": \"work_location_description\", \"kind\": \"missing\", \"quote\": \"\", \"reason\": \"字段为空（合成填报规则）\", \"question\": \"请补充作业位置，说明区域与具体作业点。\", \"source\": \"rule\"}, {\"field\": \"work_method_description\", \"kind\": \"missing\", \"quote\": \"\", \"reason\": \"字段为空（合成填报规则）\", \"question\": \"请补充作业方式，说明安全作业的方式方法\", \"source\": \"rule\"}], \"semantic_status\": \"offline_not_checked\", \"error\": null, \"model\": null, \"prompt_version\": null, \"usage\": null}, \"trace_warning\": null, \"analysis_mode\": \"offline\"}\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "argv": [
+        "D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe",
+        "-m",
+        "anlan",
+        "history",
+        "--task",
+        "0eec8cb1-a4bb-4c67-9e27-e02dbbfb243d",
+        "--trace",
+        "docs\\phases\\phase-02-tools-rag\\evidence\\wp01\\cli-smoke.trace.jsonl"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"task_id\": \"0eec8cb1-a4bb-4c67-9e27-e02dbbfb243d\", \"operations\": [{\"request_id\": \"start\", \"run_id\": \"be8d388f-3d77-49ac-9105-f8ed9856b7ff\", \"kind\": \"start\", \"expected_revision\": 0, \"status\": \"completed\"}]}\n",
+      "stderr": "",
+      "passed": true
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "qualification_timeout_injected",
+      "injected_delay": true,
+      "clock_mode": "simulated",
+      "evidence": {
+        "schema_version": "fact-evidence-v1",
+        "data_origin": "SYNTHETIC",
+        "mode": "fixed_read_only_tools",
+        "requests_this_run": 0,
+        "notice": "合成事实证据需人工复核，不是作业批准；仅对应所列材料版本。",
+        "task_id": "0eec8cb1-a4bb-4c67-9e27-e02dbbfb243d",
+        "correlation_id": "542d7739-01fd-4bd1-9c6d-07aa6c2b4a13",
+        "revision": 1,
+        "source_run_id": "be8d388f-3d77-49ac-9105-f8ed9856b7ff",
+        "source_material_status": "waiting_input",
+        "run_id": "b777015e-ef16-410d-94fb-db8ce58707c1",
+        "status": "awaiting_review",
+        "trace_warning": null,
+        "results": [
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_worker_qualification",
+            "object_id": "worker-001",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "error",
+            "reason": "timeout",
+            "source": null,
+            "facts": null,
+            "message": "查询超时，当前事实未知；不是资质不合格。",
+            "elapsed_ms": 211.71
+          },
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_area_status",
+            "object_id": "area-001",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "ok",
+            "reason": null,
+            "source": {
+              "resource": "areas.json",
+              "version": "areas-v1",
+              "sha256": "0c428010228391b635a7ea4ebd32d874b01b6fb1242ee6cd1e582267f21b2e21",
+              "record_id": "observation-area-001",
+              "observed_at": "2026-09-20T00:00:00Z",
+              "valid_from": "2026-09-20T00:00:00Z",
+              "valid_until": "2026-09-21T00:00:00Z"
+            },
+            "facts": {
+              "status": "restricted"
+            },
+            "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+            "elapsed_ms": 4.62
+          }
+        ]
+      },
+      "task_unchanged": true,
+      "passed": true
+    },
+    {
+      "name": "foreign_object_rejected",
+      "injected_delay": false,
+      "clock_mode": "simulated",
+      "evidence": {
+        "schema_version": "fact-evidence-v1",
+        "data_origin": "SYNTHETIC",
+        "mode": "fixed_read_only_tools",
+        "requests_this_run": 0,
+        "notice": "合成事实证据需人工复核，不是作业批准；仅对应所列材料版本。",
+        "task_id": "0eec8cb1-a4bb-4c67-9e27-e02dbbfb243d",
+        "correlation_id": "542d7739-01fd-4bd1-9c6d-07aa6c2b4a13",
+        "revision": 1,
+        "source_run_id": "be8d388f-3d77-49ac-9105-f8ed9856b7ff",
+        "source_material_status": "waiting_input",
+        "run_id": "0644d7b3-800c-4815-afa2-3a0413e4818c",
+        "status": "awaiting_review",
+        "trace_warning": null,
+        "results": [
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_worker_qualification",
+            "object_id": "other-tenant-worker",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "error",
+            "reason": "access_denied",
+            "source": null,
+            "facts": null,
+            "message": "无权查询该对象，不提供其存在性或事实信息。",
+            "elapsed_ms": 1.47
+          },
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_area_status",
+            "object_id": "area-001",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "ok",
+            "reason": null,
+            "source": {
+              "resource": "areas.json",
+              "version": "areas-v1",
+              "sha256": "0c428010228391b635a7ea4ebd32d874b01b6fb1242ee6cd1e582267f21b2e21",
+              "record_id": "observation-area-001",
+              "observed_at": "2026-09-20T00:00:00Z",
+              "valid_from": "2026-09-20T00:00:00Z",
+              "valid_until": "2026-09-21T00:00:00Z"
+            },
+            "facts": {
+              "status": "restricted"
+            },
+            "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+            "elapsed_ms": 2.33
+          }
+        ]
+      },
+      "task_unchanged": true,
+      "passed": true
+    },
+    {
+      "name": "missing_and_expired",
+      "injected_delay": false,
+      "clock_mode": "simulated",
+      "evidence": {
+        "schema_version": "fact-evidence-v1",
+        "data_origin": "SYNTHETIC",
+        "mode": "fixed_read_only_tools",
+        "requests_this_run": 0,
+        "notice": "合成事实证据需人工复核，不是作业批准；仅对应所列材料版本。",
+        "task_id": "0eec8cb1-a4bb-4c67-9e27-e02dbbfb243d",
+        "correlation_id": "542d7739-01fd-4bd1-9c6d-07aa6c2b4a13",
+        "revision": 1,
+        "source_run_id": "be8d388f-3d77-49ac-9105-f8ed9856b7ff",
+        "source_material_status": "waiting_input",
+        "run_id": "6954c240-08b0-40b0-b4f3-36eafdc6d370",
+        "status": "awaiting_review",
+        "trace_warning": null,
+        "results": [
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_worker_qualification",
+            "object_id": "worker-missing",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "unknown",
+            "reason": "missing",
+            "source": {
+              "resource": "qualifications.json",
+              "version": "qualifications-v1",
+              "sha256": "7d0677c99b67a49d3692329dc028e6a9a9a8358ff571f780ac34927b641cc8d9",
+              "record_id": null,
+              "observed_at": null,
+              "valid_from": null,
+              "valid_until": null
+            },
+            "facts": null,
+            "message": "授权范围内未找到记录，当前事实未知。",
+            "elapsed_ms": 2.92
+          },
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_area_status",
+            "object_id": "area-expired",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "unknown",
+            "reason": "expired",
+            "source": {
+              "resource": "areas.json",
+              "version": "areas-v1",
+              "sha256": "0c428010228391b635a7ea4ebd32d874b01b6fb1242ee6cd1e582267f21b2e21",
+              "record_id": "observation-area-expired",
+              "observed_at": "2026-09-20T00:00:00Z",
+              "valid_from": "2026-01-01T00:00:00Z",
+              "valid_until": "2026-09-19T00:00:00Z"
+            },
+            "facts": null,
+            "message": "记录已过有效期，不能作为当前事实。",
+            "elapsed_ms": 2.84
+          }
+        ]
+      },
+      "task_unchanged": true,
+      "passed": true
+    }
+  ],
+  "task_id": "0eec8cb1-a4bb-4c67-9e27-e02dbbfb243d",
+  "task_unchanged": true
+}

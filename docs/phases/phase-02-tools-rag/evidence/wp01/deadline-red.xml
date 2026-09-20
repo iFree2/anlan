@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="1.280" timestamp="2026-09-20T19:32:20.979227+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_tools" name="test_non_yielding_work_cannot_publish_success_after_deadline" time="0.128"><failure message="AssertionError: assert ('ok', None, ...'restricted'}) == ('error', 'timeout', None)&#10;  &#10;  At index 0 diff: 'ok' != 'error'&#10;  Use -v to get more diff">tests\test_tools.py:168: in test_non_yielding_work_cannot_publish_success_after_deadline
+    assert (result.outcome, result.reason, result.facts) == ("error", "timeout", None)
+E   AssertionError: assert ('ok', None, ...'restricted'}) == ('error', 'timeout', None)
+E     
+E     At index 0 diff: 'ok' != 'error'
+E     Use -v to get more diff</failure></testcase><testcase classname="tests.test_tools" name="test_oversized_document_is_rejected_before_parsing" time="0.126"><failure message="AssertionError: assert ('ok', None, ...'restricted'}) == ('error', 'data_error', None)&#10;  &#10;  At index 0 diff: 'ok' != 'error'&#10;  Use -v to get more diff">tests\test_tools.py:175: in test_oversized_document_is_rejected_before_parsing
+    assert (result.outcome, result.reason, result.facts) == ("error", "data_error", None)
+E   AssertionError: assert ('ok', None, ...'restricted'}) == ('error', 'data_error', None)
+E     
+E     At index 0 diff: 'ok' != 'error'
+E     Use -v to get more diff</failure></testcase></testsuite></testsuites>

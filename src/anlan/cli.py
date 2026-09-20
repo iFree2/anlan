@@ -5,6 +5,7 @@ import asyncio
 import json
 import sys
 from contextlib import AsyncExitStack
+from datetime import datetime
 from pathlib import Path
 
 import httpx
@@ -13,10 +14,12 @@ from pydantic import ValidationError
 
 from anlan.analysis import OfflineAnalyzer
 from anlan.contracts import Identity
+from anlan.facts import check_facts
 from anlan.model import DeepSeekAnalyzer, ModelConfig
 from anlan.postgres import database_url, initialize_database, postgres_service
 from anlan.registry import TaskBusy
 from anlan.service import AccessDenied, InvalidTransition, WorkflowService
+from anlan.tools.queries import FactTools
 from anlan.trace import JsonlTrace
 
 DEMO_FIELDS = {
@@ -47,6 +50,19 @@ def created_receipt(task_id: str):
 async def run(args):
     # Local test identity is host input, not read from material or model output.
     identity = Identity(tenant_id=args.tenant, user_id=args.user)
+    if args.command == "check-facts":
+        # 只读核验在模型初始化之前分流，即使mode=deepseek也不读取模型配置。
+        as_of = datetime.fromisoformat(args.as_of) if args.as_of else None
+        if as_of is not None and (as_of.tzinfo is None or as_of.utcoffset() is None):
+            raise ValueError("核验时间必须带时区")
+        tools = FactTools(args.facts_dir, clock=(lambda: as_of) if as_of else None)
+        trace = JsonlTrace(args.trace)
+        async with postgres_service(database_url(), OfflineAnalyzer()) as service:
+            references = json.loads(args.refs_file.read_text(encoding="utf-8-sig"))
+            report = await check_facts(service, identity, args.task, references, tools, trace)
+        report["clock_mode"] = "simulated" if as_of else "system_utc"
+        print(json.dumps(report, ensure_ascii=False))
+        return
     if args.command == "db-init":
         await initialize_database(database_url())
         print(json.dumps({"status": "database_ready", "schema": "anlan_v2"}))
@@ -121,7 +137,7 @@ async def run(args):
 
 def main():
     parser = argparse.ArgumentParser(description="安澜 2.0 合成动火材料工作流")
-    persistent = {"db-init", "start", "show", "resume", "recover", "history"}
+    persistent = {"db-init", "start", "show", "resume", "recover", "history", "check-facts"}
     parser.add_argument("command", choices=["demo", "chat", *sorted(persistent)])
     parser.add_argument("--mode", choices=["offline", "deepseek"], default="offline")
     parser.add_argument("--trace", type=Path, default=Path(".runtime/traces.jsonl"))
@@ -130,18 +146,24 @@ def main():
     parser.add_argument("--revision", type=int, help="本次补充所基于的状态版本")
     parser.add_argument("--request-id", help="本次补充的稳定 ID；重试时保持相同")
     parser.add_argument("--fields-file", type=Path, help="UTF-8 合成四字段/局部补充 JSON")
+    parser.add_argument("--refs-file", type=Path, help="合成人员/资质类型/区域引用JSON")
+    parser.add_argument("--facts-dir", type=Path, default=Path("examples/synthetic/facts-v1"),
+                        help="宿主指定的合成事实与授权目录，不来自工具参数")
+    parser.add_argument("--as-of", help="带时区ISO时间；仅用于明确标注的合成时钟演示")
     parser.add_argument("--tenant", default="synthetic-demo", help="本地模拟入口身份，非生产认证")
     parser.add_argument("--user", default="safety-manager-demo", help="本地模拟入口用户")
     args = parser.parse_args()
     args.storage = args.storage or ("postgres" if args.command in persistent else "memory")
     if args.command in persistent and args.storage != "postgres":
         parser.error("持久化子命令需要 PostgreSQL；内存演示请用 demo/chat")
-    if args.command in {"show", "resume", "recover", "history"} and not args.task:
+    if args.command in {"show", "resume", "recover", "history", "check-facts"} and not args.task:
         parser.error("需要 --task")
     if args.command == "resume" and any(value is None for value in (
         args.revision, args.request_id, args.fields_file
     )):
         parser.error("resume 需要 --revision、--request-id 和 --fields-file")
+    if args.command == "check-facts" and args.refs_file is None:
+        parser.error("check-facts 需要 --refs-file")
     try:
         # Psycopg async I/O requires a selector loop on Windows; Python 3.13 supports loop_factory.
         asyncio.run(run(args), loop_factory=asyncio.SelectorEventLoop)
@@ -155,6 +177,8 @@ def main():
         parser.exit(2, "无法读取或校验输入；请检查 UTF-8 JSON 和字段类型。\n")
     except ValueError:
         # Do not print a ValidationError that could include config secrets.
+        if args.command == "check-facts":
+            parser.exit(2, "核验配置无效；请检查数据库配置和带时区的 --as-of。\n")
         parser.exit(2, "配置无效；请检查 ANLAN_DATABASE_URL / DEEPSEEK_API_KEY。\n")
     except Exception:
         print("执行中断；持久化任务保留提交记录，可用 show/history/recover 排查。", file=sys.stderr)

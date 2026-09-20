@@ -74,6 +74,26 @@ uv run pytest -q
 
 服务层保存归属和提交记录，Graph 保存当前状态，详见 [ADR002](docs/decisions/002-postgres-recovery.md)。两者不是单一事务；通过 pending 提交与 recover 协调。锁和 checkpoint 使用同一数据库连接，避免丢锁后旧执行写回。模型已请求但节点结果未保存时，恢复可能再次调用模型；本包不声称模型调用 exactly-once。
 
+## P2-WP01：只读合成事实核验
+
+人员资质、区域状态工具实际读取 `examples/synthetic/facts-v1/` 中的版本化JSON；`access.json` 是宿主提供的合成授权清单，不从业务参数读取身份。只核验当前任务快照引用，不改材料、revision或提交历史。
+
+```powershell
+.\scripts\dev-postgres.ps1 -Action Env
+$task = (uv run anlan start | ConvertFrom-Json).task_id
+uv run anlan check-facts --task $task --refs-file examples/synthetic/fact-refs.json --as-of 2026-09-20T12:00:00Z
+uv run anlan show --task $task
+uv run python scripts/smoke_facts.py --output .runtime/wp01-facts-demo.json
+```
+
+`--as-of` 明确标注为合成模拟时钟，省略时使用真实UTC；示例区域记录在2026-09-21T00:00:00Z后返回expired，这是预期行为。`--facts-dir`是宿主本地配置，不是模型参数；有本机文件/终端权限者能修改配置，因此这不是生产认证。查询路径不加载模型配置，即使指定`--mode deepseek`也不会调用模型。
+
+引用输入只接受worker_id、qualification_type、area_id。结果分别给出ok/unknown/error，区分缺失、过期、未生效、不适用、非法参数、无权、超时和数据错误；失败不表示资质不合格。只有ok提供当前事实，来源包含资源名、版本、内容SHA256、记录ID、观察时间及[start,end)有效区间。
+
+证据包有新的核验run_id，关联源材料revision/source_run_id和task/correlation；其中awaiting_review表示证据待人工复核，原材料仍可能waiting_input。查询过程中材料可被其他进程更新，使用证据前必须核对源revision。JSONL记录工具结果类别与来源，不含事实正文；日志失败显示trace_warning。来源单文件上限256KiB，查询默认2秒、无重试；超时丢弃迟到结果，不能保证强制终止底层只读文件线程。
+
+演示脚本包含真实CLI/PG/文件查询、越权拒绝、无记录/过期，以及明确标记的延迟注入；不是模型效果实验。详细证据与限制见[P2-WP01交接](docs/phases/phase-02-tools-rag/wp01-handoff.md)。
+
 ## 可选真实模型
 
 仅在进程环境中配置 `DEEPSEEK_API_KEY`，不要将密钥写进脚本、Git、日志或聊天。不自动扫描/加载旧仓库 `.env`，不使用其他开发工具的凭据。由用户指定的既有配置可只读加载到当前进程。
