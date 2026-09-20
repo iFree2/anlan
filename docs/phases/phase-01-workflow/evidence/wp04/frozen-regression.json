@@ -1,0 +1,1229 @@
+{
+  "created_at": "2026-09-20T10:58:19.075812+00:00",
+  "suite_version": "phase01-regression-v1",
+  "frozen_files": {
+    "cases": {
+      "path": "evals/phase01-regression-v1/cases.json",
+      "format": "json",
+      "sha256": "d195c60b6a3f30ad86eadc9943457d5e7e5b782d296a60e89883633f7db85b48"
+    },
+    "archive": {
+      "path": "docs/phases/phase-01-workflow/evidence/wp03/live-20260920-v1.json",
+      "format": "json",
+      "sha256": "bb4ad8baaa6618468ab3ad24da9f5dd5cec30b458e425f05b3b693096b18a3df"
+    },
+    "labels": {
+      "path": "evals/materials-v1/dev.jsonl",
+      "format": "jsonl",
+      "sha256": "a5a03849bee4fbef2cd9bd33ce8d60d1ddac96797b5add0db8b0eb9aa01fec93"
+    }
+  },
+  "requests_this_run": 0,
+  "tokens_this_run": 0,
+  "workflow": {
+    "mode": "offline_contract_regression",
+    "cases": 8,
+    "passed": 8,
+    "failed": 0,
+    "results": [
+      {
+        "case_id": "p1-01-complete",
+        "passed": true,
+        "analyzer": "offline",
+        "checks": [
+          {
+            "step": "start",
+            "state": {
+              "task_id": "422d4251-c24a-4555-a44f-61fb325370b5",
+              "thread_id": "730ed557-e75f-41eb-803f-1c75f53de6b9",
+              "session_id": "23a5e14c-6d40-40f2-a75a-ad491e6978b2",
+              "run_id": "c969dbe0-a8a5-47a5-a5d9-c75bd65df2ec",
+              "correlation_id": "d9d5b492-bba1-49e7-a3e8-9803316f71cf",
+              "fields": {
+                "work_location_description": "SYNTHETIC：演示西区2号台",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "SYNTHETIC：电弧焊连接支架",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 1,
+              "status": "awaiting_review",
+              "analysis": {
+                "issues": [],
+                "semantic_status": "offline_not_checked",
+                "error": null,
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "expected": {
+              "revision": 1,
+              "status": "awaiting_review",
+              "issue_fields": [],
+              "analysis_calls": 1
+            },
+            "passed": true
+          }
+        ]
+      },
+      {
+        "case_id": "p1-02-two-turns",
+        "passed": true,
+        "analyzer": "offline",
+        "checks": [
+          {
+            "step": "start",
+            "state": {
+              "task_id": "8b7bfe65-084b-4338-8b85-1eb8912cc38b",
+              "thread_id": "3a488abd-166e-462e-9c81-56c6a46d9d2e",
+              "session_id": "304e8f48-8641-4fc3-bdd4-f0d2fa01b716",
+              "run_id": "56d2b94e-aa0f-4dfb-8878-dbb275c63fe5",
+              "correlation_id": "58c4c682-f06d-4acb-8939-1c21595ea307",
+              "fields": {
+                "work_location_description": "",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 1,
+              "status": "waiting_input",
+              "analysis": {
+                "issues": [
+                  {
+                    "field": "work_location_description",
+                    "kind": "missing",
+                    "quote": "",
+                    "reason": "字段为空（合成填报规则）",
+                    "question": "请补充作业位置，说明区域与具体作业点。",
+                    "source": "rule"
+                  },
+                  {
+                    "field": "work_method_description",
+                    "kind": "missing",
+                    "quote": "",
+                    "reason": "字段为空（合成填报规则）",
+                    "question": "请补充作业方式，说明安全作业的方式方法",
+                    "source": "rule"
+                  }
+                ],
+                "semantic_status": "offline_not_checked",
+                "error": null,
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "expected": {
+              "revision": 1,
+              "status": "waiting_input",
+              "issue_fields": [
+                "work_location_description",
+                "work_method_description"
+              ],
+              "analysis_calls": 1
+            },
+            "passed": true
+          },
+          {
+            "step": 1,
+            "passed": true,
+            "error": null,
+            "expected": {
+              "revision": 2,
+              "status": "waiting_input",
+              "issue_fields": [
+                "work_method_description"
+              ],
+              "analysis_calls": 2
+            },
+            "state": {
+              "task_id": "8b7bfe65-084b-4338-8b85-1eb8912cc38b",
+              "thread_id": "3a488abd-166e-462e-9c81-56c6a46d9d2e",
+              "session_id": "304e8f48-8641-4fc3-bdd4-f0d2fa01b716",
+              "run_id": "7565763a-8d19-4266-afa1-1581a730dd9e",
+              "correlation_id": "58c4c682-f06d-4acb-8939-1c21595ea307",
+              "fields": {
+                "work_location_description": "SYNTHETIC：演示南区3号台",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 2,
+              "status": "waiting_input",
+              "analysis": {
+                "issues": [
+                  {
+                    "field": "work_method_description",
+                    "kind": "missing",
+                    "quote": "",
+                    "reason": "字段为空（合成填报规则）",
+                    "question": "请补充作业方式，说明安全作业的方式方法",
+                    "source": "rule"
+                  }
+                ],
+                "semantic_status": "offline_not_checked",
+                "error": null,
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "analysis_calls": 2
+          },
+          {
+            "step": 2,
+            "passed": true,
+            "error": null,
+            "expected": {
+              "revision": 3,
+              "status": "awaiting_review",
+              "issue_fields": [],
+              "analysis_calls": 3
+            },
+            "state": {
+              "task_id": "8b7bfe65-084b-4338-8b85-1eb8912cc38b",
+              "thread_id": "3a488abd-166e-462e-9c81-56c6a46d9d2e",
+              "session_id": "304e8f48-8641-4fc3-bdd4-f0d2fa01b716",
+              "run_id": "4d503565-1aaa-433e-ba78-1160850b32f4",
+              "correlation_id": "58c4c682-f06d-4acb-8939-1c21595ea307",
+              "fields": {
+                "work_location_description": "SYNTHETIC：演示南区3号台",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "SYNTHETIC：电弧焊",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 3,
+              "status": "awaiting_review",
+              "analysis": {
+                "issues": [],
+                "semantic_status": "offline_not_checked",
+                "error": null,
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "analysis_calls": 3
+          }
+        ]
+      },
+      {
+        "case_id": "p1-03-correct-while-waiting",
+        "passed": true,
+        "analyzer": "offline",
+        "checks": [
+          {
+            "step": "start",
+            "state": {
+              "task_id": "6077ed46-a64d-4a8c-9b39-dccbbb501a13",
+              "thread_id": "1104ae56-9531-4fc9-b698-fddabeecf3b4",
+              "session_id": "6e3cde53-7fc0-457b-a8c0-9a86b44f4f1c",
+              "run_id": "91a41183-657d-4cda-9006-70d266752f1f",
+              "correlation_id": "2b8ea476-6824-4ffb-b215-fce8c315746d",
+              "fields": {
+                "work_location_description": "SYNTHETIC：演示西区2号台",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 1,
+              "status": "waiting_input",
+              "analysis": {
+                "issues": [
+                  {
+                    "field": "work_method_description",
+                    "kind": "missing",
+                    "quote": "",
+                    "reason": "字段为空（合成填报规则）",
+                    "question": "请补充作业方式，说明安全作业的方式方法",
+                    "source": "rule"
+                  }
+                ],
+                "semantic_status": "offline_not_checked",
+                "error": null,
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "expected": {
+              "revision": 1,
+              "status": "waiting_input",
+              "issue_fields": [
+                "work_method_description"
+              ],
+              "analysis_calls": 1
+            },
+            "passed": true
+          },
+          {
+            "step": 1,
+            "passed": true,
+            "error": null,
+            "expected": {
+              "revision": 2,
+              "status": "waiting_input",
+              "issue_fields": [
+                "work_method_description"
+              ],
+              "analysis_calls": 2
+            },
+            "state": {
+              "task_id": "6077ed46-a64d-4a8c-9b39-dccbbb501a13",
+              "thread_id": "1104ae56-9531-4fc9-b698-fddabeecf3b4",
+              "session_id": "6e3cde53-7fc0-457b-a8c0-9a86b44f4f1c",
+              "run_id": "89061e45-4243-4216-8f6f-afb0086702a0",
+              "correlation_id": "2b8ea476-6824-4ffb-b215-fce8c315746d",
+              "fields": {
+                "work_location_description": "SYNTHETIC：更正为东区7号台",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 2,
+              "status": "waiting_input",
+              "analysis": {
+                "issues": [
+                  {
+                    "field": "work_method_description",
+                    "kind": "missing",
+                    "quote": "",
+                    "reason": "字段为空（合成填报规则）",
+                    "question": "请补充作业方式，说明安全作业的方式方法",
+                    "source": "rule"
+                  }
+                ],
+                "semantic_status": "offline_not_checked",
+                "error": null,
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "analysis_calls": 2
+          },
+          {
+            "step": 2,
+            "passed": true,
+            "error": null,
+            "expected": {
+              "revision": 3,
+              "status": "awaiting_review",
+              "issue_fields": [],
+              "analysis_calls": 3
+            },
+            "state": {
+              "task_id": "6077ed46-a64d-4a8c-9b39-dccbbb501a13",
+              "thread_id": "1104ae56-9531-4fc9-b698-fddabeecf3b4",
+              "session_id": "6e3cde53-7fc0-457b-a8c0-9a86b44f4f1c",
+              "run_id": "c3c5830e-8f60-4f5c-9127-dbb4a30caf2d",
+              "correlation_id": "2b8ea476-6824-4ffb-b215-fce8c315746d",
+              "fields": {
+                "work_location_description": "SYNTHETIC：更正为东区7号台",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "SYNTHETIC：电弧焊",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 3,
+              "status": "awaiting_review",
+              "analysis": {
+                "issues": [],
+                "semantic_status": "offline_not_checked",
+                "error": null,
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "analysis_calls": 3
+          }
+        ]
+      },
+      {
+        "case_id": "p1-04-invalid-supplement",
+        "passed": true,
+        "analyzer": "offline",
+        "checks": [
+          {
+            "step": "start",
+            "state": {
+              "task_id": "0c3e2543-af59-4983-9eef-c63a8c127ad8",
+              "thread_id": "4732cd06-4325-4004-b985-6e062d14aedc",
+              "session_id": "aeb152b6-f068-49aa-a9b1-3b7c485d27c0",
+              "run_id": "8e295253-755f-468d-97a3-c8f469c38620",
+              "correlation_id": "88c4c61a-a19d-49d7-bbdf-ccf2edc0ee5b",
+              "fields": {
+                "work_location_description": "SYNTHETIC：演示西区2号台",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 1,
+              "status": "waiting_input",
+              "analysis": {
+                "issues": [
+                  {
+                    "field": "work_method_description",
+                    "kind": "missing",
+                    "quote": "",
+                    "reason": "字段为空（合成填报规则）",
+                    "question": "请补充作业方式，说明安全作业的方式方法",
+                    "source": "rule"
+                  }
+                ],
+                "semantic_status": "offline_not_checked",
+                "error": null,
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "expected": {
+              "revision": 1,
+              "status": "waiting_input",
+              "issue_fields": [
+                "work_method_description"
+              ],
+              "analysis_calls": 1
+            },
+            "passed": true
+          },
+          {
+            "step": 1,
+            "passed": true,
+            "error": "ValidationError",
+            "expected": "ValidationError",
+            "state": {
+              "task_id": "0c3e2543-af59-4983-9eef-c63a8c127ad8",
+              "thread_id": "4732cd06-4325-4004-b985-6e062d14aedc",
+              "session_id": "aeb152b6-f068-49aa-a9b1-3b7c485d27c0",
+              "run_id": "8e295253-755f-468d-97a3-c8f469c38620",
+              "correlation_id": "88c4c61a-a19d-49d7-bbdf-ccf2edc0ee5b",
+              "fields": {
+                "work_location_description": "SYNTHETIC：演示西区2号台",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 1,
+              "status": "waiting_input",
+              "analysis": {
+                "issues": [
+                  {
+                    "field": "work_method_description",
+                    "kind": "missing",
+                    "quote": "",
+                    "reason": "字段为空（合成填报规则）",
+                    "question": "请补充作业方式，说明安全作业的方式方法",
+                    "source": "rule"
+                  }
+                ],
+                "semantic_status": "offline_not_checked",
+                "error": null,
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "analysis_calls": 1
+          },
+          {
+            "step": 2,
+            "passed": true,
+            "error": "ValidationError",
+            "expected": "ValidationError",
+            "state": {
+              "task_id": "0c3e2543-af59-4983-9eef-c63a8c127ad8",
+              "thread_id": "4732cd06-4325-4004-b985-6e062d14aedc",
+              "session_id": "aeb152b6-f068-49aa-a9b1-3b7c485d27c0",
+              "run_id": "8e295253-755f-468d-97a3-c8f469c38620",
+              "correlation_id": "88c4c61a-a19d-49d7-bbdf-ccf2edc0ee5b",
+              "fields": {
+                "work_location_description": "SYNTHETIC：演示西区2号台",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 1,
+              "status": "waiting_input",
+              "analysis": {
+                "issues": [
+                  {
+                    "field": "work_method_description",
+                    "kind": "missing",
+                    "quote": "",
+                    "reason": "字段为空（合成填报规则）",
+                    "question": "请补充作业方式，说明安全作业的方式方法",
+                    "source": "rule"
+                  }
+                ],
+                "semantic_status": "offline_not_checked",
+                "error": null,
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "analysis_calls": 1
+          },
+          {
+            "step": 3,
+            "passed": true,
+            "error": null,
+            "expected": {
+              "revision": 2,
+              "status": "awaiting_review",
+              "issue_fields": [],
+              "analysis_calls": 2
+            },
+            "state": {
+              "task_id": "0c3e2543-af59-4983-9eef-c63a8c127ad8",
+              "thread_id": "4732cd06-4325-4004-b985-6e062d14aedc",
+              "session_id": "aeb152b6-f068-49aa-a9b1-3b7c485d27c0",
+              "run_id": "cb82ba56-8a5b-44c4-9973-549b005f34ba",
+              "correlation_id": "88c4c61a-a19d-49d7-bbdf-ccf2edc0ee5b",
+              "fields": {
+                "work_location_description": "SYNTHETIC：演示西区2号台",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "SYNTHETIC：电弧焊",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 2,
+              "status": "awaiting_review",
+              "analysis": {
+                "issues": [],
+                "semantic_status": "offline_not_checked",
+                "error": null,
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "analysis_calls": 2
+          }
+        ]
+      },
+      {
+        "case_id": "p1-05-stale-revision",
+        "passed": true,
+        "analyzer": "offline",
+        "checks": [
+          {
+            "step": "start",
+            "state": {
+              "task_id": "6c387c41-d084-48c7-b99c-21fb0efc2012",
+              "thread_id": "7a3c7a0b-8c5c-453c-a8e8-5e6236b093f6",
+              "session_id": "a14b5023-6944-4ff3-8412-463c47f14de5",
+              "run_id": "d5e332f8-c828-4cb3-8674-9371c1dfa427",
+              "correlation_id": "28fbddbd-ff6c-4d4f-8e64-1dee1ccfc66d",
+              "fields": {
+                "work_location_description": "",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 1,
+              "status": "waiting_input",
+              "analysis": {
+                "issues": [
+                  {
+                    "field": "work_location_description",
+                    "kind": "missing",
+                    "quote": "",
+                    "reason": "字段为空（合成填报规则）",
+                    "question": "请补充作业位置，说明区域与具体作业点。",
+                    "source": "rule"
+                  },
+                  {
+                    "field": "work_method_description",
+                    "kind": "missing",
+                    "quote": "",
+                    "reason": "字段为空（合成填报规则）",
+                    "question": "请补充作业方式，说明安全作业的方式方法",
+                    "source": "rule"
+                  }
+                ],
+                "semantic_status": "offline_not_checked",
+                "error": null,
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "expected": {
+              "revision": 1,
+              "status": "waiting_input",
+              "issue_fields": [
+                "work_location_description",
+                "work_method_description"
+              ],
+              "analysis_calls": 1
+            },
+            "passed": true
+          },
+          {
+            "step": 1,
+            "passed": true,
+            "error": null,
+            "expected": {
+              "revision": 2,
+              "status": "waiting_input",
+              "issue_fields": [
+                "work_method_description"
+              ],
+              "analysis_calls": 2
+            },
+            "state": {
+              "task_id": "6c387c41-d084-48c7-b99c-21fb0efc2012",
+              "thread_id": "7a3c7a0b-8c5c-453c-a8e8-5e6236b093f6",
+              "session_id": "a14b5023-6944-4ff3-8412-463c47f14de5",
+              "run_id": "8cc3d214-b4da-440e-b5e8-161b749f3a47",
+              "correlation_id": "28fbddbd-ff6c-4d4f-8e64-1dee1ccfc66d",
+              "fields": {
+                "work_location_description": "SYNTHETIC：南区3号台",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 2,
+              "status": "waiting_input",
+              "analysis": {
+                "issues": [
+                  {
+                    "field": "work_method_description",
+                    "kind": "missing",
+                    "quote": "",
+                    "reason": "字段为空（合成填报规则）",
+                    "question": "请补充作业方式，说明安全作业的方式方法",
+                    "source": "rule"
+                  }
+                ],
+                "semantic_status": "offline_not_checked",
+                "error": null,
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "analysis_calls": 2
+          },
+          {
+            "step": 2,
+            "passed": true,
+            "error": "InvalidTransition",
+            "expected": "InvalidTransition",
+            "state": {
+              "task_id": "6c387c41-d084-48c7-b99c-21fb0efc2012",
+              "thread_id": "7a3c7a0b-8c5c-453c-a8e8-5e6236b093f6",
+              "session_id": "a14b5023-6944-4ff3-8412-463c47f14de5",
+              "run_id": "8cc3d214-b4da-440e-b5e8-161b749f3a47",
+              "correlation_id": "28fbddbd-ff6c-4d4f-8e64-1dee1ccfc66d",
+              "fields": {
+                "work_location_description": "SYNTHETIC：南区3号台",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 2,
+              "status": "waiting_input",
+              "analysis": {
+                "issues": [
+                  {
+                    "field": "work_method_description",
+                    "kind": "missing",
+                    "quote": "",
+                    "reason": "字段为空（合成填报规则）",
+                    "question": "请补充作业方式，说明安全作业的方式方法",
+                    "source": "rule"
+                  }
+                ],
+                "semantic_status": "offline_not_checked",
+                "error": null,
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "analysis_calls": 2
+          },
+          {
+            "step": 3,
+            "passed": true,
+            "error": null,
+            "expected": {
+              "revision": 3,
+              "status": "awaiting_review",
+              "issue_fields": [],
+              "analysis_calls": 3
+            },
+            "state": {
+              "task_id": "6c387c41-d084-48c7-b99c-21fb0efc2012",
+              "thread_id": "7a3c7a0b-8c5c-453c-a8e8-5e6236b093f6",
+              "session_id": "a14b5023-6944-4ff3-8412-463c47f14de5",
+              "run_id": "dcee4f13-8ad8-4f2f-abe8-491bbde4ec98",
+              "correlation_id": "28fbddbd-ff6c-4d4f-8e64-1dee1ccfc66d",
+              "fields": {
+                "work_location_description": "SYNTHETIC：南区3号台",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "SYNTHETIC：电弧焊",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 3,
+              "status": "awaiting_review",
+              "analysis": {
+                "issues": [],
+                "semantic_status": "offline_not_checked",
+                "error": null,
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "analysis_calls": 3
+          }
+        ]
+      },
+      {
+        "case_id": "p1-06-identity-isolation",
+        "passed": true,
+        "analyzer": "offline",
+        "checks": [
+          {
+            "step": "start",
+            "state": {
+              "task_id": "95db8663-d280-444c-aa15-c390dd14d0ed",
+              "thread_id": "116a1e01-158a-4854-badb-c801c35c3e58",
+              "session_id": "ac5e1a2a-b8ef-4201-9b44-fb47cf50284b",
+              "run_id": "9cb12bbf-e47c-4f7f-8788-f87c9fc8edd2",
+              "correlation_id": "d7dc42be-2bfd-4ff7-ac00-4956af57ab5e",
+              "fields": {
+                "work_location_description": "SYNTHETIC：演示西区2号台",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 1,
+              "status": "waiting_input",
+              "analysis": {
+                "issues": [
+                  {
+                    "field": "work_method_description",
+                    "kind": "missing",
+                    "quote": "",
+                    "reason": "字段为空（合成填报规则）",
+                    "question": "请补充作业方式，说明安全作业的方式方法",
+                    "source": "rule"
+                  }
+                ],
+                "semantic_status": "offline_not_checked",
+                "error": null,
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "expected": {
+              "revision": 1,
+              "status": "waiting_input",
+              "issue_fields": [
+                "work_method_description"
+              ],
+              "analysis_calls": 1
+            },
+            "passed": true
+          },
+          {
+            "step": 1,
+            "passed": true,
+            "error": "AccessDenied",
+            "expected": "AccessDenied",
+            "state": {
+              "task_id": "95db8663-d280-444c-aa15-c390dd14d0ed",
+              "thread_id": "116a1e01-158a-4854-badb-c801c35c3e58",
+              "session_id": "ac5e1a2a-b8ef-4201-9b44-fb47cf50284b",
+              "run_id": "9cb12bbf-e47c-4f7f-8788-f87c9fc8edd2",
+              "correlation_id": "d7dc42be-2bfd-4ff7-ac00-4956af57ab5e",
+              "fields": {
+                "work_location_description": "SYNTHETIC：演示西区2号台",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 1,
+              "status": "waiting_input",
+              "analysis": {
+                "issues": [
+                  {
+                    "field": "work_method_description",
+                    "kind": "missing",
+                    "quote": "",
+                    "reason": "字段为空（合成填报规则）",
+                    "question": "请补充作业方式，说明安全作业的方式方法",
+                    "source": "rule"
+                  }
+                ],
+                "semantic_status": "offline_not_checked",
+                "error": null,
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "analysis_calls": 1
+          },
+          {
+            "step": 2,
+            "passed": true,
+            "error": "AccessDenied",
+            "expected": "AccessDenied",
+            "state": {
+              "task_id": "95db8663-d280-444c-aa15-c390dd14d0ed",
+              "thread_id": "116a1e01-158a-4854-badb-c801c35c3e58",
+              "session_id": "ac5e1a2a-b8ef-4201-9b44-fb47cf50284b",
+              "run_id": "9cb12bbf-e47c-4f7f-8788-f87c9fc8edd2",
+              "correlation_id": "d7dc42be-2bfd-4ff7-ac00-4956af57ab5e",
+              "fields": {
+                "work_location_description": "SYNTHETIC：演示西区2号台",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 1,
+              "status": "waiting_input",
+              "analysis": {
+                "issues": [
+                  {
+                    "field": "work_method_description",
+                    "kind": "missing",
+                    "quote": "",
+                    "reason": "字段为空（合成填报规则）",
+                    "question": "请补充作业方式，说明安全作业的方式方法",
+                    "source": "rule"
+                  }
+                ],
+                "semantic_status": "offline_not_checked",
+                "error": null,
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "analysis_calls": 1
+          },
+          {
+            "step": 3,
+            "passed": true,
+            "error": null,
+            "expected": {
+              "revision": 2,
+              "status": "awaiting_review",
+              "issue_fields": [],
+              "analysis_calls": 2
+            },
+            "state": {
+              "task_id": "95db8663-d280-444c-aa15-c390dd14d0ed",
+              "thread_id": "116a1e01-158a-4854-badb-c801c35c3e58",
+              "session_id": "ac5e1a2a-b8ef-4201-9b44-fb47cf50284b",
+              "run_id": "6d531050-dff8-4a8c-a81f-53ec1d3c2cea",
+              "correlation_id": "d7dc42be-2bfd-4ff7-ac00-4956af57ab5e",
+              "fields": {
+                "work_location_description": "SYNTHETIC：演示西区2号台",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "SYNTHETIC：电弧焊",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 2,
+              "status": "awaiting_review",
+              "analysis": {
+                "issues": [],
+                "semantic_status": "offline_not_checked",
+                "error": null,
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "analysis_calls": 2
+          }
+        ]
+      },
+      {
+        "case_id": "p1-07-request-idempotency",
+        "passed": true,
+        "analyzer": "offline",
+        "checks": [
+          {
+            "step": "start",
+            "state": {
+              "task_id": "392a8751-91ef-44aa-8f59-9b5f5404ffae",
+              "thread_id": "40ac02d5-c661-48cf-9e4e-564361c25348",
+              "session_id": "a7a79694-2931-4781-b699-da69abf881f1",
+              "run_id": "ee2cb87a-2c3e-4fe6-b05f-82d3c772365e",
+              "correlation_id": "d09fe0ac-b5ca-4210-93d1-5354036b8187",
+              "fields": {
+                "work_location_description": "",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 1,
+              "status": "waiting_input",
+              "analysis": {
+                "issues": [
+                  {
+                    "field": "work_location_description",
+                    "kind": "missing",
+                    "quote": "",
+                    "reason": "字段为空（合成填报规则）",
+                    "question": "请补充作业位置，说明区域与具体作业点。",
+                    "source": "rule"
+                  },
+                  {
+                    "field": "work_method_description",
+                    "kind": "missing",
+                    "quote": "",
+                    "reason": "字段为空（合成填报规则）",
+                    "question": "请补充作业方式，说明安全作业的方式方法",
+                    "source": "rule"
+                  }
+                ],
+                "semantic_status": "offline_not_checked",
+                "error": null,
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "expected": {
+              "revision": 1,
+              "status": "waiting_input",
+              "issue_fields": [
+                "work_location_description",
+                "work_method_description"
+              ],
+              "analysis_calls": 1
+            },
+            "passed": true
+          },
+          {
+            "step": 1,
+            "passed": true,
+            "error": null,
+            "expected": {
+              "revision": 2,
+              "status": "waiting_input",
+              "issue_fields": [
+                "work_method_description"
+              ],
+              "analysis_calls": 2
+            },
+            "state": {
+              "task_id": "392a8751-91ef-44aa-8f59-9b5f5404ffae",
+              "thread_id": "40ac02d5-c661-48cf-9e4e-564361c25348",
+              "session_id": "a7a79694-2931-4781-b699-da69abf881f1",
+              "run_id": "1721ffff-5a6d-434c-a1d1-961954ff1157",
+              "correlation_id": "d09fe0ac-b5ca-4210-93d1-5354036b8187",
+              "fields": {
+                "work_location_description": "SYNTHETIC：南区3号台",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 2,
+              "status": "waiting_input",
+              "analysis": {
+                "issues": [
+                  {
+                    "field": "work_method_description",
+                    "kind": "missing",
+                    "quote": "",
+                    "reason": "字段为空（合成填报规则）",
+                    "question": "请补充作业方式，说明安全作业的方式方法",
+                    "source": "rule"
+                  }
+                ],
+                "semantic_status": "offline_not_checked",
+                "error": null,
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "analysis_calls": 2
+          },
+          {
+            "step": 2,
+            "passed": true,
+            "error": null,
+            "expected": {
+              "revision": 2,
+              "status": "waiting_input",
+              "issue_fields": [
+                "work_method_description"
+              ],
+              "analysis_calls": 2
+            },
+            "state": {
+              "task_id": "392a8751-91ef-44aa-8f59-9b5f5404ffae",
+              "thread_id": "40ac02d5-c661-48cf-9e4e-564361c25348",
+              "session_id": "a7a79694-2931-4781-b699-da69abf881f1",
+              "run_id": "1721ffff-5a6d-434c-a1d1-961954ff1157",
+              "correlation_id": "d09fe0ac-b5ca-4210-93d1-5354036b8187",
+              "fields": {
+                "work_location_description": "SYNTHETIC：南区3号台",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 2,
+              "status": "waiting_input",
+              "analysis": {
+                "issues": [
+                  {
+                    "field": "work_method_description",
+                    "kind": "missing",
+                    "quote": "",
+                    "reason": "字段为空（合成填报规则）",
+                    "question": "请补充作业方式，说明安全作业的方式方法",
+                    "source": "rule"
+                  }
+                ],
+                "semantic_status": "offline_not_checked",
+                "error": null,
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "analysis_calls": 2
+          },
+          {
+            "step": 3,
+            "passed": true,
+            "error": "InvalidTransition",
+            "expected": "InvalidTransition",
+            "state": {
+              "task_id": "392a8751-91ef-44aa-8f59-9b5f5404ffae",
+              "thread_id": "40ac02d5-c661-48cf-9e4e-564361c25348",
+              "session_id": "a7a79694-2931-4781-b699-da69abf881f1",
+              "run_id": "1721ffff-5a6d-434c-a1d1-961954ff1157",
+              "correlation_id": "d09fe0ac-b5ca-4210-93d1-5354036b8187",
+              "fields": {
+                "work_location_description": "SYNTHETIC：南区3号台",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 2,
+              "status": "waiting_input",
+              "analysis": {
+                "issues": [
+                  {
+                    "field": "work_method_description",
+                    "kind": "missing",
+                    "quote": "",
+                    "reason": "字段为空（合成填报规则）",
+                    "question": "请补充作业方式，说明安全作业的方式方法",
+                    "source": "rule"
+                  }
+                ],
+                "semantic_status": "offline_not_checked",
+                "error": null,
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "analysis_calls": 2
+          }
+        ]
+      },
+      {
+        "case_id": "p1-08-model-timeout",
+        "passed": true,
+        "analyzer": "inject_model_timeout",
+        "checks": [
+          {
+            "step": "start",
+            "state": {
+              "task_id": "381f56f7-c90d-415b-a041-c6c6876b7e1c",
+              "thread_id": "6c5a0b77-0d06-49fe-a3f9-d0afd6145d5b",
+              "session_id": "42dff377-909e-4e6b-816e-fd7a03c38c00",
+              "run_id": "3cfb9ad5-f761-4080-8e1c-bd1c41bfa0ab",
+              "correlation_id": "e23fa79b-26e6-46ca-bead-2fce2f3855be",
+              "fields": {
+                "work_location_description": "SYNTHETIC：演示西区2号台",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 1,
+              "status": "waiting_input",
+              "analysis": {
+                "issues": [
+                  {
+                    "field": "work_method_description",
+                    "kind": "missing",
+                    "quote": "",
+                    "reason": "字段为空（合成填报规则）",
+                    "question": "请补充作业方式，说明安全作业的方式方法",
+                    "source": "rule"
+                  }
+                ],
+                "semantic_status": "failed",
+                "error": "model_timeout",
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "expected": {
+              "revision": 1,
+              "status": "waiting_input",
+              "issue_fields": [
+                "work_method_description"
+              ],
+              "analysis_calls": 1,
+              "semantic_status": "failed",
+              "error": "model_timeout"
+            },
+            "passed": true
+          },
+          {
+            "step": 1,
+            "passed": true,
+            "error": null,
+            "expected": {
+              "revision": 2,
+              "status": "awaiting_review",
+              "issue_fields": [],
+              "analysis_calls": 2,
+              "semantic_status": "failed",
+              "error": "model_timeout"
+            },
+            "state": {
+              "task_id": "381f56f7-c90d-415b-a041-c6c6876b7e1c",
+              "thread_id": "6c5a0b77-0d06-49fe-a3f9-d0afd6145d5b",
+              "session_id": "42dff377-909e-4e6b-816e-fd7a03c38c00",
+              "run_id": "671efb94-e126-458b-a65c-b3a331646ade",
+              "correlation_id": "e23fa79b-26e6-46ca-bead-2fce2f3855be",
+              "fields": {
+                "work_location_description": "SYNTHETIC：演示西区2号台",
+                "work_object_description": "SYNTHETIC：样件B的支架",
+                "work_method_description": "SYNTHETIC：电弧焊",
+                "attachment_description": "SYNTHETIC：样件B支架定位图"
+              },
+              "revision": 2,
+              "status": "awaiting_review",
+              "analysis": {
+                "issues": [],
+                "semantic_status": "failed",
+                "error": "model_timeout",
+                "model": null,
+                "prompt_version": null,
+                "usage": null
+              },
+              "trace_warning": null,
+              "analysis_mode": "offline"
+            },
+            "analysis_calls": 2
+          }
+        ]
+      }
+    ]
+  },
+  "archive_rescore": {
+    "mode": "archived_prediction_rescore",
+    "cases": 3,
+    "results": [
+      {
+        "case_id": "anlan2-dev-001",
+        "scores": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "exact_match": true
+        }
+      },
+      {
+        "case_id": "anlan2-dev-002",
+        "scores": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "exact_match": true
+        }
+      },
+      {
+        "case_id": "anlan2-dev-003",
+        "scores": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "exact_match": true
+        }
+      }
+    ],
+    "exact_matches": 3,
+    "model_issue_count": 1,
+    "rule_issue_count": 1,
+    "historical_request_attempts": 3,
+    "historical_total_tokens": 1184,
+    "limitation": "Seen dev predictions from WP03; no new model call or trajectory replay."
+  },
+  "status": "passed"
+}

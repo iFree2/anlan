@@ -1,0 +1,86 @@
+{
+  "version": "phase01-regression-v1",
+  "data_origin": "SYNTHETIC",
+  "exposure": "developer_seen",
+  "base_fields": {
+    "work_location_description": "SYNTHETIC：演示西区2号台",
+    "work_object_description": "SYNTHETIC：样件B的支架",
+    "work_method_description": "SYNTHETIC：电弧焊连接支架",
+    "attachment_description": "SYNTHETIC：样件B支架定位图"
+  },
+  "cases": [
+    {
+      "case_id": "p1-01-complete",
+      "initial_overrides": {},
+      "initial_expected": {"revision": 1, "status": "awaiting_review", "issue_fields": [], "analysis_calls": 1},
+      "steps": []
+    },
+    {
+      "case_id": "p1-02-two-turns",
+      "initial_overrides": {"work_location_description": "", "work_method_description": ""},
+      "initial_expected": {"revision": 1, "status": "waiting_input", "issue_fields": ["work_location_description", "work_method_description"], "analysis_calls": 1},
+      "steps": [
+        {"action": "resume", "revision": 1, "request_id": "location", "fields": {"work_location_description": "SYNTHETIC：演示南区3号台"}, "expected": {"revision": 2, "status": "waiting_input", "issue_fields": ["work_method_description"], "analysis_calls": 2}},
+        {"action": "resume", "revision": 2, "request_id": "method", "fields": {"work_method_description": "SYNTHETIC：电弧焊"}, "expected": {"revision": 3, "status": "awaiting_review", "issue_fields": [], "analysis_calls": 3}}
+      ]
+    },
+    {
+      "case_id": "p1-03-correct-while-waiting",
+      "initial_overrides": {"work_method_description": ""},
+      "initial_expected": {"revision": 1, "status": "waiting_input", "issue_fields": ["work_method_description"], "analysis_calls": 1},
+      "steps": [
+        {"action": "resume", "revision": 1, "request_id": "correct-location", "fields": {"work_location_description": "SYNTHETIC：更正为东区7号台"}, "expected": {"revision": 2, "status": "waiting_input", "issue_fields": ["work_method_description"], "analysis_calls": 2}},
+        {"action": "resume", "revision": 2, "request_id": "method", "fields": {"work_method_description": "SYNTHETIC：电弧焊"}, "expected": {"revision": 3, "status": "awaiting_review", "issue_fields": [], "analysis_calls": 3}}
+      ]
+    },
+    {
+      "case_id": "p1-04-invalid-supplement",
+      "initial_overrides": {"work_method_description": ""},
+      "initial_expected": {"revision": 1, "status": "waiting_input", "issue_fields": ["work_method_description"], "analysis_calls": 1},
+      "steps": [
+        {"action": "resume", "revision": 1, "request_id": "extra-field", "fields": {"tenant_id": "injected"}, "expected_error": "ValidationError"},
+        {"action": "resume", "revision": 1, "request_id": "wrong-type", "fields": {"work_method_description": 7}, "expected_error": "ValidationError"},
+        {"action": "resume", "revision": 1, "request_id": "valid", "fields": {"work_method_description": "SYNTHETIC：电弧焊"}, "expected": {"revision": 2, "status": "awaiting_review", "issue_fields": [], "analysis_calls": 2}}
+      ]
+    },
+    {
+      "case_id": "p1-05-stale-revision",
+      "initial_overrides": {"work_location_description": "", "work_method_description": ""},
+      "initial_expected": {"revision": 1, "status": "waiting_input", "issue_fields": ["work_location_description", "work_method_description"], "analysis_calls": 1},
+      "steps": [
+        {"action": "resume", "revision": 1, "request_id": "location", "fields": {"work_location_description": "SYNTHETIC：南区3号台"}, "expected": {"revision": 2, "status": "waiting_input", "issue_fields": ["work_method_description"], "analysis_calls": 2}},
+        {"action": "resume", "revision": 1, "request_id": "stale", "fields": {"work_location_description": "SYNTHETIC：旧回答覆盖"}, "expected_error": "InvalidTransition"},
+        {"action": "resume", "revision": 2, "request_id": "method", "fields": {"work_method_description": "SYNTHETIC：电弧焊"}, "expected": {"revision": 3, "status": "awaiting_review", "issue_fields": [], "analysis_calls": 3}}
+      ]
+    },
+    {
+      "case_id": "p1-06-identity-isolation",
+      "initial_overrides": {"work_method_description": ""},
+      "initial_expected": {"revision": 1, "status": "waiting_input", "issue_fields": ["work_method_description"], "analysis_calls": 1},
+      "steps": [
+        {"action": "get", "actor": "other_tenant", "expected_error": "AccessDenied"},
+        {"action": "resume", "actor": "other_user", "revision": 1, "request_id": "unauthorized", "fields": {"work_method_description": "SYNTHETIC：伪造补充"}, "expected_error": "AccessDenied"},
+        {"action": "resume", "revision": 1, "request_id": "owner", "fields": {"work_method_description": "SYNTHETIC：电弧焊"}, "expected": {"revision": 2, "status": "awaiting_review", "issue_fields": [], "analysis_calls": 2}}
+      ]
+    },
+    {
+      "case_id": "p1-07-request-idempotency",
+      "initial_overrides": {"work_location_description": "", "work_method_description": ""},
+      "initial_expected": {"revision": 1, "status": "waiting_input", "issue_fields": ["work_location_description", "work_method_description"], "analysis_calls": 1},
+      "steps": [
+        {"action": "resume", "revision": 1, "request_id": "same", "fields": {"work_location_description": "SYNTHETIC：南区3号台"}, "expected": {"revision": 2, "status": "waiting_input", "issue_fields": ["work_method_description"], "analysis_calls": 2}},
+        {"action": "resume", "revision": 1, "request_id": "same", "fields": {"work_location_description": "SYNTHETIC：南区3号台"}, "same_result_as_previous": true, "expected": {"revision": 2, "status": "waiting_input", "issue_fields": ["work_method_description"], "analysis_calls": 2}},
+        {"action": "resume", "revision": 1, "request_id": "same", "fields": {"work_location_description": "SYNTHETIC：冲突载荷"}, "expected_error": "InvalidTransition"}
+      ]
+    },
+    {
+      "case_id": "p1-08-model-timeout",
+      "analyzer": "inject_model_timeout",
+      "initial_overrides": {"work_method_description": ""},
+      "initial_expected": {"revision": 1, "status": "waiting_input", "issue_fields": ["work_method_description"], "analysis_calls": 1, "semantic_status": "failed", "error": "model_timeout"},
+      "steps": [
+        {"action": "resume", "revision": 1, "request_id": "method", "fields": {"work_method_description": "SYNTHETIC：电弧焊"}, "expected": {"revision": 2, "status": "awaiting_review", "issue_fields": [], "analysis_calls": 2, "semantic_status": "failed", "error": "model_timeout"}}
+      ]
+    }
+  ]
+}

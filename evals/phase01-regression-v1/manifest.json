@@ -1,0 +1,24 @@
+{
+  "version": "phase01-regression-v1",
+  "frozen_at": "2026-09-20",
+  "data_origin": "SYNTHETIC",
+  "exposure": "developer_seen",
+  "canonicalization": "json-sort-keys-compact-utf8",
+  "files": {
+    "cases": {
+      "path": "evals/phase01-regression-v1/cases.json",
+      "format": "json",
+      "sha256": "d195c60b6a3f30ad86eadc9943457d5e7e5b782d296a60e89883633f7db85b48"
+    },
+    "archive": {
+      "path": "docs/phases/phase-01-workflow/evidence/wp03/live-20260920-v1.json",
+      "format": "json",
+      "sha256": "bb4ad8baaa6618468ab3ad24da9f5dd5cec30b458e425f05b3b693096b18a3df"
+    },
+    "labels": {
+      "path": "evals/materials-v1/dev.jsonl",
+      "format": "jsonl",
+      "sha256": "a5a03849bee4fbef2cd9bd33ce8d60d1ddac96797b5add0db8b0eb9aa01fec93"
+    }
+  }
+}

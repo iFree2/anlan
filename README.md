@@ -2,7 +2,7 @@
 
 面向企业安全管理人员的高风险作业全周期安全协同 Agent。先深入动火作业，从准备与预审发展到依据/风险分析、作业中感知协同和事后质量闭环。所有演示均为 **SYNTHETIC 合成数据**，不是企业制度或合规依据；不自动批准，不控制或关闭报警。
 
-当前是 P1 / WP03：CLI 单工作流，可观察“材料分析 → 追问 → 补充 → 更新状态 → 再分析”，并通过 PostgreSQL 跨进程续接；已完成DeepSeek三例真实合成联调。外层使用 LangGraph `StateGraph`、条件边、`interrupt`/`Command(resume=...)`。默认离线规则仅识别空字段；真实结果和边界见 [WP03报告](docs/phases/phase-01-workflow/evidence/wp03/final-report.md)，当前工作入口见 [status](docs/status.md)。
+P1材料工作流的工程Gate已通过，P2受控工具与知识入口已准备。当前可运行能力是“材料分析 → 追问 → 补充 → 更新状态 → 再分析”，可通过 PostgreSQL 跨进程续接，并已完成DeepSeek三例真实合成联调。外层使用LangGraph状态/条件边/interrupt/resume，默认离线规则仅识别空字段；限定结论见 [P1 Gate](docs/phases/phase-01-workflow/evidence/wp04/gate-report.md)，当前入口见 [status](docs/status.md)。
 
 ## 启动（PowerShell）
 
@@ -104,6 +104,14 @@ uv run anlan demo --mode deepseek
 日志文件不可写时，输出 `trace_warning=trace_write_failed`，本地材料流程仍可继续；该次轨迹存在缺口，不会在事后伪造补齐。此策略适用于本地合成辅助演示，不代表未来高影响写操作可以绕过审计。
 
 最小开发评测见 [样本与口径](evals/materials-v1/README.md)。三个已见样本用于打通预测、TP/FP/FN 与失败保留，不是留出集或充分的模型效果证据。
+
+P1固定工程回归见 [冻结口径](evals/phase01-regression-v1/README.md)。以下命令运行8个已见工作流情境，并对历史模型结果重新评分；不会再次请求模型，输出文件不可覆盖：
+
+```powershell
+uv run python evals/phase_gate.py --output .runtime/p1-regression.json
+```
+
+它检查返回与保存状态、拒绝时状态不变和分析次数等，不代替真实模型质量评测。个人学习与阶段切换要求见 [P1阶段交接](docs/phases/phase-01-workflow/handoff.md)、[P2计划](docs/phases/phase-02-tools-rag/plan.md)。
 
 ## 重要限制
 

@@ -1,0 +1,195 @@
+{
+  "created_at": "2026-09-20T10:58:21.729547+00:00",
+  "mode": "offline",
+  "data_origin": "SYNTHETIC",
+  "commands": [
+    {
+      "argv": [
+        "D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe",
+        "-m",
+        "anlan",
+        "start",
+        "--trace",
+        "docs\\phases\\phase-01-workflow\\evidence\\wp04\\cli-smoke.trace.jsonl"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"mode\": \"offline\", \"notice\": \"仅材料辅助核查，需安全管理人员复核；不是作业批准或合规结论。\", \"task_id\": \"72e56309-8cb5-48ad-8170-fa71d00b655d\", \"thread_id\": \"6e9da573-d847-40f8-8c53-795b4b03fb00\", \"session_id\": \"cc4cbcd9-fa3b-493d-9499-58ecdc39c8e2\", \"run_id\": \"e72612e5-3855-4e40-8fe5-80cde8e72a96\", \"correlation_id\": \"c5d9b68f-094b-4ffe-a8dd-8175e5c5972e\", \"fields\": {\"attachment_description\": \"SYNTHETIC：试件 A 的位置标记示意图\", \"work_method_description\": \"\", \"work_object_description\": \"SYNTHETIC：演示试件 A 接缝\", \"work_location_description\": \"\"}, \"revision\": 1, \"status\": \"waiting_input\", \"analysis\": {\"issues\": [{\"field\": \"work_location_description\", \"kind\": \"missing\", \"quote\": \"\", \"reason\": \"字段为空（合成填报规则）\", \"question\": \"请补充作业位置，说明区域与具体作业点。\", \"source\": \"rule\"}, {\"field\": \"work_method_description\", \"kind\": \"missing\", \"quote\": \"\", \"reason\": \"字段为空（合成填报规则）\", \"question\": \"请补充作业方式，说明安全作业的方式方法\", \"source\": \"rule\"}], \"semantic_status\": \"offline_not_checked\", \"error\": null, \"model\": null, \"prompt_version\": null, \"usage\": null}, \"trace_warning\": null, \"analysis_mode\": \"offline\"}\n",
+      "stderr": "{\"event\": \"task_created\", \"task_id\": \"72e56309-8cb5-48ad-8170-fa71d00b655d\"}\n"
+    },
+    {
+      "argv": [
+        "D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe",
+        "-m",
+        "anlan",
+        "show",
+        "--task",
+        "72e56309-8cb5-48ad-8170-fa71d00b655d",
+        "--trace",
+        "docs\\phases\\phase-01-workflow\\evidence\\wp04\\cli-smoke.trace.jsonl"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"mode\": \"offline\", \"notice\": \"仅材料辅助核查，需安全管理人员复核；不是作业批准或合规结论。\", \"task_id\": \"72e56309-8cb5-48ad-8170-fa71d00b655d\", \"thread_id\": \"6e9da573-d847-40f8-8c53-795b4b03fb00\", \"session_id\": \"cc4cbcd9-fa3b-493d-9499-58ecdc39c8e2\", \"run_id\": \"e72612e5-3855-4e40-8fe5-80cde8e72a96\", \"correlation_id\": \"c5d9b68f-094b-4ffe-a8dd-8175e5c5972e\", \"fields\": {\"attachment_description\": \"SYNTHETIC：试件 A 的位置标记示意图\", \"work_method_description\": \"\", \"work_object_description\": \"SYNTHETIC：演示试件 A 接缝\", \"work_location_description\": \"\"}, \"revision\": 1, \"status\": \"waiting_input\", \"analysis\": {\"issues\": [{\"field\": \"work_location_description\", \"kind\": \"missing\", \"quote\": \"\", \"reason\": \"字段为空（合成填报规则）\", \"question\": \"请补充作业位置，说明区域与具体作业点。\", \"source\": \"rule\"}, {\"field\": \"work_method_description\", \"kind\": \"missing\", \"quote\": \"\", \"reason\": \"字段为空（合成填报规则）\", \"question\": \"请补充作业方式，说明安全作业的方式方法\", \"source\": \"rule\"}], \"semantic_status\": \"offline_not_checked\", \"error\": null, \"model\": null, \"prompt_version\": null, \"usage\": null}, \"trace_warning\": null, \"analysis_mode\": \"offline\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe",
+        "-m",
+        "anlan",
+        "resume",
+        "--task",
+        "72e56309-8cb5-48ad-8170-fa71d00b655d",
+        "--revision",
+        "1",
+        "--request-id",
+        "location-1",
+        "--fields-file",
+        "examples/synthetic/location.json",
+        "--trace",
+        "docs\\phases\\phase-01-workflow\\evidence\\wp04\\cli-smoke.trace.jsonl"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"mode\": \"offline\", \"notice\": \"仅材料辅助核查，需安全管理人员复核；不是作业批准或合规结论。\", \"task_id\": \"72e56309-8cb5-48ad-8170-fa71d00b655d\", \"thread_id\": \"6e9da573-d847-40f8-8c53-795b4b03fb00\", \"session_id\": \"cc4cbcd9-fa3b-493d-9499-58ecdc39c8e2\", \"run_id\": \"26178ebb-f3df-48d1-9fca-ad849c7b6e7b\", \"correlation_id\": \"c5d9b68f-094b-4ffe-a8dd-8175e5c5972e\", \"fields\": {\"work_location_description\": \"SYNTHETIC：演示 A 区 1 号台\", \"work_object_description\": \"SYNTHETIC：演示试件 A 接缝\", \"work_method_description\": \"\", \"attachment_description\": \"SYNTHETIC：试件 A 的位置标记示意图\"}, \"revision\": 2, \"status\": \"waiting_input\", \"analysis\": {\"issues\": [{\"field\": \"work_method_description\", \"kind\": \"missing\", \"quote\": \"\", \"reason\": \"字段为空（合成填报规则）\", \"question\": \"请补充作业方式，说明安全作业的方式方法\", \"source\": \"rule\"}], \"semantic_status\": \"offline_not_checked\", \"error\": null, \"model\": null, \"prompt_version\": null, \"usage\": null}, \"trace_warning\": null, \"analysis_mode\": \"offline\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe",
+        "-m",
+        "anlan",
+        "resume",
+        "--task",
+        "72e56309-8cb5-48ad-8170-fa71d00b655d",
+        "--revision",
+        "1",
+        "--request-id",
+        "location-1",
+        "--fields-file",
+        "examples/synthetic/location.json",
+        "--trace",
+        "docs\\phases\\phase-01-workflow\\evidence\\wp04\\cli-smoke.trace.jsonl"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"mode\": \"offline\", \"notice\": \"仅材料辅助核查，需安全管理人员复核；不是作业批准或合规结论。\", \"fields\": {\"attachment_description\": \"SYNTHETIC：试件 A 的位置标记示意图\", \"work_method_description\": \"\", \"work_object_description\": \"SYNTHETIC：演示试件 A 接缝\", \"work_location_description\": \"SYNTHETIC：演示 A 区 1 号台\"}, \"run_id\": \"26178ebb-f3df-48d1-9fca-ad849c7b6e7b\", \"status\": \"waiting_input\", \"task_id\": \"72e56309-8cb5-48ad-8170-fa71d00b655d\", \"analysis\": {\"error\": null, \"model\": null, \"usage\": null, \"issues\": [{\"kind\": \"missing\", \"field\": \"work_method_description\", \"quote\": \"\", \"reason\": \"字段为空（合成填报规则）\", \"source\": \"rule\", \"question\": \"请补充作业方式，说明安全作业的方式方法\"}], \"prompt_version\": null, \"semantic_status\": \"offline_not_checked\"}, \"revision\": 2, \"thread_id\": \"6e9da573-d847-40f8-8c53-795b4b03fb00\", \"session_id\": \"cc4cbcd9-fa3b-493d-9499-58ecdc39c8e2\", \"analysis_mode\": \"offline\", \"trace_warning\": null, \"correlation_id\": \"c5d9b68f-094b-4ffe-a8dd-8175e5c5972e\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe",
+        "-m",
+        "anlan",
+        "resume",
+        "--task",
+        "72e56309-8cb5-48ad-8170-fa71d00b655d",
+        "--revision",
+        "1",
+        "--request-id",
+        "stale",
+        "--fields-file",
+        "examples/synthetic/method.json",
+        "--trace",
+        "docs\\phases\\phase-01-workflow\\evidence\\wp04\\cli-smoke.trace.jsonl"
+      ],
+      "exit_code": 2,
+      "stdout": "",
+      "stderr": "任务非待补充或回答版本已过期；请先读取当前状态\n"
+    },
+    {
+      "argv": [
+        "D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe",
+        "-m",
+        "anlan",
+        "show",
+        "--task",
+        "72e56309-8cb5-48ad-8170-fa71d00b655d",
+        "--tenant",
+        "other-synthetic",
+        "--trace",
+        "docs\\phases\\phase-01-workflow\\evidence\\wp04\\cli-smoke.trace.jsonl"
+      ],
+      "exit_code": 2,
+      "stdout": "",
+      "stderr": "任务不存在或当前测试身份无权访问\n"
+    },
+    {
+      "argv": [
+        "D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe",
+        "-m",
+        "anlan",
+        "resume",
+        "--task",
+        "72e56309-8cb5-48ad-8170-fa71d00b655d",
+        "--revision",
+        "2",
+        "--request-id",
+        "method-1",
+        "--fields-file",
+        "examples/synthetic/method.json",
+        "--trace",
+        "docs\\phases\\phase-01-workflow\\evidence\\wp04\\cli-smoke.trace.jsonl"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"mode\": \"offline\", \"notice\": \"仅材料辅助核查，需安全管理人员复核；不是作业批准或合规结论。\", \"task_id\": \"72e56309-8cb5-48ad-8170-fa71d00b655d\", \"thread_id\": \"6e9da573-d847-40f8-8c53-795b4b03fb00\", \"session_id\": \"cc4cbcd9-fa3b-493d-9499-58ecdc39c8e2\", \"run_id\": \"65f50a99-73cd-4327-a1ad-736c551ed654\", \"correlation_id\": \"c5d9b68f-094b-4ffe-a8dd-8175e5c5972e\", \"fields\": {\"work_location_description\": \"SYNTHETIC：演示 A 区 1 号台\", \"work_object_description\": \"SYNTHETIC：演示试件 A 接缝\", \"work_method_description\": \"SYNTHETIC：电弧焊连接接缝\", \"attachment_description\": \"SYNTHETIC：试件 A 的位置标记示意图\"}, \"revision\": 3, \"status\": \"awaiting_review\", \"analysis\": {\"issues\": [], \"semantic_status\": \"offline_not_checked\", \"error\": null, \"model\": null, \"prompt_version\": null, \"usage\": null}, \"trace_warning\": null, \"analysis_mode\": \"offline\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe",
+        "-m",
+        "anlan",
+        "recover",
+        "--task",
+        "72e56309-8cb5-48ad-8170-fa71d00b655d",
+        "--trace",
+        "docs\\phases\\phase-01-workflow\\evidence\\wp04\\cli-smoke.trace.jsonl"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"mode\": \"offline\", \"notice\": \"仅材料辅助核查，需安全管理人员复核；不是作业批准或合规结论。\", \"task_id\": \"72e56309-8cb5-48ad-8170-fa71d00b655d\", \"thread_id\": \"6e9da573-d847-40f8-8c53-795b4b03fb00\", \"session_id\": \"cc4cbcd9-fa3b-493d-9499-58ecdc39c8e2\", \"run_id\": \"65f50a99-73cd-4327-a1ad-736c551ed654\", \"correlation_id\": \"c5d9b68f-094b-4ffe-a8dd-8175e5c5972e\", \"fields\": {\"work_location_description\": \"SYNTHETIC：演示 A 区 1 号台\", \"work_object_description\": \"SYNTHETIC：演示试件 A 接缝\", \"work_method_description\": \"SYNTHETIC：电弧焊连接接缝\", \"attachment_description\": \"SYNTHETIC：试件 A 的位置标记示意图\"}, \"revision\": 3, \"status\": \"awaiting_review\", \"analysis\": {\"issues\": [], \"semantic_status\": \"offline_not_checked\", \"error\": null, \"model\": null, \"prompt_version\": null, \"usage\": null}, \"trace_warning\": null, \"analysis_mode\": \"offline\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe",
+        "-m",
+        "anlan",
+        "history",
+        "--task",
+        "72e56309-8cb5-48ad-8170-fa71d00b655d",
+        "--trace",
+        "docs\\phases\\phase-01-workflow\\evidence\\wp04\\cli-smoke.trace.jsonl"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"task_id\": \"72e56309-8cb5-48ad-8170-fa71d00b655d\", \"operations\": [{\"request_id\": \"start\", \"run_id\": \"e72612e5-3855-4e40-8fe5-80cde8e72a96\", \"kind\": \"start\", \"expected_revision\": 0, \"status\": \"completed\"}, {\"request_id\": \"location-1\", \"run_id\": \"26178ebb-f3df-48d1-9fca-ad849c7b6e7b\", \"kind\": \"resume\", \"expected_revision\": 1, \"status\": \"completed\"}, {\"request_id\": \"method-1\", \"run_id\": \"65f50a99-73cd-4327-a1ad-736c551ed654\", \"kind\": \"resume\", \"expected_revision\": 2, \"status\": \"completed\"}]}\n",
+      "stderr": ""
+    }
+  ],
+  "task_id": "72e56309-8cb5-48ad-8170-fa71d00b655d",
+  "postgres_version": "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit",
+  "sql_runs": [
+    {
+      "request_id": "start",
+      "run_id": "e72612e5-3855-4e40-8fe5-80cde8e72a96",
+      "kind": "start",
+      "expected_revision": 0,
+      "result_revision": "1",
+      "result_status": "waiting_input"
+    },
+    {
+      "request_id": "location-1",
+      "run_id": "26178ebb-f3df-48d1-9fca-ad849c7b6e7b",
+      "kind": "resume",
+      "expected_revision": 1,
+      "result_revision": "2",
+      "result_status": "waiting_input"
+    },
+    {
+      "request_id": "method-1",
+      "run_id": "65f50a99-73cd-4327-a1ad-736c551ed654",
+      "kind": "resume",
+      "expected_revision": 2,
+      "result_revision": "3",
+      "result_status": "awaiting_review"
+    }
+  ],
+  "status": "passed"
+}

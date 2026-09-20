@@ -42,8 +42,8 @@ JD 的专业学历/经历及自驱、抗压等要求不由项目代码或量化�
 | 11 事件与多模态 | 通用补充 / 领域特色 | P2 拓展 | P5 两类事件关联/去重/乱序/反馈；P7 离线图片 | 正确作业、重复不重复处置、错误可追踪；输入方式对照质量/延迟/费用 | 未开始 | 待验证 |
 | 12 子 Agent / 多 Agent | 通用补充，支撑 J4/J5/J11 | P1 重点实践 | P4 作业前知识+事实→风险+复核；P5 感知 | 单/多对照，复核消融；部分失败/取消/冲突/预算 | 未开始；架构方向已确定 | 待验证 |
 | 13 追踪 / 语义分析 | J1/J10/J14；补充 trace/span、脱敏 | P0 基础并深化 | P1 关联 JSONL；P2 Langfuse；P6 SQL+相似 Badcase 或聚类 | 错误追根、延迟/费用分布、语义分析人工验值；不保存隐藏思维链 | WP01 JSONL+WP02 SQL查询关联运行记录已验证；平台追踪未做 | 待验证 |
-| 14 评测 / Replay / 闭环 | J1/J6/J11/J13 | P1 重点，基础从 P1 开始 | P1 开发样本；P3/4 对照；P6 反馈到回归、Judge 校准 | 冻结留出、过程约束+结果指标；只读/录制回放/真实复跑分清；保留失败 | WP03同集离线/真实对照与逐例复核已存；独立留出/闭环后置 | 待验证 |
+| 14 评测 / Replay / 闭环 | J1/J6/J11/J13 | P1 重点，基础从 P1 开始 | P1 开发样本；P3/4 对照；P6 反馈到回归、Judge 校准 | 冻结留出、过程约束+结果指标；只读/录制回放/真实复跑分清；保留失败 | P1新增8例冻结工程回归与历史预测重评分；独立语义留出/闭环后置 | 待验证 |
 | 15 安全 / 企业集成 | J14/J7；补充可信身份/注入/秘密/人工边界 | P0 基础 | P1 入口隔离/Schema；P2 检索权限；P4 Java；P5 原始报警独立 | 跨租户拒绝、恶意文档/事件不改权限、服务端控制重要动作 | WP02 PG持久归属/跨租户拒绝已验；仍为模拟身份，非生产鉴权 | 待验证 |
 | 16 服务部署 / CI | J7；补充 FastAPI/SSE/断连/迁移/Compose/健康检查 | P0 基础，后置 | P5 服务与事件演示；P6 延迟/并发瓶颈 | 清洁环境启动、恢复任务、断连语义与小规模测量 | 未开始 | 待验证 |
 
-所有效果指标在各阶段冻结任务与口径后测量；测试数量、安装包数量、文档数量都不能作为掌握程度。近期练习入口见 [learning-log](learning-log.md)，实施证据见 [WP01](phases/phase-01-workflow/evidence/wp01/verification.md) / [WP02](phases/phase-01-workflow/evidence/wp02/verification.md)，真实联调见 [WP03](phases/phase-01-workflow/evidence/wp03/final-report.md)，当前状态见 [status](status.md)。
+所有效果指标在各阶段冻结任务与口径后测量；测试数量、安装包数量、文档数量都不能作为掌握程度。近期练习入口见 [learning-log](learning-log.md)，实施证据见 [WP01](phases/phase-01-workflow/evidence/wp01/verification.md) / [WP02](phases/phase-01-workflow/evidence/wp02/verification.md)，真实联调见 [WP03](phases/phase-01-workflow/evidence/wp03/final-report.md)，P1阶段结论见 [Gate](phases/phase-01-workflow/evidence/wp04/gate-report.md)，当前状态见 [status](status.md)。

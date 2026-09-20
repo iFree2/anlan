@@ -1,40 +1,16 @@
-# P1：多轮材料工作流（第 1—2 周）
+# P1：多轮材料工作流（历史阶段计划）
 
-目标：看得见状态变化、能中断补充并恢复、能区分模型/规则/人工边界；随后完成 PostgreSQL 进程重启恢复。
+2026-09-20工程Gate通过；个人掌握仍待验证，语义泛化未验证。当前状态由docs/status.md维护，完整交接见 [handoff](handoff.md)，阶段结论见 [Gate报告](evidence/wp04/gate-report.md)。
 
-## WP01：内存工作流与可选真实模型（本轮）
+初始目标：先看清材料分析→追问→补充→再分析的状态变化，再实现PostgreSQL跨进程恢复；限CLI、合成数据和受限模型，无审批/真实控制。本阶段保持LangGraph外层状态权威，未创建多Agent壳。
 
-用户原始需求已明确授权此增量；采用其指定目录和最小文档结构。无需五个 Agent、RAG、前端、Java、真实企业数据或新审批流程。空仓库冷启动，无历史 smoke 可运行；先写行为测试建立基线。用当前目录的新独立 Git 分支工作，无既有内容需移开。
+| 工作包 | 实际范围 | 计划/交接及证据 |
+|---|---|---|
+| WP01 | 内存Graph、四字段合同、规则/模型边界、CLI与基础轨迹 | [交接](wp01-handoff.md)、[验证](evidence/wp01/verification.md)、[ADR001](../../decisions/001-workflow-state.md) |
+| WP02 | 官方PG saver、归属/提交、版本/幂等、跨进程/故障恢复 | [计划](wp02-plan.md)、[交接](wp02-handoff.md)、[ADR002](../../decisions/002-postgres-recovery.md) |
+| WP03 | 三例真实联调、模式标记/用量完整性、错误回溯脱敏 | [计划](wp03-plan.md)、[交接](wp03-handoff.md)、[报告](evidence/wp03/final-report.md) |
+| WP04 | 八例冻结工程回归、历史预测重评分、阶段Gate及P2启动准备 | [计划](wp04-plan.md)、[阶段交接](handoff.md)、[最终Gate](evidence/wp04/gate-report.md) |
 
-设计选择：
-1. **内存 checkpoint → PostgreSQL**（采用）：先理解 Graph 与节点重入，下一包处理持久存储和并发边界。
-2. 直接 PostgreSQL：终态一致，但本轮要同时排查 DB 环境；推迟到 WP02。
-3. SQLite 过渡：重启方便，但增加一种存储与迁移成本；不采用。
+已采用取舍：内存起步后接PG，不经SQLite；模型分析与interrupt分节点；生命周期由代码控制；归属/提交/checkpoint边界见ADR；模拟身份非生产认证。完整原始规划可查Git历史，不再在已结束阶段主计划重复当前状态。
 
-入口仅接受四字段字典；默认规则模式明确为离线基线，只识别空字段，不伪称语言理解。真实 DeepSeek 为可选分析器，独立超时、单进程最多 3 次请求、无重试；只发送合成材料。模型输出是问题候选，不是材料补值。每轮最多四个字段问题，白名单合并，expected_revision 防止旧回答覆盖；无问题也只到待人工复核。模型失败标明未完成语义核查。
-
-身份 tenant/user 保存在服务归属索引；图状态包含 session/task/thread/run/correlation、字段、revision、analysis、status；thread ID 内部生成。模型仅见字段和判定说明，不见身份和凭据。服务入口先做归属检查；用户输入不能更新身份/任务控制字段。图中 analysis 与 ask 分离，resume 只重入 ask，补充成功才重新分析。状态不可用 JSONL 日志反向恢复。WP02 需要同时持久化归属索引与 checkpoint。
-
-## WP01 实施步骤（执行状态由 status 汇总）
-
-- [x] 建立依赖锁和测试框架：`pyproject.toml`、`uv.lock`；`uv sync --locked` 可重建环境。
-- [x] 先写 `tests/test_workflow.py`：空字段追问、两轮局部合并、旧 revision 拒绝、跨租户/用户拒绝、未知字段拒绝、节点重入不多调分析器、模型失败只到待人工复核；已观察缺模块失败。
-- [x] `src/anlan/contracts.py` 定义字段与补充 DTO、问题候选；`analysis.py` 提供规则与模型契约；`workflow.py` 实现 Graph，`service.py` 负责可信上下文和生命周期入口。核心断言：初始 revision=1；局部补充后 revision=2，未修改字段保留；返回给用户的状态为 waiting_input/awaiting_review。
-- [x] `tests/test_model.py` 使用 HTTP 替身测适配器请求、无效 JSON/伪引用/批准额外字段、超时和预算；`model.py` 只用官方 DeepSeek 端点、非思考模式，不记录响应隐藏思维链或错误正文。
-- [x] `cli.py` / `__main__.py` 提供 `demo` 与 `chat`；demo 顺序展示两轮，chat 使用字段 JSON 局部补充，验证错误不消耗模型请求。
-- [x] 本地 JSONL 记录关联 ID、状态版本、问题字段/类别、时长、模型/Prompt 版本与 usage；仅合成数据模式，默认不写字段原文和密钥。基础 smoke 与命令结果存阶段 evidence。
-- [x] 三个新编已见开发样本与 TP/FP/FN 评分入口；离线歧义漏检保留，不能作为模型效果验证。
-- [x] WP03已完成3次真实请求，真实结果与网络替身分开；详见本阶段WP03报告。
-- [x] 已更新 status/矩阵/学习练习与 WP handoff，停在本工作包边界；本人练习仍待验证。
-
-计划自查：无 SQLite/五 Agent 空壳；无真实报警/审批；规则模式不能验证歧义识别；内存恢复不能声称进程重启恢复；每项个人掌握默认待验证。
-
-## WP02（工程已交付，本人掌握待验证）
-
-用户要求继续推进后，按 [WP02计划](wp02-plan.md) 完成独立PG17、官方saver、归属/提交记录、重启恢复、去重/版本/锁保护与故障回归。证据与限制见 [WP02交接](wp02-handoff.md)；状态恢复已验，不代表模型效果或本人掌握。真实模型和P1剩余验收仍未完成，不提前过Gate。
-
-## WP03：真实模型小样本联调（已交付）
-
-用户指定本地配置后只读加载，已执行3次真实请求，无重试，返回1184 token；三个已见样本的系统输出符合标注。开发样本和Prompt未改，不能外推泛化。实现与限制见 [WP03交接](wp03-handoff.md)。
-
-下一工作包建议是P1收尾：冻结小型阶段回归集、核对工程验收和阶段handoff；新模型实验先说明目的/样本/预算。用户已要求持续开发并先列各阶段掌握内容，个人记录待验证不再作为继续编码前置。
+本人练习按用户节奏补齐，不作为继续编码前置。保留所有实验结果，不将已见回归当独立holdout。下一阶段从 [P2计划](../phase-02-tools-rag/plan.md) 冷启动，不重做P1已验证实现。
