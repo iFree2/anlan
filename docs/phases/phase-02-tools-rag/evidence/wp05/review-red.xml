@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="3" time="5.043" timestamp="2026-09-21T00:14:09.344647+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_telemetry" name="test_exporter_lifecycle_exception_does_not_interrupt_business" time="0.077"><failure message="RuntimeError: Cannot send a request, as the client has been closed.&#10;During task with name 'analyze' and id 'f3ab621a-64db-f39d-a52a-035b7026e3fc'">tests\test_telemetry.py:147: in test_exporter_lifecycle_exception_does_not_interrupt_business
+    state = await service.start(Identity(tenant_id="synthetic", user_id="owner"), DEMO_FIELDS)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\service.py:62: in start
+    return await self._execute(record, operation)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\service.py:113: in _execute
+    await self._graph.ainvoke(record.initial_state, config, durability="sync")
+.venv\Lib\site-packages\langgraph\pregel\main.py:4090: in ainvoke
+    async for chunk in self.astream(
+.venv\Lib\site-packages\langgraph\pregel\main.py:3440: in astream
+    async for _ in runner.atick(
+.venv\Lib\site-packages\langgraph\pregel\_runner.py:396: in atick
+    await arun_with_retry(
+.venv\Lib\site-packages\langgraph\pregel\_retry.py:744: in arun_with_retry
+    return await task.proc.ainvoke(task.input, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\langgraph\_internal\_runnable.py:756: in ainvoke
+    input = await asyncio.create_task(
+.venv\Lib\site-packages\langgraph\_internal\_runnable.py:522: in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\workflow.py:44: in analyze
+    trace_ok = trace.emit(
+src\anlan\trace.py:43: in emit
+    if self.invalid_export or (self.exporter is not None and not self.exporter.export(record)):
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\telemetry.py:191: in export
+    return self._send(self.client, payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\telemetry.py:199: in _send
+    with client.stream(
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:141: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+.venv\Lib\site-packages\httpx\_client.py:868: in stream
+    response = self.send(
+.venv\Lib\site-packages\httpx\_client.py:901: in send
+    raise RuntimeError("Cannot send a request, as the client has been closed.")
+E   RuntimeError: Cannot send a request, as the client has been closed.
+E   During task with name 'analyze' and id 'f3ab621a-64db-f39d-a52a-035b7026e3fc'</failure></testcase><testcase classname="tests.test_validation_optimized" name="test_embedding_gate_validation_survives_python_optimization" time="0.018"><failure message="KeyError: 'check_embedding'">tests\test_validation_optimized.py:15: in test_embedding_gate_validation_survives_python_optimization
+    module["check_embedding"]({"artifact_sha256": "wrong"}, {"artifact_sha256": "expected"})
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'check_embedding'</failure></testcase><testcase classname="tests.test_validation_optimized" name="test_observability_validation_survives_python_optimization" time="0.011"><failure message="KeyError: 'require'">tests\test_validation_optimized.py:21: in test_observability_validation_survives_python_optimization
+    module["require"](False, "wrong_parent_span")
+    ^^^^^^^^^^^^^^^^^
+E   KeyError: 'require'</failure></testcase></testsuite></testsuites>

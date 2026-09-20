@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="3.190" timestamp="2026-09-20T23:17:28.996715+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_telemetry" name="test_missing_duration_is_explicit_and_archived_import_is_labeled" time="0.003"><failure message="AssertionError: assert '470ce78a0bb66d6f9972890010f22c49' != '470ce78a0bb66d6f9972890010f22c49'&#10; +  where '470ce78a0bb66d6f9972890010f22c49' = &lt;function trace_id at 0x000001BF5970AD40&gt;('run-1')">tests\test_telemetry.py:49: in test_missing_duration_is_explicit_and_archived_import_is_labeled
+    assert span["traceId"] != trace_id("run-1")
+E   AssertionError: assert '470ce78a0bb66d6f9972890010f22c49' != '470ce78a0bb66d6f9972890010f22c49'
+E    +  where '470ce78a0bb66d6f9972890010f22c49' = &lt;function trace_id at 0x000001BF5970AD40&gt;('run-1')</failure></testcase></testsuite></testsuites>

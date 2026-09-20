@@ -1,0 +1,51 @@
+{
+  "version": "phase02-regression-v1",
+  "exposure": "developer_seen_engineering",
+  "canonicalization": "json-sort-keys-compact-utf8",
+  "files": {
+    "cases": {
+      "path": "evals/phase02-regression-v1/cases.json",
+      "sha256": "1f8c0b53f450691f77a83e26b5760efd2d2b67c6f49cafca61fe7cc3b753e5bd"
+    },
+    "corpus": {
+      "path": "examples/synthetic/knowledge-v1/documents.json",
+      "sha256": "d06473685361d3873227d7f0f0a4b101963ca69a5728b5e9eee7cab23ba2558e"
+    },
+    "access": {
+      "path": "examples/synthetic/facts-v1/access.json",
+      "sha256": "a1d1a7ee10fe1034e199a5fd966260390e88c1b95f8de941eb682c3933f02d39"
+    },
+    "qualifications": {
+      "path": "examples/synthetic/facts-v1/qualifications.json",
+      "sha256": "18effa77aa89f768d7ab0355700f39416262eaae88ece7b47ff006dc4dc3fd1d"
+    },
+    "areas": {
+      "path": "examples/synthetic/facts-v1/areas.json",
+      "sha256": "4301d2994f1f91074fef76974685d662fc440e0ed5bef7a9c3b0ed8153f8394d"
+    },
+    "budget_archive": {
+      "path": "docs/phases/phase-02-tools-rag/evidence/wp04/budget-after-live.json",
+      "sha256": "9d9d6a3f7e51c37649fb36169a5bd25e4e627dacfbf33b78b14d31f92233e08a"
+    },
+    "embedding": {
+      "path": "docs/phases/phase-02-tools-rag/evidence/wp03/embedding-setup.json",
+      "sha256": "dcee4e05d6fff4ddd11e4b5a664e4b9480be592c4a6cfbc0d416433118d8c941"
+    },
+    "tools_live": {
+      "path": "docs/phases/phase-02-tools-rag/evidence/wp02/live-v1.json",
+      "sha256": "6a2e2e9f34784ec6a3da3738a9063ae5343f34ae7b041cb5105af22dd1538919"
+    },
+    "rag_live": {
+      "path": "docs/phases/phase-02-tools-rag/evidence/wp04/live-v1.json",
+      "sha256": "c30c949f11f49bf3ceafecccc0586f0e0ced0b797df0368cdffca6ebfbb3697f"
+    },
+    "rag_rescore": {
+      "path": "docs/phases/phase-02-tools-rag/evidence/wp04/live-rescore-v2.json",
+      "sha256": "a73a5e3c431ecc264bbf59d2191ed74ade090ecce65684522de46d9a6b1bbfd7"
+    },
+    "retrieval": {
+      "path": "docs/phases/phase-02-tools-rag/evidence/wp03/retrieval-v2.json",
+      "sha256": "1b1949b1e607a3d393e8f403384c99d9eb5c2dc64d634ca2948226c6d7cd58fe"
+    }
+  }
+}

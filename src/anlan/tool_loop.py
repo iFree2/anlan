@@ -65,12 +65,14 @@ async def check_facts_agent(service: WorkflowService, identity: Identity, task_i
     seen_ids = set()
 
     def emit(event, **details):
-        if not trace.emit(event, report, source_run_id=report["source_run_id"], **details):
-            report["trace_warning"] = "trace_write_failed"
+        if not trace.emit(event, report, source_run_id=report["source_run_id"],
+                          mode=report["mode"], model_step=report["model_steps"], **details):
+            report["trace_warning"] = trace.warning
 
     async def run_loop():
         for step in range(1, limits.max_model_steps + 1):
             report["model_steps"] = step
+            step_started = perf_counter()
             try:
                 turn = await model.next(messages, report["run_id"])
             except AnalysisFailure as exc:
@@ -79,12 +81,14 @@ async def check_facts_agent(service: WorkflowService, identity: Identity, task_i
                 report["model_attempts"].append({"step": step, "attempt_id": attempt_id,
                                                  "error": exc.category, "usage": exc.usage})
                 emit("model_step_finished", step=step, attempt_id=attempt_id,
-                     error=exc.category, usage=exc.usage)
+                     error=exc.category, usage=exc.usage,
+                     elapsed_ms=round((perf_counter() - step_started) * 1000, 2))
                 return exc.category
             report["model_attempts"].append({"step": step, "attempt_id": turn.attempt_id,
                                              "error": None, "usage": turn.usage})
             emit("model_step_finished", step=step, attempt_id=turn.attempt_id,
-                 error=None, usage=turn.usage)
+                 error=None, usage=turn.usage,
+                 elapsed_ms=round((perf_counter() - step_started) * 1000, 2))
             if perf_counter() - started >= limits.timeout_seconds:
                 return "loop_timeout"
             if turn.final is not None:
@@ -144,7 +148,8 @@ async def check_facts_agent(service: WorkflowService, identity: Identity, task_i
                                  "content": json.dumps(observation, ensure_ascii=False)})
                 emit("agent_tool_finished", call_id=call.id, tool=call.name,
                      outcome=observation["outcome"], reason=observation["reason"],
-                     executed=observation["executed"], source=observation["source"])
+                     executed=observation["executed"], source=observation["source"],
+                     elapsed_ms=observation.get("elapsed_ms"))
         return "step_budget_exceeded"
 
     try:
@@ -165,5 +170,6 @@ async def check_facts_agent(service: WorkflowService, identity: Identity, task_i
     # 循环中途取消时，已占但尚未返回的调用由共享账本保留，不虚构其用量。
     report["elapsed_ms"] = round((perf_counter() - started) * 1000, 2)
     emit("tool_loop_finished", stop_reason=report["stop_reason"],
-         model_steps=report["model_steps"], tool_calls=report["tool_calls"])
+         model_steps=report["model_steps"], tool_calls=report["tool_calls"],
+         elapsed_ms=report["elapsed_ms"])
     return report

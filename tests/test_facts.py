@@ -41,7 +41,10 @@ async def test_evidence_and_trace_link_to_snapshot_without_mutating_task(tmp_pat
     assert await service.get(OWNER, state["task_id"]) == state
     assert await service.history(OWNER, state["task_id"]) == history
     events = [json.loads(line) for line in trace.path.read_text(encoding="utf-8").splitlines()]
-    assert [e["tool"] for e in events] == ["query_worker_qualification", "query_area_status"]
+    tool_events = [e for e in events if e["event"] == "tool_finished"]
+    assert [e["tool"] for e in tool_events] == ["query_worker_qualification", "query_area_status"]
+    assert events[-1]["event"] == "facts_finished"
+    assert events[-1]["elapsed_ms"] >= 0
     assert all(e["run_id"] == report["run_id"] and "facts" not in e for e in events)
     assert events[0]["source"]["sha256"] == report["results"][0]["source"]["sha256"]
 

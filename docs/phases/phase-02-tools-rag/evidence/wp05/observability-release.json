@@ -1,0 +1,1803 @@
+{
+  "status": "passed",
+  "data_origin": "SYNTHETIC",
+  "requests_this_run": 0,
+  "model_mode": "scripted_double",
+  "platform": "Jaeger 2.21.0",
+  "runs": [
+    {
+      "scenario": "actual_synthetic_lookup",
+      "trace_id": "4a948b3cc112d071406cd79be56873c8",
+      "evidence": {
+        "schema_version": "fact-agent-evidence-v1",
+        "data_origin": "SYNTHETIC",
+        "mode": "scripted_double",
+        "task_id": "d57f9c8d-b865-4632-8c79-5cc711d502c1",
+        "correlation_id": "d847651b-8c92-45a4-8d22-c368bf2e8299",
+        "revision": 1,
+        "source_run_id": "df0fad99-9f60-4f35-9eb4-3dd1f6857958",
+        "source_material_status": "waiting_input",
+        "run_id": "0a3e59d3-0137-491e-adf7-bed82d291ad2",
+        "status": "awaiting_review",
+        "results": [
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_worker_qualification",
+            "object_id": "worker-001",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "ok",
+            "reason": null,
+            "source": {
+              "resource": "qualifications.json",
+              "version": "qualifications-v1-rag-derived",
+              "sha256": "fb4fc8189912bccba312efbfd5c2931244b82816cb94b9e9f69242e034a5d3a6",
+              "record_id": "qualification-worker-001",
+              "observed_at": "2026-09-20T00:00:00Z",
+              "valid_from": "2026-01-01T00:00:00Z",
+              "valid_until": "2027-01-01T00:00:00Z"
+            },
+            "facts": {
+              "status": "active",
+              "qualification_type": "welding"
+            },
+            "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+            "elapsed_ms": 6.16,
+            "executed": true,
+            "call_id": "worker-call"
+          },
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_area_status",
+            "object_id": "area-001",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "ok",
+            "reason": null,
+            "source": {
+              "resource": "areas.json",
+              "version": "areas-v1-rag-derived",
+              "sha256": "04cf7a90d9894d799089b090ec7ddd9a3c4ffc31ff51a3d765efb59f8db33444",
+              "record_id": "observation-area-001",
+              "observed_at": "2026-09-20T00:00:00Z",
+              "valid_from": "2026-09-20T00:00:00Z",
+              "valid_until": "2026-09-21T00:00:00Z"
+            },
+            "facts": {
+              "status": "restricted"
+            },
+            "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+            "elapsed_ms": 3.83,
+            "executed": true,
+            "call_id": "area-call"
+          },
+          {
+            "tool": "query_knowledge",
+            "data_origin": "SYNTHETIC",
+            "object_id": null,
+            "outcome": "ok",
+            "reason": null,
+            "queried_at": "2026-09-20T12:00:00+00:00",
+            "facts": null,
+            "source": [
+              {
+                "doc_id": "watcher",
+                "version": 1,
+                "chunk_id": "ddb650b6a7edd87ec45cbba3",
+                "source": "synthetic-policy/watcher",
+                "content_hash": "9343af38045bbe663b6c3376a0f6a354e009c2a17e0e3e15c348706e49ccae5c",
+                "document_hash": "d5daccbc7db366b2739f56f6b9efb7d085d9f45a782011d09d5c8b59c3d1f5c7",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00"
+              },
+              {
+                "doc_id": "gas-event",
+                "version": 1,
+                "chunk_id": "9b789d213a534d03d1b1a87d",
+                "source": "synthetic-policy/gas-event",
+                "content_hash": "9fd631a23694726d1283c9879ffac6faa7509483f1cf9aff92be4dca0d2e7baa",
+                "document_hash": "c5b1e3bb6be9b3e16e774b9e676222fe29d257d7918fc854996bc84ad8abc5b8",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00"
+              },
+              {
+                "doc_id": "preparation",
+                "version": 1,
+                "chunk_id": "d014131a9a3fb6937d9504b0",
+                "source": "synthetic-policy/preparation",
+                "content_hash": "f3803c8a51c0c4f2463f66dee38747221ed53411c45fe8a00936acf8f7e9236d",
+                "document_hash": "3f66455c40f95d4aec99768d0a1cebc6a849cbde3a381be350da46f7f8a208d3",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00"
+              }
+            ],
+            "citations": [
+              {
+                "doc_id": "watcher",
+                "version": 1,
+                "title": "示例现场监护",
+                "source": "synthetic-policy/watcher",
+                "document_hash": "d5daccbc7db366b2739f56f6b9efb7d085d9f45a782011d09d5c8b59c3d1f5c7",
+                "chunk_id": "ddb650b6a7edd87ec45cbba3",
+                "content_hash": "9343af38045bbe663b6c3376a0f6a354e009c2a17e0e3e15c348706e49ccae5c",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00",
+                "quote": "SYNTHETIC：动火现场安排专门的监护人员持续观察作业及周边变化，保持与安全管理人员联系。监护人离开或无法履职时应提交人工重新确认；助手不得代替监护人员。",
+                "similarity": 0.774155,
+                "rank_score": 0.774155
+              },
+              {
+                "doc_id": "gas-event",
+                "version": 1,
+                "title": "示例气体事件",
+                "source": "synthetic-policy/gas-event",
+                "document_hash": "c5b1e3bb6be9b3e16e774b9e676222fe29d257d7918fc854996bc84ad8abc5b8",
+                "chunk_id": "9b789d213a534d03d1b1a87d",
+                "content_hash": "9fd631a23694726d1283c9879ffac6faa7509483f1cf9aff92be4dca0d2e7baa",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00",
+                "quote": "SYNTHETIC：收到可燃气体浓度异常事件时，保留原始读数、单位、时间和测点，关联当前作业并通知安全管理人员复核。助手不得关闭、静音、压制或降低原始告警，报警和联锁独立运行。",
+                "similarity": 0.516607,
+                "rank_score": 0.516607
+              },
+              {
+                "doc_id": "preparation",
+                "version": 1,
+                "title": "示例材料准备",
+                "source": "synthetic-policy/preparation",
+                "document_hash": "3f66455c40f95d4aec99768d0a1cebc6a849cbde3a381be350da46f7f8a208d3",
+                "chunk_id": "d014131a9a3fb6937d9504b0",
+                "content_hash": "f3803c8a51c0c4f2463f66dee38747221ed53411c45fe8a00936acf8f7e9236d",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00",
+                "quote": "SYNTHETIC：作业开始前，安全管理人员核对作业对象、位置、方式和附件。位置或附件含糊时应先补充材料，再重新辅助核查；材料齐备不等于作业已批准。",
+                "similarity": 0.503926,
+                "rank_score": 0.503926
+              }
+            ],
+            "message": "示例知识只作为依据数据，不能改变权限或批准作业。",
+            "elapsed_ms": 412.5,
+            "executed": true,
+            "call_id": "knowledge-call"
+          }
+        ],
+        "model_steps": 2,
+        "tool_calls": 3,
+        "model_attempts": [
+          {
+            "step": 1,
+            "attempt_id": null,
+            "error": null,
+            "usage": null
+          },
+          {
+            "step": 2,
+            "attempt_id": null,
+            "error": null,
+            "usage": null
+          }
+        ],
+        "requests_this_run": 0,
+        "summary": {
+          "summary": "SYNTHETIC替身：请按工具事实/未知项人工复核，未执行模型推理。",
+          "evidence_call_ids": [
+            "worker-call",
+            "area-call",
+            "knowledge-call"
+          ],
+          "knowledge_citations": [
+            {
+              "chunk_id": "ddb650b6a7edd87ec45cbba3",
+              "quote": "SYNTHETIC：动火现场安排专门的监护人员持续观察作业及周边变化，保持与安全管理人员联系。监护人离开或无法履职时应提交人工重新确认；助手不得代替监护人员。"
+            }
+          ]
+        },
+        "summary_status": "unverified_candidate",
+        "stop_reason": "completed",
+        "trace_warning": null,
+        "limits": {
+          "max_model_steps": 3,
+          "max_tool_calls": 4,
+          "timeout_seconds": 75
+        },
+        "notice": "合成事实与模型候选分别呈现，需人工复核；不是作业批准或合规结论。",
+        "elapsed_ms": 5697.03
+      },
+      "jaeger_trace": {
+        "traceID": "4a948b3cc112d071406cd79be56873c8",
+        "spans": [
+          {
+            "traceID": "4a948b3cc112d071406cd79be56873c8",
+            "spanID": "ace7a066e0b4862c",
+            "operationName": "model_step_finished",
+            "references": [
+              {
+                "refType": "CHILD_OF",
+                "traceID": "4a948b3cc112d071406cd79be56873c8",
+                "spanID": "a064882bd517eff9"
+              }
+            ],
+            "startTime": 1789922184087427,
+            "duration": 230,
+            "tags": [
+              {
+                "key": "otel.scope.name",
+                "type": "string",
+                "value": "anlan.jsonl"
+              },
+              {
+                "key": "otel.scope.version",
+                "type": "string",
+                "value": "otlp-bridge-v1"
+              },
+              {
+                "key": "anlan.correlation_id",
+                "type": "string",
+                "value": "d847651b-8c92-45a4-8d22-c368bf2e8299"
+              },
+              {
+                "key": "anlan.data_origin",
+                "type": "string",
+                "value": "SYNTHETIC"
+              },
+              {
+                "key": "anlan.duration_recorded",
+                "type": "bool",
+                "value": true
+              },
+              {
+                "key": "anlan.event",
+                "type": "string",
+                "value": "model_step_finished"
+              },
+              {
+                "key": "anlan.mode",
+                "type": "string",
+                "value": "scripted_double"
+              },
+              {
+                "key": "anlan.model_step",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "anlan.recording_mode",
+                "type": "string",
+                "value": "live_event"
+              },
+              {
+                "key": "anlan.revision",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "anlan.run_id",
+                "type": "string",
+                "value": "0a3e59d3-0137-491e-adf7-bed82d291ad2"
+              },
+              {
+                "key": "anlan.scenario",
+                "type": "string",
+                "value": "actual_synthetic_lookup"
+              },
+              {
+                "key": "anlan.source_run_id",
+                "type": "string",
+                "value": "df0fad99-9f60-4f35-9eb4-3dd1f6857958"
+              },
+              {
+                "key": "anlan.status",
+                "type": "string",
+                "value": "awaiting_review"
+              },
+              {
+                "key": "anlan.step",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "anlan.task_id",
+                "type": "string",
+                "value": "d57f9c8d-b865-4632-8c79-5cc711d502c1"
+              },
+              {
+                "key": "span.kind",
+                "type": "string",
+                "value": "internal"
+              },
+              {
+                "key": "otel.status_code",
+                "type": "string",
+                "value": "OK"
+              }
+            ],
+            "logs": [],
+            "processID": "p1",
+            "warnings": null
+          },
+          {
+            "traceID": "4a948b3cc112d071406cd79be56873c8",
+            "spanID": "105f5a47493cfd79",
+            "operationName": "tool.query_worker_qualification",
+            "references": [
+              {
+                "refType": "CHILD_OF",
+                "traceID": "4a948b3cc112d071406cd79be56873c8",
+                "spanID": "a064882bd517eff9"
+              }
+            ],
+            "startTime": 1789922185323111,
+            "duration": 6160,
+            "tags": [
+              {
+                "key": "otel.scope.name",
+                "type": "string",
+                "value": "anlan.jsonl"
+              },
+              {
+                "key": "otel.scope.version",
+                "type": "string",
+                "value": "otlp-bridge-v1"
+              },
+              {
+                "key": "anlan.call_id",
+                "type": "string",
+                "value": "worker-call"
+              },
+              {
+                "key": "anlan.correlation_id",
+                "type": "string",
+                "value": "d847651b-8c92-45a4-8d22-c368bf2e8299"
+              },
+              {
+                "key": "anlan.data_origin",
+                "type": "string",
+                "value": "SYNTHETIC"
+              },
+              {
+                "key": "anlan.duration_recorded",
+                "type": "bool",
+                "value": true
+              },
+              {
+                "key": "anlan.event",
+                "type": "string",
+                "value": "agent_tool_finished"
+              },
+              {
+                "key": "anlan.executed",
+                "type": "bool",
+                "value": true
+              },
+              {
+                "key": "anlan.mode",
+                "type": "string",
+                "value": "scripted_double"
+              },
+              {
+                "key": "anlan.model_step",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "anlan.outcome",
+                "type": "string",
+                "value": "ok"
+              },
+              {
+                "key": "anlan.recording_mode",
+                "type": "string",
+                "value": "live_event"
+              },
+              {
+                "key": "anlan.revision",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "anlan.run_id",
+                "type": "string",
+                "value": "0a3e59d3-0137-491e-adf7-bed82d291ad2"
+              },
+              {
+                "key": "anlan.scenario",
+                "type": "string",
+                "value": "actual_synthetic_lookup"
+              },
+              {
+                "key": "anlan.source_run_id",
+                "type": "string",
+                "value": "df0fad99-9f60-4f35-9eb4-3dd1f6857958"
+              },
+              {
+                "key": "anlan.sources",
+                "type": "string",
+                "value": "[{\"resource\": \"qualifications.json\", \"version\": \"qualifications-v1-rag-derived\", \"sha256\": \"fb4fc8189912bccba312efbfd5c2931244b82816cb94b9e9f69242e034a5d3a6\", \"record_id\": \"qualification-worker-001\", \"observed_at\": \"2026-09-20T00:00:00Z\", \"valid_from\": \"2026-01-01T00:00:00Z\", \"valid_until\": \"2027-01-01T00:00:00Z\"}]"
+              },
+              {
+                "key": "anlan.status",
+                "type": "string",
+                "value": "awaiting_review"
+              },
+              {
+                "key": "anlan.task_id",
+                "type": "string",
+                "value": "d57f9c8d-b865-4632-8c79-5cc711d502c1"
+              },
+              {
+                "key": "anlan.tool",
+                "type": "string",
+                "value": "query_worker_qualification"
+              },
+              {
+                "key": "span.kind",
+                "type": "string",
+                "value": "internal"
+              },
+              {
+                "key": "otel.status_code",
+                "type": "string",
+                "value": "OK"
+              }
+            ],
+            "logs": [],
+            "processID": "p1",
+            "warnings": null
+          },
+          {
+            "traceID": "4a948b3cc112d071406cd79be56873c8",
+            "spanID": "6de3d3862647852a",
+            "operationName": "tool.query_area_status",
+            "references": [
+              {
+                "refType": "CHILD_OF",
+                "traceID": "4a948b3cc112d071406cd79be56873c8",
+                "spanID": "a064882bd517eff9"
+              }
+            ],
+            "startTime": 1789922186461872,
+            "duration": 3830,
+            "tags": [
+              {
+                "key": "otel.scope.name",
+                "type": "string",
+                "value": "anlan.jsonl"
+              },
+              {
+                "key": "otel.scope.version",
+                "type": "string",
+                "value": "otlp-bridge-v1"
+              },
+              {
+                "key": "anlan.call_id",
+                "type": "string",
+                "value": "area-call"
+              },
+              {
+                "key": "anlan.correlation_id",
+                "type": "string",
+                "value": "d847651b-8c92-45a4-8d22-c368bf2e8299"
+              },
+              {
+                "key": "anlan.data_origin",
+                "type": "string",
+                "value": "SYNTHETIC"
+              },
+              {
+                "key": "anlan.duration_recorded",
+                "type": "bool",
+                "value": true
+              },
+              {
+                "key": "anlan.event",
+                "type": "string",
+                "value": "agent_tool_finished"
+              },
+              {
+                "key": "anlan.executed",
+                "type": "bool",
+                "value": true
+              },
+              {
+                "key": "anlan.mode",
+                "type": "string",
+                "value": "scripted_double"
+              },
+              {
+                "key": "anlan.model_step",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "anlan.outcome",
+                "type": "string",
+                "value": "ok"
+              },
+              {
+                "key": "anlan.recording_mode",
+                "type": "string",
+                "value": "live_event"
+              },
+              {
+                "key": "anlan.revision",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "anlan.run_id",
+                "type": "string",
+                "value": "0a3e59d3-0137-491e-adf7-bed82d291ad2"
+              },
+              {
+                "key": "anlan.scenario",
+                "type": "string",
+                "value": "actual_synthetic_lookup"
+              },
+              {
+                "key": "anlan.source_run_id",
+                "type": "string",
+                "value": "df0fad99-9f60-4f35-9eb4-3dd1f6857958"
+              },
+              {
+                "key": "anlan.sources",
+                "type": "string",
+                "value": "[{\"resource\": \"areas.json\", \"version\": \"areas-v1-rag-derived\", \"sha256\": \"04cf7a90d9894d799089b090ec7ddd9a3c4ffc31ff51a3d765efb59f8db33444\", \"record_id\": \"observation-area-001\", \"observed_at\": \"2026-09-20T00:00:00Z\", \"valid_from\": \"2026-09-20T00:00:00Z\", \"valid_until\": \"2026-09-21T00:00:00Z\"}]"
+              },
+              {
+                "key": "anlan.status",
+                "type": "string",
+                "value": "awaiting_review"
+              },
+              {
+                "key": "anlan.task_id",
+                "type": "string",
+                "value": "d57f9c8d-b865-4632-8c79-5cc711d502c1"
+              },
+              {
+                "key": "anlan.tool",
+                "type": "string",
+                "value": "query_area_status"
+              },
+              {
+                "key": "span.kind",
+                "type": "string",
+                "value": "internal"
+              },
+              {
+                "key": "otel.status_code",
+                "type": "string",
+                "value": "OK"
+              }
+            ],
+            "logs": [],
+            "processID": "p1",
+            "warnings": null
+          },
+          {
+            "traceID": "4a948b3cc112d071406cd79be56873c8",
+            "spanID": "f16839b382e2187b",
+            "operationName": "tool.query_knowledge",
+            "references": [
+              {
+                "refType": "CHILD_OF",
+                "traceID": "4a948b3cc112d071406cd79be56873c8",
+                "spanID": "a064882bd517eff9"
+              }
+            ],
+            "startTime": 1789922187463339,
+            "duration": 412500,
+            "tags": [
+              {
+                "key": "otel.scope.name",
+                "type": "string",
+                "value": "anlan.jsonl"
+              },
+              {
+                "key": "otel.scope.version",
+                "type": "string",
+                "value": "otlp-bridge-v1"
+              },
+              {
+                "key": "anlan.call_id",
+                "type": "string",
+                "value": "knowledge-call"
+              },
+              {
+                "key": "anlan.correlation_id",
+                "type": "string",
+                "value": "d847651b-8c92-45a4-8d22-c368bf2e8299"
+              },
+              {
+                "key": "anlan.data_origin",
+                "type": "string",
+                "value": "SYNTHETIC"
+              },
+              {
+                "key": "anlan.duration_recorded",
+                "type": "bool",
+                "value": true
+              },
+              {
+                "key": "anlan.event",
+                "type": "string",
+                "value": "agent_tool_finished"
+              },
+              {
+                "key": "anlan.executed",
+                "type": "bool",
+                "value": true
+              },
+              {
+                "key": "anlan.mode",
+                "type": "string",
+                "value": "scripted_double"
+              },
+              {
+                "key": "anlan.model_step",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "anlan.outcome",
+                "type": "string",
+                "value": "ok"
+              },
+              {
+                "key": "anlan.recording_mode",
+                "type": "string",
+                "value": "live_event"
+              },
+              {
+                "key": "anlan.revision",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "anlan.run_id",
+                "type": "string",
+                "value": "0a3e59d3-0137-491e-adf7-bed82d291ad2"
+              },
+              {
+                "key": "anlan.scenario",
+                "type": "string",
+                "value": "actual_synthetic_lookup"
+              },
+              {
+                "key": "anlan.source_run_id",
+                "type": "string",
+                "value": "df0fad99-9f60-4f35-9eb4-3dd1f6857958"
+              },
+              {
+                "key": "anlan.sources",
+                "type": "string",
+                "value": "[{\"doc_id\": \"watcher\", \"version\": 1, \"chunk_id\": \"ddb650b6a7edd87ec45cbba3\", \"source\": \"synthetic-policy/watcher\", \"content_hash\": \"9343af38045bbe663b6c3376a0f6a354e009c2a17e0e3e15c348706e49ccae5c\", \"document_hash\": \"d5daccbc7db366b2739f56f6b9efb7d085d9f45a782011d09d5c8b59c3d1f5c7\", \"valid_from\": \"2026-01-01T08:00:00+08:00\", \"valid_until\": \"2027-01-01T08:00:00+08:00\"}, {\"doc_id\": \"gas-event\", \"version\": 1, \"chunk_id\": \"9b789d213a534d03d1b1a87d\", \"source\": \"synthetic-policy/gas-event\", \"content_hash\": \"9fd631a23694726d1283c9879ffac6faa7509483f1cf9aff92be4dca0d2e7baa\", \"document_hash\": \"c5b1e3bb6be9b3e16e774b9e676222fe29d257d7918fc854996bc84ad8abc5b8\", \"valid_from\": \"2026-01-01T08:00:00+08:00\", \"valid_until\": \"2027-01-01T08:00:00+08:00\"}, {\"doc_id\": \"preparation\", \"version\": 1, \"chunk_id\": \"d014131a9a3fb6937d9504b0\", \"source\": \"synthetic-policy/preparation\", \"content_hash\": \"f3803c8a51c0c4f2463f66dee38747221ed53411c45fe8a00936acf8f7e9236d\", \"document_hash\": \"3f66455c40f95d4aec99768d0a1cebc6a849cbde3a381be350da46f7f8a208d3\", \"valid_from\": \"2026-01-01T08:00:00+08:00\", \"valid_until\": \"2027-01-01T08:00:00+08:00\"}]"
+              },
+              {
+                "key": "anlan.status",
+                "type": "string",
+                "value": "awaiting_review"
+              },
+              {
+                "key": "anlan.task_id",
+                "type": "string",
+                "value": "d57f9c8d-b865-4632-8c79-5cc711d502c1"
+              },
+              {
+                "key": "anlan.tool",
+                "type": "string",
+                "value": "query_knowledge"
+              },
+              {
+                "key": "span.kind",
+                "type": "string",
+                "value": "internal"
+              },
+              {
+                "key": "otel.status_code",
+                "type": "string",
+                "value": "OK"
+              }
+            ],
+            "logs": [],
+            "processID": "p1",
+            "warnings": null
+          },
+          {
+            "traceID": "4a948b3cc112d071406cd79be56873c8",
+            "spanID": "b76ce9eeaad3cb0d",
+            "operationName": "model_step_finished",
+            "references": [
+              {
+                "refType": "CHILD_OF",
+                "traceID": "4a948b3cc112d071406cd79be56873c8",
+                "spanID": "a064882bd517eff9"
+              }
+            ],
+            "startTime": 1789922188841771,
+            "duration": 360,
+            "tags": [
+              {
+                "key": "otel.scope.name",
+                "type": "string",
+                "value": "anlan.jsonl"
+              },
+              {
+                "key": "otel.scope.version",
+                "type": "string",
+                "value": "otlp-bridge-v1"
+              },
+              {
+                "key": "anlan.correlation_id",
+                "type": "string",
+                "value": "d847651b-8c92-45a4-8d22-c368bf2e8299"
+              },
+              {
+                "key": "anlan.data_origin",
+                "type": "string",
+                "value": "SYNTHETIC"
+              },
+              {
+                "key": "anlan.duration_recorded",
+                "type": "bool",
+                "value": true
+              },
+              {
+                "key": "anlan.event",
+                "type": "string",
+                "value": "model_step_finished"
+              },
+              {
+                "key": "anlan.mode",
+                "type": "string",
+                "value": "scripted_double"
+              },
+              {
+                "key": "anlan.model_step",
+                "type": "int64",
+                "value": 2
+              },
+              {
+                "key": "anlan.recording_mode",
+                "type": "string",
+                "value": "live_event"
+              },
+              {
+                "key": "anlan.revision",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "anlan.run_id",
+                "type": "string",
+                "value": "0a3e59d3-0137-491e-adf7-bed82d291ad2"
+              },
+              {
+                "key": "anlan.scenario",
+                "type": "string",
+                "value": "actual_synthetic_lookup"
+              },
+              {
+                "key": "anlan.source_run_id",
+                "type": "string",
+                "value": "df0fad99-9f60-4f35-9eb4-3dd1f6857958"
+              },
+              {
+                "key": "anlan.status",
+                "type": "string",
+                "value": "awaiting_review"
+              },
+              {
+                "key": "anlan.step",
+                "type": "int64",
+                "value": 2
+              },
+              {
+                "key": "anlan.task_id",
+                "type": "string",
+                "value": "d57f9c8d-b865-4632-8c79-5cc711d502c1"
+              },
+              {
+                "key": "span.kind",
+                "type": "string",
+                "value": "internal"
+              },
+              {
+                "key": "otel.status_code",
+                "type": "string",
+                "value": "OK"
+              }
+            ],
+            "logs": [],
+            "processID": "p1",
+            "warnings": null
+          },
+          {
+            "traceID": "4a948b3cc112d071406cd79be56873c8",
+            "spanID": "a064882bd517eff9",
+            "operationName": "tool_loop_finished",
+            "references": [],
+            "startTime": 1789922184087239,
+            "duration": 5697030,
+            "tags": [
+              {
+                "key": "otel.scope.name",
+                "type": "string",
+                "value": "anlan.jsonl"
+              },
+              {
+                "key": "otel.scope.version",
+                "type": "string",
+                "value": "otlp-bridge-v1"
+              },
+              {
+                "key": "anlan.correlation_id",
+                "type": "string",
+                "value": "d847651b-8c92-45a4-8d22-c368bf2e8299"
+              },
+              {
+                "key": "anlan.data_origin",
+                "type": "string",
+                "value": "SYNTHETIC"
+              },
+              {
+                "key": "anlan.duration_recorded",
+                "type": "bool",
+                "value": true
+              },
+              {
+                "key": "anlan.event",
+                "type": "string",
+                "value": "tool_loop_finished"
+              },
+              {
+                "key": "anlan.mode",
+                "type": "string",
+                "value": "scripted_double"
+              },
+              {
+                "key": "anlan.model_step",
+                "type": "int64",
+                "value": 2
+              },
+              {
+                "key": "anlan.model_steps",
+                "type": "int64",
+                "value": 2
+              },
+              {
+                "key": "anlan.recording_mode",
+                "type": "string",
+                "value": "live_event"
+              },
+              {
+                "key": "anlan.revision",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "anlan.run_id",
+                "type": "string",
+                "value": "0a3e59d3-0137-491e-adf7-bed82d291ad2"
+              },
+              {
+                "key": "anlan.scenario",
+                "type": "string",
+                "value": "actual_synthetic_lookup"
+              },
+              {
+                "key": "anlan.source_run_id",
+                "type": "string",
+                "value": "df0fad99-9f60-4f35-9eb4-3dd1f6857958"
+              },
+              {
+                "key": "anlan.status",
+                "type": "string",
+                "value": "awaiting_review"
+              },
+              {
+                "key": "anlan.stop_reason",
+                "type": "string",
+                "value": "completed"
+              },
+              {
+                "key": "anlan.task_id",
+                "type": "string",
+                "value": "d57f9c8d-b865-4632-8c79-5cc711d502c1"
+              },
+              {
+                "key": "anlan.tool_calls",
+                "type": "int64",
+                "value": 3
+              },
+              {
+                "key": "span.kind",
+                "type": "string",
+                "value": "internal"
+              },
+              {
+                "key": "otel.status_code",
+                "type": "string",
+                "value": "OK"
+              }
+            ],
+            "logs": [],
+            "processID": "p1",
+            "warnings": null
+          }
+        ],
+        "processes": {
+          "p1": {
+            "serviceName": "anlan-2",
+            "tags": [
+              {
+                "key": "service.namespace",
+                "type": "string",
+                "value": "synthetic-local"
+              }
+            ]
+          }
+        },
+        "warnings": null
+      },
+      "material_unchanged": true
+    },
+    {
+      "scenario": "knowledge_error_injected",
+      "trace_id": "becf1bd178e5bfea8a7a15469ab2cb1b",
+      "evidence": {
+        "schema_version": "fact-agent-evidence-v1",
+        "data_origin": "SYNTHETIC",
+        "mode": "scripted_double",
+        "task_id": "d14c9178-17f4-41ed-b677-b15b169b53ae",
+        "correlation_id": "d02d42c7-74f2-4586-b1b6-9bd170fe55be",
+        "revision": 1,
+        "source_run_id": "71b55a09-7832-41ca-85a8-0a12437241ef",
+        "source_material_status": "waiting_input",
+        "run_id": "1bfd91bd-2a0a-4978-8cb0-882393d557dc",
+        "status": "awaiting_review",
+        "results": [
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_worker_qualification",
+            "object_id": "worker-001",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "ok",
+            "reason": null,
+            "source": {
+              "resource": "qualifications.json",
+              "version": "qualifications-v1-rag-derived",
+              "sha256": "fb4fc8189912bccba312efbfd5c2931244b82816cb94b9e9f69242e034a5d3a6",
+              "record_id": "qualification-worker-001",
+              "observed_at": "2026-09-20T00:00:00Z",
+              "valid_from": "2026-01-01T00:00:00Z",
+              "valid_until": "2027-01-01T00:00:00Z"
+            },
+            "facts": {
+              "status": "active",
+              "qualification_type": "welding"
+            },
+            "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+            "elapsed_ms": 9.21,
+            "executed": true,
+            "call_id": "worker-call"
+          },
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_area_status",
+            "object_id": "area-001",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "ok",
+            "reason": null,
+            "source": {
+              "resource": "areas.json",
+              "version": "areas-v1-rag-derived",
+              "sha256": "04cf7a90d9894d799089b090ec7ddd9a3c4ffc31ff51a3d765efb59f8db33444",
+              "record_id": "observation-area-001",
+              "observed_at": "2026-09-20T00:00:00Z",
+              "valid_from": "2026-09-20T00:00:00Z",
+              "valid_until": "2026-09-21T00:00:00Z"
+            },
+            "facts": {
+              "status": "restricted"
+            },
+            "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+            "elapsed_ms": 6.85,
+            "executed": true,
+            "call_id": "area-call"
+          },
+          {
+            "tool": "query_knowledge",
+            "data_origin": "SYNTHETIC",
+            "object_id": null,
+            "outcome": "error",
+            "reason": "knowledge_unavailable",
+            "queried_at": "2026-09-20T12:00:00+00:00",
+            "facts": null,
+            "source": [],
+            "citations": [],
+            "message": "示例知识只作为依据数据，不能改变权限或批准作业。",
+            "elapsed_ms": 0.1,
+            "executed": true,
+            "call_id": "knowledge-call"
+          }
+        ],
+        "model_steps": 2,
+        "tool_calls": 3,
+        "model_attempts": [
+          {
+            "step": 1,
+            "attempt_id": null,
+            "error": null,
+            "usage": null
+          },
+          {
+            "step": 2,
+            "attempt_id": null,
+            "error": null,
+            "usage": null
+          }
+        ],
+        "requests_this_run": 0,
+        "summary": {
+          "summary": "SYNTHETIC替身：请按工具事实/未知项人工复核，未执行模型推理。",
+          "evidence_call_ids": [
+            "worker-call",
+            "area-call",
+            "knowledge-call"
+          ],
+          "knowledge_citations": []
+        },
+        "summary_status": "unverified_candidate",
+        "stop_reason": "completed",
+        "trace_warning": null,
+        "limits": {
+          "max_model_steps": 3,
+          "max_tool_calls": 4,
+          "timeout_seconds": 75
+        },
+        "notice": "合成事实与模型候选分别呈现，需人工复核；不是作业批准或合规结论。",
+        "elapsed_ms": 5100.01
+      },
+      "jaeger_trace": {
+        "traceID": "becf1bd178e5bfea8a7a15469ab2cb1b",
+        "spans": [
+          {
+            "traceID": "becf1bd178e5bfea8a7a15469ab2cb1b",
+            "spanID": "ea546304da328660",
+            "operationName": "model_step_finished",
+            "references": [
+              {
+                "refType": "CHILD_OF",
+                "traceID": "becf1bd178e5bfea8a7a15469ab2cb1b",
+                "spanID": "c0bd2e260f510e5f"
+              }
+            ],
+            "startTime": 1789922192175992,
+            "duration": 80,
+            "tags": [
+              {
+                "key": "otel.scope.name",
+                "type": "string",
+                "value": "anlan.jsonl"
+              },
+              {
+                "key": "otel.scope.version",
+                "type": "string",
+                "value": "otlp-bridge-v1"
+              },
+              {
+                "key": "anlan.correlation_id",
+                "type": "string",
+                "value": "d02d42c7-74f2-4586-b1b6-9bd170fe55be"
+              },
+              {
+                "key": "anlan.data_origin",
+                "type": "string",
+                "value": "SYNTHETIC"
+              },
+              {
+                "key": "anlan.duration_recorded",
+                "type": "bool",
+                "value": true
+              },
+              {
+                "key": "anlan.event",
+                "type": "string",
+                "value": "model_step_finished"
+              },
+              {
+                "key": "anlan.mode",
+                "type": "string",
+                "value": "scripted_double"
+              },
+              {
+                "key": "anlan.model_step",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "anlan.recording_mode",
+                "type": "string",
+                "value": "live_event"
+              },
+              {
+                "key": "anlan.revision",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "anlan.run_id",
+                "type": "string",
+                "value": "1bfd91bd-2a0a-4978-8cb0-882393d557dc"
+              },
+              {
+                "key": "anlan.scenario",
+                "type": "string",
+                "value": "knowledge_error_injected"
+              },
+              {
+                "key": "anlan.source_run_id",
+                "type": "string",
+                "value": "71b55a09-7832-41ca-85a8-0a12437241ef"
+              },
+              {
+                "key": "anlan.status",
+                "type": "string",
+                "value": "awaiting_review"
+              },
+              {
+                "key": "anlan.step",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "anlan.task_id",
+                "type": "string",
+                "value": "d14c9178-17f4-41ed-b677-b15b169b53ae"
+              },
+              {
+                "key": "span.kind",
+                "type": "string",
+                "value": "internal"
+              },
+              {
+                "key": "otel.status_code",
+                "type": "string",
+                "value": "OK"
+              }
+            ],
+            "logs": [],
+            "processID": "p1",
+            "warnings": null
+          },
+          {
+            "traceID": "becf1bd178e5bfea8a7a15469ab2cb1b",
+            "spanID": "222dc3e09a0de4ce",
+            "operationName": "tool.query_worker_qualification",
+            "references": [
+              {
+                "refType": "CHILD_OF",
+                "traceID": "becf1bd178e5bfea8a7a15469ab2cb1b",
+                "spanID": "c0bd2e260f510e5f"
+              }
+            ],
+            "startTime": 1789922193175978,
+            "duration": 9210,
+            "tags": [
+              {
+                "key": "otel.scope.name",
+                "type": "string",
+                "value": "anlan.jsonl"
+              },
+              {
+                "key": "otel.scope.version",
+                "type": "string",
+                "value": "otlp-bridge-v1"
+              },
+              {
+                "key": "anlan.call_id",
+                "type": "string",
+                "value": "worker-call"
+              },
+              {
+                "key": "anlan.correlation_id",
+                "type": "string",
+                "value": "d02d42c7-74f2-4586-b1b6-9bd170fe55be"
+              },
+              {
+                "key": "anlan.data_origin",
+                "type": "string",
+                "value": "SYNTHETIC"
+              },
+              {
+                "key": "anlan.duration_recorded",
+                "type": "bool",
+                "value": true
+              },
+              {
+                "key": "anlan.event",
+                "type": "string",
+                "value": "agent_tool_finished"
+              },
+              {
+                "key": "anlan.executed",
+                "type": "bool",
+                "value": true
+              },
+              {
+                "key": "anlan.mode",
+                "type": "string",
+                "value": "scripted_double"
+              },
+              {
+                "key": "anlan.model_step",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "anlan.outcome",
+                "type": "string",
+                "value": "ok"
+              },
+              {
+                "key": "anlan.recording_mode",
+                "type": "string",
+                "value": "live_event"
+              },
+              {
+                "key": "anlan.revision",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "anlan.run_id",
+                "type": "string",
+                "value": "1bfd91bd-2a0a-4978-8cb0-882393d557dc"
+              },
+              {
+                "key": "anlan.scenario",
+                "type": "string",
+                "value": "knowledge_error_injected"
+              },
+              {
+                "key": "anlan.source_run_id",
+                "type": "string",
+                "value": "71b55a09-7832-41ca-85a8-0a12437241ef"
+              },
+              {
+                "key": "anlan.sources",
+                "type": "string",
+                "value": "[{\"resource\": \"qualifications.json\", \"version\": \"qualifications-v1-rag-derived\", \"sha256\": \"fb4fc8189912bccba312efbfd5c2931244b82816cb94b9e9f69242e034a5d3a6\", \"record_id\": \"qualification-worker-001\", \"observed_at\": \"2026-09-20T00:00:00Z\", \"valid_from\": \"2026-01-01T00:00:00Z\", \"valid_until\": \"2027-01-01T00:00:00Z\"}]"
+              },
+              {
+                "key": "anlan.status",
+                "type": "string",
+                "value": "awaiting_review"
+              },
+              {
+                "key": "anlan.task_id",
+                "type": "string",
+                "value": "d14c9178-17f4-41ed-b677-b15b169b53ae"
+              },
+              {
+                "key": "anlan.tool",
+                "type": "string",
+                "value": "query_worker_qualification"
+              },
+              {
+                "key": "span.kind",
+                "type": "string",
+                "value": "internal"
+              },
+              {
+                "key": "otel.status_code",
+                "type": "string",
+                "value": "OK"
+              }
+            ],
+            "logs": [],
+            "processID": "p1",
+            "warnings": null
+          },
+          {
+            "traceID": "becf1bd178e5bfea8a7a15469ab2cb1b",
+            "spanID": "b04da6d0f5819c0c",
+            "operationName": "tool.query_area_status",
+            "references": [
+              {
+                "refType": "CHILD_OF",
+                "traceID": "becf1bd178e5bfea8a7a15469ab2cb1b",
+                "spanID": "c0bd2e260f510e5f"
+              }
+            ],
+            "startTime": 1789922194228244,
+            "duration": 6850,
+            "tags": [
+              {
+                "key": "otel.scope.name",
+                "type": "string",
+                "value": "anlan.jsonl"
+              },
+              {
+                "key": "otel.scope.version",
+                "type": "string",
+                "value": "otlp-bridge-v1"
+              },
+              {
+                "key": "anlan.call_id",
+                "type": "string",
+                "value": "area-call"
+              },
+              {
+                "key": "anlan.correlation_id",
+                "type": "string",
+                "value": "d02d42c7-74f2-4586-b1b6-9bd170fe55be"
+              },
+              {
+                "key": "anlan.data_origin",
+                "type": "string",
+                "value": "SYNTHETIC"
+              },
+              {
+                "key": "anlan.duration_recorded",
+                "type": "bool",
+                "value": true
+              },
+              {
+                "key": "anlan.event",
+                "type": "string",
+                "value": "agent_tool_finished"
+              },
+              {
+                "key": "anlan.executed",
+                "type": "bool",
+                "value": true
+              },
+              {
+                "key": "anlan.mode",
+                "type": "string",
+                "value": "scripted_double"
+              },
+              {
+                "key": "anlan.model_step",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "anlan.outcome",
+                "type": "string",
+                "value": "ok"
+              },
+              {
+                "key": "anlan.recording_mode",
+                "type": "string",
+                "value": "live_event"
+              },
+              {
+                "key": "anlan.revision",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "anlan.run_id",
+                "type": "string",
+                "value": "1bfd91bd-2a0a-4978-8cb0-882393d557dc"
+              },
+              {
+                "key": "anlan.scenario",
+                "type": "string",
+                "value": "knowledge_error_injected"
+              },
+              {
+                "key": "anlan.source_run_id",
+                "type": "string",
+                "value": "71b55a09-7832-41ca-85a8-0a12437241ef"
+              },
+              {
+                "key": "anlan.sources",
+                "type": "string",
+                "value": "[{\"resource\": \"areas.json\", \"version\": \"areas-v1-rag-derived\", \"sha256\": \"04cf7a90d9894d799089b090ec7ddd9a3c4ffc31ff51a3d765efb59f8db33444\", \"record_id\": \"observation-area-001\", \"observed_at\": \"2026-09-20T00:00:00Z\", \"valid_from\": \"2026-09-20T00:00:00Z\", \"valid_until\": \"2026-09-21T00:00:00Z\"}]"
+              },
+              {
+                "key": "anlan.status",
+                "type": "string",
+                "value": "awaiting_review"
+              },
+              {
+                "key": "anlan.task_id",
+                "type": "string",
+                "value": "d14c9178-17f4-41ed-b677-b15b169b53ae"
+              },
+              {
+                "key": "anlan.tool",
+                "type": "string",
+                "value": "query_area_status"
+              },
+              {
+                "key": "span.kind",
+                "type": "string",
+                "value": "internal"
+              },
+              {
+                "key": "otel.status_code",
+                "type": "string",
+                "value": "OK"
+              }
+            ],
+            "logs": [],
+            "processID": "p1",
+            "warnings": null
+          },
+          {
+            "traceID": "becf1bd178e5bfea8a7a15469ab2cb1b",
+            "spanID": "e337539f9b3e0646",
+            "operationName": "tool.query_knowledge",
+            "references": [
+              {
+                "refType": "CHILD_OF",
+                "traceID": "becf1bd178e5bfea8a7a15469ab2cb1b",
+                "spanID": "c0bd2e260f510e5f"
+              }
+            ],
+            "startTime": 1789922195286591,
+            "duration": 100,
+            "tags": [
+              {
+                "key": "otel.scope.name",
+                "type": "string",
+                "value": "anlan.jsonl"
+              },
+              {
+                "key": "otel.scope.version",
+                "type": "string",
+                "value": "otlp-bridge-v1"
+              },
+              {
+                "key": "anlan.call_id",
+                "type": "string",
+                "value": "knowledge-call"
+              },
+              {
+                "key": "anlan.correlation_id",
+                "type": "string",
+                "value": "d02d42c7-74f2-4586-b1b6-9bd170fe55be"
+              },
+              {
+                "key": "anlan.data_origin",
+                "type": "string",
+                "value": "SYNTHETIC"
+              },
+              {
+                "key": "anlan.duration_recorded",
+                "type": "bool",
+                "value": true
+              },
+              {
+                "key": "anlan.event",
+                "type": "string",
+                "value": "agent_tool_finished"
+              },
+              {
+                "key": "anlan.executed",
+                "type": "bool",
+                "value": true
+              },
+              {
+                "key": "anlan.mode",
+                "type": "string",
+                "value": "scripted_double"
+              },
+              {
+                "key": "anlan.model_step",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "anlan.outcome",
+                "type": "string",
+                "value": "error"
+              },
+              {
+                "key": "anlan.reason",
+                "type": "string",
+                "value": "knowledge_unavailable"
+              },
+              {
+                "key": "anlan.recording_mode",
+                "type": "string",
+                "value": "live_event"
+              },
+              {
+                "key": "anlan.revision",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "anlan.run_id",
+                "type": "string",
+                "value": "1bfd91bd-2a0a-4978-8cb0-882393d557dc"
+              },
+              {
+                "key": "anlan.scenario",
+                "type": "string",
+                "value": "knowledge_error_injected"
+              },
+              {
+                "key": "anlan.source_run_id",
+                "type": "string",
+                "value": "71b55a09-7832-41ca-85a8-0a12437241ef"
+              },
+              {
+                "key": "anlan.status",
+                "type": "string",
+                "value": "awaiting_review"
+              },
+              {
+                "key": "anlan.task_id",
+                "type": "string",
+                "value": "d14c9178-17f4-41ed-b677-b15b169b53ae"
+              },
+              {
+                "key": "anlan.tool",
+                "type": "string",
+                "value": "query_knowledge"
+              },
+              {
+                "key": "span.kind",
+                "type": "string",
+                "value": "internal"
+              },
+              {
+                "key": "otel.status_code",
+                "type": "string",
+                "value": "ERROR"
+              },
+              {
+                "key": "error",
+                "type": "bool",
+                "value": true
+              }
+            ],
+            "logs": [],
+            "processID": "p1",
+            "warnings": null
+          },
+          {
+            "traceID": "becf1bd178e5bfea8a7a15469ab2cb1b",
+            "spanID": "de26fd1de94d37d3",
+            "operationName": "model_step_finished",
+            "references": [
+              {
+                "refType": "CHILD_OF",
+                "traceID": "becf1bd178e5bfea8a7a15469ab2cb1b",
+                "spanID": "c0bd2e260f510e5f"
+              }
+            ],
+            "startTime": 1789922196251749,
+            "duration": 200,
+            "tags": [
+              {
+                "key": "otel.scope.name",
+                "type": "string",
+                "value": "anlan.jsonl"
+              },
+              {
+                "key": "otel.scope.version",
+                "type": "string",
+                "value": "otlp-bridge-v1"
+              },
+              {
+                "key": "anlan.correlation_id",
+                "type": "string",
+                "value": "d02d42c7-74f2-4586-b1b6-9bd170fe55be"
+              },
+              {
+                "key": "anlan.data_origin",
+                "type": "string",
+                "value": "SYNTHETIC"
+              },
+              {
+                "key": "anlan.duration_recorded",
+                "type": "bool",
+                "value": true
+              },
+              {
+                "key": "anlan.event",
+                "type": "string",
+                "value": "model_step_finished"
+              },
+              {
+                "key": "anlan.mode",
+                "type": "string",
+                "value": "scripted_double"
+              },
+              {
+                "key": "anlan.model_step",
+                "type": "int64",
+                "value": 2
+              },
+              {
+                "key": "anlan.recording_mode",
+                "type": "string",
+                "value": "live_event"
+              },
+              {
+                "key": "anlan.revision",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "anlan.run_id",
+                "type": "string",
+                "value": "1bfd91bd-2a0a-4978-8cb0-882393d557dc"
+              },
+              {
+                "key": "anlan.scenario",
+                "type": "string",
+                "value": "knowledge_error_injected"
+              },
+              {
+                "key": "anlan.source_run_id",
+                "type": "string",
+                "value": "71b55a09-7832-41ca-85a8-0a12437241ef"
+              },
+              {
+                "key": "anlan.status",
+                "type": "string",
+                "value": "awaiting_review"
+              },
+              {
+                "key": "anlan.step",
+                "type": "int64",
+                "value": 2
+              },
+              {
+                "key": "anlan.task_id",
+                "type": "string",
+                "value": "d14c9178-17f4-41ed-b677-b15b169b53ae"
+              },
+              {
+                "key": "span.kind",
+                "type": "string",
+                "value": "internal"
+              },
+              {
+                "key": "otel.status_code",
+                "type": "string",
+                "value": "OK"
+              }
+            ],
+            "logs": [],
+            "processID": "p1",
+            "warnings": null
+          },
+          {
+            "traceID": "becf1bd178e5bfea8a7a15469ab2cb1b",
+            "spanID": "c0bd2e260f510e5f",
+            "operationName": "tool_loop_finished",
+            "references": [],
+            "startTime": 1789922192175879,
+            "duration": 5100010,
+            "tags": [
+              {
+                "key": "otel.scope.name",
+                "type": "string",
+                "value": "anlan.jsonl"
+              },
+              {
+                "key": "otel.scope.version",
+                "type": "string",
+                "value": "otlp-bridge-v1"
+              },
+              {
+                "key": "anlan.correlation_id",
+                "type": "string",
+                "value": "d02d42c7-74f2-4586-b1b6-9bd170fe55be"
+              },
+              {
+                "key": "anlan.data_origin",
+                "type": "string",
+                "value": "SYNTHETIC"
+              },
+              {
+                "key": "anlan.duration_recorded",
+                "type": "bool",
+                "value": true
+              },
+              {
+                "key": "anlan.event",
+                "type": "string",
+                "value": "tool_loop_finished"
+              },
+              {
+                "key": "anlan.mode",
+                "type": "string",
+                "value": "scripted_double"
+              },
+              {
+                "key": "anlan.model_step",
+                "type": "int64",
+                "value": 2
+              },
+              {
+                "key": "anlan.model_steps",
+                "type": "int64",
+                "value": 2
+              },
+              {
+                "key": "anlan.recording_mode",
+                "type": "string",
+                "value": "live_event"
+              },
+              {
+                "key": "anlan.revision",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "anlan.run_id",
+                "type": "string",
+                "value": "1bfd91bd-2a0a-4978-8cb0-882393d557dc"
+              },
+              {
+                "key": "anlan.scenario",
+                "type": "string",
+                "value": "knowledge_error_injected"
+              },
+              {
+                "key": "anlan.source_run_id",
+                "type": "string",
+                "value": "71b55a09-7832-41ca-85a8-0a12437241ef"
+              },
+              {
+                "key": "anlan.status",
+                "type": "string",
+                "value": "awaiting_review"
+              },
+              {
+                "key": "anlan.stop_reason",
+                "type": "string",
+                "value": "completed"
+              },
+              {
+                "key": "anlan.task_id",
+                "type": "string",
+                "value": "d14c9178-17f4-41ed-b677-b15b169b53ae"
+              },
+              {
+                "key": "anlan.tool_calls",
+                "type": "int64",
+                "value": 3
+              },
+              {
+                "key": "span.kind",
+                "type": "string",
+                "value": "internal"
+              },
+              {
+                "key": "otel.status_code",
+                "type": "string",
+                "value": "OK"
+              }
+            ],
+            "logs": [],
+            "processID": "p1",
+            "warnings": null
+          }
+        ],
+        "processes": {
+          "p1": {
+            "serviceName": "anlan-2",
+            "tags": [
+              {
+                "key": "service.namespace",
+                "type": "string",
+                "value": "synthetic-local"
+              }
+            ]
+          }
+        },
+        "warnings": null
+      },
+      "material_unchanged": true
+    }
+  ]
+}

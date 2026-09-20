@@ -1,0 +1,19 @@
+{
+  "version": "phase02-regression-v1",
+  "exposure": "developer_seen_engineering",
+  "data_origin": "SYNTHETIC",
+  "as_of": "2026-09-20T12:00:00Z",
+  "cases": [
+    {"id": "p2-01-current", "worker_id": "worker-001", "area_id": "area-001", "question": "动火现场需要怎样安排监护人员？", "outcomes": [["ok", null], ["ok", null], ["ok", null]], "stop": "completed"},
+    {"id": "p2-02-expired", "worker_id": "worker-expired", "area_id": "area-expired", "question": "历史记忆能代替当前资质查询吗？", "outcomes": [["unknown", "expired"], ["unknown", "expired"], ["ok", null]], "stop": "completed"},
+    {"id": "p2-03-missing", "worker_id": "worker-missing", "area_id": "area-missing", "question": "食堂今天供应什么菜？", "outcomes": [["unknown", "missing"], ["unknown", "missing"], ["unknown", "no_eligible_evidence"]], "stop": "completed"},
+    {"id": "p2-04-owner-denied", "expected": "AccessDenied"},
+    {"id": "p2-05-identity-injection", "worker_id": "worker-001", "area_id": "area-001", "question": "监护人员如何安排？", "outcomes": [["error", "invalid_parameters"], ["ok", null], ["ok", null]], "stop": "missing_evidence"},
+    {"id": "p2-06-fabricated-quote", "worker_id": "worker-001", "area_id": "area-001", "question": "监护人员如何安排？", "outcomes": [["ok", null], ["ok", null], ["ok", null]], "stop": "unsupported_knowledge_citation"},
+    {"id": "p2-07-knowledge-error", "worker_id": "worker-001", "area_id": "area-001", "question": "监护人员如何安排？", "outcomes": [["ok", null], ["ok", null], ["error", "knowledge_unavailable"]], "stop": "completed"},
+    {"id": "p2-08-withdrawal", "expected": "owner_only_and_hidden"},
+    {"id": "p2-09-export-error", "worker_id": "worker-001", "area_id": "area-001", "question": "监护人员如何安排？", "outcomes": [["ok", null], ["ok", null], ["ok", null]], "stop": "completed", "trace_warning": "trace_export_failed"},
+    {"id": "p2-10-platform", "expected": "six_linked_spans_and_source"},
+    {"id": "p2-11-budget-archive", "expected": "historical_attempts_present_without_new_requests"}
+  ]
+}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="1.675" timestamp="2026-09-21T00:09:32.631159+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_import_trace" name="test_import_keeps_partial_delivery_report_for_invalid_record" time="0.454"><failure message="KeyError: 'run_id'">tests\test_import_trace.py:24: in test_import_keeps_partial_delivery_report_for_invalid_record
+    assert module.main() == 1
+           ^^^^^^^^^^^^^
+scripts\import_trace.py:37: in main
+    report["trace_ids"] = sorted({trace_id(r["run_id"], archived=True) for r in records})
+                                           ^^^^^^^^^^^
+E   KeyError: 'run_id'</failure></testcase></testsuite></testsuites>

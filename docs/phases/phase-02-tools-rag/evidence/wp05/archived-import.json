@@ -1,0 +1,15 @@
+{
+  "mode": "archived_import",
+  "requests_this_run": 0,
+  "source": "docs\\phases\\phase-02-tools-rag\\evidence\\wp04\\live-v1.trace.jsonl",
+  "source_sha256": "b2f49d21c58226a6135fb6ad10bfe3c9504fe91e82bbce9cb6aeac9f2b54ce8b",
+  "events": 18,
+  "exported": 18,
+  "failed": 0,
+  "trace_ids": [
+    "0567291d8824e6cc14da556ab989b412",
+    "73f51a7a884f41111256765d989be719",
+    "d4b804987e0fbfccf8f16ac29fd515c8"
+  ],
+  "status": "passed"
+}

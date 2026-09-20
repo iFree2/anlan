@@ -1,6 +1,8 @@
 # 架构：当前基线与已确定的演进边界
 
-当前实际架构：Python CLI、Pydantic、LangGraph材料状态图与官方PG checkpoint；P2新增固定事实查询、有界模型工具循环、共享请求预占和独立示例知识检索。pgvector0.8.6、本地中文BGE/512维、知识版本/过滤已实现；平台追踪、FastAPI和Compose仍后续引入。实现与验证状态以[status](status.md)为准。
+当前实际架构：Python CLI、Pydantic、LangGraph材料状态图与官方PG checkpoint；P2新增固定事实查询、有界模型工具循环、共享请求预占和独立示例知识检索。pgvector0.8.6、本地中文BGE/512维、知识版本/过滤与Jaeger平台追踪已实现；FastAPI和Compose仍后续引入。实现与验证状态以[status](status.md)为准。
+
+P2工程Gate于2026-09-21通过，平台追踪已接入Jaeger2.21/OTLP（替代本机缺少Docker条件的Langfuse部署），FastAPI/Compose仍后置。`trace.py`先保存JSONL，再可选导出白名单元数据；run为trace、工具/模型为子span。普通导出异常显式告警并保留业务结果；归档导入独立命名、保留时间缺口，不执行模型或恢复业务。见[ADR005](decisions/005-local-observability.md)与[P2交接](phases/phase-02-tools-rag/handoff.md)。
 
 ```mermaid
 flowchart LR

@@ -1,17 +1,17 @@
 # 当前状态（唯一入口）
 
-- 项目：安澜 2.0；**P1工程Gate与P2-WP01—WP04验收通过，P2阶段继续**。个人掌握独立待验，未因工程通过自动升级。
-- 当前工作包：P2-WP04通过，159项全量与新增2项评分边界通过，4命令整合CLI/P1冻结/独立审查通过。真实3个已见任务6次请求/12535token；保留一例摘要额外主张缺少显式引用，不宣称完整语义支持。进入WP05本地追踪与P2 Gate。[WP04交接](phases/phase-02-tools-rag/wp04-handoff.md)。
+- 项目：安澜2.0；**P1与P2工程Gate通过，P3入口就绪**。个人掌握、模型泛化与全摘要引用完整性未通过或未验证，不能随工程状态升级。
+- 当前工作包：P2-WP05及阶段Gate完成：185项测试（含26真实PG场景）、冻结11/11、python -O实际平台/故障定位通过，ruff通过；WP05新增真实模型请求0。下一包P3-WP01为合成偏好/反馈候选与生命周期。[P2阶段交接](phases/phase-02-tools-rag/handoff.md) / [P3计划](phases/phase-03-memory-context/plan.md)。
 - 持续授权（2026-09-20，用户本任务及项目协调任务同步）：按路线图逐工作包自动实现、验证、保存失败/退化、更新状态/矩阵/学习/交接，再继续下一包；不等待常规范围确认、个人练习或“继续”。阶段工程Gate通过后在同目录创建下一阶段GPT-6 Astra/high任务并以handoff续接。只在明显范围变化、破坏性操作、真实业务副作用、缺少关键输入或用量预算耗尽时暂停依赖部分，可独立工作继续。
 - 模型长期执行授权（2026-09-20，协调任务同步用户“长期授权你全力推进”）：采用已告知用户的保守执行上限，每工作包最多10次、新授权后项目累计最多100次，失败尝试也占用；这是我方执行上限而非用户指定金额预算。仅既定供应商/模型、合成数据、有界输入输出/超时/无隐式重试，不扩价位或购买额度。唯一账本为项目PG的model_budget_authorizations/model_budget_attempts，生产授权20260920-long-term-v1，当前累计12/100，P2-WP02=6/10、P2-WP04=6/10，均成功、无未完成预占；已知新授权输入17627/输出2191/总19818token。[调用后快照](phases/phase-02-tools-rag/evidence/wp04/budget-after-live.json)。P1历史3次/1184token单独保留；跨进程/子任务共享预占，达上限才再询问。
 - 冷启动历史：2026-09-20基于 `fc64b27`，分支 `work/phase-01-wp-04`；冷启动24项smoke（含2项真实PG）、三轮demo和冻结回归通过。既有14文件中文注释与.idea保留，未发现适用AGENTS；[核对记录](phases/phase-02-tools-rag/cold-start.md)。旧项目未读取或修改；[来源边界](architecture.md#历史资料来源与适用范围)。
-- 已实现：材料循环/PG恢复、两个事实工具/有界模型循环、共享请求预占；pgvector0.8.6与本地中文BGE编码、版本化示例知识/授权/时效/撤回/检索对照及摘录式回答。知识已作为可选第三只读工具加入模型循环，引用逐字验证。摘要仍为未验证候选，不改变原材料。
+- 已实现：材料循环/PG恢复、三只读工具/有界模型引用摘要、共享预占、真实本地中文向量/pgvector/知识版本时效撤回；本地Jaeger/OTLP追踪和独立归档导入。模型摘要仍是待人工复核候选，不改变原材料或产生批准。
 - P1最终验证（历史证据，本轮已核对原始报告）：2026-09-20全量 **56 passed、0 skipped（含11项真实PG）**，ruff/锁文件同步通过；冻结工程回归8例/25步骤、9命令跨进程PG演示通过。历史3例预测本地重评分相符，WP04新模型请求0。[P1 Gate及最终证据](phases/phase-01-workflow/evidence/wp04/gate-report.md)。这是P1冻结时的历史记录，P2最新验证以上述当前工作包证据为准。
 - 本机运行：独立 PG17.11 在127.0.0.1:55432，系统PG10未改。新终端先 `scripts/dev-postgres.ps1 -Action Env`；需要停库用同脚本 `-Action Stop`。数据/凭据位置与复现命令见 README，凭据不入 Git。
 - 模型效果：3次真实DeepSeek请求均返回合法候选；最终问题集合3/3符合三个已见开发样本，TP2含规则/模型各1条。离线同集2/3。只证明小样本联通与行为，未证明泛化或复杂风险研判。
 - 历史配置/用量：用户指定 `docs/DS.txt`，已Git忽略且不输出密钥。P1-WP03调用3次，无重试，输入1126/输出58/总1184 token；实际扣费未查询。P2-WP01未读取模型凭据、新请求0，不重复历史调用覆盖结果。
 - 本人实践：已核对本人追问修改与三轮demo；断言及WP02实现由AI完成，不记作本人掌握。WP02可选恢复演示练习见 [学习记录](learning-log.md)，不阻塞继续开发。
-- 下一步主目标：WP05采用本地Jaeger/OTLP接入模型/工具/知识来源追踪并冻结P2 Gate；Langfuse已优先评估，但本机无Docker条件。仍按小包逐一验证，不提前实现后续阶段。
-- 范围/限制：身份为本地模拟；请求预占不是金额账单或exactly-once；知识已有模型引用摘要，但保留引用覆盖不足Badcase，不能自动批准。最终任务修订/取消、长期Memory、多Agent、事件、平台追踪未完成。PG曾非正常退出，原因未确定，失败与重启后通过保留；不能冒称根因已修复。模型泛化与个人掌握未验证。
+- 下一步主目标：按长期授权同目录启动P3 Memory与Context，先完成用户作用域合成记忆candidate→确认/拒绝→修正/冲突→过期/删除与真实PG验证；首包不需模型请求。后续实验先显式配置本包预算归属，不能误用P2包号。
+- 范围/限制：本地模拟身份，非生产认证；Jaeger内存不是恢复/预算权威。P2保留摘要次要主张缺显式引用、混合检索无增益和PG非正常退出原因未明等事实。最终任务修订/取消、Memory、多Agent、事件与服务化尚未完成；个人掌握仍待本人证据。
 
-下一任务冷启动读：[产品](product-scope.md)、[路线图](roadmap.md)、[P1阶段handoff](phases/phase-01-workflow/handoff.md)、[P2 plan](phases/phase-02-tools-rag/plan.md)、[P2 acceptance](phases/phase-02-tools-rag/acceptance.md)、必要[ADR002](decisions/002-postgres-recovery.md)。检查Git/最近提交与最小smoke。PG测试先确认实例运行并加载Env，skip不算通过；不要输出凭据或从历史调用额度推导新授权。
+下一任务冷启动读：适用AGENTS、[产品](product-scope.md)、[路线图](roadmap.md)、[P2阶段交接](phases/phase-02-tools-rag/handoff.md)、[P3 plan](phases/phase-03-memory-context/plan.md)/[acceptance](phases/phase-03-memory-context/acceptance.md)、ADR002—005。检查Git与最小smoke；保留14文件既有中文注释与.idea，skip不能算通过。按持续授权直接推进，不重做已验工作，不把个人练习设为编码前置。

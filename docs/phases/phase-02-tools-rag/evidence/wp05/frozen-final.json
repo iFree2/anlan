@@ -1,0 +1,1607 @@
+{
+  "created_at": "2026-09-20T16:36:47.478005+00:00",
+  "engineering_status": "passed",
+  "suite_version": "phase02-regression-v1",
+  "model_requests_this_run": 0,
+  "model_mode": "scripted_double",
+  "encoding": "real_local_neural",
+  "model_generalization": "not_validated",
+  "learner_mastery": "not_validated",
+  "summary_completeness": "known_uncited_secondary_claim_in_wp04",
+  "results": [
+    {
+      "case_id": "p2-01-current",
+      "passed": true,
+      "evidence": {
+        "schema_version": "fact-agent-evidence-v1",
+        "data_origin": "SYNTHETIC",
+        "mode": "scripted_double",
+        "task_id": "f0a5505d-40e7-43fa-a814-a160017f5935",
+        "correlation_id": "c218f242-b63a-41ab-bf04-512a56489d46",
+        "revision": 1,
+        "source_run_id": "1571a369-a168-4756-a243-875fe8ab4633",
+        "source_material_status": "waiting_input",
+        "run_id": "5f1b79b4-a652-40c5-aefb-dccec17b5a63",
+        "status": "awaiting_review",
+        "results": [
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_worker_qualification",
+            "object_id": "worker-001",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "ok",
+            "reason": null,
+            "source": {
+              "resource": "qualifications.json",
+              "version": "qualifications-v1-p2-regression",
+              "sha256": "2cd33b15e492e60a6e52bb5e20f35c647f5e69df0dc7506c1111e95776f6f5a5",
+              "record_id": "qualification-worker-001",
+              "observed_at": "2026-09-20T00:00:00Z",
+              "valid_from": "2026-01-01T00:00:00Z",
+              "valid_until": "2027-01-01T00:00:00Z"
+            },
+            "facts": {
+              "status": "active",
+              "qualification_type": "welding"
+            },
+            "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+            "elapsed_ms": 31.75,
+            "executed": true,
+            "call_id": "worker-call"
+          },
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_area_status",
+            "object_id": "area-001",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "ok",
+            "reason": null,
+            "source": {
+              "resource": "areas.json",
+              "version": "areas-v1-p2-regression",
+              "sha256": "929e93501c19a573cf81a63a0533e6a1fbad2689b9aaac5a5f641ee33fff6d29",
+              "record_id": "observation-area-001",
+              "observed_at": "2026-09-20T00:00:00Z",
+              "valid_from": "2026-09-20T00:00:00Z",
+              "valid_until": "2026-09-21T00:00:00Z"
+            },
+            "facts": {
+              "status": "restricted"
+            },
+            "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+            "elapsed_ms": 21.83,
+            "executed": true,
+            "call_id": "area-call"
+          },
+          {
+            "tool": "query_knowledge",
+            "data_origin": "SYNTHETIC",
+            "object_id": null,
+            "outcome": "ok",
+            "reason": null,
+            "queried_at": "2026-09-20T12:00:00+00:00",
+            "facts": null,
+            "source": [
+              {
+                "doc_id": "watcher",
+                "version": 1,
+                "chunk_id": "ddb650b6a7edd87ec45cbba3",
+                "source": "synthetic-policy/watcher",
+                "content_hash": "9343af38045bbe663b6c3376a0f6a354e009c2a17e0e3e15c348706e49ccae5c",
+                "document_hash": "d5daccbc7db366b2739f56f6b9efb7d085d9f45a782011d09d5c8b59c3d1f5c7",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00"
+              },
+              {
+                "doc_id": "gas-event",
+                "version": 1,
+                "chunk_id": "9b789d213a534d03d1b1a87d",
+                "source": "synthetic-policy/gas-event",
+                "content_hash": "9fd631a23694726d1283c9879ffac6faa7509483f1cf9aff92be4dca0d2e7baa",
+                "document_hash": "c5b1e3bb6be9b3e16e774b9e676222fe29d257d7918fc854996bc84ad8abc5b8",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00"
+              },
+              {
+                "doc_id": "preparation",
+                "version": 1,
+                "chunk_id": "d014131a9a3fb6937d9504b0",
+                "source": "synthetic-policy/preparation",
+                "content_hash": "f3803c8a51c0c4f2463f66dee38747221ed53411c45fe8a00936acf8f7e9236d",
+                "document_hash": "3f66455c40f95d4aec99768d0a1cebc6a849cbde3a381be350da46f7f8a208d3",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00"
+              }
+            ],
+            "citations": [
+              {
+                "doc_id": "watcher",
+                "version": 1,
+                "title": "示例现场监护",
+                "source": "synthetic-policy/watcher",
+                "document_hash": "d5daccbc7db366b2739f56f6b9efb7d085d9f45a782011d09d5c8b59c3d1f5c7",
+                "chunk_id": "ddb650b6a7edd87ec45cbba3",
+                "content_hash": "9343af38045bbe663b6c3376a0f6a354e009c2a17e0e3e15c348706e49ccae5c",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00",
+                "quote": "SYNTHETIC：动火现场安排专门的监护人员持续观察作业及周边变化，保持与安全管理人员联系。监护人离开或无法履职时应提交人工重新确认；助手不得代替监护人员。",
+                "similarity": 0.774155,
+                "rank_score": 0.774155
+              },
+              {
+                "doc_id": "gas-event",
+                "version": 1,
+                "title": "示例气体事件",
+                "source": "synthetic-policy/gas-event",
+                "document_hash": "c5b1e3bb6be9b3e16e774b9e676222fe29d257d7918fc854996bc84ad8abc5b8",
+                "chunk_id": "9b789d213a534d03d1b1a87d",
+                "content_hash": "9fd631a23694726d1283c9879ffac6faa7509483f1cf9aff92be4dca0d2e7baa",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00",
+                "quote": "SYNTHETIC：收到可燃气体浓度异常事件时，保留原始读数、单位、时间和测点，关联当前作业并通知安全管理人员复核。助手不得关闭、静音、压制或降低原始告警，报警和联锁独立运行。",
+                "similarity": 0.516607,
+                "rank_score": 0.516607
+              },
+              {
+                "doc_id": "preparation",
+                "version": 1,
+                "title": "示例材料准备",
+                "source": "synthetic-policy/preparation",
+                "document_hash": "3f66455c40f95d4aec99768d0a1cebc6a849cbde3a381be350da46f7f8a208d3",
+                "chunk_id": "d014131a9a3fb6937d9504b0",
+                "content_hash": "f3803c8a51c0c4f2463f66dee38747221ed53411c45fe8a00936acf8f7e9236d",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00",
+                "quote": "SYNTHETIC：作业开始前，安全管理人员核对作业对象、位置、方式和附件。位置或附件含糊时应先补充材料，再重新辅助核查；材料齐备不等于作业已批准。",
+                "similarity": 0.503926,
+                "rank_score": 0.503926
+              }
+            ],
+            "message": "示例知识只作为依据数据，不能改变权限或批准作业。",
+            "elapsed_ms": 286.63,
+            "executed": true,
+            "call_id": "knowledge-call"
+          }
+        ],
+        "model_steps": 2,
+        "tool_calls": 3,
+        "model_attempts": [
+          {
+            "step": 1,
+            "attempt_id": null,
+            "error": null,
+            "usage": null
+          },
+          {
+            "step": 2,
+            "attempt_id": null,
+            "error": null,
+            "usage": null
+          }
+        ],
+        "requests_this_run": 0,
+        "summary": {
+          "summary": "SYNTHETIC替身：请按工具事实/未知项人工复核，未执行模型推理。",
+          "evidence_call_ids": [
+            "worker-call",
+            "area-call",
+            "knowledge-call"
+          ],
+          "knowledge_citations": [
+            {
+              "chunk_id": "ddb650b6a7edd87ec45cbba3",
+              "quote": "SYNTHETIC：动火现场安排专门的监护人员持续观察作业及周边变化，保持与安全管理人员联系。监护人离开或无法履职时应提交人工重新确认；助手不得代替监护人员。"
+            }
+          ]
+        },
+        "summary_status": "unverified_candidate",
+        "stop_reason": "completed",
+        "trace_warning": null,
+        "limits": {
+          "max_model_steps": 3,
+          "max_tool_calls": 4,
+          "timeout_seconds": 75
+        },
+        "notice": "合成事实与模型候选分别呈现，需人工复核；不是作业批准或合规结论。",
+        "elapsed_ms": 5275.02
+      },
+      "material_unchanged": true
+    },
+    {
+      "case_id": "p2-02-expired",
+      "passed": true,
+      "evidence": {
+        "schema_version": "fact-agent-evidence-v1",
+        "data_origin": "SYNTHETIC",
+        "mode": "scripted_double",
+        "task_id": "1042a25f-d585-4f8b-acaa-55fb41b6e87f",
+        "correlation_id": "7738bf63-fcb4-4ff9-ba25-39cca904b2ba",
+        "revision": 1,
+        "source_run_id": "02287db8-f045-468f-8d8d-577513263f5a",
+        "source_material_status": "waiting_input",
+        "run_id": "9c46e381-2581-4cad-8011-b8286d61117a",
+        "status": "awaiting_review",
+        "results": [
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_worker_qualification",
+            "object_id": "worker-expired",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "unknown",
+            "reason": "expired",
+            "source": {
+              "resource": "qualifications.json",
+              "version": "qualifications-v1-p2-regression",
+              "sha256": "2cd33b15e492e60a6e52bb5e20f35c647f5e69df0dc7506c1111e95776f6f5a5",
+              "record_id": "qualification-worker-expired",
+              "observed_at": "2026-09-20T00:00:00Z",
+              "valid_from": "2026-01-01T00:00:00Z",
+              "valid_until": "2026-09-01T00:00:00Z"
+            },
+            "facts": null,
+            "message": "记录已过有效期，不能作为当前事实。",
+            "elapsed_ms": 3.33,
+            "executed": true,
+            "call_id": "worker-call"
+          },
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_area_status",
+            "object_id": "area-expired",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "unknown",
+            "reason": "expired",
+            "source": {
+              "resource": "areas.json",
+              "version": "areas-v1-p2-regression",
+              "sha256": "929e93501c19a573cf81a63a0533e6a1fbad2689b9aaac5a5f641ee33fff6d29",
+              "record_id": "observation-area-expired",
+              "observed_at": "2026-09-20T00:00:00Z",
+              "valid_from": "2026-01-01T00:00:00Z",
+              "valid_until": "2026-09-19T00:00:00Z"
+            },
+            "facts": null,
+            "message": "记录已过有效期，不能作为当前事实。",
+            "elapsed_ms": 3.26,
+            "executed": true,
+            "call_id": "area-call"
+          },
+          {
+            "tool": "query_knowledge",
+            "data_origin": "SYNTHETIC",
+            "object_id": null,
+            "outcome": "ok",
+            "reason": null,
+            "queried_at": "2026-09-20T12:00:00+00:00",
+            "facts": null,
+            "source": [
+              {
+                "doc_id": "qualification",
+                "version": 1,
+                "chunk_id": "c1d8d0c800f47a7782e2d896",
+                "source": "synthetic-policy/qualification",
+                "content_hash": "eeef78763ca646adfc770a7de2c4e9a81a2f8197392748de83c2495de7682a95",
+                "document_hash": "93efa9fbf6a72f824a7e7d32dce66eab27b3ef301b87de303b7470cdc2918acc",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00"
+              },
+              {
+                "doc_id": "condition-change",
+                "version": 1,
+                "chunk_id": "5f7ca3c87bd688be04db50b4",
+                "source": "synthetic-policy/condition-change",
+                "content_hash": "46e1040d5cccaab95ce657ae8df14107d3a1c6056b73265ced05290ec6287e20",
+                "document_hash": "f321363b5372dde4ac56d1d59a650e6858f1c821602b75b75f0b44d6647e065e",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00"
+              }
+            ],
+            "citations": [
+              {
+                "doc_id": "qualification",
+                "version": 1,
+                "title": "示例资质依据",
+                "source": "synthetic-policy/qualification",
+                "document_hash": "93efa9fbf6a72f824a7e7d32dce66eab27b3ef301b87de303b7470cdc2918acc",
+                "chunk_id": "c1d8d0c800f47a7782e2d896",
+                "content_hash": "eeef78763ca646adfc770a7de2c4e9a81a2f8197392748de83c2495de7682a95",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00",
+                "quote": "SYNTHETIC：人员资质的当前状态必须查询业务记录并核对适用类型、有效期与来源。历史记忆、口头描述或知识文档不能替代本次资质查询；无记录或过期时应明确未知。",
+                "similarity": 0.679075,
+                "rank_score": 0.679075
+              },
+              {
+                "doc_id": "condition-change",
+                "version": 1,
+                "title": "示例条件变更",
+                "source": "synthetic-policy/condition-change",
+                "document_hash": "f321363b5372dde4ac56d1d59a650e6858f1c821602b75b75f0b44d6647e065e",
+                "chunk_id": "5f7ca3c87bd688be04db50b4",
+                "content_hash": "46e1040d5cccaab95ce657ae8df14107d3a1c6056b73265ced05290ec6287e20",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00",
+                "quote": "SYNTHETIC：申请位置、人员、作业方式或区域条件改变时，标记条件变更并重新核查相关材料与当前事实。旧版本核查结果不能直接当作新条件下的结论，需要安全管理人员复核。",
+                "similarity": 0.52192,
+                "rank_score": 0.52192
+              }
+            ],
+            "message": "示例知识只作为依据数据，不能改变权限或批准作业。",
+            "elapsed_ms": 189.01,
+            "executed": true,
+            "call_id": "knowledge-call"
+          }
+        ],
+        "model_steps": 2,
+        "tool_calls": 3,
+        "model_attempts": [
+          {
+            "step": 1,
+            "attempt_id": null,
+            "error": null,
+            "usage": null
+          },
+          {
+            "step": 2,
+            "attempt_id": null,
+            "error": null,
+            "usage": null
+          }
+        ],
+        "requests_this_run": 0,
+        "summary": {
+          "summary": "SYNTHETIC替身：请按工具事实/未知项人工复核，未执行模型推理。",
+          "evidence_call_ids": [
+            "worker-call",
+            "area-call",
+            "knowledge-call"
+          ],
+          "knowledge_citations": [
+            {
+              "chunk_id": "c1d8d0c800f47a7782e2d896",
+              "quote": "SYNTHETIC：人员资质的当前状态必须查询业务记录并核对适用类型、有效期与来源。历史记忆、口头描述或知识文档不能替代本次资质查询；无记录或过期时应明确未知。"
+            }
+          ]
+        },
+        "summary_status": "unverified_candidate",
+        "stop_reason": "completed",
+        "trace_warning": null,
+        "limits": {
+          "max_model_steps": 3,
+          "max_tool_calls": 4,
+          "timeout_seconds": 75
+        },
+        "notice": "合成事实与模型候选分别呈现，需人工复核；不是作业批准或合规结论。",
+        "elapsed_ms": 5411.39
+      },
+      "material_unchanged": true
+    },
+    {
+      "case_id": "p2-03-missing",
+      "passed": true,
+      "evidence": {
+        "schema_version": "fact-agent-evidence-v1",
+        "data_origin": "SYNTHETIC",
+        "mode": "scripted_double",
+        "task_id": "de8ae862-bb6f-482e-a8ef-224206b06f2d",
+        "correlation_id": "20b0174a-2074-4f67-82e0-e2a831eeeb1e",
+        "revision": 1,
+        "source_run_id": "064fe13a-305b-4654-8bd1-d9a8a83d352c",
+        "source_material_status": "waiting_input",
+        "run_id": "a1cceec6-2caa-4fd7-bf4e-5e0c3fdf303b",
+        "status": "awaiting_review",
+        "results": [
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_worker_qualification",
+            "object_id": "worker-missing",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "unknown",
+            "reason": "missing",
+            "source": {
+              "resource": "qualifications.json",
+              "version": "qualifications-v1-p2-regression",
+              "sha256": "2cd33b15e492e60a6e52bb5e20f35c647f5e69df0dc7506c1111e95776f6f5a5",
+              "record_id": null,
+              "observed_at": null,
+              "valid_from": null,
+              "valid_until": null
+            },
+            "facts": null,
+            "message": "授权范围内未找到记录，当前事实未知。",
+            "elapsed_ms": 4.58,
+            "executed": true,
+            "call_id": "worker-call"
+          },
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_area_status",
+            "object_id": "area-missing",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "unknown",
+            "reason": "missing",
+            "source": {
+              "resource": "areas.json",
+              "version": "areas-v1-p2-regression",
+              "sha256": "929e93501c19a573cf81a63a0533e6a1fbad2689b9aaac5a5f641ee33fff6d29",
+              "record_id": null,
+              "observed_at": null,
+              "valid_from": null,
+              "valid_until": null
+            },
+            "facts": null,
+            "message": "授权范围内未找到记录，当前事实未知。",
+            "elapsed_ms": 4.18,
+            "executed": true,
+            "call_id": "area-call"
+          },
+          {
+            "tool": "query_knowledge",
+            "data_origin": "SYNTHETIC",
+            "object_id": null,
+            "outcome": "unknown",
+            "reason": "no_eligible_evidence",
+            "queried_at": "2026-09-20T12:00:00+00:00",
+            "facts": null,
+            "source": [],
+            "citations": [],
+            "message": "示例知识只作为依据数据，不能改变权限或批准作业。",
+            "elapsed_ms": 186.87,
+            "executed": true,
+            "call_id": "knowledge-call"
+          }
+        ],
+        "model_steps": 2,
+        "tool_calls": 3,
+        "model_attempts": [
+          {
+            "step": 1,
+            "attempt_id": null,
+            "error": null,
+            "usage": null
+          },
+          {
+            "step": 2,
+            "attempt_id": null,
+            "error": null,
+            "usage": null
+          }
+        ],
+        "requests_this_run": 0,
+        "summary": {
+          "summary": "SYNTHETIC替身：请按工具事实/未知项人工复核，未执行模型推理。",
+          "evidence_call_ids": [
+            "worker-call",
+            "area-call",
+            "knowledge-call"
+          ],
+          "knowledge_citations": []
+        },
+        "summary_status": "unverified_candidate",
+        "stop_reason": "completed",
+        "trace_warning": null,
+        "limits": {
+          "max_model_steps": 3,
+          "max_tool_calls": 4,
+          "timeout_seconds": 75
+        },
+        "notice": "合成事实与模型候选分别呈现，需人工复核；不是作业批准或合规结论。",
+        "elapsed_ms": 5448.1
+      },
+      "material_unchanged": true
+    },
+    {
+      "case_id": "p2-04-owner-denied",
+      "passed": true
+    },
+    {
+      "case_id": "p2-05-identity-injection",
+      "passed": true,
+      "evidence": {
+        "schema_version": "fact-agent-evidence-v1",
+        "data_origin": "SYNTHETIC",
+        "mode": "scripted_double",
+        "task_id": "f5a3b09c-ac55-49a9-acd7-f6fb323015f9",
+        "correlation_id": "e53f5353-6841-4ad6-beb7-da4da2a1bb5e",
+        "revision": 1,
+        "source_run_id": "e8af2d32-7333-4421-854e-d3474bb82705",
+        "source_material_status": "waiting_input",
+        "run_id": "6c8b315e-b7e6-4744-b5b8-35bba092c30c",
+        "status": "awaiting_review",
+        "results": [
+          {
+            "tool": "query_worker_qualification",
+            "outcome": "error",
+            "reason": "invalid_parameters",
+            "facts": null,
+            "source": null,
+            "executed": false,
+            "call_id": "worker-call"
+          },
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_area_status",
+            "object_id": "area-001",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "ok",
+            "reason": null,
+            "source": {
+              "resource": "areas.json",
+              "version": "areas-v1-p2-regression",
+              "sha256": "929e93501c19a573cf81a63a0533e6a1fbad2689b9aaac5a5f641ee33fff6d29",
+              "record_id": "observation-area-001",
+              "observed_at": "2026-09-20T00:00:00Z",
+              "valid_from": "2026-09-20T00:00:00Z",
+              "valid_until": "2026-09-21T00:00:00Z"
+            },
+            "facts": {
+              "status": "restricted"
+            },
+            "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+            "elapsed_ms": 3.5,
+            "executed": true,
+            "call_id": "area-call"
+          },
+          {
+            "tool": "query_knowledge",
+            "data_origin": "SYNTHETIC",
+            "object_id": null,
+            "outcome": "ok",
+            "reason": null,
+            "queried_at": "2026-09-20T12:00:00+00:00",
+            "facts": null,
+            "source": [
+              {
+                "doc_id": "watcher",
+                "version": 1,
+                "chunk_id": "ddb650b6a7edd87ec45cbba3",
+                "source": "synthetic-policy/watcher",
+                "content_hash": "9343af38045bbe663b6c3376a0f6a354e009c2a17e0e3e15c348706e49ccae5c",
+                "document_hash": "d5daccbc7db366b2739f56f6b9efb7d085d9f45a782011d09d5c8b59c3d1f5c7",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00"
+              },
+              {
+                "doc_id": "preparation",
+                "version": 1,
+                "chunk_id": "d014131a9a3fb6937d9504b0",
+                "source": "synthetic-policy/preparation",
+                "content_hash": "f3803c8a51c0c4f2463f66dee38747221ed53411c45fe8a00936acf8f7e9236d",
+                "document_hash": "3f66455c40f95d4aec99768d0a1cebc6a849cbde3a381be350da46f7f8a208d3",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00"
+              },
+              {
+                "doc_id": "gas-event",
+                "version": 1,
+                "chunk_id": "9b789d213a534d03d1b1a87d",
+                "source": "synthetic-policy/gas-event",
+                "content_hash": "9fd631a23694726d1283c9879ffac6faa7509483f1cf9aff92be4dca0d2e7baa",
+                "document_hash": "c5b1e3bb6be9b3e16e774b9e676222fe29d257d7918fc854996bc84ad8abc5b8",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00"
+              }
+            ],
+            "citations": [
+              {
+                "doc_id": "watcher",
+                "version": 1,
+                "title": "示例现场监护",
+                "source": "synthetic-policy/watcher",
+                "document_hash": "d5daccbc7db366b2739f56f6b9efb7d085d9f45a782011d09d5c8b59c3d1f5c7",
+                "chunk_id": "ddb650b6a7edd87ec45cbba3",
+                "content_hash": "9343af38045bbe663b6c3376a0f6a354e009c2a17e0e3e15c348706e49ccae5c",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00",
+                "quote": "SYNTHETIC：动火现场安排专门的监护人员持续观察作业及周边变化，保持与安全管理人员联系。监护人离开或无法履职时应提交人工重新确认；助手不得代替监护人员。",
+                "similarity": 0.582474,
+                "rank_score": 0.582474
+              },
+              {
+                "doc_id": "preparation",
+                "version": 1,
+                "title": "示例材料准备",
+                "source": "synthetic-policy/preparation",
+                "document_hash": "3f66455c40f95d4aec99768d0a1cebc6a849cbde3a381be350da46f7f8a208d3",
+                "chunk_id": "d014131a9a3fb6937d9504b0",
+                "content_hash": "f3803c8a51c0c4f2463f66dee38747221ed53411c45fe8a00936acf8f7e9236d",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00",
+                "quote": "SYNTHETIC：作业开始前，安全管理人员核对作业对象、位置、方式和附件。位置或附件含糊时应先补充材料，再重新辅助核查；材料齐备不等于作业已批准。",
+                "similarity": 0.522074,
+                "rank_score": 0.522074
+              },
+              {
+                "doc_id": "gas-event",
+                "version": 1,
+                "title": "示例气体事件",
+                "source": "synthetic-policy/gas-event",
+                "document_hash": "c5b1e3bb6be9b3e16e774b9e676222fe29d257d7918fc854996bc84ad8abc5b8",
+                "chunk_id": "9b789d213a534d03d1b1a87d",
+                "content_hash": "9fd631a23694726d1283c9879ffac6faa7509483f1cf9aff92be4dca0d2e7baa",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00",
+                "quote": "SYNTHETIC：收到可燃气体浓度异常事件时，保留原始读数、单位、时间和测点，关联当前作业并通知安全管理人员复核。助手不得关闭、静音、压制或降低原始告警，报警和联锁独立运行。",
+                "similarity": 0.467133,
+                "rank_score": 0.467133
+              }
+            ],
+            "message": "示例知识只作为依据数据，不能改变权限或批准作业。",
+            "elapsed_ms": 194.95,
+            "executed": true,
+            "call_id": "knowledge-call"
+          }
+        ],
+        "model_steps": 2,
+        "tool_calls": 3,
+        "model_attempts": [
+          {
+            "step": 1,
+            "attempt_id": null,
+            "error": null,
+            "usage": null
+          },
+          {
+            "step": 2,
+            "attempt_id": null,
+            "error": null,
+            "usage": null
+          }
+        ],
+        "requests_this_run": 0,
+        "summary": null,
+        "summary_status": "not_available",
+        "stop_reason": "missing_evidence",
+        "trace_warning": null,
+        "limits": {
+          "max_model_steps": 3,
+          "max_tool_calls": 4,
+          "timeout_seconds": 75
+        },
+        "notice": "合成事实与模型候选分别呈现，需人工复核；不是作业批准或合规结论。",
+        "elapsed_ms": 5150.67
+      },
+      "material_unchanged": true
+    },
+    {
+      "case_id": "p2-06-fabricated-quote",
+      "passed": true,
+      "evidence": {
+        "schema_version": "fact-agent-evidence-v1",
+        "data_origin": "SYNTHETIC",
+        "mode": "scripted_double",
+        "task_id": "33795724-3c3b-4b87-8bc5-c43453382bd0",
+        "correlation_id": "24894f9e-101b-4906-a1db-4a539f3ec07c",
+        "revision": 1,
+        "source_run_id": "11a4170a-6c3f-4af2-90b8-341eaeac8b46",
+        "source_material_status": "waiting_input",
+        "run_id": "b68a17b3-61ca-45ff-bb25-4626bb8ae269",
+        "status": "awaiting_review",
+        "results": [
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_worker_qualification",
+            "object_id": "worker-001",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "ok",
+            "reason": null,
+            "source": {
+              "resource": "qualifications.json",
+              "version": "qualifications-v1-p2-regression",
+              "sha256": "2cd33b15e492e60a6e52bb5e20f35c647f5e69df0dc7506c1111e95776f6f5a5",
+              "record_id": "qualification-worker-001",
+              "observed_at": "2026-09-20T00:00:00Z",
+              "valid_from": "2026-01-01T00:00:00Z",
+              "valid_until": "2027-01-01T00:00:00Z"
+            },
+            "facts": {
+              "status": "active",
+              "qualification_type": "welding"
+            },
+            "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+            "elapsed_ms": 2.95,
+            "executed": true,
+            "call_id": "worker-call"
+          },
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_area_status",
+            "object_id": "area-001",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "ok",
+            "reason": null,
+            "source": {
+              "resource": "areas.json",
+              "version": "areas-v1-p2-regression",
+              "sha256": "929e93501c19a573cf81a63a0533e6a1fbad2689b9aaac5a5f641ee33fff6d29",
+              "record_id": "observation-area-001",
+              "observed_at": "2026-09-20T00:00:00Z",
+              "valid_from": "2026-09-20T00:00:00Z",
+              "valid_until": "2026-09-21T00:00:00Z"
+            },
+            "facts": {
+              "status": "restricted"
+            },
+            "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+            "elapsed_ms": 3.14,
+            "executed": true,
+            "call_id": "area-call"
+          },
+          {
+            "tool": "query_knowledge",
+            "data_origin": "SYNTHETIC",
+            "object_id": null,
+            "outcome": "ok",
+            "reason": null,
+            "queried_at": "2026-09-20T12:00:00+00:00",
+            "facts": null,
+            "source": [
+              {
+                "doc_id": "watcher",
+                "version": 1,
+                "chunk_id": "ddb650b6a7edd87ec45cbba3",
+                "source": "synthetic-policy/watcher",
+                "content_hash": "9343af38045bbe663b6c3376a0f6a354e009c2a17e0e3e15c348706e49ccae5c",
+                "document_hash": "d5daccbc7db366b2739f56f6b9efb7d085d9f45a782011d09d5c8b59c3d1f5c7",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00"
+              },
+              {
+                "doc_id": "preparation",
+                "version": 1,
+                "chunk_id": "d014131a9a3fb6937d9504b0",
+                "source": "synthetic-policy/preparation",
+                "content_hash": "f3803c8a51c0c4f2463f66dee38747221ed53411c45fe8a00936acf8f7e9236d",
+                "document_hash": "3f66455c40f95d4aec99768d0a1cebc6a849cbde3a381be350da46f7f8a208d3",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00"
+              },
+              {
+                "doc_id": "gas-event",
+                "version": 1,
+                "chunk_id": "9b789d213a534d03d1b1a87d",
+                "source": "synthetic-policy/gas-event",
+                "content_hash": "9fd631a23694726d1283c9879ffac6faa7509483f1cf9aff92be4dca0d2e7baa",
+                "document_hash": "c5b1e3bb6be9b3e16e774b9e676222fe29d257d7918fc854996bc84ad8abc5b8",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00"
+              }
+            ],
+            "citations": [
+              {
+                "doc_id": "watcher",
+                "version": 1,
+                "title": "示例现场监护",
+                "source": "synthetic-policy/watcher",
+                "document_hash": "d5daccbc7db366b2739f56f6b9efb7d085d9f45a782011d09d5c8b59c3d1f5c7",
+                "chunk_id": "ddb650b6a7edd87ec45cbba3",
+                "content_hash": "9343af38045bbe663b6c3376a0f6a354e009c2a17e0e3e15c348706e49ccae5c",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00",
+                "quote": "SYNTHETIC：动火现场安排专门的监护人员持续观察作业及周边变化，保持与安全管理人员联系。监护人离开或无法履职时应提交人工重新确认；助手不得代替监护人员。",
+                "similarity": 0.582474,
+                "rank_score": 0.582474
+              },
+              {
+                "doc_id": "preparation",
+                "version": 1,
+                "title": "示例材料准备",
+                "source": "synthetic-policy/preparation",
+                "document_hash": "3f66455c40f95d4aec99768d0a1cebc6a849cbde3a381be350da46f7f8a208d3",
+                "chunk_id": "d014131a9a3fb6937d9504b0",
+                "content_hash": "f3803c8a51c0c4f2463f66dee38747221ed53411c45fe8a00936acf8f7e9236d",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00",
+                "quote": "SYNTHETIC：作业开始前，安全管理人员核对作业对象、位置、方式和附件。位置或附件含糊时应先补充材料，再重新辅助核查；材料齐备不等于作业已批准。",
+                "similarity": 0.522074,
+                "rank_score": 0.522074
+              },
+              {
+                "doc_id": "gas-event",
+                "version": 1,
+                "title": "示例气体事件",
+                "source": "synthetic-policy/gas-event",
+                "document_hash": "c5b1e3bb6be9b3e16e774b9e676222fe29d257d7918fc854996bc84ad8abc5b8",
+                "chunk_id": "9b789d213a534d03d1b1a87d",
+                "content_hash": "9fd631a23694726d1283c9879ffac6faa7509483f1cf9aff92be4dca0d2e7baa",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00",
+                "quote": "SYNTHETIC：收到可燃气体浓度异常事件时，保留原始读数、单位、时间和测点，关联当前作业并通知安全管理人员复核。助手不得关闭、静音、压制或降低原始告警，报警和联锁独立运行。",
+                "similarity": 0.467133,
+                "rank_score": 0.467133
+              }
+            ],
+            "message": "示例知识只作为依据数据，不能改变权限或批准作业。",
+            "elapsed_ms": 177.4,
+            "executed": true,
+            "call_id": "knowledge-call"
+          }
+        ],
+        "model_steps": 2,
+        "tool_calls": 3,
+        "model_attempts": [
+          {
+            "step": 1,
+            "attempt_id": null,
+            "error": null,
+            "usage": null
+          },
+          {
+            "step": 2,
+            "attempt_id": null,
+            "error": null,
+            "usage": null
+          }
+        ],
+        "requests_this_run": 0,
+        "summary": null,
+        "summary_status": "not_available",
+        "stop_reason": "unsupported_knowledge_citation",
+        "trace_warning": null,
+        "limits": {
+          "max_model_steps": 3,
+          "max_tool_calls": 4,
+          "timeout_seconds": 75
+        },
+        "notice": "合成事实与模型候选分别呈现，需人工复核；不是作业批准或合规结论。",
+        "elapsed_ms": 5175.43
+      },
+      "material_unchanged": true
+    },
+    {
+      "case_id": "p2-07-knowledge-error",
+      "passed": true,
+      "evidence": {
+        "schema_version": "fact-agent-evidence-v1",
+        "data_origin": "SYNTHETIC",
+        "mode": "scripted_double",
+        "task_id": "9348c61e-aaa0-443e-9e8b-04062aa79dba",
+        "correlation_id": "1cf98d8e-c22c-4468-b277-ee4f992b129a",
+        "revision": 1,
+        "source_run_id": "05d1fcbb-b6ba-4bbd-9275-910e1d259e03",
+        "source_material_status": "waiting_input",
+        "run_id": "5b697235-4fdb-42ec-a0e3-68be1d2e4522",
+        "status": "awaiting_review",
+        "results": [
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_worker_qualification",
+            "object_id": "worker-001",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "ok",
+            "reason": null,
+            "source": {
+              "resource": "qualifications.json",
+              "version": "qualifications-v1-p2-regression",
+              "sha256": "2cd33b15e492e60a6e52bb5e20f35c647f5e69df0dc7506c1111e95776f6f5a5",
+              "record_id": "qualification-worker-001",
+              "observed_at": "2026-09-20T00:00:00Z",
+              "valid_from": "2026-01-01T00:00:00Z",
+              "valid_until": "2027-01-01T00:00:00Z"
+            },
+            "facts": {
+              "status": "active",
+              "qualification_type": "welding"
+            },
+            "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+            "elapsed_ms": 5.85,
+            "executed": true,
+            "call_id": "worker-call"
+          },
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_area_status",
+            "object_id": "area-001",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "ok",
+            "reason": null,
+            "source": {
+              "resource": "areas.json",
+              "version": "areas-v1-p2-regression",
+              "sha256": "929e93501c19a573cf81a63a0533e6a1fbad2689b9aaac5a5f641ee33fff6d29",
+              "record_id": "observation-area-001",
+              "observed_at": "2026-09-20T00:00:00Z",
+              "valid_from": "2026-09-20T00:00:00Z",
+              "valid_until": "2026-09-21T00:00:00Z"
+            },
+            "facts": {
+              "status": "restricted"
+            },
+            "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+            "elapsed_ms": 4.69,
+            "executed": true,
+            "call_id": "area-call"
+          },
+          {
+            "tool": "query_knowledge",
+            "data_origin": "SYNTHETIC",
+            "object_id": null,
+            "outcome": "error",
+            "reason": "knowledge_unavailable",
+            "queried_at": "2026-09-20T12:00:00+00:00",
+            "facts": null,
+            "source": [],
+            "citations": [],
+            "message": "示例知识只作为依据数据，不能改变权限或批准作业。",
+            "elapsed_ms": 0.11,
+            "executed": true,
+            "call_id": "knowledge-call"
+          }
+        ],
+        "model_steps": 2,
+        "tool_calls": 3,
+        "model_attempts": [
+          {
+            "step": 1,
+            "attempt_id": null,
+            "error": null,
+            "usage": null
+          },
+          {
+            "step": 2,
+            "attempt_id": null,
+            "error": null,
+            "usage": null
+          }
+        ],
+        "requests_this_run": 0,
+        "summary": {
+          "summary": "SYNTHETIC替身：请按工具事实/未知项人工复核，未执行模型推理。",
+          "evidence_call_ids": [
+            "worker-call",
+            "area-call",
+            "knowledge-call"
+          ],
+          "knowledge_citations": []
+        },
+        "summary_status": "unverified_candidate",
+        "stop_reason": "completed",
+        "trace_warning": null,
+        "limits": {
+          "max_model_steps": 3,
+          "max_tool_calls": 4,
+          "timeout_seconds": 75
+        },
+        "notice": "合成事实与模型候选分别呈现，需人工复核；不是作业批准或合规结论。",
+        "elapsed_ms": 5227.63
+      },
+      "material_unchanged": true
+    },
+    {
+      "case_id": "p2-08-withdrawal",
+      "passed": true
+    },
+    {
+      "case_id": "p2-09-export-error",
+      "passed": true,
+      "evidence": {
+        "schema_version": "fact-agent-evidence-v1",
+        "data_origin": "SYNTHETIC",
+        "mode": "scripted_double",
+        "task_id": "ac50d573-3411-4385-b084-6132716b4199",
+        "correlation_id": "4339fe75-8113-4314-ac39-ebd207d4b19c",
+        "revision": 1,
+        "source_run_id": "664451cd-ceb3-4c8b-8cdd-8347d6ad79aa",
+        "source_material_status": "waiting_input",
+        "run_id": "b2d6ea3b-9f13-4bd6-b57d-cc2acb01ea08",
+        "status": "awaiting_review",
+        "results": [
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_worker_qualification",
+            "object_id": "worker-001",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "ok",
+            "reason": null,
+            "source": {
+              "resource": "qualifications.json",
+              "version": "qualifications-v1-p2-regression",
+              "sha256": "2cd33b15e492e60a6e52bb5e20f35c647f5e69df0dc7506c1111e95776f6f5a5",
+              "record_id": "qualification-worker-001",
+              "observed_at": "2026-09-20T00:00:00Z",
+              "valid_from": "2026-01-01T00:00:00Z",
+              "valid_until": "2027-01-01T00:00:00Z"
+            },
+            "facts": {
+              "status": "active",
+              "qualification_type": "welding"
+            },
+            "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+            "elapsed_ms": 6.9,
+            "executed": true,
+            "call_id": "worker-call"
+          },
+          {
+            "data_origin": "SYNTHETIC",
+            "tool": "query_area_status",
+            "object_id": "area-001",
+            "queried_at": "2026-09-20T12:00:00Z",
+            "outcome": "ok",
+            "reason": null,
+            "source": {
+              "resource": "areas.json",
+              "version": "areas-v1-p2-regression",
+              "sha256": "929e93501c19a573cf81a63a0533e6a1fbad2689b9aaac5a5f641ee33fff6d29",
+              "record_id": "observation-area-001",
+              "observed_at": "2026-09-20T00:00:00Z",
+              "valid_from": "2026-09-20T00:00:00Z",
+              "valid_until": "2026-09-21T00:00:00Z"
+            },
+            "facts": {
+              "status": "restricted"
+            },
+            "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+            "elapsed_ms": 4.18,
+            "executed": true,
+            "call_id": "area-call"
+          },
+          {
+            "tool": "query_knowledge",
+            "data_origin": "SYNTHETIC",
+            "object_id": null,
+            "outcome": "ok",
+            "reason": null,
+            "queried_at": "2026-09-20T12:00:00+00:00",
+            "facts": null,
+            "source": [
+              {
+                "doc_id": "watcher",
+                "version": 1,
+                "chunk_id": "ddb650b6a7edd87ec45cbba3",
+                "source": "synthetic-policy/watcher",
+                "content_hash": "9343af38045bbe663b6c3376a0f6a354e009c2a17e0e3e15c348706e49ccae5c",
+                "document_hash": "d5daccbc7db366b2739f56f6b9efb7d085d9f45a782011d09d5c8b59c3d1f5c7",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00"
+              },
+              {
+                "doc_id": "preparation",
+                "version": 1,
+                "chunk_id": "d014131a9a3fb6937d9504b0",
+                "source": "synthetic-policy/preparation",
+                "content_hash": "f3803c8a51c0c4f2463f66dee38747221ed53411c45fe8a00936acf8f7e9236d",
+                "document_hash": "3f66455c40f95d4aec99768d0a1cebc6a849cbde3a381be350da46f7f8a208d3",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00"
+              },
+              {
+                "doc_id": "gas-event",
+                "version": 1,
+                "chunk_id": "9b789d213a534d03d1b1a87d",
+                "source": "synthetic-policy/gas-event",
+                "content_hash": "9fd631a23694726d1283c9879ffac6faa7509483f1cf9aff92be4dca0d2e7baa",
+                "document_hash": "c5b1e3bb6be9b3e16e774b9e676222fe29d257d7918fc854996bc84ad8abc5b8",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00"
+              }
+            ],
+            "citations": [
+              {
+                "doc_id": "watcher",
+                "version": 1,
+                "title": "示例现场监护",
+                "source": "synthetic-policy/watcher",
+                "document_hash": "d5daccbc7db366b2739f56f6b9efb7d085d9f45a782011d09d5c8b59c3d1f5c7",
+                "chunk_id": "ddb650b6a7edd87ec45cbba3",
+                "content_hash": "9343af38045bbe663b6c3376a0f6a354e009c2a17e0e3e15c348706e49ccae5c",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00",
+                "quote": "SYNTHETIC：动火现场安排专门的监护人员持续观察作业及周边变化，保持与安全管理人员联系。监护人离开或无法履职时应提交人工重新确认；助手不得代替监护人员。",
+                "similarity": 0.582474,
+                "rank_score": 0.582474
+              },
+              {
+                "doc_id": "preparation",
+                "version": 1,
+                "title": "示例材料准备",
+                "source": "synthetic-policy/preparation",
+                "document_hash": "3f66455c40f95d4aec99768d0a1cebc6a849cbde3a381be350da46f7f8a208d3",
+                "chunk_id": "d014131a9a3fb6937d9504b0",
+                "content_hash": "f3803c8a51c0c4f2463f66dee38747221ed53411c45fe8a00936acf8f7e9236d",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00",
+                "quote": "SYNTHETIC：作业开始前，安全管理人员核对作业对象、位置、方式和附件。位置或附件含糊时应先补充材料，再重新辅助核查；材料齐备不等于作业已批准。",
+                "similarity": 0.522074,
+                "rank_score": 0.522074
+              },
+              {
+                "doc_id": "gas-event",
+                "version": 1,
+                "title": "示例气体事件",
+                "source": "synthetic-policy/gas-event",
+                "document_hash": "c5b1e3bb6be9b3e16e774b9e676222fe29d257d7918fc854996bc84ad8abc5b8",
+                "chunk_id": "9b789d213a534d03d1b1a87d",
+                "content_hash": "9fd631a23694726d1283c9879ffac6faa7509483f1cf9aff92be4dca0d2e7baa",
+                "valid_from": "2026-01-01T08:00:00+08:00",
+                "valid_until": "2027-01-01T08:00:00+08:00",
+                "quote": "SYNTHETIC：收到可燃气体浓度异常事件时，保留原始读数、单位、时间和测点，关联当前作业并通知安全管理人员复核。助手不得关闭、静音、压制或降低原始告警，报警和联锁独立运行。",
+                "similarity": 0.467133,
+                "rank_score": 0.467133
+              }
+            ],
+            "message": "示例知识只作为依据数据，不能改变权限或批准作业。",
+            "elapsed_ms": 187.67,
+            "executed": true,
+            "call_id": "knowledge-call"
+          }
+        ],
+        "model_steps": 2,
+        "tool_calls": 3,
+        "model_attempts": [
+          {
+            "step": 1,
+            "attempt_id": null,
+            "error": null,
+            "usage": null
+          },
+          {
+            "step": 2,
+            "attempt_id": null,
+            "error": null,
+            "usage": null
+          }
+        ],
+        "requests_this_run": 0,
+        "summary": {
+          "summary": "SYNTHETIC替身：请按工具事实/未知项人工复核，未执行模型推理。",
+          "evidence_call_ids": [
+            "worker-call",
+            "area-call",
+            "knowledge-call"
+          ],
+          "knowledge_citations": [
+            {
+              "chunk_id": "ddb650b6a7edd87ec45cbba3",
+              "quote": "SYNTHETIC：动火现场安排专门的监护人员持续观察作业及周边变化，保持与安全管理人员联系。监护人离开或无法履职时应提交人工重新确认；助手不得代替监护人员。"
+            }
+          ]
+        },
+        "summary_status": "unverified_candidate",
+        "stop_reason": "completed",
+        "trace_warning": "trace_export_failed",
+        "limits": {
+          "max_model_steps": 3,
+          "max_tool_calls": 4,
+          "timeout_seconds": 75
+        },
+        "notice": "合成事实与模型候选分别呈现，需人工复核；不是作业批准或合规结论。",
+        "elapsed_ms": 205.85
+      },
+      "material_unchanged": true
+    },
+    {
+      "case_id": "p2-10-platform",
+      "passed": true,
+      "trace_id": "4d95a017ac113f7162343b8ebfbc7cf2",
+      "span_count": 6
+    },
+    {
+      "case_id": "p2-11-budget-archive",
+      "passed": true,
+      "initial_total": 12,
+      "current_total": 12,
+      "historical_attempts": 12,
+      "new_reservations": 0,
+      "removed_reservations": 0
+    }
+  ],
+  "runner_sha256": "1a05c32095782583133f8949c9b2a76524e1932a25547c028192890713097cdb",
+  "frozen_files": {
+    "cases": {
+      "path": "evals/phase02-regression-v1/cases.json",
+      "sha256": "1f8c0b53f450691f77a83e26b5760efd2d2b67c6f49cafca61fe7cc3b753e5bd"
+    },
+    "corpus": {
+      "path": "examples/synthetic/knowledge-v1/documents.json",
+      "sha256": "d06473685361d3873227d7f0f0a4b101963ca69a5728b5e9eee7cab23ba2558e"
+    },
+    "access": {
+      "path": "examples/synthetic/facts-v1/access.json",
+      "sha256": "a1d1a7ee10fe1034e199a5fd966260390e88c1b95f8de941eb682c3933f02d39"
+    },
+    "qualifications": {
+      "path": "examples/synthetic/facts-v1/qualifications.json",
+      "sha256": "18effa77aa89f768d7ab0355700f39416262eaae88ece7b47ff006dc4dc3fd1d"
+    },
+    "areas": {
+      "path": "examples/synthetic/facts-v1/areas.json",
+      "sha256": "4301d2994f1f91074fef76974685d662fc440e0ed5bef7a9c3b0ed8153f8394d"
+    },
+    "budget_archive": {
+      "path": "docs/phases/phase-02-tools-rag/evidence/wp04/budget-after-live.json",
+      "sha256": "9d9d6a3f7e51c37649fb36169a5bd25e4e627dacfbf33b78b14d31f92233e08a"
+    },
+    "embedding": {
+      "path": "docs/phases/phase-02-tools-rag/evidence/wp03/embedding-setup.json",
+      "sha256": "dcee4e05d6fff4ddd11e4b5a664e4b9480be592c4a6cfbc0d416433118d8c941"
+    },
+    "tools_live": {
+      "path": "docs/phases/phase-02-tools-rag/evidence/wp02/live-v1.json",
+      "sha256": "6a2e2e9f34784ec6a3da3738a9063ae5343f34ae7b041cb5105af22dd1538919"
+    },
+    "rag_live": {
+      "path": "docs/phases/phase-02-tools-rag/evidence/wp04/live-v1.json",
+      "sha256": "c30c949f11f49bf3ceafecccc0586f0e0ced0b797df0368cdffca6ebfbb3697f"
+    },
+    "rag_rescore": {
+      "path": "docs/phases/phase-02-tools-rag/evidence/wp04/live-rescore-v2.json",
+      "sha256": "a73a5e3c431ecc264bbf59d2191ed74ade090ecce65684522de46d9a6b1bbfd7"
+    },
+    "retrieval": {
+      "path": "docs/phases/phase-02-tools-rag/evidence/wp03/retrieval-v2.json",
+      "sha256": "1b1949b1e607a3d393e8f403384c99d9eb5c2dc64d634ca2948226c6d7cd58fe"
+    }
+  },
+  "budget_before": {
+    "authorization_id": "20260920-long-term-v1",
+    "total_limit": 100,
+    "package_limit": 10,
+    "total_reserved": 12,
+    "packages": {
+      "P2-WP02": 6,
+      "P2-WP04": 6
+    },
+    "status_counts": {
+      "reserved": 0,
+      "succeeded": 12,
+      "failed": 0
+    },
+    "attempts": [
+      {
+        "attempt_id": "b90ef7c3-081a-4e8d-b28f-ee0a8544c46c",
+        "work_package": "P2-WP02",
+        "run_id": "9f0d5088-12db-4da8-a6da-73bdbccc285b",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 845,
+          "prompt_tokens": 744,
+          "completion_tokens": 101
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T20:09:36.634759+08:00",
+        "finished_at": "2026-09-20T20:09:39.248536+08:00"
+      },
+      {
+        "attempt_id": "0cb41882-86dc-484e-9533-89a728270555",
+        "work_package": "P2-WP02",
+        "run_id": "9f0d5088-12db-4da8-a6da-73bdbccc285b",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1588,
+          "prompt_tokens": 1393,
+          "completion_tokens": 195
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T20:09:39.538057+08:00",
+        "finished_at": "2026-09-20T20:09:41.354329+08:00"
+      },
+      {
+        "attempt_id": "8f957893-bd92-456b-a111-c95d4f5a2273",
+        "work_package": "P2-WP02",
+        "run_id": "5486522f-943c-4bf0-82bb-c17d5ba8fb2a",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 845,
+          "prompt_tokens": 744,
+          "completion_tokens": 101
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T20:09:41.740488+08:00",
+        "finished_at": "2026-09-20T20:09:43.096256+08:00"
+      },
+      {
+        "attempt_id": "f107319b-f294-4c93-902e-98b88a2caad3",
+        "work_package": "P2-WP02",
+        "run_id": "5486522f-943c-4bf0-82bb-c17d5ba8fb2a",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1622,
+          "prompt_tokens": 1375,
+          "completion_tokens": 247
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T20:09:43.302943+08:00",
+        "finished_at": "2026-09-20T20:09:45.051981+08:00"
+      },
+      {
+        "attempt_id": "a1ddc6a1-32e7-4461-8345-f9895a33a8ef",
+        "work_package": "P2-WP02",
+        "run_id": "2cb77da7-04be-4de2-a029-2eb6242e7446",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 874,
+          "prompt_tokens": 772,
+          "completion_tokens": 102
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T20:09:45.550250+08:00",
+        "finished_at": "2026-09-20T20:09:47.054367+08:00"
+      },
+      {
+        "attempt_id": "a01297a9-1462-40fe-ba03-9945f6f37854",
+        "work_package": "P2-WP02",
+        "run_id": "2cb77da7-04be-4de2-a029-2eb6242e7446",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1509,
+          "prompt_tokens": 1314,
+          "completion_tokens": 195
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T20:09:47.231794+08:00",
+        "finished_at": "2026-09-20T20:09:49.354604+08:00"
+      },
+      {
+        "attempt_id": "0c8e4ea7-eac1-4fe9-ad2f-fd395abd263b",
+        "work_package": "P2-WP04",
+        "run_id": "e21df704-0f57-4bf4-a46d-27ef739e7640",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1160,
+          "prompt_tokens": 1019,
+          "completion_tokens": 141
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T22:38:34.362638+08:00",
+        "finished_at": "2026-09-20T22:38:36.602965+08:00"
+      },
+      {
+        "attempt_id": "6c67f58a-3f3f-49d8-a37e-ea5171487bd4",
+        "work_package": "P2-WP04",
+        "run_id": "e21df704-0f57-4bf4-a46d-27ef739e7640",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 3514,
+          "prompt_tokens": 3208,
+          "completion_tokens": 306
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T22:38:37.038182+08:00",
+        "finished_at": "2026-09-20T22:38:39.407499+08:00"
+      },
+      {
+        "attempt_id": "fc922f5f-ca6f-4719-99d4-8e68a82852c2",
+        "work_package": "P2-WP04",
+        "run_id": "d28ecbf0-8161-4e08-bbc5-4700e10ba296",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1172,
+          "prompt_tokens": 1024,
+          "completion_tokens": 148
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T22:38:39.769682+08:00",
+        "finished_at": "2026-09-20T22:38:41.075628+08:00"
+      },
+      {
+        "attempt_id": "d88439e4-77ef-4947-9fed-eef73ca0c1ff",
+        "work_package": "P2-WP04",
+        "run_id": "d28ecbf0-8161-4e08-bbc5-4700e10ba296",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 3483,
+          "prompt_tokens": 3168,
+          "completion_tokens": 315
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T22:38:41.414797+08:00",
+        "finished_at": "2026-09-20T22:38:43.571709+08:00"
+      },
+      {
+        "attempt_id": "317d0b2a-e020-46d6-b8cd-7a2177005ad3",
+        "work_package": "P2-WP04",
+        "run_id": "b962d4b7-d39f-4f4f-ac5f-26151b78e235",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1156,
+          "prompt_tokens": 1016,
+          "completion_tokens": 140
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T22:38:43.907327+08:00",
+        "finished_at": "2026-09-20T22:38:45.383908+08:00"
+      },
+      {
+        "attempt_id": "47b9d446-a0d5-4a85-85ce-759697ac33d1",
+        "work_package": "P2-WP04",
+        "run_id": "b962d4b7-d39f-4f4f-ac5f-26151b78e235",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 2050,
+          "prompt_tokens": 1850,
+          "completion_tokens": 200
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T22:38:45.713442+08:00",
+        "finished_at": "2026-09-20T22:38:47.610615+08:00"
+      }
+    ]
+  },
+  "budget_after": {
+    "authorization_id": "20260920-long-term-v1",
+    "total_limit": 100,
+    "package_limit": 10,
+    "total_reserved": 12,
+    "packages": {
+      "P2-WP02": 6,
+      "P2-WP04": 6
+    },
+    "status_counts": {
+      "reserved": 0,
+      "succeeded": 12,
+      "failed": 0
+    },
+    "attempts": [
+      {
+        "attempt_id": "b90ef7c3-081a-4e8d-b28f-ee0a8544c46c",
+        "work_package": "P2-WP02",
+        "run_id": "9f0d5088-12db-4da8-a6da-73bdbccc285b",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 845,
+          "prompt_tokens": 744,
+          "completion_tokens": 101
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T20:09:36.634759+08:00",
+        "finished_at": "2026-09-20T20:09:39.248536+08:00"
+      },
+      {
+        "attempt_id": "0cb41882-86dc-484e-9533-89a728270555",
+        "work_package": "P2-WP02",
+        "run_id": "9f0d5088-12db-4da8-a6da-73bdbccc285b",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1588,
+          "prompt_tokens": 1393,
+          "completion_tokens": 195
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T20:09:39.538057+08:00",
+        "finished_at": "2026-09-20T20:09:41.354329+08:00"
+      },
+      {
+        "attempt_id": "8f957893-bd92-456b-a111-c95d4f5a2273",
+        "work_package": "P2-WP02",
+        "run_id": "5486522f-943c-4bf0-82bb-c17d5ba8fb2a",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 845,
+          "prompt_tokens": 744,
+          "completion_tokens": 101
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T20:09:41.740488+08:00",
+        "finished_at": "2026-09-20T20:09:43.096256+08:00"
+      },
+      {
+        "attempt_id": "f107319b-f294-4c93-902e-98b88a2caad3",
+        "work_package": "P2-WP02",
+        "run_id": "5486522f-943c-4bf0-82bb-c17d5ba8fb2a",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1622,
+          "prompt_tokens": 1375,
+          "completion_tokens": 247
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T20:09:43.302943+08:00",
+        "finished_at": "2026-09-20T20:09:45.051981+08:00"
+      },
+      {
+        "attempt_id": "a1ddc6a1-32e7-4461-8345-f9895a33a8ef",
+        "work_package": "P2-WP02",
+        "run_id": "2cb77da7-04be-4de2-a029-2eb6242e7446",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 874,
+          "prompt_tokens": 772,
+          "completion_tokens": 102
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T20:09:45.550250+08:00",
+        "finished_at": "2026-09-20T20:09:47.054367+08:00"
+      },
+      {
+        "attempt_id": "a01297a9-1462-40fe-ba03-9945f6f37854",
+        "work_package": "P2-WP02",
+        "run_id": "2cb77da7-04be-4de2-a029-2eb6242e7446",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1509,
+          "prompt_tokens": 1314,
+          "completion_tokens": 195
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T20:09:47.231794+08:00",
+        "finished_at": "2026-09-20T20:09:49.354604+08:00"
+      },
+      {
+        "attempt_id": "0c8e4ea7-eac1-4fe9-ad2f-fd395abd263b",
+        "work_package": "P2-WP04",
+        "run_id": "e21df704-0f57-4bf4-a46d-27ef739e7640",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1160,
+          "prompt_tokens": 1019,
+          "completion_tokens": 141
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T22:38:34.362638+08:00",
+        "finished_at": "2026-09-20T22:38:36.602965+08:00"
+      },
+      {
+        "attempt_id": "6c67f58a-3f3f-49d8-a37e-ea5171487bd4",
+        "work_package": "P2-WP04",
+        "run_id": "e21df704-0f57-4bf4-a46d-27ef739e7640",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 3514,
+          "prompt_tokens": 3208,
+          "completion_tokens": 306
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T22:38:37.038182+08:00",
+        "finished_at": "2026-09-20T22:38:39.407499+08:00"
+      },
+      {
+        "attempt_id": "fc922f5f-ca6f-4719-99d4-8e68a82852c2",
+        "work_package": "P2-WP04",
+        "run_id": "d28ecbf0-8161-4e08-bbc5-4700e10ba296",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1172,
+          "prompt_tokens": 1024,
+          "completion_tokens": 148
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T22:38:39.769682+08:00",
+        "finished_at": "2026-09-20T22:38:41.075628+08:00"
+      },
+      {
+        "attempt_id": "d88439e4-77ef-4947-9fed-eef73ca0c1ff",
+        "work_package": "P2-WP04",
+        "run_id": "d28ecbf0-8161-4e08-bbc5-4700e10ba296",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 3483,
+          "prompt_tokens": 3168,
+          "completion_tokens": 315
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T22:38:41.414797+08:00",
+        "finished_at": "2026-09-20T22:38:43.571709+08:00"
+      },
+      {
+        "attempt_id": "317d0b2a-e020-46d6-b8cd-7a2177005ad3",
+        "work_package": "P2-WP04",
+        "run_id": "b962d4b7-d39f-4f4f-ac5f-26151b78e235",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1156,
+          "prompt_tokens": 1016,
+          "completion_tokens": 140
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T22:38:43.907327+08:00",
+        "finished_at": "2026-09-20T22:38:45.383908+08:00"
+      },
+      {
+        "attempt_id": "47b9d446-a0d5-4a85-85ce-759697ac33d1",
+        "work_package": "P2-WP04",
+        "run_id": "b962d4b7-d39f-4f4f-ac5f-26151b78e235",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 2050,
+          "prompt_tokens": 1850,
+          "completion_tokens": 200
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T22:38:45.713442+08:00",
+        "finished_at": "2026-09-20T22:38:47.610615+08:00"
+      }
+    ]
+  },
+  "passed": 11,
+  "failed": 0
+}

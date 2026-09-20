@@ -1,0 +1,98 @@
+{
+  "checked_at_utc": "2026-09-20T15:10:48.0155843Z",
+  "status": "ready",
+  "installation": {
+    "distribution": "official Jaeger Windows amd64",
+    "version": "2.21.0",
+    "source": "https://github.com/jaegertracing/jaeger/releases/download/v2.21.0/jaeger-2.21.0-windows-amd64.zip",
+    "archive_size_bytes": 64683817,
+    "archive_sha256": "197c4b42aba6983b3d9cbca3577a0e14191bcb9431fde1b6661471b6fece39fc",
+    "archive_integrity_verified": true,
+    "executable": ".runtime/jaeger/jaeger.exe",
+    "executable_sha256": "d42156cceff213cb24a0595ca5a2de0008de7d09298ddca6e17a464b9ffdaf35",
+    "git_commit": "d5a2608097b01bdf631e49d6480819295e4aadab",
+    "build_date": "2026-09-14T23:32:12Z",
+    "archive_allowlist": [
+      "jaeger-2.21.0-windows-amd64/",
+      "jaeger-2.21.0-windows-amd64/jaeger.exe",
+      "jaeger-2.21.0-windows-amd64/example-hotrod.exe"
+    ],
+    "extracted_members": ["jaeger-2.21.0-windows-amd64/jaeger.exe"],
+    "system_service_installed": false
+  },
+  "configuration": {
+    "path": "examples/observability/jaeger.yaml",
+    "sha256": "c279aed28a688be108e832ef145759b63f76bb6a0f654d624ec574b60c88dc72",
+    "storage": "memory",
+    "max_traces": 1000,
+    "metrics_telemetry": "disabled",
+    "query_self_tracing": "disabled",
+    "ai": "disabled",
+    "mcp": "disabled",
+    "zipkin": "not configured",
+    "pprof": "not configured",
+    "official_config_reference": "https://raw.githubusercontent.com/jaegertracing/jaeger/v2.21.0/cmd/jaeger/config.yaml"
+  },
+  "runtime": {
+    "process_id": 10212,
+    "start_time_utc_ticks": "639255137900238666",
+    "saved_executable_path_matches_actual": true,
+    "process_identity_file": ".runtime/jaeger/process.json",
+    "stdout": ".runtime/jaeger/stdout.log",
+    "stderr": ".runtime/jaeger/stderr.log",
+    "tcp_listeners": [
+      {"address": "127.0.0.1", "port": 4317},
+      {"address": "127.0.0.1", "port": 4318},
+      {"address": "127.0.0.1", "port": 16685},
+      {"address": "127.0.0.1", "port": 16686}
+    ],
+    "all_process_tcp_listeners_are_loopback": true,
+    "udp_listener_count": 0,
+    "left_running_for_integration": true
+  },
+  "http_checks": {
+    "ui": {"url": "http://127.0.0.1:16686/", "status": 200},
+    "services": {
+      "url": "http://127.0.0.1:16686/api/v3/services",
+      "status": 200,
+      "body_at_setup": {"services": []}
+    },
+    "legacy_services": {"url": "http://127.0.0.1:16686/api/services", "status": 404},
+    "mcp": {"url": "http://127.0.0.1:16686/api/ai/mcp/", "status": 404}
+  },
+  "compatibility": {
+    "services_api_change": "Jaeger 2.21.0 exposes services through /api/v3/services. The removed /api/services route returns 404, so readiness uses the official v3 route.",
+    "source": "https://raw.githubusercontent.com/jaegertracing/jaeger/v2.21.0/cmd/jaeger/internal/extension/jaegerquery/internal/apiv3/http_gateway.go",
+    "windows_process_path": "Wait for and snapshot the actual executable path and creation time before writing process metadata; Start-Process can initially return a null Path.",
+    "powershell_minimum_major_version": 7
+  },
+  "verification": {
+    "installer_safety_tests": {
+      "passed": 4,
+      "test_location": "local ignored .runtime/jaeger/test_installer.py",
+      "cases": [
+        "reject unsafe and unexpected ZIP members",
+        "reject existing conflicting executable without overwriting it",
+        "matching file installation is idempotent",
+        "reject incorrect archive size or SHA256"
+      ]
+    },
+    "repeat_install": "passed",
+    "repeat_start_same_pid": "passed",
+    "stop_start_status_cycles": 2,
+    "env_action": "passed",
+    "python_compile": "passed",
+    "diff_whitespace_check": "passed",
+    "state_tampering_and_port_conflict_runtime_tests": "not executed: automatic approval review rejected the combined negative-test command with blocked by policy; ordinary lifecycle tests and read-only listener checks passed"
+  },
+  "helper_sha256": {
+    "scripts/install_jaeger.py": "783e0c08dac43e41fd7c82aa85a5b1ebe4ee185afe7109f20d2a9e8d1859bc20",
+    "scripts/dev-jaeger.ps1": "9475975f19d0313830693d3e54bb448f27bbd84a6c22bf1fc5dcb63434d76c0d"
+  },
+  "scope": {
+    "model_requests": 0,
+    "model_credentials_read": false,
+    "postgresql_modified_or_stopped": false,
+    "absolute_local_paths_redacted": true
+  }
+}

@@ -48,7 +48,7 @@ def build_graph(analyzer: Analyzer, trace: JsonlTrace, checkpointer=None):
             semantic_status=result.semantic_status, error=result.error,
             model=result.model, prompt_version=result.prompt_version, usage=result.usage,
         )
-        update["trace_warning"] = None if trace_ok else "trace_write_failed"
+        update["trace_warning"] = None if trace_ok else trace.warning
         return update
 
     def ask(state: TaskState) -> dict[str, Any]:

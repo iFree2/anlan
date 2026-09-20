@@ -1,5 +1,6 @@
 """在已授权材料快照上执行固定只读核验；不改动图状态或提交历史。"""
 
+from time import perf_counter
 from uuid import uuid4
 
 from anlan.contracts import Identity
@@ -11,6 +12,7 @@ from anlan.trace import JsonlTrace
 
 async def check_facts(service: WorkflowService, identity: Identity, task_id: str,
                       references: dict, tools: FactTools, trace: JsonlTrace) -> dict:
+    started = perf_counter()
     snapshot = await service.get(identity, task_id)
     refs = FactReferences.model_validate(references)
     report = {
@@ -36,5 +38,10 @@ async def check_facts(service: WorkflowService, identity: Identity, task_id: str
             outcome=result.outcome, reason=result.reason, elapsed_ms=result.elapsed_ms,
             source=result.source.model_dump(mode="json") if result.source else None,
         ):
-            report["trace_warning"] = "trace_write_failed"
+            report["trace_warning"] = trace.warning
+    report["elapsed_ms"] = round((perf_counter() - started) * 1000, 2)
+    if not trace.emit("facts_finished", report, elapsed_ms=report["elapsed_ms"],
+                      mode=report["mode"], error="tool_error" if any(
+                          r["outcome"] == "error" for r in report["results"]) else None):
+        report["trace_warning"] = trace.warning
     return report

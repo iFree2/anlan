@@ -2,7 +2,7 @@
 
 面向企业安全管理人员的高风险作业全周期安全协同 Agent。先深入动火作业，从准备与预审发展到依据/风险分析、作业中感知协同和事后质量闭环。所有演示均为 **SYNTHETIC 合成数据**，不是企业制度或合规依据；不自动批准，不控制或关闭报警。
 
-P1材料工作流工程Gate与P2前四个工作包已通过。当前CLI支持材料多轮补充、PostgreSQL跨进程恢复、固定事实查询及有界模型工具循环；材料与工具分别完成过三个已见合成任务的真实联调。外层使用LangGraph状态/条件边/interrupt/resume，默认离线规则仅识别空字段；限定结论见 [P1 Gate](docs/phases/phase-01-workflow/evidence/wp04/gate-report.md)，当前入口见 [status](docs/status.md)。
+P1与P2工程Gate已通过。当前CLI支持材料多轮补充、PostgreSQL跨进程恢复、固定事实查询及有界模型工具循环；材料与工具分别完成过三个已见合成任务的真实联调。外层使用LangGraph状态/条件边/interrupt/resume，默认离线规则仅识别空字段；限定结论见 [P1 Gate](docs/phases/phase-01-workflow/evidence/wp04/gate-report.md)，当前入口见 [status](docs/status.md)。
 
 ## 启动（PowerShell）
 
@@ -168,11 +168,31 @@ uv run python evals/phase_gate.py --output .runtime/p1-regression.json
 
 它检查返回与保存状态、拒绝时状态不变和分析次数等，不代替真实模型质量评测。个人学习与阶段切换要求见 [P1阶段交接](docs/phases/phase-01-workflow/handoff.md)、[P2计划](docs/phases/phase-02-tools-rag/plan.md)。
 
+## 本地追踪与P2工程验收
+
+P2工程Gate已通过，最终185项测试、11场景冻结回归和实际平台查询通过；完整边界见[P2交接](docs/phases/phase-02-tools-rag/handoff.md)。当前自动进入P3，个人掌握不随工程结果升级。
+
+```powershell
+# PowerShell 7；仅本项目目录内的官方Windows二进制
+uv run python scripts/install_jaeger.py
+.\scripts\dev-jaeger.ps1 -Action Start
+.\scripts\dev-jaeger.ps1 -Action Env
+.\scripts\dev-postgres.ps1 -Action Env
+uv run anlan demo
+uv run python evals/phase02_gate.py --output .runtime/p2-new-check.json
+# 不使用时只停止本项目实例
+.\scripts\dev-jaeger.ps1 -Action Stop
+```
+
+[Jaeger界面](http://127.0.0.1:16686)按run展示模型/工具子span，保留task/correlation和知识来源元数据；不导出材料、quote、密钥或隐藏推理。默认不启用网络导出，设置ANLAN_OTLP_ENDPOINT才发送到本地回环；失败显示trace_export_failed，本地JSONL与业务结果保留。模型step不等于付费请求，累计以`anlan budget-status`的PG账本为准。
+
+平台内存重启会清空展示，JSONL仍保留。`scripts/import_trace.py --source <已有JSONL> --output <新报告>`仅生成独立archived_import轨迹，不调用模型/工具或恢复任务，不补造缺失耗时。服务列表使用2.21版本的`/api/v3/services`。
+
 ## 重要限制
 
 - 内存模式退出即丢失任务；PostgreSQL 模式持久化归属/提交/checkpoint，JSONL 始终不是恢复数据源。
 - 身份为本地模拟；已验证任务级并发互斥与丢锁拒写，不宣称生产权限、任意故障下 exactly-once 或生产 SLA。
-- 已结束的任务重新修改、显式取消、业务写工具、长期 Memory、RAG、多 Agent、企业事件接入尚未实现。
+- 已结束的任务重新修改、显式取消、业务写工具、长期Memory、多Agent、企业事件接入尚未实现。已有RAG引用摘要仍存在未显式引用次要主张的Badcase，不是生产合规结论。
 - 功能测试和 HTTP 替身证明控制流/协议处理，不能证明真实模型质量；个人掌握见学习记录，默认待验证。
 
 长期入口：[产品范围](docs/product-scope.md) · [架构与三张数据流图](docs/architecture.md) · [半年路线](docs/roadmap.md) · [能力矩阵](docs/capability-matrix.md) · [当前状态](docs/status.md) · [本人练习](docs/learning-log.md)。

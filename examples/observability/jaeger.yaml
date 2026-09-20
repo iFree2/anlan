@@ -1,0 +1,41 @@
+# Project-local Jaeger 2.21.0: ephemeral storage, loopback listeners only.
+extensions:
+  jaeger_storage:
+    backends:
+      local_store:
+        memory:
+          max_traces: 1000
+  jaeger_query:
+    enable_tracing: false
+    storage:
+      traces: local_store
+    http:
+      endpoint: 127.0.0.1:16686
+    grpc:
+      endpoint: 127.0.0.1:16685
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 127.0.0.1:4317
+      http:
+        endpoint: 127.0.0.1:4318
+
+processors:
+  batch: {}
+
+exporters:
+  jaeger_storage_exporter:
+    trace_storage: local_store
+
+service:
+  extensions: [jaeger_storage, jaeger_query]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [jaeger_storage_exporter]
+  telemetry:
+    metrics:
+      level: none
