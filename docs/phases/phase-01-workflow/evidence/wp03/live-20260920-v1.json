@@ -1,0 +1,175 @@
+{
+  "created_at": "2026-09-20T09:08:03.722523+00:00",
+  "mode": "deepseek",
+  "dataset_version": "materials-v1-dev-seen",
+  "dataset_sha256": "a501062186e1b2f80c488fb18e625e5495819dd8b18cb6a33570222b17673b2b",
+  "limitation": "Three seen synthetic dev examples; not holdout or enterprise quality.",
+  "configuration": {
+    "requested_model": "deepseek-flash",
+    "prompt_version": "materials-v1",
+    "prompt_sha256": "e137cb7db06c751ded441cdd6d942925983e4b7fbf20331d48a636eae85ccf24",
+    "max_requests": 3,
+    "timeout_seconds": 20,
+    "max_output_tokens": 1024,
+    "temperature": 0,
+    "automatic_retries": 0
+  },
+  "results": [
+    {
+      "case_id": "anlan2-dev-001",
+      "state": {
+        "task_id": "7bf5a911-802d-498d-9406-599278d8aebd",
+        "thread_id": "3ba8867d-6740-40b4-91a1-04d96195790b",
+        "session_id": "953271c1-59e3-4377-9756-837aa5878baa",
+        "run_id": "5ccc3303-903a-4ae4-bdc7-9c98f95f946b",
+        "correlation_id": "74628c0a-43ac-4e5c-a12d-995991a0819d",
+        "fields": {
+          "work_location_description": "SYNTHETIC：北侧实训平台2号台",
+          "work_object_description": "SYNTHETIC：管段P-02的支架",
+          "work_method_description": "SYNTHETIC：手工电弧焊连接支架",
+          "attachment_description": "SYNTHETIC：附管段P-02支架定位示意图"
+        },
+        "revision": 1,
+        "status": "awaiting_review",
+        "analysis": {
+          "issues": [],
+          "semantic_status": "checked",
+          "error": null,
+          "model": "deepseek-flash",
+          "prompt_version": "materials-v1",
+          "usage": {
+            "prompt_tokens": 381,
+            "completion_tokens": 5,
+            "total_tokens": 386
+          }
+        },
+        "trace_warning": null,
+        "analysis_mode": "deepseek"
+      },
+      "elapsed_ms": 2114.21,
+      "scores": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "precision": null,
+        "recall": null,
+        "exact_match": true
+      }
+    },
+    {
+      "case_id": "anlan2-dev-002",
+      "state": {
+        "task_id": "6e058917-a577-4506-b709-2043db82b83a",
+        "thread_id": "d01c0581-27bf-41f7-9f20-d3d91ba0579f",
+        "session_id": "f00505c7-1a97-49e8-8268-fe607139e955",
+        "run_id": "718d0113-8457-420b-aff0-4cc67d05177b",
+        "correlation_id": "4c9062e7-34c5-4d68-8e69-9acf60e6de33",
+        "fields": {
+          "work_location_description": "",
+          "work_object_description": "SYNTHETIC：管段P-02的支架",
+          "work_method_description": "SYNTHETIC：手工电弧焊连接支架",
+          "attachment_description": "SYNTHETIC：附管段P-02支架定位示意图"
+        },
+        "revision": 1,
+        "status": "waiting_input",
+        "analysis": {
+          "issues": [
+            {
+              "field": "work_location_description",
+              "kind": "missing",
+              "quote": "",
+              "reason": "字段为空（合成填报规则）",
+              "question": "请补充作业位置，说明区域与具体作业点。",
+              "source": "rule"
+            }
+          ],
+          "semantic_status": "checked",
+          "error": null,
+          "model": "deepseek-flash",
+          "prompt_version": "materials-v1",
+          "usage": {
+            "prompt_tokens": 368,
+            "completion_tokens": 5,
+            "total_tokens": 373
+          }
+        },
+        "trace_warning": null,
+        "analysis_mode": "deepseek"
+      },
+      "elapsed_ms": 869.07,
+      "scores": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "exact_match": true
+      }
+    },
+    {
+      "case_id": "anlan2-dev-003",
+      "state": {
+        "task_id": "b76305e1-78b0-4042-a500-c3dda86646c8",
+        "thread_id": "16847c8e-2655-434d-a212-68acb6e930c6",
+        "session_id": "852bbd7d-2f6d-46a6-941c-c57d56711a7c",
+        "run_id": "05f0afd9-6047-4147-9370-9008afc04664",
+        "correlation_id": "db56eaa5-189d-4750-bcd6-400de608277d",
+        "fields": {
+          "work_location_description": "SYNTHETIC：到那里操作",
+          "work_object_description": "SYNTHETIC：管段P-02的支架",
+          "work_method_description": "SYNTHETIC：手工电弧焊连接支架",
+          "attachment_description": "SYNTHETIC：附管段P-02支架定位示意图"
+        },
+        "revision": 1,
+        "status": "waiting_input",
+        "analysis": {
+          "issues": [
+            {
+              "field": "work_location_description",
+              "kind": "ambiguous",
+              "quote": "到那里操作",
+              "reason": "位置指代不明，未说明具体区域与作业点",
+              "question": "请说明具体作业区域与作业点。",
+              "source": "model"
+            }
+          ],
+          "semantic_status": "checked",
+          "error": null,
+          "model": "deepseek-flash",
+          "prompt_version": "materials-v1",
+          "usage": {
+            "prompt_tokens": 377,
+            "completion_tokens": 48,
+            "total_tokens": 425
+          }
+        },
+        "trace_warning": null,
+        "analysis_mode": "deepseek"
+      },
+      "elapsed_ms": 1175.05,
+      "scores": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "exact_match": true
+      }
+    }
+  ],
+  "summary": {
+    "cases": 3,
+    "request_attempts": 3,
+    "exact_matches": 3,
+    "tp": 2,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "semantic_failures": 0,
+    "usage_complete": true,
+    "known_prompt_tokens": 1126,
+    "known_completion_tokens": 58,
+    "known_total_tokens": 1184
+  }
+}

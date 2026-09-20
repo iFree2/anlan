@@ -28,8 +28,15 @@ def dsn():
     if not value:
         pytest.skip("Set ANLAN_TEST_DATABASE_URL to an isolated synthetic development database")
     from anlan.postgres import initialize_database
-    run(initialize_database(value))
-    return value
+    try:
+        run(initialize_database(value))
+    except psycopg.Error:
+        pass
+    else:
+        return value
+    # 离开except后再失败，避免原异常通过__context__泄漏配置文本。
+    pytest.fail("PostgreSQL测试库未就绪；请检查本地服务、配置和权限。连接详情已隐藏。",
+                pytrace=False)
 
 
 def test_reconnect_preserves_ownership_material_and_idempotency(dsn):

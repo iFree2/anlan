@@ -17,3 +17,5 @@ uv run python evals/evaluate.py --mode deepseek --output .runtime/eval-live-v1.j
 ```
 
 此处离线与真实模式共用评分口径，但不同运行必须标明 mode，不得混为同一模型基线。
+
+2026-09-20首次真实联调结果见 [WP03报告](../../docs/phases/phase-01-workflow/evidence/wp03/final-report.md)。新增报告configuration记录请求配置及Prompt摘要，summary区分尝试次数、失败、系统级问题计数与已知token/usage_complete。缺失usage保留未知，不用0伪造；规则与模型贡献需结合每条issue.source分开理解。本次3次真实调用已完成，不要为了查看结果再运行真实命令，直接阅读保存报告。

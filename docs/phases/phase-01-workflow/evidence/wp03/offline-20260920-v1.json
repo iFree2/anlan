@@ -1,0 +1,154 @@
+{
+  "created_at": "2026-09-20T09:09:23.538303+00:00",
+  "mode": "offline",
+  "dataset_version": "materials-v1-dev-seen",
+  "dataset_sha256": "a501062186e1b2f80c488fb18e625e5495819dd8b18cb6a33570222b17673b2b",
+  "limitation": "Three seen synthetic dev examples; not holdout or enterprise quality.",
+  "configuration": {
+    "requested_model": null,
+    "prompt_version": null,
+    "prompt_sha256": null,
+    "max_requests": 0,
+    "timeout_seconds": null,
+    "max_output_tokens": null,
+    "temperature": null,
+    "automatic_retries": 0
+  },
+  "results": [
+    {
+      "case_id": "anlan2-dev-001",
+      "state": {
+        "task_id": "7b19f73e-73f1-4728-bcd8-202971a7a956",
+        "thread_id": "812c5127-9ce3-44b5-8898-189ec4576c88",
+        "session_id": "54a52675-d8a6-4b08-a5ca-563da4ec13a0",
+        "run_id": "c94c0207-0a9e-41a8-a1c5-fd64b1949850",
+        "correlation_id": "1af95149-8efa-41c0-a8a3-16da6e5d384d",
+        "fields": {
+          "work_location_description": "SYNTHETIC：北侧实训平台2号台",
+          "work_object_description": "SYNTHETIC：管段P-02的支架",
+          "work_method_description": "SYNTHETIC：手工电弧焊连接支架",
+          "attachment_description": "SYNTHETIC：附管段P-02支架定位示意图"
+        },
+        "revision": 1,
+        "status": "awaiting_review",
+        "analysis": {
+          "issues": [],
+          "semantic_status": "offline_not_checked",
+          "error": null,
+          "model": null,
+          "prompt_version": null,
+          "usage": null
+        },
+        "trace_warning": null,
+        "analysis_mode": "offline"
+      },
+      "elapsed_ms": 7.81,
+      "scores": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "precision": null,
+        "recall": null,
+        "exact_match": true
+      }
+    },
+    {
+      "case_id": "anlan2-dev-002",
+      "state": {
+        "task_id": "cdebacd6-d189-4fb3-88be-c57f0f06a32b",
+        "thread_id": "0393b11d-1aa2-4e84-b105-ef84bb535373",
+        "session_id": "d0d150dc-04ec-49de-88f6-47c7534925c3",
+        "run_id": "27fdd894-a4e0-476c-aa0a-ae67a71363d4",
+        "correlation_id": "93f36f84-6b56-450b-a7e2-798476fbdea6",
+        "fields": {
+          "work_location_description": "",
+          "work_object_description": "SYNTHETIC：管段P-02的支架",
+          "work_method_description": "SYNTHETIC：手工电弧焊连接支架",
+          "attachment_description": "SYNTHETIC：附管段P-02支架定位示意图"
+        },
+        "revision": 1,
+        "status": "waiting_input",
+        "analysis": {
+          "issues": [
+            {
+              "field": "work_location_description",
+              "kind": "missing",
+              "quote": "",
+              "reason": "字段为空（合成填报规则）",
+              "question": "请补充作业位置，说明区域与具体作业点。",
+              "source": "rule"
+            }
+          ],
+          "semantic_status": "offline_not_checked",
+          "error": null,
+          "model": null,
+          "prompt_version": null,
+          "usage": null
+        },
+        "trace_warning": null,
+        "analysis_mode": "offline"
+      },
+      "elapsed_ms": 7.96,
+      "scores": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "exact_match": true
+      }
+    },
+    {
+      "case_id": "anlan2-dev-003",
+      "state": {
+        "task_id": "bc71812a-7ae5-4f3e-bc97-f7e8217c5b8b",
+        "thread_id": "59f7b9b9-d3b9-43c8-8d98-d98dab890703",
+        "session_id": "4bade59e-2d78-4c6b-97a1-dc58298bd419",
+        "run_id": "9ac18ac1-b41c-49cf-bada-455a2497af54",
+        "correlation_id": "844f3d18-8e2b-44b6-80df-46c9fe68013c",
+        "fields": {
+          "work_location_description": "SYNTHETIC：到那里操作",
+          "work_object_description": "SYNTHETIC：管段P-02的支架",
+          "work_method_description": "SYNTHETIC：手工电弧焊连接支架",
+          "attachment_description": "SYNTHETIC：附管段P-02支架定位示意图"
+        },
+        "revision": 1,
+        "status": "awaiting_review",
+        "analysis": {
+          "issues": [],
+          "semantic_status": "offline_not_checked",
+          "error": null,
+          "model": null,
+          "prompt_version": null,
+          "usage": null
+        },
+        "trace_warning": null,
+        "analysis_mode": "offline"
+      },
+      "elapsed_ms": 3.01,
+      "scores": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "precision": null,
+        "recall": 0.0,
+        "exact_match": false
+      }
+    }
+  ],
+  "summary": {
+    "cases": 3,
+    "request_attempts": 0,
+    "exact_matches": 2,
+    "tp": 1,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.5,
+    "semantic_failures": 0,
+    "usage_complete": true,
+    "known_prompt_tokens": 0,
+    "known_completion_tokens": 0,
+    "known_total_tokens": 0
+  }
+}

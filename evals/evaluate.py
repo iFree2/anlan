@@ -14,12 +14,37 @@ import httpx
 from anlan.analysis import OfflineAnalyzer
 from anlan.contracts import Identity
 from anlan.evaluation import score_issues
-from anlan.model import DeepSeekAnalyzer, ModelConfig
+from anlan.model import PROMPT_VERSION, SYSTEM_PROMPT, DeepSeekAnalyzer, ModelConfig
 from anlan.service import WorkflowService
 from anlan.trace import JsonlTrace
 
 
+def summarize(results: list[dict], request_attempts: int) -> dict:
+    tp, fp, fn = (sum(row["scores"][key] for row in results) for key in ("tp", "fp", "fn"))
+    usage = [row["state"]["analysis"].get("usage") or {} for row in results]
+    token_keys = ("prompt_tokens", "completion_tokens", "total_tokens")
+    totals = {}
+    for key in token_keys:
+        known = [item[key] for item in usage if type(item.get(key)) is int]
+        totals[f"known_{key}"] = sum(known) if known else (0 if request_attempts == 0 else None)
+    return {
+        "cases": len(results), "request_attempts": request_attempts,
+        "exact_matches": sum(row["scores"]["exact_match"] for row in results),
+        "tp": tp, "fp": fp, "fn": fn,
+        "precision": tp / (tp + fp) if tp + fp else None,
+        "recall": tp / (tp + fn) if tp + fn else None,
+        "semantic_failures": sum(row["state"]["analysis"]["semantic_status"] == "failed"
+                                 for row in results),
+        "usage_complete": request_attempts == 0 or (
+            len(usage) == request_attempts
+            and all(all(type(item.get(key)) is int for key in token_keys) for item in usage)
+        ),
+        **totals,
+    }
+
+
 async def evaluate(args):
+    config = ModelConfig.from_env() if args.mode == "deepseek" else None
     dataset = Path(__file__).parent / "materials-v1" / "dev.jsonl"
     samples = [json.loads(line) for line in dataset.read_text(encoding="utf-8").splitlines()]
     report = {
@@ -27,6 +52,16 @@ async def evaluate(args):
         "dataset_version": "materials-v1-dev-seen",
         "dataset_sha256": hashlib.sha256(dataset.read_bytes()).hexdigest(),
         "limitation": "Three seen synthetic dev examples; not holdout or enterprise quality.",
+        "configuration": {
+            "requested_model": config.model if config else None,
+            "prompt_version": PROMPT_VERSION if config else None,
+            "prompt_sha256": hashlib.sha256(SYSTEM_PROMPT.encode()).hexdigest() if config else None,
+            "max_requests": config.max_requests if config else 0,
+            "timeout_seconds": config.timeout_seconds if config else None,
+            "max_output_tokens": 1024 if config else None,
+            "temperature": 0 if config else None,
+            "automatic_retries": 0,
+        },
         "results": [],
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -34,12 +69,12 @@ async def evaluate(args):
     with args.output.open("x", encoding="utf-8") as output:
         async with AsyncExitStack() as stack:
             if args.mode == "deepseek":
-                config = ModelConfig.from_env()
                 client = await stack.enter_async_context(httpx.AsyncClient(follow_redirects=False))
                 analyzer = DeepSeekAnalyzer(config, client)
             else:
                 analyzer = OfflineAnalyzer()
-            service = WorkflowService(analyzer, JsonlTrace(args.output.with_suffix(".trace.jsonl")))
+            service = WorkflowService(analyzer, JsonlTrace(args.output.with_suffix(".trace.jsonl")),
+                                      mode=args.mode)
             identity = Identity(tenant_id="synthetic-eval", user_id="eval-author")
             for sample in samples:
                 started = perf_counter()
@@ -51,6 +86,8 @@ async def evaluate(args):
                     "elapsed_ms": round((perf_counter() - started) * 1000, 2),
                     "scores": score_issues(predicted, sample["expected"]),
                 })
+                report["summary"] = summarize(
+                    report["results"], getattr(analyzer, "requests_used", 0))
                 # Persist each completed attempt, including failure; no hidden success filtering.
                 output.seek(0)
                 json.dump(report, output, ensure_ascii=False, indent=2)
