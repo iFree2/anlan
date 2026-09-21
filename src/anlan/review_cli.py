@@ -17,6 +17,8 @@ from anlan.knowledge_tool import UnavailableKnowledgeStore
 from anlan.live import production_ledger
 from anlan.memory import MemoryStore
 from anlan.model import ModelConfig
+from anlan.parallel import WORK_PACKAGE as COLLECTION_PACKAGE
+from anlan.parallel import collect_parallel
 from anlan.postgres import database_url, postgres_service
 from anlan.registry import AccessDenied, InvalidTransition
 from anlan.review import DeepSeekReviewModel, ScriptedReviewModel, collect_review, synthesize
@@ -25,6 +27,9 @@ from anlan.trace import JsonlTrace
 
 
 async def run(args):
+    collection = getattr(args, "collection", "baseline")
+    if collection != "baseline" and args.mode == "deepseek":
+        raise ValueError("P4-WP01 has no live model entry")
     identity = Identity(tenant_id=args.tenant, user_id=args.user)
     now = datetime.fromisoformat(args.as_of) if args.as_of else datetime.now(UTC)
     if now.tzinfo is None or now.utcoffset() is None:
@@ -36,10 +41,12 @@ async def run(args):
             knowledge = KnowledgeStore(database_url(), await LocalEmbeddings.create(), clock=clock)
         except Exception:
             knowledge = UnavailableKnowledgeStore(clock)
-        bundle = await collect_review(service, identity, args.task,
+        collector = collect_review if collection == "baseline" else collect_parallel
+        options = {} if collection == "baseline" else {"parallel": collection == "parallel"}
+        bundle = await collector(service, identity, args.task,
             json.loads(args.refs_file.read_text(encoding="utf-8-sig")), args.question,
             FactTools(args.facts_dir, clock=clock), knowledge,
-            MemoryStore(database_url(), clock=clock), JsonlTrace(args.trace))
+            MemoryStore(database_url(), clock=clock), trace=JsonlTrace(args.trace), **options)
         if args.mode == "deepseek":
             ledger = await production_ledger()
             before = await ledger.snapshot()
@@ -58,6 +65,10 @@ async def run(args):
         if not result["material_unchanged"]:
             result["candidate_status"] = "stale_material_revision"
         result["clock_mode"] = "simulated" if args.as_of else "system_utc"
+        if collection != "baseline":
+            result["collection"] = bundle["collection"]
+            result["work_package"] = COLLECTION_PACKAGE
+            result["notice"] = "确定性职责分支＋综合替身；不是多个自治模型或作业批准。"
         return result
 
 
@@ -71,6 +82,8 @@ def main():
     parser.add_argument("--facts-dir", type=Path, default=Path("examples/synthetic/facts-v1"))
     parser.add_argument("--as-of")
     parser.add_argument("--mode", choices=["scripted", "deepseek"], default="scripted")
+    parser.add_argument("--collection", choices=["baseline", "serial", "parallel"],
+                        default="baseline")
     parser.add_argument("--budget-bytes", type=int, default=24000)
     parser.add_argument("--no-memory", action="store_true")
     parser.add_argument("--no-knowledge", action="store_true")

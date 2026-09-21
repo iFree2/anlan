@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="5" skipped="0" tests="16" time="0.541" timestamp="2026-09-21T23:23:01.391694+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_parallel" name="test_parallel_module_exists" time="0.001" /><testcase classname="tests.test_parallel" name="test_parallel_overlap_and_minimum_context" time="0.018"><failure message="TypeError: tools.&lt;locals&gt;.&lt;lambda&gt;() takes 0 positional arguments but 1 was given">tests\test_parallel.py:71: in test_parallel_overlap_and_minimum_context
+    bundle = await collect(tools=Facts(), knowledge_store=Search())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_parallel.py:41: in collect
+    return await collect_parallel(kwargs.pop("service", Service()), OWNER, SNAPSHOT["task_id"],
+src\anlan\parallel.py:74: in collect_parallel
+    now = tools.clock()
+          ^^^^^^^^^^^^^
+E   TypeError: tools.&lt;locals&gt;.&lt;lambda&gt;() takes 0 positional arguments but 1 was given</failure></testcase><testcase classname="tests.test_parallel" name="test_deterministic_parent_budget[0]" time="0.004" /><testcase classname="tests.test_parallel" name="test_deterministic_parent_budget[1]" time="0.016" /><testcase classname="tests.test_parallel" name="test_deterministic_parent_budget[2]" time="0.010" /><testcase classname="tests.test_parallel" name="test_deterministic_parent_budget[3]" time="0.008" /><testcase classname="tests.test_parallel" name="test_identity_precedes_all_dependencies" time="0.003" /><testcase classname="tests.test_parallel" name="test_cross_object_access_denied_without_losing_other_evidence" time="0.007" /><testcase classname="tests.test_parallel" name="test_partial_timeout_retains_finished_worker_and_knowledge" time="0.003"><failure message="TypeError: tools.&lt;locals&gt;.&lt;lambda&gt;() takes 0 positional arguments but 1 was given">tests\test_parallel.py:130: in test_partial_timeout_retains_finished_worker_and_knowledge
+    result = await collect(tools=Slow(), limits=CollectionLimits(timeout_seconds=0.15))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_parallel.py:41: in collect
+    return await collect_parallel(kwargs.pop("service", Service()), OWNER, SNAPSHOT["task_id"],
+src\anlan\parallel.py:74: in collect_parallel
+    now = tools.clock()
+          ^^^^^^^^^^^^^
+E   TypeError: tools.&lt;locals&gt;.&lt;lambda&gt;() takes 0 positional arguments but 1 was given</failure></testcase><testcase classname="tests.test_parallel" name="test_cancellation_propagates_and_cleans_children[False]" time="0.005" /><testcase classname="tests.test_parallel" name="test_cancellation_propagates_and_cleans_children[True]" time="0.005" /><testcase classname="tests.test_parallel" name="test_changed_material_rejected" time="0.007" /><testcase classname="tests.test_parallel" name="test_late_success_discarded_and_adapter_failure_is_unknown" time="0.003"><failure message="TypeError: tools.&lt;locals&gt;.&lt;lambda&gt;() takes 0 positional arguments but 1 was given">tests\test_parallel.py:194: in test_late_success_discarded_and_adapter_failure_is_unknown
+    result = await collect(tools=Late(), limits=CollectionLimits(timeout_seconds=0.1))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_parallel.py:41: in collect
+    return await collect_parallel(kwargs.pop("service", Service()), OWNER, SNAPSHOT["task_id"],
+src\anlan\parallel.py:74: in collect_parallel
+    now = tools.clock()
+          ^^^^^^^^^^^^^
+E   TypeError: tools.&lt;locals&gt;.&lt;lambda&gt;() takes 0 positional arguments but 1 was given</failure></testcase><testcase classname="tests.test_parallel" name="test_result_object_and_time_must_match_host_input" time="0.003"><failure message="TypeError: tools.&lt;locals&gt;.&lt;lambda&gt;() takes 0 positional arguments but 1 was given">tests\test_parallel.py:213: in test_result_object_and_time_must_match_host_input
+    result = await collect(tools=Wrong())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_parallel.py:41: in collect
+    return await collect_parallel(kwargs.pop("service", Service()), OWNER, SNAPSHOT["task_id"],
+src\anlan\parallel.py:74: in collect_parallel
+    now = tools.clock()
+          ^^^^^^^^^^^^^
+E   TypeError: tools.&lt;locals&gt;.&lt;lambda&gt;() takes 0 positional arguments but 1 was given</failure></testcase><testcase classname="tests.test_parallel" name="test_source_conflict_is_explicit_not_voted" time="0.006"><failure message="TypeError: tools.&lt;locals&gt;.&lt;lambda&gt;() takes 0 positional arguments but 1 was given">tests\test_parallel.py:232: in test_source_conflict_is_explicit_not_voted
+    result = await collect(tools=Conflicting())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_parallel.py:41: in collect
+    return await collect_parallel(kwargs.pop("service", Service()), OWNER, SNAPSHOT["task_id"],
+src\anlan\parallel.py:74: in collect_parallel
+    now = tools.clock()
+          ^^^^^^^^^^^^^
+E   TypeError: tools.&lt;locals&gt;.&lt;lambda&gt;() takes 0 positional arguments but 1 was given</failure></testcase><testcase classname="tests.test_parallel" name="test_serial_parallel_canonical_equivalence" time="0.012" /></testsuite></testsuites>

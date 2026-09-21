@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="1.997" timestamp="2026-09-21T23:24:58.146687+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_parallel_evaluation" name="test_comparison_requires_complete_same_task_evidence" time="0.002"><failure message="FileNotFoundError: [Errno 2] No such file or directory: 'D:\\src\\agent学习\\安澜2.0\\evals/evaluate_parallel.py'">tests\test_parallel_evaluation.py:15: in test_comparison_requires_complete_same_task_evidence
+    check = evaluator().equivalent
+            ^^^^^^^^^^^
+tests\test_parallel_evaluation.py:10: in evaluator
+    spec.loader.exec_module(module)
+&lt;frozen importlib._bootstrap_external&gt;:1022: in exec_module
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:1159: in get_code
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:1217: in get_data
+    ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'D:\\src\\agent学习\\安澜2.0\\evals/evaluate_parallel.py'</failure></testcase><testcase classname="tests.test_parallel_evaluation" name="test_parallel_live_not_enabled_in_wp01" time="1.278"><failure message="AttributeError: 'types.SimpleNamespace' object has no attribute 'tenant'">tests\test_parallel_evaluation.py:33: in test_parallel_live_not_enabled_in_wp01
+    asyncio.run(run(SimpleNamespace(collection="parallel", mode="deepseek")))
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+src\anlan\review_cli.py:28: in run
+    identity = Identity(tenant_id=args.tenant, user_id=args.user)
+                                  ^^^^^^^^^^^
+E   AttributeError: 'types.SimpleNamespace' object has no attribute 'tenant'</failure></testcase></testsuite></testsuites>

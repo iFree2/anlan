@@ -204,11 +204,23 @@ uv run python -O evals/phase03_gate.py --output .runtime/p3-new-gate.json
 
 [真实消融报告](docs/phases/phase-03-memory-context/evidence/wp03/live-report.md)保留无收益、离题引用、错误上下文状态说明和材料说明无来源导致的拒绝；逐条引用存在不等于语义有支持。
 
+## 受控事实/知识并行（P4-WP01）
+
+`anlan.review_cli` 增加 `--collection serial|parallel`（默认baseline保留P3）。首包仅支持scripted综合，没有真实模型调用；固定双分支不等于多模型自治。来源、对象、时点、工具预算和材料版本由宿主校验，部分失败保留成功证据。
+
+```powershell
+scripts/dev-postgres.ps1 -Action Env
+uv run python -O evals/evaluate_parallel.py --output .runtime/parallel-new.json
+uv run python -O scripts/smoke_parallel.py --source .runtime/parallel-new.json --output .runtime/parallel-cli-new.json
+```
+
+输出使用新路径。[同集三路对照与失败记录](docs/phases/phase-04-multi-agent/evidence/wp01/verification.md)保留两例并行更慢的结果，不宣称延迟或质量收益。工具与Memory有共同deadline，材料收尾另有2秒；异步适配器须合作响应取消。
+
 ## 重要限制
 
 - 内存模式退出即丢失任务；PostgreSQL 模式持久化归属/提交/checkpoint，JSONL 始终不是恢复数据源。
 - 身份为本地模拟；已验证任务级并发互斥与丢锁拒写，不宣称生产权限、任意故障下 exactly-once 或生产 SLA。
-- 已结束任务的重新修改、显式取消、业务写工具、多Agent和企业事件接入尚未实现。Memory仅两类合成偏好，保留审计不代表生产隐私删除；引用摘要与综合候选仍有语义Badcase，不是生产合规结论。
+- 已结束任务的重新修改、持久任务取消、业务写工具、多模型协同和企业事件接入尚未实现。P4首包仅增加只读采集分支取消；Memory仅两类合成偏好，保留审计不代表生产隐私删除；引用摘要与综合候选仍有语义Badcase，不是生产合规结论。
 - 功能测试和 HTTP 替身证明控制流/协议处理，不能证明真实模型质量；个人掌握见学习记录，默认待验证。
 
 长期入口：[产品范围](docs/product-scope.md) · [架构与三张数据流图](docs/architecture.md) · [半年路线](docs/roadmap.md) · [能力矩阵](docs/capability-matrix.md) · [当前状态](docs/status.md) · [本人练习](docs/learning-log.md)。

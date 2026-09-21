@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="4" time="1.254" timestamp="2026-09-21T23:27:38.906143+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_parallel" name="test_external_cancel_during_deadline_cleanup_still_propagates" time="0.069"><failure message="Failed: DID NOT RAISE CancelledError">tests\test_parallel.py:262: in test_external_cancel_during_deadline_cleanup_still_propagates
+    with pytest.raises(asyncio.CancelledError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE CancelledError</failure></testcase><testcase classname="tests.test_parallel" name="test_parent_deadline_and_cancellation_cover_memory[False]" time="0.167"><failure message="AssertionError: assert 'completed' == 'deadline_exceeded'&#10;  &#10;  - deadline_exceeded&#10;  + completed">tests\test_parallel.py:282: in test_parent_deadline_and_cancellation_cover_memory
+    assert result["collection"]["stop_reason"] == ("cancelled" if cancel else "deadline_exceeded")
+E   AssertionError: assert 'completed' == 'deadline_exceeded'
+E     
+E     - deadline_exceeded
+E     + completed</failure></testcase><testcase classname="tests.test_parallel" name="test_parent_deadline_and_cancellation_cover_memory[True]" time="0.171"><failure message="AssertionError: assert 'completed' == 'cancelled'&#10;  &#10;  - cancelled&#10;  + completed">tests\test_parallel.py:282: in test_parent_deadline_and_cancellation_cover_memory
+    assert result["collection"]["stop_reason"] == ("cancelled" if cancel else "deadline_exceeded")
+E   AssertionError: assert 'completed' == 'cancelled'
+E     
+E     - cancelled
+E     + completed</failure></testcase><testcase classname="tests.test_parallel" name="test_memory_uses_same_frozen_as_of_without_mutating_store" time="0.015"><failure message="AssertionError: assert [] == [{'visible': True}]&#10;  &#10;  Right contains one more item: {'visible': True}&#10;  Use -v to get more diff">tests\test_parallel.py:298: in test_memory_uses_same_frozen_as_of_without_mutating_store
+    assert result["memories"] == [{"visible": True}]
+E   AssertionError: assert [] == [{'visible': True}]
+E     
+E     Right contains one more item: {'visible': True}
+E     Use -v to get more diff</failure></testcase></testsuite></testsuites>

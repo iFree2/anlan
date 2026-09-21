@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.404" timestamp="2026-09-21T23:31:17.492108+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_parallel" name="test_cancel_during_final_material_check_is_recorded" time="0.016"><failure message="AssertionError: assert 'completed' == 'cancelled'&#10;  &#10;  - cancelled&#10;  + completed">tests\test_parallel.py:316: in test_cancel_during_final_material_check_is_recorded
+    assert result["collection"]["stop_reason"] == "cancelled"
+E   AssertionError: assert 'completed' == 'cancelled'
+E     
+E     - cancelled
+E     + completed</failure></testcase></testsuite></testsuites>
