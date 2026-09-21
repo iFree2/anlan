@@ -9,10 +9,10 @@ from pathlib import Path
 from time import perf_counter
 from uuid import uuid4
 
-from anlan.contracts import Identity
-from anlan.embeddings import LocalEmbeddings
-from anlan.knowledge import KnowledgeStore
-from anlan.postgres import database_url
+from anlan.common.models import Identity
+from anlan.infrastructure.db import database_url
+from anlan.knowledge.embeddings import LocalEmbeddings
+from anlan.knowledge.store import KnowledgeStore
 
 
 def score(result, supporting_docs):

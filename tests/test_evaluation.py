@@ -9,7 +9,7 @@ from pathlib import Path
 import httpx
 import pytest
 
-from anlan.evaluation import score_issues
+from anlan.workflows.evaluation import score_issues
 
 
 def test_scoring_preserves_false_positives_misses_and_zero_denominators():

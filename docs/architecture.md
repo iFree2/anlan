@@ -1,6 +1,12 @@
 # 架构：当前基线与已确定的演进边界
 
-当前实际架构：Python CLI、Pydantic、LangGraph材料状态图与官方PG checkpoint；P2新增固定事实查询、有界模型工具循环、共享请求预占和独立示例知识检索。pgvector0.8.6、本地中文BGE/512维、知识版本/过滤与Jaeger平台追踪已实现；FastAPI和Compose仍后续引入。实现与验证状态以[status](status.md)为准。
+当前实际架构：Python CLI、Pydantic、LangGraph材料状态图与官方PG checkpoint；工具/知识、共享请求预占、用户偏好与上下文、受控并行及两职责模型复核已实现。Java仅为两个既有只读事实工具提供HTTP门面，官方MCP stdio适配接入同一Python规则。pgvector0.8.6、本地BGE/512维、知识版本/过滤与Jaeger保留；FastAPI/Compose仍后置。R1按职责分包，状态以[status](status.md)为准。
+
+## 职责包与依赖入口（R1）
+
+`interfaces`承接CLI/HTTP/MCP与具体装配；`workflows`承接材料和证据流程；`llm`封装模型配置/网关/适配；`knowledge`、`memory`、`context`、`tools`保留功能合同及实现；`infrastructure`管理连接、持久化、预算、观测；`common`只有确实共享的基础DTO和错误。__init__不装配实现。完整[目录/映射/验证](refactoring/package-layout-report.md)与[ADR009](decisions/009-responsibility-packages.md)。
+
+数据库配置`infrastructure/db.py`不导入工作流。Memory/Knowledge/Budget只依赖该连接层；context只依赖memory/contracts的偏好枚举。KnowledgeCitation在knowledge/contracts，AnalysisFailure在llm/contracts。业务自己的合同靠近功能，不借旧根模块重导出实现。旧命令有5个薄转发，内部导入与monkeypatch统一走规范模块；SQL/assets及历史冻结工件保持原位/原字节。
 
 P2工程Gate于2026-09-21通过，平台追踪已接入Jaeger2.21/OTLP（替代本机缺少Docker条件的Langfuse部署），FastAPI/Compose仍后置。`trace.py`先保存JSONL，再可选导出白名单元数据；run为trace、工具/模型为子span。普通导出异常显式告警并保留业务结果；归档导入独立命名、保留时间缺口，不执行模型或恢复业务。见[ADR005](decisions/005-local-observability.md)与[P2交接](phases/phase-02-tools-rag/handoff.md)。
 
@@ -40,9 +46,9 @@ flowchart LR
   LOCK -.-> CP
 ```
 
-`postgres.py` 在同一专用连接上组合 registry 与 saver，连接丢失即同时丢锁且无法写 checkpoint。初始创建先写归属，CLI 输出 task_id 回执后执行图。每次补充先持久化 operation，然后以 `durability="sync"` 写节点 checkpoint，最后保存完成回执；各次提交并非一个跨系统事务。故障留下 pending，recover 判断该 run 是否已合并输入，再继续未完成节点；已完成请求直接返回旧回执，用 show 取最新状态。分析完成但尚未进入 ask 的节点边界也需继续至 interrupt，不能仅凭 status 字符串认定可补充。
+`interfaces/runtime.py` 在同一专用连接上组合 registry 与 saver，连接丢失即同时丢锁且无法写 checkpoint。初始创建先写归属，CLI 输出 task_id 回执后执行图。每次补充先持久化 operation，然后以 `durability="sync"` 写节点 checkpoint，最后保存完成回执；各次提交并非一个跨系统事务。故障留下 pending，recover 判断该 run 是否已合并输入，再继续未完成节点；已完成请求直接返回旧回执，用 show 取最新状态。分析完成但尚未进入 ask 的节点边界也需继续至 interrupt，不能仅凭 status 字符串认定可补充。
 
-相关实现：`registry.py` 的合同/内存实现、`postgres.py` 的 SQL/官方 saver、`sql/001_registry.sql` 的任务/提交表及迁移版本、`service.py` 的幂等/恢复决策。图状态不接受模型写身份/批准。checkpoint 的受限反序列化不开放 pickle 回退。详细取舍见 [ADR002](decisions/002-postgres-recovery.md)。
+相关实现：`workflows/registry.py`的合同/内存实现、`infrastructure/postgres.py`的SQL/serializer/setup、`sql/001_registry.sql`的任务/提交表、`workflows/service.py`的幂等/恢复决策。图状态不接受模型写身份/批准。checkpoint的受限反序列化不开放pickle回退。详细取舍见[ADR002](decisions/002-postgres-recovery.md)。
 
 部署实测使用独立 PG17.11（端口55432）。本机中文路径触发 PG 初始化编码失败，数据库运行文件放在用户 LocalAppData 的英文目录，源码不移动；脚本、位置和停止方法见 README。系统原 PG10 服务保持原样。记忆、生产认证、数据库备份和最终状态修改不在 WP02 范围。
 
@@ -127,7 +133,7 @@ flowchart TD
 
 ## 用户Memory（P3-WP01）
 
-`memory.py`在既有PG维护来源/当前状态/版本审计，`memory_cli.py`提供独立本地模拟入口。SYNTHETIC反馈经枚举白名单生成candidate，明确确认才active；冲突、过期、删除立即不进入普通读取，修正重新确认。tenant/user来自入口，source_ref/version有实际登记归属，hash由代码计算。当前事实仍查询工具、材料仍来自checkpoint、示例依据仍来自知识库，记忆只影响后续呈现。事务、版本与重放边界见[ADR006](decisions/006-user-memory-lifecycle.md)。
+`memory/store.py`在既有PG维护来源/当前状态/版本审计，`interfaces/memory_cli.py`提供独立本地模拟入口。SYNTHETIC反馈经枚举白名单生成candidate，明确确认才active；冲突、过期、删除立即不进入普通读取，修正重新确认。tenant/user来自入口，source_ref/version有实际登记归属，hash由代码计算。当前事实仍查询工具、材料仍来自checkpoint、示例依据仍来自知识库，记忆只影响后续呈现。事务、版本与重放边界见[ADR006](decisions/006-user-memory-lifecycle.md)。
 
 ## 官方接口依据
 

@@ -44,8 +44,8 @@ def test_gate_preserves_wrong_outcome_or_budget_failure():
 
 
 async def test_withdrawal_probe_does_not_remove_shared_corpus_document():
-    from anlan.contracts import Identity
-    from anlan.service import AccessDenied
+    from anlan.common.errors import AccessDenied
+    from anlan.common.models import Identity
 
     owner = Identity(tenant_id="synthetic-test", user_id="owner")
 

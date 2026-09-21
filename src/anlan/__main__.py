@@ -1,3 +1,3 @@
-from anlan.cli import main
+from anlan.interfaces.cli import main
 
 main()

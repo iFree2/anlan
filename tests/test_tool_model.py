@@ -3,8 +3,8 @@ import json
 import httpx
 import pytest
 
-from anlan.analysis import AnalysisFailure
-from anlan.model import ModelConfig
+from anlan.llm.config import ModelConfig
+from anlan.llm.contracts import AnalysisFailure
 
 
 class FakeLedger:
@@ -22,7 +22,7 @@ class FakeLedger:
 
 
 async def test_explicit_p3_package_is_reserved_before_http():
-    from anlan.tool_model import DeepSeekToolModel
+    from anlan.llm.tool_model import DeepSeekToolModel
     ledger = FakeLedger()
 
     def handler(request):
@@ -48,7 +48,7 @@ def call(name="query_area_status", arguments='{"area_id":"area-001"}', ident="ca
 
 
 async def test_real_tool_protocol_with_http_double_reserves_before_send():
-    from anlan.tool_model import DeepSeekToolModel
+    from anlan.llm.tool_model import DeepSeekToolModel
     ledger = FakeLedger()
     sent = []
 
@@ -75,7 +75,7 @@ async def test_real_tool_protocol_with_http_double_reserves_before_send():
     "http", "bad_json", "length", "duplicate_id", "oversized", "deep_json",
 ])
 async def test_bad_response_consumes_reserved_attempt_and_retains_failure(kind):
-    from anlan.tool_model import DeepSeekToolModel
+    from anlan.llm.tool_model import DeepSeekToolModel
     ledger = FakeLedger()
 
     def handler(request):
@@ -101,7 +101,7 @@ async def test_bad_response_consumes_reserved_attempt_and_retains_failure(kind):
 
 
 async def test_oversized_input_or_budget_failure_never_sends_request():
-    from anlan.tool_model import DeepSeekToolModel
+    from anlan.llm.tool_model import DeepSeekToolModel
     ledger = FakeLedger()
 
     async def unavailable(*args):
@@ -121,7 +121,7 @@ async def test_oversized_input_or_budget_failure_never_sends_request():
 
 
 async def test_final_json_is_schema_checked():
-    from anlan.tool_model import DeepSeekToolModel
+    from anlan.llm.tool_model import DeepSeekToolModel
     data = {"summary": "仍需人工复核", "evidence_call_ids": ["call-1"]}
     async with httpx.AsyncClient(transport=httpx.MockTransport(
         lambda request: httpx.Response(200, json=envelope(

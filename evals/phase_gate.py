@@ -7,10 +7,11 @@ import json
 from datetime import UTC, datetime
 from pathlib import Path
 
-from anlan.analysis import AnalysisFailure, OfflineAnalyzer
-from anlan.contracts import Identity
-from anlan.evaluation import score_issues
-from anlan.service import WorkflowService
+from anlan.common.models import Identity
+from anlan.llm.contracts import AnalysisFailure
+from anlan.workflows.evaluation import score_issues
+from anlan.workflows.material_analysis import OfflineAnalyzer
+from anlan.workflows.service import WorkflowService
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "evals/phase01-regression-v1/manifest.json"

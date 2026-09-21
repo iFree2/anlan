@@ -7,7 +7,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from anlan.parallel import canonical_observations
+from anlan.workflows.parallel import canonical_observations
 
 
 def main():
@@ -21,7 +21,8 @@ def main():
     refs = source["results"][1]["bundle"]["collection"]["children"][0]["input"]["parameters"]
     refs_path = args.output.with_suffix(".refs.json")
     refs_path.write_text(json.dumps(refs), encoding="utf-8")
-    module = "anlan.multi_review_cli" if args.multi_review else "anlan.review_cli"
+    module = ("anlan.interfaces.multi_review_cli" if args.multi_review
+              else "anlan.interfaces.review_cli")
     base = [sys.executable, "-O", "-m", module, "--task", bundle["snapshot"]["task_id"],
             "--refs-file", str(refs_path), "--tenant", bundle["identity"]["tenant_id"],
             "--user", bundle["identity"]["user_id"], "--question", bundle["question"],

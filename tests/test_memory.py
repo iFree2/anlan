@@ -8,7 +8,7 @@ from uuid import uuid4
 
 import pytest
 
-from anlan.contracts import Identity
+from anlan.common.models import Identity
 
 NOW = datetime(2026, 9, 21, tzinfo=timezone.utc)
 FEEDBACK = {
@@ -23,12 +23,12 @@ def run(coro):
 
 
 def test_memory_module_exists():
-    assert importlib.util.find_spec("anlan.memory") is not None
+    assert importlib.util.find_spec("anlan.memory.store") is not None
 
 
 @pytest.fixture
 def memory():
-    from anlan.memory import MemoryStore
+    from anlan.memory.store import MemoryStore
     dsn = os.environ.get("ANLAN_TEST_DATABASE_URL")
     if not dsn:
         pytest.skip("ANLAN_TEST_DATABASE_URL required for real PG")
@@ -45,7 +45,7 @@ async def candidate(store, who, **changes):
 
 @pytest.mark.postgres
 def test_confirm_reject_correct_conflict_and_history(memory):
-    from anlan.memory import MemoryConflict
+    from anlan.memory.contracts import MemoryConflict
     store, who, _ = memory
 
     async def scenario():
@@ -73,8 +73,8 @@ def test_confirm_reject_correct_conflict_and_history(memory):
 
 @pytest.mark.postgres
 def test_source_ownership_immutability_and_rejected_payload_do_not_write(memory):
-    from anlan.memory import MemoryConflict
-    from anlan.registry import AccessDenied
+    from anlan.common.errors import AccessDenied
+    from anlan.memory.contracts import MemoryConflict
     store, who, _ = memory
 
     async def scenario():
@@ -105,7 +105,7 @@ def test_source_ownership_immutability_and_rejected_payload_do_not_write(memory)
 
 @pytest.mark.postgres
 def test_old_revisions_source_replays_and_delete_never_resurrect(memory):
-    from anlan.memory import MemoryConflict
+    from anlan.memory.contracts import MemoryConflict
     store, who, _ = memory
 
     async def scenario():
@@ -134,7 +134,7 @@ def test_old_revisions_source_replays_and_delete_never_resurrect(memory):
 
 @pytest.mark.postgres
 def test_expiry_filter_and_clock_boundaries(memory):
-    from anlan.memory import MemoryConflict
+    from anlan.memory.contracts import MemoryConflict
     store, who, clock = memory
 
     async def scenario():
@@ -158,7 +158,7 @@ def test_expiry_filter_and_clock_boundaries(memory):
 
 @pytest.mark.postgres
 def test_concurrent_confirm_has_exactly_one_winner(memory):
-    from anlan.memory import MemoryConflict
+    from anlan.memory.contracts import MemoryConflict
     store, who, _ = memory
 
     async def scenario():
@@ -174,7 +174,7 @@ def test_concurrent_confirm_has_exactly_one_winner(memory):
 
 @pytest.mark.postgres
 def test_unconsumed_older_feedback_cannot_override_newer_source(memory):
-    from anlan.memory import MemoryConflict
+    from anlan.memory.contracts import MemoryConflict
     store, who, _ = memory
 
     async def scenario():
@@ -208,7 +208,7 @@ def test_audit_failure_rolls_back_current_state(memory, monkeypatch):
 
 @pytest.mark.postgres
 def test_intermediate_source_does_not_bypass_version_watermark(memory):
-    from anlan.memory import MemoryConflict
+    from anlan.memory.contracts import MemoryConflict
     store, who, _ = memory
 
     async def scenario():

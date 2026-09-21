@@ -10,8 +10,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 from uuid import uuid4
 
-from anlan.budget import BudgetLedger
-from anlan.postgres import database_url
+from anlan.infrastructure.budget import BudgetLedger
+from anlan.infrastructure.db import database_url
 
 AS_OF = "2026-09-21T00:00:00Z"
 
@@ -36,7 +36,8 @@ def main():
               "as_of": AS_OF, "tenant": "memory-smoke-" + uuid4().hex}
     with args.output.open("x", encoding="utf-8") as output:
         def call(command, *params, expected=0, user="owner", at=AS_OF):
-            argv = [sys.executable, "-m", "anlan.memory_cli", command, "--tenant", report["tenant"],
+            argv = [sys.executable, "-m", "anlan.interfaces.memory_cli", command,
+                    "--tenant", report["tenant"],
                     "--user", user, "--as-of", at, *params]
             result = subprocess.run(argv, capture_output=True, text=True, encoding="utf-8",
                                     timeout=45, env={**os.environ, "PYTHONUTF8": "1"})

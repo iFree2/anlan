@@ -148,13 +148,13 @@ uv run anlan demo --mode deepseek
 
 推荐按调用链阅读：
 
-1. [contracts.py](src/anlan/contracts.py)：Pydantic 输入输出 DTO，像 Java Bean Validation；`QUESTIONS` 是本轮练习入口。
-2. [workflow.py](src/anlan/workflow.py)：状态、analyze/ask 节点、条件边及恢复；TypedDict 只描述形状。
-3. [service.py](src/anlan/service.py)：模拟可信身份、任务归属、revision、幂等提交与恢复入口。
+1. [material_contracts.py](src/anlan/workflows/material_contracts.py)：Pydantic 材料 DTO；`QUESTIONS` 是练习入口。共享身份在 common/models.py。
+2. [materials.py](src/anlan/workflows/materials.py)：状态、analyze/ask 节点、条件边及恢复；TypedDict 只描述形状。
+3. [service.py](src/anlan/workflows/service.py)：模拟可信身份、任务归属、revision、幂等提交与恢复入口。
 
-本轮新增 [registry.py](src/anlan/registry.py)（任务/提交合同与内存实现）、[postgres.py](src/anlan/postgres.py)（官方 saver 与 SQL 存储）、[迁移 SQL](src/anlan/sql/001_registry.sql)。应用模块在 src/anlan，测试在 tests，环境脚本在 scripts，数据/评测分别在 examples/evals；按真实职责增长再拆子包，不提前建空架构。
+任务合同/内存实现位于 [registry.py](src/anlan/workflows/registry.py)，SQL持久化位于 [postgres.py](src/anlan/infrastructure/postgres.py)，同连接装配位于 [runtime.py](src/anlan/interfaces/runtime.py)，[迁移 SQL](src/anlan/sql/001_registry.sql)保持原位。现按 interfaces/workflows/llm/knowledge/memory/context/tools/infrastructure/common 分包；[目录与旧新映射](docs/refactoring/package-layout-report.md)。
 
-随后看 [model.py](src/anlan/model.py) 的请求与候选复验、[test_workflow.py](tests/test_workflow.py) 的行为断言。入口在 [cli.py](src/anlan/cli.py)，最小关联轨迹写入 `.runtime/traces.jsonl`，可通过 `--trace` 指定其他路径。轨迹仅记来源标签、关联 ID、版本、问题字段、耗时与用量，不记原始字段、密钥、响应正文或隐藏思维链。
+随后看 [material.py](src/anlan/llm/material.py) 的请求与候选复验、[test_workflow.py](tests/test_workflow.py) 的行为断言。入口在 [cli.py](src/anlan/interfaces/cli.py)，旧 `python -m anlan.cli` 等命令保留薄转发。最小关联轨迹写入 `.runtime/traces.jsonl`，可通过 `--trace` 指定路径；不记原始字段、密钥、响应正文或隐藏思维链。
 
 日志文件不可写时，输出 `trace_warning=trace_write_failed`，本地材料流程仍可继续；该次轨迹存在缺口，不会在事后伪造补齐。此策略适用于本地合成辅助演示，不代表未来高影响写操作可以绕过审计。
 

@@ -10,15 +10,15 @@ from pathlib import Path
 
 import httpx
 
-from anlan.analysis import OfflineAnalyzer
-from anlan.contracts import Identity
-from anlan.live import production_ledger
-from anlan.model import ModelConfig
-from anlan.service import WorkflowService
-from anlan.tool_loop import check_facts_agent
-from anlan.tool_model import PROMPT_VERSION, SYSTEM_PROMPT, DeepSeekToolModel, ScriptedToolModel
+from anlan.common.models import Identity
+from anlan.infrastructure.live import production_ledger
+from anlan.infrastructure.trace import JsonlTrace
+from anlan.llm.config import ModelConfig
+from anlan.llm.tool_model import PROMPT_VERSION, SYSTEM_PROMPT, DeepSeekToolModel, ScriptedToolModel
 from anlan.tools.queries import FactTools
-from anlan.trace import JsonlTrace
+from anlan.workflows.material_analysis import OfflineAnalyzer
+from anlan.workflows.service import WorkflowService
+from anlan.workflows.tool_loop import check_facts_agent
 
 
 def score(report, case):

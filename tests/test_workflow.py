@@ -3,10 +3,12 @@ import json
 import pytest
 from pydantic import ValidationError
 
-from anlan.analysis import Analysis, AnalysisFailure, OfflineAnalyzer
-from anlan.contracts import Identity
-from anlan.service import AccessDenied, InvalidTransition, WorkflowService
-from anlan.trace import JsonlTrace
+from anlan.common.errors import AccessDenied, InvalidTransition
+from anlan.common.models import Identity
+from anlan.infrastructure.trace import JsonlTrace
+from anlan.llm.contracts import AnalysisFailure
+from anlan.workflows.material_analysis import Analysis, OfflineAnalyzer
+from anlan.workflows.service import WorkflowService
 
 OWNER = Identity(tenant_id="synthetic-a", user_id="safety-demo")
 FIELDS = {

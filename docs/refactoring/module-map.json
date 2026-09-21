@@ -1,0 +1,223 @@
+{
+  "baseline": "f5be259",
+  "modules": {
+    "src/anlan/analysis.py": "src/anlan/workflows/material_analysis.py",
+    "src/anlan/contracts.py": "src/anlan/workflows/material_contracts.py",
+    "src/anlan/workflow.py": "src/anlan/workflows/materials.py",
+    "src/anlan/service.py": "src/anlan/workflows/service.py",
+    "src/anlan/registry.py": "src/anlan/workflows/registry.py",
+    "src/anlan/evaluation.py": "src/anlan/workflows/evaluation.py",
+    "src/anlan/facts.py": "src/anlan/workflows/facts.py",
+    "src/anlan/tool_loop.py": "src/anlan/workflows/tool_loop.py",
+    "src/anlan/review.py": "src/anlan/workflows/review.py",
+    "src/anlan/parallel.py": "src/anlan/workflows/parallel.py",
+    "src/anlan/multi_review.py": "src/anlan/workflows/multi_review.py",
+    "src/anlan/model.py": "src/anlan/llm/material.py",
+    "src/anlan/model_gateway.py": "src/anlan/llm/gateway.py",
+    "src/anlan/tool_model.py": "src/anlan/llm/tool_model.py",
+    "src/anlan/evidence_review.py": "src/anlan/llm/evidence_review.py",
+    "src/anlan/context.py": "src/anlan/context/assembly.py",
+    "src/anlan/memory.py": "src/anlan/memory/store.py",
+    "src/anlan/knowledge.py": "src/anlan/knowledge/store.py",
+    "src/anlan/embeddings.py": "src/anlan/knowledge/embeddings.py",
+    "src/anlan/knowledge_tool.py": "src/anlan/knowledge/tool.py",
+    "src/anlan/postgres.py": "src/anlan/infrastructure/postgres.py",
+    "src/anlan/budget.py": "src/anlan/infrastructure/budget.py",
+    "src/anlan/live.py": "src/anlan/infrastructure/live.py",
+    "src/anlan/trace.py": "src/anlan/infrastructure/trace.py",
+    "src/anlan/telemetry.py": "src/anlan/infrastructure/telemetry.py",
+    "src/anlan/cli.py": "src/anlan/interfaces/cli.py",
+    "src/anlan/memory_cli.py": "src/anlan/interfaces/memory_cli.py",
+    "src/anlan/review_cli.py": "src/anlan/interfaces/review_cli.py",
+    "src/anlan/multi_review_cli.py": "src/anlan/interfaces/multi_review_cli.py",
+    "src/anlan/mcp_server.py": "src/anlan/interfaces/mcp_server.py",
+    "src/anlan/business_bridge.py": "src/anlan/tools/http_client.py",
+    "src/anlan/mcp_tools.py": "src/anlan/tools/mcp.py"
+  },
+  "extracted_symbols": [
+    {
+      "old_module": "anlan.contracts",
+      "symbol": "Identity",
+      "new_module": "anlan.common.models",
+      "new_symbol": "Identity"
+    },
+    {
+      "old_module": "anlan.contracts",
+      "symbol": "StrictModel",
+      "new_module": "anlan.common.models",
+      "new_symbol": "StrictModel"
+    },
+    {
+      "old_module": "anlan.contracts",
+      "symbol": "NonEmpty",
+      "new_module": "anlan.common.models",
+      "new_symbol": "NonEmpty"
+    },
+    {
+      "old_module": "anlan.registry",
+      "symbol": "TaskBusy",
+      "new_module": "anlan.common.errors",
+      "new_symbol": "TaskBusy"
+    },
+    {
+      "old_module": "anlan.registry",
+      "symbol": "InvalidTransition",
+      "new_module": "anlan.common.errors",
+      "new_symbol": "InvalidTransition"
+    },
+    {
+      "old_module": "anlan.registry",
+      "symbol": "AccessDenied",
+      "new_module": "anlan.common.errors",
+      "new_symbol": "AccessDenied"
+    },
+    {
+      "old_module": "anlan.service",
+      "symbol": "AccessDenied",
+      "new_module": "anlan.common.errors",
+      "new_symbol": "AccessDenied"
+    },
+    {
+      "old_module": "anlan.service",
+      "symbol": "InvalidTransition",
+      "new_module": "anlan.common.errors",
+      "new_symbol": "InvalidTransition"
+    },
+    {
+      "old_module": "anlan.analysis",
+      "symbol": "AnalysisFailure",
+      "new_module": "anlan.llm.contracts",
+      "new_symbol": "AnalysisFailure"
+    },
+    {
+      "old_module": "anlan.model",
+      "symbol": "ModelConfig",
+      "new_module": "anlan.llm.config",
+      "new_symbol": "ModelConfig"
+    },
+    {
+      "old_module": "anlan.memory",
+      "symbol": "Feedback",
+      "new_module": "anlan.memory.contracts",
+      "new_symbol": "Feedback"
+    },
+    {
+      "old_module": "anlan.memory",
+      "symbol": "MemoryConflict",
+      "new_module": "anlan.memory.contracts",
+      "new_symbol": "MemoryConflict"
+    },
+    {
+      "old_module": "anlan.memory",
+      "symbol": "PREFERENCES",
+      "new_module": "anlan.memory.contracts",
+      "new_symbol": "PREFERENCES"
+    },
+    {
+      "old_module": "anlan.knowledge",
+      "symbol": "KnowledgeQuery",
+      "new_module": "anlan.knowledge.contracts",
+      "new_symbol": "KnowledgeQuery"
+    },
+    {
+      "old_module": "anlan.knowledge",
+      "symbol": "KnowledgeDocument",
+      "new_module": "anlan.knowledge.contracts",
+      "new_symbol": "KnowledgeDocument"
+    },
+    {
+      "old_module": "anlan.knowledge",
+      "symbol": "Paragraph",
+      "new_module": "anlan.knowledge.contracts",
+      "new_symbol": "Paragraph"
+    },
+    {
+      "old_module": "anlan.tool_model",
+      "symbol": "KnowledgeCitation",
+      "new_module": "anlan.knowledge.contracts",
+      "new_symbol": "KnowledgeCitation"
+    },
+    {
+      "old_module": "anlan.postgres",
+      "symbol": "_conninfo",
+      "new_module": "anlan.infrastructure.db",
+      "new_symbol": "conninfo"
+    },
+    {
+      "old_module": "anlan.postgres",
+      "symbol": "database_url",
+      "new_module": "anlan.infrastructure.db",
+      "new_symbol": "database_url"
+    },
+    {
+      "old_module": "anlan.postgres",
+      "symbol": "postgres_service",
+      "new_module": "anlan.interfaces.runtime",
+      "new_symbol": "postgres_service"
+    },
+    {
+      "old_module": "anlan.review",
+      "symbol": "validate_candidate",
+      "new_module": "anlan.workflows.review_contracts",
+      "new_symbol": "validate_candidate"
+    },
+    {
+      "old_module": "anlan.review",
+      "symbol": "ReviewCandidate",
+      "new_module": "anlan.workflows.review_contracts",
+      "new_symbol": "ReviewCandidate"
+    },
+    {
+      "old_module": "anlan.review",
+      "symbol": "Presentation",
+      "new_module": "anlan.workflows.review_contracts",
+      "new_symbol": "Presentation"
+    },
+    {
+      "old_module": "anlan.review",
+      "symbol": "Claim",
+      "new_module": "anlan.workflows.review_contracts",
+      "new_symbol": "Claim"
+    },
+    {
+      "old_module": "anlan.review",
+      "symbol": "WORK_PACKAGE",
+      "new_module": "anlan.workflows.review_contracts",
+      "new_symbol": "WORK_PACKAGE"
+    },
+    {
+      "old_module": "anlan.review",
+      "symbol": "ScriptedReviewModel",
+      "new_module": "anlan.llm.review_model",
+      "new_symbol": "ScriptedReviewModel"
+    },
+    {
+      "old_module": "anlan.review",
+      "symbol": "DeepSeekReviewModel",
+      "new_module": "anlan.llm.review_model",
+      "new_symbol": "DeepSeekReviewModel"
+    },
+    {
+      "old_module": "anlan.business_bridge",
+      "symbol": "create_fact_server",
+      "new_module": "anlan.interfaces.fact_http",
+      "new_symbol": "create_fact_server"
+    }
+  ],
+  "compatibility_commands": [
+    "anlan",
+    "anlan.cli",
+    "anlan.memory_cli",
+    "anlan.review_cli",
+    "anlan.multi_review_cli",
+    "anlan.mcp_server"
+  ],
+  "renamed_symbols": [
+    {
+      "old_module": "anlan.postgres",
+      "old_symbol": "_serde",
+      "new_module": "anlan.infrastructure.postgres",
+      "new_symbol": "checkpoint_serde"
+    }
+  ]
+}

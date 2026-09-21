@@ -14,7 +14,7 @@ def test_knowledge_cli_ingest_query_withdraw_uses_trusted_identity(
         dsn, monkeypatch, tmp_path, capsys):  # noqa: F811
     from uuid import uuid4
 
-    from anlan import cli
+    from anlan.interfaces import cli
     path = tmp_path / "knowledge.json"
     path.write_text(json.dumps({"documents": [DOCUMENT]}), encoding="utf-8")
 

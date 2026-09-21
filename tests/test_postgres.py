@@ -9,10 +9,10 @@ import sys
 import psycopg
 import pytest
 
-from anlan.analysis import Analysis, OfflineAnalyzer
-from anlan.cli import DEMO_FIELDS, DEMO_PATCHES
-from anlan.contracts import Identity
-from anlan.registry import AccessDenied, InvalidTransition, TaskBusy
+from anlan.common.errors import AccessDenied, InvalidTransition, TaskBusy
+from anlan.common.models import Identity
+from anlan.interfaces.cli import DEMO_FIELDS, DEMO_PATCHES
+from anlan.workflows.material_analysis import Analysis, OfflineAnalyzer
 
 pytestmark = pytest.mark.postgres
 OWNER = Identity(tenant_id="synthetic-pg-tests", user_id="owner")
@@ -27,7 +27,7 @@ def dsn():
     value = os.environ.get("ANLAN_TEST_DATABASE_URL")
     if not value:
         pytest.skip("Set ANLAN_TEST_DATABASE_URL to an isolated synthetic development database")
-    from anlan.postgres import initialize_database
+    from anlan.infrastructure.postgres import initialize_database
     try:
         run(initialize_database(value))
     except psycopg.Error:
@@ -40,7 +40,7 @@ def dsn():
 
 
 def test_reconnect_preserves_ownership_material_and_idempotency(dsn):
-    from anlan.postgres import postgres_service
+    from anlan.interfaces.runtime import postgres_service
 
     async def scenario():
         async with postgres_service(dsn, OfflineAnalyzer()) as service:
@@ -75,7 +75,7 @@ def test_reconnect_preserves_ownership_material_and_idempotency(dsn):
 
 
 def test_incomplete_analysis_recovers_on_new_connection_without_second_merge(dsn):
-    from anlan.postgres import postgres_service
+    from anlan.interfaces.runtime import postgres_service
 
     class FailingAnalyzer:
         async def analyze(self, application):
@@ -102,7 +102,7 @@ def test_incomplete_analysis_recovers_on_new_connection_without_second_merge(dsn
 
 
 def test_pending_submission_before_graph_execution_is_recoverable(dsn, monkeypatch):
-    from anlan.postgres import postgres_service
+    from anlan.interfaces.runtime import postgres_service
 
     async def crash(*args, **kwargs):
         raise RuntimeError("crash before graph starts")
@@ -124,7 +124,7 @@ def test_pending_submission_before_graph_execution_is_recoverable(dsn, monkeypat
 
 
 def test_mode_mismatch_does_not_mutate_task(dsn):
-    from anlan.postgres import postgres_service
+    from anlan.interfaces.runtime import postgres_service
 
     async def scenario():
         async with postgres_service(dsn, OfflineAnalyzer()) as service:
@@ -137,7 +137,7 @@ def test_mode_mismatch_does_not_mutate_task(dsn):
 
 
 def test_two_database_connections_cannot_execute_same_task_concurrently(dsn):
-    from anlan.postgres import postgres_service
+    from anlan.interfaces.runtime import postgres_service
 
     async def scenario():
         started, release = asyncio.Event(), asyncio.Event()
@@ -189,7 +189,7 @@ def test_cli_restart_and_duplicate_request(dsn, tmp_path):
 
 
 def test_hard_process_exit_after_material_merge_can_recover(dsn):
-    from anlan.postgres import postgres_service
+    from anlan.interfaces.runtime import postgres_service
 
     async def seed():
         async with postgres_service(dsn, OfflineAnalyzer()) as service:
@@ -198,9 +198,9 @@ def test_hard_process_exit_after_material_merge_can_recover(dsn):
     first = run(seed())
     script = """
 import asyncio, os
-from anlan.postgres import postgres_service
-from anlan.contracts import Identity
-from anlan.cli import DEMO_PATCHES
+from anlan.interfaces.runtime import postgres_service
+from anlan.common.models import Identity
+from anlan.interfaces.cli import DEMO_PATCHES
 class ExitAnalyzer:
     async def analyze(self, application):
         os._exit(31)
@@ -232,7 +232,7 @@ asyncio.run(main(), loop_factory=asyncio.SelectorEventLoop)
 
 
 def test_lost_completion_receipt_recovers_without_running_analyzer_again(dsn, monkeypatch):
-    from anlan.postgres import postgres_service
+    from anlan.interfaces.runtime import postgres_service
 
     class MustNotRun:
         async def analyze(self, application):
@@ -259,7 +259,7 @@ def test_lost_completion_receipt_recovers_without_running_analyzer_again(dsn, mo
 
 
 def test_lost_lock_connection_cannot_overwrite_newer_checkpoint(dsn):
-    from anlan.postgres import postgres_service
+    from anlan.interfaces.runtime import postgres_service
 
     async def scenario():
         started, release = asyncio.Event(), asyncio.Event()
@@ -296,7 +296,7 @@ def test_lost_lock_connection_cannot_overwrite_newer_checkpoint(dsn):
 def test_initial_hard_exit_emits_task_receipt_before_analysis(dsn):
     script = """
 import os, sys
-from anlan import cli
+from anlan.interfaces import cli
 class ExitAnalyzer:
     async def analyze(self, application):
         os._exit(32)
@@ -321,7 +321,7 @@ cli.main()
 
 
 def test_cli_process_is_rejected_while_another_process_holds_task_lock(dsn):
-    from anlan.postgres import postgres_service
+    from anlan.interfaces.runtime import postgres_service
 
     async def seed():
         async with postgres_service(dsn, OfflineAnalyzer()) as service:

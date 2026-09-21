@@ -1,1 +1,1 @@
-"""受控只读事实工具；业务参数不能携带身份。"""
+"""Anlan tools capabilities; explicit imports only."""

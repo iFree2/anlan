@@ -8,7 +8,7 @@ import pytest
 from test_context import SNAPSHOT
 from test_tools import NOW, OWNER
 
-from anlan.registry import AccessDenied, InvalidTransition
+from anlan.common.errors import AccessDenied, InvalidTransition
 from anlan.tools.queries import FactTools
 
 REFS = {"worker_id": "worker-001", "qualification_type": "welding", "area_id": "area-001"}
@@ -37,14 +37,14 @@ def tools():
 
 
 async def collect(**kwargs):
-    from anlan.parallel import collect_parallel
+    from anlan.workflows.parallel import collect_parallel
     return await collect_parallel(kwargs.pop("service", Service()), OWNER, SNAPSHOT["task_id"],
         kwargs.pop("references", REFS), "监护要求？", kwargs.pop("tools", tools()),
         kwargs.pop("knowledge_store", Knowledge()), kwargs.pop("memory_store", Memory()), **kwargs)
 
 
 def test_parallel_module_exists():
-    assert importlib.util.find_spec("anlan.parallel") is not None
+    assert importlib.util.find_spec("anlan.workflows.parallel") is not None
 
 
 async def test_parallel_overlap_and_minimum_context():
@@ -83,7 +83,7 @@ async def test_parallel_overlap_and_minimum_context():
 
 @pytest.mark.parametrize("limit", [0, 1, 2, 3])
 async def test_deterministic_parent_budget(limit):
-    from anlan.parallel import CollectionLimits
+    from anlan.workflows.parallel import CollectionLimits
     result = await collect(limits=CollectionLimits(tool_calls=limit))
     assert result["collection"]["tool_calls"] == limit
     assert [o["reason"] for o in result["observations"][limit:]] == [
@@ -91,7 +91,7 @@ async def test_deterministic_parent_budget(limit):
 
 
 async def test_identity_precedes_all_dependencies():
-    from anlan.parallel import collect_parallel
+    from anlan.workflows.parallel import collect_parallel
 
     class Denied:
         async def get(self, *args):
@@ -113,7 +113,7 @@ async def test_cross_object_access_denied_without_losing_other_evidence():
 
 
 async def test_partial_timeout_retains_finished_worker_and_knowledge():
-    from anlan.parallel import CollectionLimits
+    from anlan.workflows.parallel import CollectionLimits
     base = tools()
     cleaned = asyncio.Event()
 
@@ -175,7 +175,7 @@ async def test_changed_material_rejected():
 
 
 async def test_late_success_discarded_and_adapter_failure_is_unknown():
-    from anlan.parallel import CollectionLimits
+    from anlan.workflows.parallel import CollectionLimits
     base = tools()
 
     class Late:
@@ -236,7 +236,7 @@ async def test_source_conflict_is_explicit_not_voted():
 
 
 async def test_serial_parallel_canonical_equivalence():
-    from anlan.parallel import canonical_observations
+    from anlan.workflows.parallel import canonical_observations
     serial = await collect(parallel=False)
     parallel = await collect()
     assert canonical_observations(serial["observations"]) == canonical_observations(
@@ -244,7 +244,7 @@ async def test_serial_parallel_canonical_equivalence():
 
 
 async def test_external_cancel_during_deadline_cleanup_still_propagates():
-    from anlan.parallel import CollectionLimits
+    from anlan.workflows.parallel import CollectionLimits
     cleanup = asyncio.Event()
 
     class Slow(Knowledge):
@@ -265,7 +265,7 @@ async def test_external_cancel_during_deadline_cleanup_still_propagates():
 
 @pytest.mark.parametrize("cancel", [False, True])
 async def test_parent_deadline_and_cancellation_cover_memory(cancel):
-    from anlan.parallel import CollectionLimits
+    from anlan.workflows.parallel import CollectionLimits
     entered, event = asyncio.Event(), asyncio.Event()
 
     class SlowMemory:

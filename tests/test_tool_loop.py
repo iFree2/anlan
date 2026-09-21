@@ -5,13 +5,15 @@ from pathlib import Path
 
 import pytest
 
-from anlan.analysis import AnalysisFailure, OfflineAnalyzer
-from anlan.cli import DEMO_FIELDS
-from anlan.contracts import Identity
-from anlan.service import AccessDenied, WorkflowService
-from anlan.tool_model import FinalAnswer, ModelTurn, ScriptedToolModel, ToolCall
+from anlan.common.errors import AccessDenied
+from anlan.common.models import Identity
+from anlan.infrastructure.trace import JsonlTrace
+from anlan.interfaces.cli import DEMO_FIELDS
+from anlan.llm.contracts import AnalysisFailure
+from anlan.llm.tool_model import FinalAnswer, ModelTurn, ScriptedToolModel, ToolCall
 from anlan.tools.queries import FactTools
-from anlan.trace import JsonlTrace
+from anlan.workflows.material_analysis import OfflineAnalyzer
+from anlan.workflows.service import WorkflowService
 
 OWNER = Identity(tenant_id="synthetic-demo", user_id="safety-manager-demo")
 REFS = {"worker_id": "worker-001", "qualification_type": "welding", "area_id": "area-001"}
@@ -23,7 +25,7 @@ def tools():
 
 
 async def scenario(model, tmp_path, **kwargs):
-    from anlan.tool_loop import check_facts_agent
+    from anlan.workflows.tool_loop import check_facts_agent
     service = WorkflowService(OfflineAnalyzer())
     before = await service.start(OWNER, DEMO_FIELDS)
     report = await check_facts_agent(service, OWNER, before["task_id"], REFS, tools(), model,
@@ -96,7 +98,7 @@ async def test_step_budget_stops_repeated_actions(tmp_path):
 
 
 async def test_tool_budget_is_checked_before_execution(tmp_path):
-    from anlan.tool_loop import LoopLimits
+    from anlan.workflows.tool_loop import LoopLimits
     report = await scenario(ScriptedToolModel(), tmp_path, limits=LoopLimits(max_tool_calls=1))
     assert report["stop_reason"] == "tool_budget_exceeded"
     assert report["tool_calls"] == 1 and len(report["results"]) == 1
@@ -114,7 +116,7 @@ async def test_model_failure_preserves_previous_tool_result(tmp_path):
 
 
 async def test_overall_deadline_cancels_model(tmp_path):
-    from anlan.tool_loop import LoopLimits
+    from anlan.workflows.tool_loop import LoopLimits
 
     class Slow:
         mode = "scripted_double"
@@ -128,7 +130,7 @@ async def test_overall_deadline_cancels_model(tmp_path):
 
 
 async def test_unauthorized_task_never_calls_model(tmp_path):
-    from anlan.tool_loop import check_facts_agent
+    from anlan.workflows.tool_loop import check_facts_agent
     service = WorkflowService(OfflineAnalyzer())
     state = await service.start(OWNER, DEMO_FIELDS)
     with pytest.raises(AccessDenied):
@@ -140,9 +142,9 @@ async def test_loop_timeout_records_already_reserved_http_attempt(tmp_path):
     import httpx
     from test_tool_model import FakeLedger
 
-    from anlan.model import ModelConfig
-    from anlan.tool_loop import LoopLimits
-    from anlan.tool_model import DeepSeekToolModel
+    from anlan.llm.config import ModelConfig
+    from anlan.llm.tool_model import DeepSeekToolModel
+    from anlan.workflows.tool_loop import LoopLimits
 
     ledger = FakeLedger()
 

@@ -5,9 +5,10 @@ import httpx
 import pytest
 from test_tool_model import FakeLedger
 
-from anlan.analysis import AnalysisFailure
-from anlan.contracts import Application
-from anlan.model import DeepSeekAnalyzer, ModelConfig
+from anlan.llm.config import ModelConfig
+from anlan.llm.contracts import AnalysisFailure
+from anlan.llm.material import DeepSeekAnalyzer
+from anlan.workflows.material_contracts import Application
 
 MATERIAL = Application(
     work_location_description="SYNTHETIC：在那边作业。",

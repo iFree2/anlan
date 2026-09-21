@@ -9,12 +9,12 @@ import httpx
 import pytest
 from test_tools import NOW, OWNER
 
-from anlan.parallel import canonical_observations
 from anlan.tools.queries import FactTools
+from anlan.workflows.parallel import canonical_observations
 
 
 def test_bridge_module_exists():
-    assert importlib.util.find_spec("anlan.business_bridge") is not None
+    assert importlib.util.find_spec("anlan.tools.http_client") is not None
 
 
 @pytest.fixture(scope="module")
@@ -87,7 +87,7 @@ def test_java_oversize_and_wrong_method(bridge):
 
 
 async def test_actual_mcp_handshake_tools_call_and_scope(bridge):
-    from anlan.mcp_tools import mcp_fact_tools
+    from anlan.tools.mcp import mcp_fact_tools
 
     async with mcp_fact_tools(bridge.url, bridge.token, OWNER, NOW) as (tools, session, info):
         assert info.serverInfo.name == "anlan-read-only-facts"
@@ -112,7 +112,7 @@ async def test_actual_mcp_handshake_tools_call_and_scope(bridge):
 
 
 async def test_mcp_wrong_token_and_as_of_are_explicit_errors(bridge):
-    from anlan.mcp_tools import mcp_fact_tools
+    from anlan.tools.mcp import mcp_fact_tools
 
     for token, now in [("wrong", NOW), (bridge.token, NOW + timedelta(seconds=1))]:
         async with mcp_fact_tools(bridge.url, token, OWNER, now) as (tools, _, _):
@@ -121,7 +121,7 @@ async def test_mcp_wrong_token_and_as_of_are_explicit_errors(bridge):
 
 
 def test_loopback_config_does_not_allow_credential_forwarding():
-    from anlan.business_bridge import validate_url
+    from anlan.tools.http_client import validate_url
 
     for url in [
         "https://example.com",
@@ -135,7 +135,7 @@ def test_loopback_config_does_not_allow_credential_forwarding():
 
 
 async def test_http_bridge_network_and_contract_failures_are_bounded():
-    from anlan.business_bridge import HttpFactClient
+    from anlan.tools.http_client import HttpFactClient
 
     for response in [
         httpx.Response(503),
@@ -151,7 +151,7 @@ async def test_http_bridge_network_and_contract_failures_are_bounded():
 
 
 async def test_host_identity_must_match_token_bound_backend_scope(bridge):
-    from anlan.mcp_tools import mcp_fact_tools
+    from anlan.tools.mcp import mcp_fact_tools
 
     wrong = OWNER.model_copy(update={"tenant_id": "other-tenant"})
     async with mcp_fact_tools(bridge.url, bridge.token, wrong, NOW) as (tools, _, _):
@@ -167,7 +167,7 @@ async def test_actual_sdk_cancel_and_timeout_notify_remote_handler(cancel):
     from mcp.shared.memory import create_client_server_memory_streams
     from mcp.types import Tool
 
-    from anlan import mcp_tools
+    from anlan.tools import mcp as mcp_tools
 
     entered, cleaned = asyncio.Event(), asyncio.Event()
     server = Server("test-slow-server")

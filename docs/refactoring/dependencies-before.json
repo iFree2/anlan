@@ -1,0 +1,190 @@
+{
+  "analysis": [
+    "anlan.contracts"
+  ],
+  "contracts": [],
+  "workflow": [
+    "anlan.analysis",
+    "anlan.contracts",
+    "anlan.trace"
+  ],
+  "service": [
+    "anlan.analysis",
+    "anlan.contracts",
+    "anlan.registry",
+    "anlan.trace",
+    "anlan.workflow"
+  ],
+  "registry": [
+    "anlan.contracts"
+  ],
+  "evaluation": [],
+  "facts": [
+    "anlan.contracts",
+    "anlan.service",
+    "anlan.tools.contracts",
+    "anlan.tools.queries",
+    "anlan.trace"
+  ],
+  "tool_loop": [
+    "anlan.analysis",
+    "anlan.contracts",
+    "anlan.knowledge_tool",
+    "anlan.service",
+    "anlan.tool_model",
+    "anlan.tools.contracts",
+    "anlan.tools.queries",
+    "anlan.trace"
+  ],
+  "review": [
+    "anlan.analysis",
+    "anlan.context",
+    "anlan.contracts",
+    "anlan.facts",
+    "anlan.knowledge_tool",
+    "anlan.model_gateway",
+    "anlan.registry",
+    "anlan.tool_model",
+    "anlan.trace"
+  ],
+  "parallel": [
+    "anlan.contracts",
+    "anlan.knowledge_tool",
+    "anlan.registry",
+    "anlan.tools.contracts"
+  ],
+  "multi_review": [
+    "anlan.analysis",
+    "anlan.context",
+    "anlan.contracts",
+    "anlan.evidence_review",
+    "anlan.review"
+  ],
+  "model": [
+    "anlan.analysis",
+    "anlan.contracts"
+  ],
+  "model_gateway": [
+    "anlan.analysis"
+  ],
+  "tool_model": [
+    "anlan.contracts",
+    "anlan.knowledge_tool",
+    "anlan.model_gateway",
+    "anlan.tools.contracts"
+  ],
+  "evidence_review": [
+    "anlan.context",
+    "anlan.contracts",
+    "anlan.model_gateway",
+    "anlan.tool_model"
+  ],
+  "context": [
+    "anlan.contracts",
+    "anlan.memory"
+  ],
+  "memory": [
+    "anlan.contracts",
+    "anlan.postgres",
+    "anlan.registry"
+  ],
+  "knowledge": [
+    "anlan.contracts",
+    "anlan.embeddings",
+    "anlan.postgres",
+    "anlan.service",
+    "anlan.tools.contracts"
+  ],
+  "embeddings": [],
+  "knowledge_tool": [
+    "anlan.contracts"
+  ],
+  "postgres": [
+    "anlan.analysis",
+    "anlan.contracts",
+    "anlan.registry",
+    "anlan.service",
+    "anlan.trace"
+  ],
+  "budget": [
+    "anlan.postgres"
+  ],
+  "live": [
+    "anlan.budget",
+    "anlan.postgres"
+  ],
+  "trace": [
+    "anlan.telemetry"
+  ],
+  "telemetry": [],
+  "cli": [
+    "anlan.analysis",
+    "anlan.budget",
+    "anlan.contracts",
+    "anlan.embeddings",
+    "anlan.facts",
+    "anlan.knowledge",
+    "anlan.knowledge_tool",
+    "anlan.live",
+    "anlan.model",
+    "anlan.postgres",
+    "anlan.registry",
+    "anlan.service",
+    "anlan.tool_loop",
+    "anlan.tool_model",
+    "anlan.tools.queries",
+    "anlan.trace"
+  ],
+  "memory_cli": [
+    "anlan.contracts",
+    "anlan.memory",
+    "anlan.postgres",
+    "anlan.registry"
+  ],
+  "review_cli": [
+    "anlan.analysis",
+    "anlan.contracts",
+    "anlan.embeddings",
+    "anlan.knowledge",
+    "anlan.knowledge_tool",
+    "anlan.live",
+    "anlan.memory",
+    "anlan.model",
+    "anlan.parallel",
+    "anlan.postgres",
+    "anlan.registry",
+    "anlan.review",
+    "anlan.tools.queries",
+    "anlan.trace"
+  ],
+  "multi_review_cli": [
+    "anlan.analysis",
+    "anlan.contracts",
+    "anlan.embeddings",
+    "anlan.knowledge",
+    "anlan.knowledge_tool",
+    "anlan.live",
+    "anlan.memory",
+    "anlan.model",
+    "anlan.multi_review",
+    "anlan.parallel",
+    "anlan.postgres",
+    "anlan.registry",
+    "anlan.review",
+    "anlan.tools.queries",
+    "anlan.trace"
+  ],
+  "mcp_server": [
+    "anlan.business_bridge",
+    "anlan.contracts",
+    "anlan.tools.contracts"
+  ],
+  "business_bridge": [
+    "anlan.tools.contracts",
+    "anlan.tools.queries"
+  ],
+  "mcp_tools": [
+    "anlan.business_bridge",
+    "anlan.tools.contracts"
+  ]
+}

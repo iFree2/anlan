@@ -1,9 +1,10 @@
 import pytest
 
-from anlan.analysis import Analysis, OfflineAnalyzer
-from anlan.cli import DEMO_FIELDS, DEMO_PATCHES
-from anlan.contracts import Identity
-from anlan.service import InvalidTransition, WorkflowService
+from anlan.common.errors import InvalidTransition
+from anlan.common.models import Identity
+from anlan.interfaces.cli import DEMO_FIELDS, DEMO_PATCHES
+from anlan.workflows.material_analysis import Analysis, OfflineAnalyzer
+from anlan.workflows.service import WorkflowService
 
 OWNER = Identity(tenant_id="synthetic-recovery", user_id="learner")
 

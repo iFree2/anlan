@@ -8,9 +8,9 @@ from test_context import NOW, OBSERVATIONS, SNAPSHOT, WHO, build
 from test_review import candidate
 from test_tool_model import FakeLedger, envelope
 
-from anlan.analysis import AnalysisFailure
-from anlan.model import ModelConfig
-from anlan.review import DeepSeekReviewModel, ScriptedReviewModel
+from anlan.llm.config import ModelConfig
+from anlan.llm.contracts import AnalysisFailure
+from anlan.llm.review_model import DeepSeekReviewModel, ScriptedReviewModel
 
 
 def bundle():
@@ -35,7 +35,8 @@ async def test_p4_package_is_reserved_before_http_and_old_default_is_unchanged()
 
 
 async def test_independent_context_and_restricted_coordination():
-    from anlan.multi_review import ScriptedEvidenceModel, multi_review
+    from anlan.llm.evidence_review import ScriptedEvidenceModel
+    from anlan.workflows.multi_review import multi_review
     result = await multi_review(bundle(), ScriptedReviewModel(), ScriptedEvidenceModel())
     assert result["stop_reason"] == "completed"
     assert result["coordination"] == "disputed_requires_human_review"
@@ -53,7 +54,7 @@ async def test_independent_context_and_restricted_coordination():
 @pytest.mark.parametrize("change", ["missing_claim", "duplicate", "fake_quote", "missing_unknown",
                                     "unsupported_source", "approve"])
 async def test_audit_contract_rejects_omissions_and_forgery(change):
-    from anlan.multi_review import (
+    from anlan.llm.evidence_review import (
         EvidenceReview,
         ScriptedEvidenceModel,
         build_audit_context,
@@ -81,7 +82,8 @@ async def test_audit_contract_rejects_omissions_and_forgery(change):
 
 @pytest.mark.parametrize("budget", [0, 1, 2])
 async def test_parent_step_budget_shared_by_roles(budget):
-    from anlan.multi_review import ReviewLimits, ScriptedEvidenceModel, multi_review
+    from anlan.llm.evidence_review import ScriptedEvidenceModel
+    from anlan.workflows.multi_review import ReviewLimits, multi_review
     result = await multi_review(bundle(), ScriptedReviewModel(), ScriptedEvidenceModel(),
                                  limits=ReviewLimits(model_steps=budget))
     assert result["model_steps"] == budget
@@ -90,7 +92,7 @@ async def test_parent_step_budget_shared_by_roles(budget):
 
 
 async def test_audit_failure_preserves_risk_and_observations():
-    from anlan.multi_review import multi_review
+    from anlan.workflows.multi_review import multi_review
 
     class Failed:
         mode = "failure_double"
@@ -106,7 +108,7 @@ async def test_audit_failure_preserves_risk_and_observations():
 
 @pytest.mark.parametrize("external", [False, True])
 async def test_cancel_during_second_role(external):
-    from anlan.multi_review import multi_review
+    from anlan.workflows.multi_review import multi_review
     entered, cleanup, event = asyncio.Event(), asyncio.Event(), asyncio.Event()
 
     class Slow:
@@ -134,7 +136,8 @@ async def test_cancel_during_second_role(external):
 
 
 async def test_deadline_retains_reserved_attempt_and_discards_late_audit():
-    from anlan.multi_review import DeepSeekEvidenceModel, ReviewLimits, multi_review
+    from anlan.llm.evidence_review import DeepSeekEvidenceModel
+    from anlan.workflows.multi_review import ReviewLimits, multi_review
     ledger = FakeLedger()
 
     async def handler(request):
@@ -151,7 +154,8 @@ async def test_deadline_retains_reserved_attempt_and_discards_late_audit():
 
 
 async def test_wrong_package_rejected_before_any_request():
-    from anlan.multi_review import ScriptedEvidenceModel, multi_review
+    from anlan.llm.evidence_review import ScriptedEvidenceModel
+    from anlan.workflows.multi_review import multi_review
     ledger = FakeLedger()
     async with httpx.AsyncClient() as client:
         model = DeepSeekReviewModel(ModelConfig(api_key="sentinel"), client, ledger)
@@ -161,7 +165,8 @@ async def test_wrong_package_rejected_before_any_request():
 
 
 async def test_rejected_risk_does_not_invoke_reviewer():
-    from anlan.multi_review import ScriptedEvidenceModel, multi_review
+    from anlan.llm.evidence_review import ScriptedEvidenceModel
+    from anlan.workflows.multi_review import multi_review
 
     class Invalid(ScriptedReviewModel):
         async def generate(self, context, run_id):
@@ -175,7 +180,8 @@ async def test_rejected_risk_does_not_invoke_reviewer():
 
 
 async def test_unexpected_http_adapter_failure_retains_reserved_attempt():
-    from anlan.multi_review import DeepSeekEvidenceModel, multi_review
+    from anlan.llm.evidence_review import DeepSeekEvidenceModel
+    from anlan.workflows.multi_review import multi_review
     ledger = FakeLedger()
     client = httpx.AsyncClient()
     await client.aclose()
@@ -187,7 +193,7 @@ async def test_unexpected_http_adapter_failure_retains_reserved_attempt():
 
 
 async def test_malformed_reviewer_adapter_result_preserves_risk():
-    from anlan.multi_review import multi_review
+    from anlan.workflows.multi_review import multi_review
 
     class Malformed:
         mode = "malformed_double"
@@ -200,7 +206,7 @@ async def test_malformed_reviewer_adapter_result_preserves_risk():
 
 
 async def test_synthesis_report_package_matches_actual_gateway():
-    from anlan.review import synthesize
+    from anlan.workflows.review import synthesize
     ledger = FakeLedger()
 
     def handler(request):
@@ -214,7 +220,8 @@ async def test_synthesis_report_package_matches_actual_gateway():
 
 
 async def test_two_real_gateway_adapters_share_package_and_parent_budget():
-    from anlan.multi_review import DeepSeekEvidenceModel, ScriptedEvidenceModel, multi_review
+    from anlan.llm.evidence_review import DeepSeekEvidenceModel, ScriptedEvidenceModel
+    from anlan.workflows.multi_review import multi_review
     ledger = FakeLedger()
 
     async def handler(request):
@@ -240,15 +247,16 @@ async def test_two_real_gateway_adapters_share_package_and_parent_budget():
 
 
 async def test_oversized_audit_context_does_not_trim_required_evidence():
-    from anlan.context import ContextBudgetExceeded
-    from anlan.multi_review import build_audit_context
+    from anlan.context.assembly import ContextBudgetExceeded
+    from anlan.llm.evidence_review import build_audit_context
     with pytest.raises(ContextBudgetExceeded):
         build_audit_context(build(), candidate(), budget_bytes=10)
 
 
 async def test_completed_coordination_trace_is_not_an_error(tmp_path):
-    from anlan.multi_review import ScriptedEvidenceModel, multi_review
-    from anlan.trace import JsonlTrace
+    from anlan.infrastructure.trace import JsonlTrace
+    from anlan.llm.evidence_review import ScriptedEvidenceModel
+    from anlan.workflows.multi_review import multi_review
     path = tmp_path / "trace.jsonl"
     await multi_review(bundle(), ScriptedReviewModel(), ScriptedEvidenceModel(),
                        trace=JsonlTrace(path))

@@ -1,0 +1,21 @@
+{
+  "data_origin": "SYNTHETIC",
+  "version": "access-v1-rag-derived",
+  "records": [
+    {
+      "tenant_id": "synthetic-parallel-4288bfabed244a73a956dccad5e971a7",
+      "user_id": "safety-manager-demo",
+      "worker_ids": [
+        "worker-001",
+        "worker-expired",
+        "worker-future",
+        "worker-missing"
+      ],
+      "area_ids": [
+        "area-001",
+        "area-expired",
+        "area-missing"
+      ]
+    }
+  ]
+}

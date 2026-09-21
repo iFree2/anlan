@@ -6,7 +6,7 @@ import json
 import os
 from pathlib import Path
 
-from anlan.telemetry import LocalOtlpExporter, trace_id
+from anlan.infrastructure.telemetry import LocalOtlpExporter, trace_id
 
 
 def main():

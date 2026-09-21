@@ -1,0 +1,24 @@
+{
+  "data_origin": "SYNTHETIC",
+  "version": "areas-v1-p2-regression",
+  "records": [
+    {
+      "tenant_id": "synthetic-p2-gate-20af97abac9447269d886f41627d429b",
+      "observed_at": "2026-09-20T00:00:00Z",
+      "valid_from": "2026-09-20T00:00:00Z",
+      "valid_until": "2026-09-21T00:00:00Z",
+      "record_id": "observation-area-001",
+      "object_id": "area-001",
+      "status": "restricted"
+    },
+    {
+      "tenant_id": "synthetic-p2-gate-20af97abac9447269d886f41627d429b",
+      "observed_at": "2026-09-20T00:00:00Z",
+      "valid_from": "2026-01-01T00:00:00Z",
+      "valid_until": "2026-09-19T00:00:00Z",
+      "record_id": "observation-area-expired",
+      "object_id": "area-expired",
+      "status": "normal"
+    }
+  ]
+}

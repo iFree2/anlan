@@ -11,14 +11,15 @@ from time import perf_counter
 
 import httpx
 
-from anlan.analysis import OfflineAnalyzer
-from anlan.budget import BudgetError
-from anlan.contracts import Identity
-from anlan.evaluation import score_issues
-from anlan.live import production_ledger
-from anlan.model import PROMPT_VERSION, SYSTEM_PROMPT, DeepSeekAnalyzer, ModelConfig
-from anlan.service import WorkflowService
-from anlan.trace import JsonlTrace
+from anlan.common.models import Identity
+from anlan.infrastructure.budget import BudgetError
+from anlan.infrastructure.live import production_ledger
+from anlan.infrastructure.trace import JsonlTrace
+from anlan.llm.config import ModelConfig
+from anlan.llm.material import PROMPT_VERSION, SYSTEM_PROMPT, DeepSeekAnalyzer
+from anlan.workflows.evaluation import score_issues
+from anlan.workflows.material_analysis import OfflineAnalyzer
+from anlan.workflows.service import WorkflowService
 
 
 def summarize(results: list[dict], request_attempts: int) -> dict:

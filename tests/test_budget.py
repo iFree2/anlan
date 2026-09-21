@@ -16,12 +16,12 @@ def run(coroutine):
 
 
 def test_budget_module_exists():
-    assert importlib.util.find_spec("anlan.budget") is not None
+    assert importlib.util.find_spec("anlan.infrastructure.budget") is not None
 
 
 @pytest.fixture
 def ledger():
-    from anlan.budget import BudgetLedger, BudgetUnavailable
+    from anlan.infrastructure.budget import BudgetLedger, BudgetUnavailable
 
     dsn = os.environ.get("ANLAN_TEST_DATABASE_URL")
     if not dsn:
@@ -39,7 +39,7 @@ def ledger():
 
 @pytest.mark.postgres
 def test_reconnect_failed_unknown_and_new_attempts_remain_charged(ledger):
-    from anlan.budget import BudgetExceeded, BudgetLedger
+    from anlan.infrastructure.budget import BudgetExceeded, BudgetLedger
 
     async def scenario():
         first = await ledger.reserve("p2-wp02", "same-run")
@@ -66,7 +66,7 @@ def test_reconnect_failed_unknown_and_new_attempts_remain_charged(ledger):
 
 @pytest.mark.postgres
 def test_concurrent_reservations_never_exceed_package_or_total_limit(ledger):
-    from anlan.budget import BudgetExceeded
+    from anlan.infrastructure.budget import BudgetExceeded
 
     async def scenario():
         outcomes = await asyncio.gather(*[
@@ -85,7 +85,7 @@ def test_concurrent_reservations_never_exceed_package_or_total_limit(ledger):
 
 @pytest.mark.postgres
 def test_initialize_never_changes_limits_or_reservations(ledger):
-    from anlan.budget import BudgetConflict, BudgetLedger
+    from anlan.infrastructure.budget import BudgetConflict, BudgetLedger
 
     async def scenario():
         await ledger.reserve("P2-WP02", "run")
@@ -101,7 +101,7 @@ def test_initialize_never_changes_limits_or_reservations(ledger):
 
 @pytest.mark.postgres
 def test_finish_is_idempotent_but_cannot_overwrite_or_cross_authorization(ledger):
-    from anlan.budget import BudgetConflict, BudgetLedger
+    from anlan.infrastructure.budget import BudgetConflict, BudgetLedger
 
     async def scenario():
         attempt = await ledger.reserve("P2-WP02", "run")
@@ -127,7 +127,7 @@ def test_finish_is_idempotent_but_cannot_overwrite_or_cross_authorization(ledger
 def test_hard_exit_after_reserve_keeps_unknown_attempt(ledger):
     script = """
 import asyncio, os
-from anlan.budget import BudgetLedger
+from anlan.infrastructure.budget import BudgetLedger
 async def main():
     ledger = BudgetLedger(os.environ['ANLAN_TEST_DATABASE_URL'],
                           os.environ['BUDGET_TEST_AUTH'], total_limit=3, package_limit=2)
@@ -147,7 +147,7 @@ asyncio.run(main(), loop_factory=asyncio.SelectorEventLoop)
 def test_independent_processes_share_one_package_limit(ledger):
     script = """
 import asyncio, os
-from anlan.budget import BudgetLedger, BudgetExceeded
+from anlan.infrastructure.budget import BudgetLedger, BudgetExceeded
 async def main():
     ledger = BudgetLedger(os.environ['ANLAN_TEST_DATABASE_URL'],
                           os.environ['BUDGET_TEST_AUTH'], total_limit=3, package_limit=2)
@@ -187,7 +187,7 @@ def test_null_usage_values_are_preserved(ledger):
 @pytest.mark.parametrize("package", ["P0-WP02", "P8-WP02", "P2-WP2", "P2-WP002",
                                      " P2-WP02", "P2-WP02\n", "garbage", None])
 def test_invalid_packages_rejected_before_connecting(package):
-    from anlan.budget import BudgetLedger
+    from anlan.infrastructure.budget import BudgetLedger
     with pytest.raises(ValueError):
         run(BudgetLedger("invalid").reserve(package, "run"))
 
@@ -201,13 +201,13 @@ def test_invalid_packages_rejected_before_connecting(package):
     {"status": "succeeded", "usage": {"total_tokens": 1.5}},
 ])
 def test_invalid_finish_payload_rejected_before_connecting(arguments):
-    from anlan.budget import BudgetLedger
+    from anlan.infrastructure.budget import BudgetLedger
     with pytest.raises(ValueError):
         run(BudgetLedger("invalid").finish(str(uuid4()), **arguments))
 
 
 def test_connection_errors_do_not_reveal_dsn_or_driver_error():
-    from anlan.budget import BudgetLedger, BudgetUnavailable
+    from anlan.infrastructure.budget import BudgetLedger, BudgetUnavailable
     with pytest.raises(BudgetUnavailable) as error:
         run(BudgetLedger("invalid-secret-dsn").initialize())
     assert "invalid-secret-dsn" not in str(error.value)
@@ -219,6 +219,6 @@ def test_connection_errors_do_not_reveal_dsn_or_driver_error():
     {"total_limit": 1.5}, {"package_limit": 11}, {"total_limit": 101},
 ])
 def test_invalid_or_excessive_limits_rejected(limits):
-    from anlan.budget import BudgetLedger
+    from anlan.infrastructure.budget import BudgetLedger
     with pytest.raises(ValueError):
         BudgetLedger("invalid", **limits)

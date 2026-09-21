@@ -12,18 +12,20 @@ from uuid import uuid4
 from evaluate_rag import derive_fact_fixture
 from evaluate_review import score
 
-from anlan.analysis import OfflineAnalyzer
-from anlan.budget import BudgetLedger
-from anlan.contracts import Identity
-from anlan.embeddings import LocalEmbeddings
-from anlan.knowledge import KnowledgeStore
-from anlan.memory import MemoryStore
-from anlan.parallel import WORK_PACKAGE, canonical_observations, collect_parallel
-from anlan.postgres import database_url, postgres_service
-from anlan.registry import AccessDenied
-from anlan.review import ScriptedReviewModel, collect_review, synthesize
+from anlan.common.errors import AccessDenied
+from anlan.common.models import Identity
+from anlan.infrastructure.budget import BudgetLedger
+from anlan.infrastructure.db import database_url
+from anlan.infrastructure.trace import JsonlTrace
+from anlan.interfaces.runtime import postgres_service
+from anlan.knowledge.embeddings import LocalEmbeddings
+from anlan.knowledge.store import KnowledgeStore
+from anlan.llm.review_model import ScriptedReviewModel
+from anlan.memory.store import MemoryStore
 from anlan.tools.queries import FactTools
-from anlan.trace import JsonlTrace
+from anlan.workflows.material_analysis import OfflineAnalyzer
+from anlan.workflows.parallel import WORK_PACKAGE, canonical_observations, collect_parallel
+from anlan.workflows.review import collect_review, synthesize
 
 ROOT = Path(__file__).resolve().parents[1]
 SCORES = ("completed", "facts_match", "presentation_fields_match", "unknowns_complete",

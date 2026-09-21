@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "baseline_commit": "f5be259",
+  "original_files": 14,
+  "preserved_user_lines": 32,
+  "historical_and_asset_files_checked": 265,
+  "raw_changes": [],
+  "excluded_in_progress_summary": "WP03 verification.md was finalized before baseline commit, not a raw report"
+}

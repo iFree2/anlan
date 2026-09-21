@@ -9,7 +9,7 @@ from pathlib import Path
 
 import pytest
 
-from anlan.contracts import Identity
+from anlan.common.models import Identity
 
 NOW = datetime.fromisoformat("2026-09-20T12:00:00+00:00")
 OWNER = Identity(tenant_id="synthetic-demo", user_id="safety-manager-demo")

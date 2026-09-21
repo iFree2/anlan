@@ -5,8 +5,8 @@ from uuid import uuid4
 import pytest
 from test_postgres import dsn  # noqa: F401
 
-from anlan.contracts import Identity
-from anlan.service import AccessDenied, InvalidTransition
+from anlan.common.errors import AccessDenied, InvalidTransition
+from anlan.common.models import Identity
 
 NOW = datetime.fromisoformat("2026-09-20T12:00:00+00:00")
 DOCUMENT = {
@@ -29,7 +29,8 @@ def run(coro):
 
 
 def test_chunking_is_stable_bounded_and_versioned():
-    from anlan.knowledge import KnowledgeDocument, chunks_for
+    from anlan.knowledge.contracts import KnowledgeDocument
+    from anlan.knowledge.store import chunks_for
     doc = KnowledgeDocument.model_validate({**DOCUMENT, "paragraphs": ["甲" * 900]})
     first = chunks_for(doc)
     assert first == chunks_for(doc)
@@ -40,7 +41,7 @@ def test_chunking_is_stable_bounded_and_versioned():
 
 @pytest.mark.postgres
 def test_ingest_search_isolation_and_owner_only_withdrawal(dsn):  # noqa: F811
-    from anlan.knowledge import KnowledgeStore
+    from anlan.knowledge.store import KnowledgeStore
 
     async def scenario():
         owner = Identity(tenant_id="knowledge-test-" + uuid4().hex, user_id="owner")
@@ -70,7 +71,7 @@ def test_ingest_search_isolation_and_owner_only_withdrawal(dsn):  # noqa: F811
 
 @pytest.mark.postgres
 def test_version_replacement_conflict_and_time_filter(dsn):  # noqa: F811
-    from anlan.knowledge import KnowledgeStore
+    from anlan.knowledge.store import KnowledgeStore
 
     async def scenario():
         identity = Identity(tenant_id="knowledge-test-" + uuid4().hex, user_id="owner")
@@ -94,7 +95,7 @@ def test_version_replacement_conflict_and_time_filter(dsn):  # noqa: F811
 
 @pytest.mark.postgres
 def test_bad_embedding_does_not_replace_previous_version(dsn):  # noqa: F811
-    from anlan.knowledge import KnowledgeStore
+    from anlan.knowledge.store import KnowledgeStore
 
     class BadEmbeddings(UnitEmbeddings):
         async def embed(self, texts):
@@ -115,7 +116,7 @@ def test_bad_embedding_does_not_replace_previous_version(dsn):  # noqa: F811
 def test_query_cannot_supply_identity_or_invalid_time():
     from pydantic import ValidationError
 
-    from anlan.knowledge import KnowledgeDocument, KnowledgeQuery
+    from anlan.knowledge.contracts import KnowledgeDocument, KnowledgeQuery
     with pytest.raises(ValidationError):
         KnowledgeQuery.model_validate({"question": "监护", "tenant_id": "other"})
     with pytest.raises(ValidationError):
@@ -124,7 +125,7 @@ def test_query_cannot_supply_identity_or_invalid_time():
 
 @pytest.mark.postgres
 def test_untrusted_text_never_changes_scope_or_grants(dsn):  # noqa: F811
-    from anlan.knowledge import KnowledgeStore
+    from anlan.knowledge.store import KnowledgeStore
 
     async def scenario():
         owner = Identity(tenant_id="knowledge-test-" + uuid4().hex, user_id="owner")
@@ -144,7 +145,7 @@ def test_untrusted_text_never_changes_scope_or_grants(dsn):  # noqa: F811
 
 @pytest.mark.postgres
 def test_answer_selects_primary_excerpt_and_keeps_other_candidates_for_review(dsn):  # noqa: F811
-    from anlan.knowledge import KnowledgeStore
+    from anlan.knowledge.store import KnowledgeStore
 
     async def scenario():
         identity = Identity(tenant_id="knowledge-test-" + uuid4().hex, user_id="owner")

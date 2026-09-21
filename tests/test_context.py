@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 
 import pytest
 
-from anlan.contracts import Identity
+from anlan.common.models import Identity
 
 WHO = Identity(tenant_id="synthetic", user_id="owner")
 NOW = datetime(2026, 9, 20, 12, tzinfo=timezone.utc)
@@ -25,11 +25,11 @@ MEMORY = {"data_origin": "SYNTHETIC", "memory_id": "mem-1", "tenant_id": WHO.ten
 
 
 def test_context_module_exists():
-    assert importlib.util.find_spec("anlan.context") is not None
+    assert importlib.util.find_spec("anlan.context.assembly") is not None
 
 
 def build(**kwargs):
-    from anlan.context import build_context
+    from anlan.context.assembly import build_context
     return build_context(WHO, SNAPSHOT, OBSERVATIONS, [MEMORY], now=NOW, **kwargs)
 
 
@@ -56,7 +56,7 @@ def test_required_unknowns_survive_memory_and_exact_byte_budget():
     ({"source_hash": "fake"}, "invalid"),
 ])
 def test_ineligible_memory_is_explained_and_never_sent(bad, reason):
-    from anlan.context import build_context
+    from anlan.context.assembly import build_context
     context = build_context(WHO, SNAPSHOT, OBSERVATIONS, [{**MEMORY, **bad}], now=NOW)
     assert json.loads(context["messages"][1]["content"])["preferences"] == []
     assert context["decisions"][-1]["reason"] == reason
@@ -64,7 +64,7 @@ def test_ineligible_memory_is_explained_and_never_sent(bad, reason):
 
 
 def test_no_memory_irrelevant_task_and_optional_trimming():
-    from anlan.context import ContextBudgetExceeded
+    from anlan.context.assembly import ContextBudgetExceeded
     baseline = build(use_memory=False, use_knowledge=False)
     trimmed = build(budget_bytes=baseline["bytes_used"])
     assert all(d["reason"] == "budget" for d in trimmed["decisions"])
@@ -77,7 +77,7 @@ def test_no_memory_irrelevant_task_and_optional_trimming():
 
 
 def test_duplicate_conflicting_memories_are_all_excluded():
-    from anlan.context import build_context
+    from anlan.context.assembly import build_context
     context = build_context(WHO, SNAPSHOT, OBSERVATIONS,
                             [MEMORY, {**MEMORY, "memory_id": "mem-2", "value": "detailed"}],
                             now=NOW)
@@ -87,7 +87,7 @@ def test_duplicate_conflicting_memories_are_all_excluded():
 
 
 def test_expired_knowledge_is_removed_but_status_is_preserved():
-    from anlan.context import build_context
+    from anlan.context.assembly import build_context
     observations = copy.deepcopy(OBSERVATIONS)
     observations[1]["citations"][0]["valid_until"] = NOW.isoformat()
     context = build_context(WHO, SNAPSHOT, observations, [], now=NOW)

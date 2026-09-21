@@ -12,7 +12,7 @@ from types import SimpleNamespace
 
 import httpx
 
-from anlan.business_bridge import create_fact_server
+from anlan.interfaces.fact_http import create_fact_server
 from anlan.tools.queries import FactTools
 
 ROOT = Path(__file__).resolve().parents[1]

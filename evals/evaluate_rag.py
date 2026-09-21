@@ -11,16 +11,14 @@ from uuid import uuid4
 
 import httpx
 
-from anlan.analysis import OfflineAnalyzer
-from anlan.contracts import Identity
-from anlan.embeddings import LocalEmbeddings
-from anlan.knowledge import KnowledgeStore
-from anlan.live import production_ledger
-from anlan.model import ModelConfig
-from anlan.postgres import database_url
-from anlan.service import WorkflowService
-from anlan.tool_loop import check_facts_agent
-from anlan.tool_model import (
+from anlan.common.models import Identity
+from anlan.infrastructure.db import database_url
+from anlan.infrastructure.live import production_ledger
+from anlan.infrastructure.trace import JsonlTrace
+from anlan.knowledge.embeddings import LocalEmbeddings
+from anlan.knowledge.store import KnowledgeStore
+from anlan.llm.config import ModelConfig
+from anlan.llm.tool_model import (
     KNOWLEDGE_PROMPT,
     KNOWLEDGE_PROMPT_VERSION,
     SYSTEM_PROMPT,
@@ -28,7 +26,9 @@ from anlan.tool_model import (
     ScriptedToolModel,
 )
 from anlan.tools.queries import FactTools
-from anlan.trace import JsonlTrace
+from anlan.workflows.material_analysis import OfflineAnalyzer
+from anlan.workflows.service import WorkflowService
+from anlan.workflows.tool_loop import check_facts_agent
 
 
 def derive_fact_fixture(folder, tenant):

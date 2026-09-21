@@ -28,6 +28,6 @@ def test_parallel_live_not_enabled_in_wp01():
 
     import pytest
 
-    from anlan.review_cli import run
+    from anlan.interfaces.review_cli import run
     with pytest.raises(ValueError, match="WP01"):
         asyncio.run(run(SimpleNamespace(collection="parallel", mode="deepseek")))

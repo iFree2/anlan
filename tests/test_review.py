@@ -7,12 +7,12 @@ import pytest
 from test_context import NOW, OBSERVATIONS, SNAPSHOT, WHO, build
 from test_tool_model import FakeLedger, envelope
 
-from anlan.analysis import AnalysisFailure
-from anlan.model import ModelConfig
+from anlan.llm.config import ModelConfig
+from anlan.llm.contracts import AnalysisFailure
 
 
 def test_review_module_exists():
-    assert importlib.util.find_spec("anlan.review") is not None
+    assert importlib.util.find_spec("anlan.workflows.review") is not None
 
 
 def candidate():
@@ -30,7 +30,7 @@ def candidate():
                                     "missing_unknown", "missing_observation", "approved_field",
                                     "invalid_preference", "blank_claim"])
 def test_reject_unsupported_claims_and_missing_unknowns(change):
-    from anlan.review import ReviewCandidate, validate_candidate
+    from anlan.workflows.review_contracts import ReviewCandidate, validate_candidate
     value = candidate()
     if change == "missing_source":
         value["claims"][0]["observation_ids"] = []
@@ -53,7 +53,7 @@ def test_reject_unsupported_claims_and_missing_unknowns(change):
 
 
 async def test_gateway_fixed_package_before_http_and_candidate_validation():
-    from anlan.review import DeepSeekReviewModel
+    from anlan.llm.review_model import DeepSeekReviewModel
     ledger = FakeLedger()
 
     def handler(request):
@@ -72,7 +72,7 @@ async def test_gateway_fixed_package_before_http_and_candidate_validation():
 
 
 async def test_synthesis_failure_and_budget_overflow_preserve_observations():
-    from anlan.review import synthesize
+    from anlan.workflows.review import synthesize
     bundle = {"identity": WHO.model_dump(), "snapshot": SNAPSHOT,
               "observations": OBSERVATIONS, "memories": [], "warnings": [],
               "as_of": NOW.isoformat()}
@@ -96,8 +96,8 @@ async def test_synthesis_failure_and_budget_overflow_preserve_observations():
 
 
 async def test_unauthorized_task_never_reaches_tools_or_memory():
-    from anlan.registry import AccessDenied
-    from anlan.review import collect_review
+    from anlan.common.errors import AccessDenied
+    from anlan.workflows.review import collect_review
 
     class Denied:
         async def get(self, identity, task_id):
@@ -112,8 +112,9 @@ async def test_unauthorized_task_never_reaches_tools_or_memory():
 
 
 async def test_trace_records_metadata_and_export_failure_does_not_lose_result(tmp_path):
-    from anlan.review import ScriptedReviewModel, synthesize
-    from anlan.trace import JsonlTrace
+    from anlan.infrastructure.trace import JsonlTrace
+    from anlan.llm.review_model import ScriptedReviewModel
+    from anlan.workflows.review import synthesize
 
     class BrokenExporter:
         def export(self, record):
@@ -133,7 +134,8 @@ async def test_trace_records_metadata_and_export_failure_does_not_lose_result(tm
 
 
 async def test_explicit_question_reaches_synthesis_context():
-    from anlan.review import ScriptedReviewModel, synthesize
+    from anlan.llm.review_model import ScriptedReviewModel
+    from anlan.workflows.review import synthesize
     bundle = {"identity": WHO.model_dump(), "snapshot": SNAPSHOT,
               "observations": OBSERVATIONS, "memories": [], "warnings": [],
               "as_of": NOW.isoformat(), "question": "SYNTHETIC监护要求？"}
@@ -145,7 +147,7 @@ async def test_explicit_question_reaches_synthesis_context():
 async def test_collection_retains_earlier_fact_trace_warning(monkeypatch):
     from types import SimpleNamespace
 
-    from anlan import review
+    from anlan.workflows import review
 
     class Service:
         async def get(self, identity, task_id):

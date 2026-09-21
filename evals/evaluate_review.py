@@ -12,23 +12,20 @@ from uuid import uuid4
 import httpx
 from evaluate_rag import derive_fact_fixture
 
-from anlan.analysis import OfflineAnalyzer
-from anlan.budget import BudgetLedger
-from anlan.contracts import Identity
-from anlan.embeddings import LocalEmbeddings
-from anlan.knowledge import KnowledgeStore
-from anlan.memory import MemoryStore
-from anlan.model import ModelConfig
-from anlan.postgres import database_url, postgres_service
-from anlan.review import (
-    WORK_PACKAGE,
-    DeepSeekReviewModel,
-    ScriptedReviewModel,
-    collect_review,
-    synthesize,
-)
+from anlan.common.models import Identity
+from anlan.infrastructure.budget import BudgetLedger
+from anlan.infrastructure.db import database_url
+from anlan.infrastructure.trace import JsonlTrace
+from anlan.interfaces.runtime import postgres_service
+from anlan.knowledge.embeddings import LocalEmbeddings
+from anlan.knowledge.store import KnowledgeStore
+from anlan.llm.config import ModelConfig
+from anlan.llm.review_model import DeepSeekReviewModel, ScriptedReviewModel
+from anlan.memory.store import MemoryStore
 from anlan.tools.queries import FactTools
-from anlan.trace import JsonlTrace
+from anlan.workflows.material_analysis import OfflineAnalyzer
+from anlan.workflows.review import collect_review, synthesize
+from anlan.workflows.review_contracts import WORK_PACKAGE
 
 ROOT = Path(__file__).resolve().parents[1]
 ARMS = [("no_memory", False, True), ("with_memory", True, True), ("no_knowledge", True, False)]

@@ -1,0 +1,5 @@
+{
+  "status": "passed",
+  "returncode": 0,
+  "note": "Existing Windows launcher resolves the compatibility module without reinstalling or stopping active chat"
+}

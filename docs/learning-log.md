@@ -1,5 +1,13 @@
 # 学习记录
 
+## R1职责分包（2026-09-22）
+
+按用户要求，AI在P4-WP03基线后完成职责包重构；297测试/原P2-P3冻结回归/P4同集与Java-MCP整链/wheel资源和CLI验证通过。SQL、模型合同、预算和历史原件不变；用户32行译文保留为新路径未提交改动。[报告](refactoring/package-layout-report.md)说明具体映射与失败。个人掌握不因此升级。
+
+理解问题：数据库连接配置为什么不应装配工作流？纯偏好合同为什么不能拉入PG？为什么re-export函数不能自动保持monkeypatch位置？为什么源码测试通过仍须验证wheel资源？
+
+可选练习：从interfaces/runtime定位同一connection传给Registry与Saver，再从context/assembly跟到memory/contracts，解释两条依赖链的差异；不改业务数据或追加模型请求。
+
 ## P4-WP02：风险候选与证据复核（2026-09-21）
 
 AI实现独立两角色上下文、父两步预算/deadline/取消与固定协调，实际9请求/22461token。单模型应用接受2/3，双角色risk接受3/3、复核2例有异议；成本和延迟增加，不能宣称质量收益。证据/失败与AI逐条复核见[报告](phases/phase-04-multi-agent/evidence/wp02/live-report.md)，个人掌握仍待验。

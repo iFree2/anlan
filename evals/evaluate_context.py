@@ -7,8 +7,8 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-from anlan.context import build_context
-from anlan.contracts import Identity
+from anlan.common.models import Identity
+from anlan.context.assembly import build_context
 
 
 def evaluate(path):

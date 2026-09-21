@@ -10,18 +10,20 @@ from pathlib import Path
 
 from bridge_support import bridge_stack
 
-from anlan.analysis import OfflineAnalyzer
-from anlan.budget import BudgetLedger
-from anlan.contracts import Identity
-from anlan.embeddings import LocalEmbeddings
-from anlan.knowledge import KnowledgeStore
-from anlan.mcp_tools import mcp_fact_tools
-from anlan.memory import MemoryStore
-from anlan.multi_review import ScriptedEvidenceModel, multi_review
-from anlan.parallel import canonical_observations, collect_parallel
-from anlan.postgres import database_url, postgres_service
-from anlan.review import ScriptedReviewModel
+from anlan.common.models import Identity
+from anlan.infrastructure.budget import BudgetLedger
+from anlan.infrastructure.db import database_url
+from anlan.interfaces.runtime import postgres_service
+from anlan.knowledge.embeddings import LocalEmbeddings
+from anlan.knowledge.store import KnowledgeStore
+from anlan.llm.evidence_review import ScriptedEvidenceModel
+from anlan.llm.review_model import ScriptedReviewModel
+from anlan.memory.store import MemoryStore
+from anlan.tools.mcp import mcp_fact_tools
 from anlan.tools.queries import FactTools
+from anlan.workflows.material_analysis import OfflineAnalyzer
+from anlan.workflows.multi_review import multi_review
+from anlan.workflows.parallel import canonical_observations, collect_parallel
 
 
 async def evaluate(args):

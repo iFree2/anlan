@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="6" time="7.503" timestamp="2026-09-22T00:14:37.650080+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_package_layout" name="test_lightweight_contract_and_connection_imports[anlan.infrastructure.db-forbidden0]" time="0.207"><failure message="AssertionError: Traceback (most recent call last):&#10;    File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;&#10;      import importlib,sys,json; importlib.import_module('anlan.infrastructure.db'); print(json.dumps(sorted(sys.modules)))&#10;                                 ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^&#10;    File &quot;C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py&quot;, line 88, in import_module&#10;      return _bootstrap._gcd_import(name[level:], package, level)&#10;             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^&#10;    File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1387, in _gcd_import&#10;    File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1360, in _find_and_load&#10;    File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1310, in _find_and_load_unlocked&#10;    File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 488, in _call_with_frames_removed&#10;    File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1387, in _gcd_import&#10;    File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1360, in _find_and_load&#10;    File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1324, in _find_and_load_unlocked&#10;  ModuleNotFoundError: No module named 'anlan.infrastructure'&#10;  &#10;assert 1 == 0&#10; +  where 1 = CompletedProcess(args=['D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe', '-c', &quot;import importlib,sys,json; import...._bootstrap&gt;&quot;, line 1324, in _find_and_load_unlocked\nModuleNotFoundError: No module named \'anlan.infrastructure\'\n').returncode">tests\test_package_layout.py:20: in test_lightweight_contract_and_connection_imports
+    assert result.returncode == 0, result.stderr
+E   AssertionError: Traceback (most recent call last):
+E       File "&lt;string&gt;", line 1, in &lt;module&gt;
+E         import importlib,sys,json; importlib.import_module('anlan.infrastructure.db'); print(json.dumps(sorted(sys.modules)))
+E                                    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       File "C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py", line 88, in import_module
+E         return _bootstrap._gcd_import(name[level:], package, level)
+E                ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       File "&lt;frozen importlib._bootstrap&gt;", line 1387, in _gcd_import
+E       File "&lt;frozen importlib._bootstrap&gt;", line 1360, in _find_and_load
+E       File "&lt;frozen importlib._bootstrap&gt;", line 1310, in _find_and_load_unlocked
+E       File "&lt;frozen importlib._bootstrap&gt;", line 488, in _call_with_frames_removed
+E       File "&lt;frozen importlib._bootstrap&gt;", line 1387, in _gcd_import
+E       File "&lt;frozen importlib._bootstrap&gt;", line 1360, in _find_and_load
+E       File "&lt;frozen importlib._bootstrap&gt;", line 1324, in _find_and_load_unlocked
+E     ModuleNotFoundError: No module named 'anlan.infrastructure'
+E     
+E   assert 1 == 0
+E    +  where 1 = CompletedProcess(args=['D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe', '-c', "import importlib,sys,json; import...._bootstrap&gt;", line 1324, in _find_and_load_unlocked\nModuleNotFoundError: No module named \'anlan.infrastructure\'\n').returncode</failure></testcase><testcase classname="tests.test_package_layout" name="test_lightweight_contract_and_connection_imports[anlan.context.assembly-forbidden1]" time="2.262"><failure message="AssertionError: Traceback (most recent call last):&#10;    File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;&#10;      import importlib,sys,json; importlib.import_module('anlan.context.assembly'); print(json.dumps(sorted(sys.modules)))&#10;                                 ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^&#10;    File &quot;C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py&quot;, line 88, in import_module&#10;      return _bootstrap._gcd_import(name[level:], package, level)&#10;             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^&#10;    File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1387, in _gcd_import&#10;    File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1360, in _find_and_load&#10;    File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1319, in _find_and_load_unlocked&#10;  ModuleNotFoundError: No module named 'anlan.context.assembly'; 'anlan.context' is not a package&#10;  &#10;assert 1 == 0&#10; +  where 1 = CompletedProcess(args=['D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe', '-c', &quot;import importlib,sys,json; import..._load_unlocked\nModuleNotFoundError: No module named \'anlan.context.assembly\'; \'anlan.context\' is not a package\n').returncode">tests\test_package_layout.py:20: in test_lightweight_contract_and_connection_imports
+    assert result.returncode == 0, result.stderr
+E   AssertionError: Traceback (most recent call last):
+E       File "&lt;string&gt;", line 1, in &lt;module&gt;
+E         import importlib,sys,json; importlib.import_module('anlan.context.assembly'); print(json.dumps(sorted(sys.modules)))
+E                                    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       File "C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py", line 88, in import_module
+E         return _bootstrap._gcd_import(name[level:], package, level)
+E                ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       File "&lt;frozen importlib._bootstrap&gt;", line 1387, in _gcd_import
+E       File "&lt;frozen importlib._bootstrap&gt;", line 1360, in _find_and_load
+E       File "&lt;frozen importlib._bootstrap&gt;", line 1319, in _find_and_load_unlocked
+E     ModuleNotFoundError: No module named 'anlan.context.assembly'; 'anlan.context' is not a package
+E     
+E   assert 1 == 0
+E    +  where 1 = CompletedProcess(args=['D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe', '-c', "import importlib,sys,json; import..._load_unlocked\nModuleNotFoundError: No module named \'anlan.context.assembly\'; \'anlan.context\' is not a package\n').returncode</failure></testcase><testcase classname="tests.test_package_layout" name="test_lightweight_contract_and_connection_imports[anlan.memory.contracts-forbidden2]" time="2.231"><failure message="AssertionError: Traceback (most recent call last):&#10;    File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;&#10;      import importlib,sys,json; importlib.import_module('anlan.memory.contracts'); print(json.dumps(sorted(sys.modules)))&#10;                                 ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^&#10;    File &quot;C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py&quot;, line 88, in import_module&#10;      return _bootstrap._gcd_import(name[level:], package, level)&#10;             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^&#10;    File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1387, in _gcd_import&#10;    File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1360, in _find_and_load&#10;    File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1319, in _find_and_load_unlocked&#10;  ModuleNotFoundError: No module named 'anlan.memory.contracts'; 'anlan.memory' is not a package&#10;  &#10;assert 1 == 0&#10; +  where 1 = CompletedProcess(args=['D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe', '-c', &quot;import importlib,sys,json; import...d_load_unlocked\nModuleNotFoundError: No module named \'anlan.memory.contracts\'; \'anlan.memory\' is not a package\n').returncode">tests\test_package_layout.py:20: in test_lightweight_contract_and_connection_imports
+    assert result.returncode == 0, result.stderr
+E   AssertionError: Traceback (most recent call last):
+E       File "&lt;string&gt;", line 1, in &lt;module&gt;
+E         import importlib,sys,json; importlib.import_module('anlan.memory.contracts'); print(json.dumps(sorted(sys.modules)))
+E                                    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       File "C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py", line 88, in import_module
+E         return _bootstrap._gcd_import(name[level:], package, level)
+E                ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       File "&lt;frozen importlib._bootstrap&gt;", line 1387, in _gcd_import
+E       File "&lt;frozen importlib._bootstrap&gt;", line 1360, in _find_and_load
+E       File "&lt;frozen importlib._bootstrap&gt;", line 1319, in _find_and_load_unlocked
+E     ModuleNotFoundError: No module named 'anlan.memory.contracts'; 'anlan.memory' is not a package
+E     
+E   assert 1 == 0
+E    +  where 1 = CompletedProcess(args=['D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe', '-c', "import importlib,sys,json; import...d_load_unlocked\nModuleNotFoundError: No module named \'anlan.memory.contracts\'; \'anlan.memory\' is not a package\n').returncode</failure></testcase><testcase classname="tests.test_package_layout" name="test_lightweight_contract_and_connection_imports[anlan.knowledge.contracts-forbidden3]" time="2.288"><failure message="AssertionError: Traceback (most recent call last):&#10;    File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;&#10;      import importlib,sys,json; importlib.import_module('anlan.knowledge.contracts'); print(json.dumps(sorted(sys.modules)))&#10;                                 ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^&#10;    File &quot;C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py&quot;, line 88, in import_module&#10;      return _bootstrap._gcd_import(name[level:], package, level)&#10;             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^&#10;    File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1387, in _gcd_import&#10;    File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1360, in _find_and_load&#10;    File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1319, in _find_and_load_unlocked&#10;  ModuleNotFoundError: No module named 'anlan.knowledge.contracts'; 'anlan.knowledge' is not a package&#10;  &#10;assert 1 == 0&#10; +  where 1 = CompletedProcess(args=['D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe', '-c', &quot;import importlib,sys,json; import..._unlocked\nModuleNotFoundError: No module named \'anlan.knowledge.contracts\'; \'anlan.knowledge\' is not a package\n').returncode">tests\test_package_layout.py:20: in test_lightweight_contract_and_connection_imports
+    assert result.returncode == 0, result.stderr
+E   AssertionError: Traceback (most recent call last):
+E       File "&lt;string&gt;", line 1, in &lt;module&gt;
+E         import importlib,sys,json; importlib.import_module('anlan.knowledge.contracts'); print(json.dumps(sorted(sys.modules)))
+E                                    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       File "C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py", line 88, in import_module
+E         return _bootstrap._gcd_import(name[level:], package, level)
+E                ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       File "&lt;frozen importlib._bootstrap&gt;", line 1387, in _gcd_import
+E       File "&lt;frozen importlib._bootstrap&gt;", line 1360, in _find_and_load
+E       File "&lt;frozen importlib._bootstrap&gt;", line 1319, in _find_and_load_unlocked
+E     ModuleNotFoundError: No module named 'anlan.knowledge.contracts'; 'anlan.knowledge' is not a package
+E     
+E   assert 1 == 0
+E    +  where 1 = CompletedProcess(args=['D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe', '-c', "import importlib,sys,json; import..._unlocked\nModuleNotFoundError: No module named \'anlan.knowledge.contracts\'; \'anlan.knowledge\' is not a package\n').returncode</failure></testcase><testcase classname="tests.test_package_layout" name="test_database_composition_preserves_one_connection" time="0.004"><failure message="ModuleNotFoundError: No module named 'anlan.interfaces'">tests\test_package_layout.py:29: in test_database_composition_preserves_one_connection
+    from anlan.interfaces.runtime import postgres_service
+E   ModuleNotFoundError: No module named 'anlan.interfaces'</failure></testcase><testcase classname="tests.test_package_layout" name="test_common_exception_identity_and_model_contracts" time="0.002"><failure message="ModuleNotFoundError: No module named 'anlan.common'">tests\test_package_layout.py:38: in test_common_exception_identity_and_model_contracts
+    from anlan.common.errors import AccessDenied
+E   ModuleNotFoundError: No module named 'anlan.common'</failure></testcase></testsuite></testsuites>

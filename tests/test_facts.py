@@ -8,12 +8,13 @@ from types import SimpleNamespace
 import pytest
 from pydantic import ValidationError
 
-from anlan.analysis import OfflineAnalyzer
-from anlan.cli import DEMO_FIELDS
-from anlan.contracts import Identity
-from anlan.service import AccessDenied, WorkflowService
+from anlan.common.errors import AccessDenied
+from anlan.common.models import Identity
+from anlan.infrastructure.trace import JsonlTrace
+from anlan.interfaces.cli import DEMO_FIELDS
 from anlan.tools.queries import FactTools
-from anlan.trace import JsonlTrace
+from anlan.workflows.material_analysis import OfflineAnalyzer
+from anlan.workflows.service import WorkflowService
 
 OWNER = Identity(tenant_id="synthetic-demo", user_id="safety-manager-demo")
 REFS = {"worker_id": "worker-001", "qualification_type": "welding", "area_id": "area-001"}
@@ -25,7 +26,7 @@ def tools(**kwargs):
 
 
 async def test_evidence_and_trace_link_to_snapshot_without_mutating_task(tmp_path):
-    from anlan.facts import check_facts
+    from anlan.workflows.facts import check_facts
     service = WorkflowService(OfflineAnalyzer())
     state = await service.start(OWNER, DEMO_FIELDS)
     history = await service.history(OWNER, state["task_id"])
@@ -50,7 +51,7 @@ async def test_evidence_and_trace_link_to_snapshot_without_mutating_task(tmp_pat
 
 
 async def test_unauthorized_task_never_reaches_tools():
-    from anlan.facts import check_facts
+    from anlan.workflows.facts import check_facts
     service = WorkflowService(OfflineAnalyzer())
     state = await service.start(OWNER, DEMO_FIELDS)
 
@@ -64,7 +65,7 @@ async def test_unauthorized_task_never_reaches_tools():
 
 
 async def test_reference_identity_injection_is_rejected():
-    from anlan.facts import check_facts
+    from anlan.workflows.facts import check_facts
     service = WorkflowService(OfflineAnalyzer())
     state = await service.start(OWNER, DEMO_FIELDS)
     with pytest.raises(ValidationError):
@@ -74,7 +75,7 @@ async def test_reference_identity_injection_is_rejected():
 
 
 async def test_partial_timeout_keeps_area_fact_and_trace_failure_is_visible(tmp_path):
-    from anlan.facts import check_facts
+    from anlan.workflows.facts import check_facts
 
     async def slow_worker(path):
         if path.name == "qualifications.json":
@@ -92,7 +93,7 @@ async def test_partial_timeout_keeps_area_fact_and_trace_failure_is_visible(tmp_
 
 
 async def test_cli_fact_path_never_initializes_model(monkeypatch, tmp_path, capsys):
-    from anlan import cli
+    from anlan.interfaces import cli
     service = WorkflowService(OfflineAnalyzer())
     state = await service.start(OWNER, DEMO_FIELDS)
 
@@ -121,9 +122,9 @@ async def test_cli_fact_path_never_initializes_model(monkeypatch, tmp_path, caps
 
 async def test_cli_budget_snapshot_failure_does_not_swallow_finished_evidence(
         monkeypatch, tmp_path, capsys):
-    from anlan import cli
-    from anlan.budget import BudgetUnavailable
-    from anlan.tool_model import ScriptedToolModel
+    from anlan.infrastructure.budget import BudgetUnavailable
+    from anlan.interfaces import cli
+    from anlan.llm.tool_model import ScriptedToolModel
 
     service = WorkflowService(OfflineAnalyzer())
     state = await service.start(OWNER, DEMO_FIELDS)
@@ -158,7 +159,7 @@ async def test_cli_budget_snapshot_failure_does_not_swallow_finished_evidence(
 
 async def test_cli_embedding_initialization_failure_still_returns_fact_evidence(
         monkeypatch, tmp_path, capsys):
-    from anlan import cli
+    from anlan.interfaces import cli
     service = WorkflowService(OfflineAnalyzer())
     state = await service.start(OWNER, DEMO_FIELDS)
 

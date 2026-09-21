@@ -3,7 +3,7 @@ import json
 import pytest
 from test_tool_loop import SequenceModel, scenario
 
-from anlan.tool_model import FinalAnswer, ModelTurn, ScriptedToolModel, ToolCall
+from anlan.llm.tool_model import FinalAnswer, ModelTurn, ScriptedToolModel, ToolCall
 
 QUESTION = "监护人员需要什么安排？"
 CHUNK = "0123456789abcdef01234567"
@@ -81,7 +81,7 @@ async def test_fabricated_knowledge_citation_is_not_published(tmp_path, bad_chun
         async def next(self, messages, run_id):
             turn = await super().next(messages, run_id)
             if turn.final:
-                from anlan.tool_model import KnowledgeCitation
+                from anlan.knowledge.contracts import KnowledgeCitation
 
                 turn.final.knowledge_citations = [
                     KnowledgeCitation(chunk_id=bad_chunk, quote=bad_quote)

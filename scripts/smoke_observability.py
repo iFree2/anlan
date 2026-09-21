@@ -9,19 +9,19 @@ from pathlib import Path
 
 import httpx
 
-from anlan.analysis import OfflineAnalyzer
-from anlan.cli import DEMO_FIELDS
-from anlan.contracts import Identity
-from anlan.embeddings import LocalEmbeddings
-from anlan.knowledge import KnowledgeStore
-from anlan.knowledge_tool import UnavailableKnowledgeStore
-from anlan.postgres import database_url
-from anlan.service import WorkflowService
-from anlan.telemetry import root_span_id, trace_id
-from anlan.tool_loop import check_facts_agent
-from anlan.tool_model import ScriptedToolModel
+from anlan.common.models import Identity
+from anlan.infrastructure.db import database_url
+from anlan.infrastructure.telemetry import root_span_id, trace_id
+from anlan.infrastructure.trace import JsonlTrace
+from anlan.interfaces.cli import DEMO_FIELDS
+from anlan.knowledge.embeddings import LocalEmbeddings
+from anlan.knowledge.store import KnowledgeStore
+from anlan.knowledge.tool import UnavailableKnowledgeStore
+from anlan.llm.tool_model import ScriptedToolModel
 from anlan.tools.queries import FactTools
-from anlan.trace import JsonlTrace
+from anlan.workflows.material_analysis import OfflineAnalyzer
+from anlan.workflows.service import WorkflowService
+from anlan.workflows.tool_loop import check_facts_agent
 
 
 class ScenarioTrace(JsonlTrace):

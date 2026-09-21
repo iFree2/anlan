@@ -29,7 +29,7 @@ def main():
                 command = [
                     sys.executable,
                     "-m",
-                    "anlan.review_cli",
+                    "anlan.interfaces.review_cli",
                     "--task",
                     bundle["snapshot"]["task_id"],
                     "--tenant",

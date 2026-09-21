@@ -1,0 +1,9 @@
+{
+  "data_origin": "SYNTHETIC",
+  "source_ref": "synthetic-feedback-detail",
+  "version": 2,
+  "key": "detail_level",
+  "value": "detailed",
+  "observed_at": "2026-09-21T00:00:00Z",
+  "expires_at": "2026-10-21T00:00:00Z"
+}

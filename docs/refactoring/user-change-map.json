@@ -1,0 +1,246 @@
+[
+  {
+    "old_path": "evals/evaluate.py",
+    "original_worktree_sha256": "0e160a8224acc11b8ef7c91a429add3df331e0bf5f730355336635752ddfe973",
+    "changes": [
+      {
+        "new_path": "evals/evaluate.py",
+        "before": "\"\"\"Three seen development examples, explicit offline/live labels, no overwrites.\"\"\"",
+        "after": "\"\"\"三个已见的开发样本、明确的离线/真实标注、不覆盖已有结果。\"\"\""
+      },
+      {
+        "new_path": "evals/evaluate.py",
+        "before": "    # Exclusive creation happens before requests; an existing run is never overwritten.",
+        "after": "    # 先以独占方式创建文件，再发起请求；已存在的运行结果绝不会被覆盖。"
+      },
+      {
+        "new_path": "evals/evaluate.py",
+        "before": "                # Persist each completed attempt, including failure; no hidden success filtering.",
+        "after": "                # 每次完成的尝试都落盘，包括失败；不做只保留成功结果的美化过滤。"
+      }
+    ]
+  },
+  {
+    "old_path": "scripts/install_postgres.py",
+    "original_worktree_sha256": "484107e5cf28d6ae004e2674b2d276e8368429462cab8cacbb34787c82262a29",
+    "changes": [
+      {
+        "new_path": "scripts/install_postgres.py",
+        "before": "\"\"\"Install pinned EDB portable binaries into a dedicated user-local ASCII path.\"\"\"",
+        "after": "\"\"\"把锁定版本的 EDB 便携二进制安装到用户目录下的专用 ASCII 路径。\"\"\""
+      }
+    ]
+  },
+  {
+    "old_path": "scripts/smoke_postgres.py",
+    "original_worktree_sha256": "1305a0da3e32519d93e151dde717296fabdfa1b984bad8f272310a221302cd83",
+    "changes": [
+      {
+        "new_path": "scripts/smoke_postgres.py",
+        "before": "\"\"\"Cross-process synthetic demo; saves commands and snapshots, never connection credentials.\"\"\"",
+        "after": "\"\"\"跨进程合成演示；保存命令与状态快照，绝不保存连接凭据。\"\"\""
+      }
+    ]
+  },
+  {
+    "old_path": "src/anlan/cli.py",
+    "original_worktree_sha256": "520e248adbb3f239768576b9a70a1694bf0d76375eb06494de6716d51f2216d6",
+    "changes": [
+      {
+        "new_path": "src/anlan/interfaces/cli.py",
+        "before": "\"\"\"Run `anlan demo` for JSON snapshots; `anlan chat` for local interactive input.\"\"\"",
+        "after": "\"\"\"`anlan demo` 输出 JSON 状态快照；`anlan chat` 用于本地交互输入。\"\"\""
+      },
+      {
+        "new_path": "src/anlan/interfaces/cli.py",
+        "before": "    # Available even if the first analysis fails or the process exits abruptly.",
+        "after": "    # 即使首次分析失败或进程异常退出，这条回执也已经在输出里。"
+      },
+      {
+        "new_path": "src/anlan/interfaces/cli.py",
+        "before": "    # Local test identity is host input, not read from material or model output.",
+        "after": "    # 本地测试身份由宿主进程注入，不读取材料内容，也不来自模型输出。"
+      },
+      {
+        "new_path": "src/anlan/interfaces/cli.py",
+        "before": "        # Psycopg async I/O requires a selector loop on Windows; Python 3.13 supports loop_factory.",
+        "after": "        # Windows 上 Psycopg 的异步 I/O 需要 selector 事件循环；Python 3.13 支持 loop_factory。"
+      },
+      {
+        "new_path": "src/anlan/interfaces/cli.py",
+        "before": "        # Do not print a ValidationError that could include config secrets.",
+        "after": "        # 不打印可能包含配置密钥的 ValidationError。"
+      }
+    ]
+  },
+  {
+    "old_path": "src/anlan/contracts.py",
+    "original_worktree_sha256": "e2dbd495fa6bb15c6803feb7529e77d66390dbde8f249ff9ec0ec347d6f46267",
+    "changes": [
+      {
+        "new_path": "src/anlan/workflows/material_contracts.py",
+        "before": "\"\"\"Runtime-validated DTOs. Identity is supplied by the host, never by the model.\"\"\"",
+        "after": "\"\"\"运行时校验的 DTO。身份由宿主进程提供，绝不来自模型。\"\"\""
+      }
+    ]
+  },
+  {
+    "old_path": "src/anlan/evaluation.py",
+    "original_worktree_sha256": "26d0f03b6da4fd92509bb01f359ac175d627eb8a7adeda6631e9b5eceb42a34c",
+    "changes": [
+      {
+        "new_path": "src/anlan/workflows/evaluation.py",
+        "before": "\"\"\"Small exact issue-set scorer; does not judge citation support or real-world safety.\"\"\"",
+        "after": "\"\"\"小型精确问题集合评分器；不判断引用是否成立，也不判断真实世界安全性。\"\"\""
+      }
+    ]
+  },
+  {
+    "old_path": "src/anlan/model.py",
+    "original_worktree_sha256": "31cf0f7372e6f47980d5b6a1b38763ec2eb8859bd0fac7ecb59725429062fcda",
+    "changes": [
+      {
+        "new_path": "src/anlan/llm/material.py",
+        "before": "\"\"\"One provider, bounded async request, explicit output validation; no automatic retries.\"\"\"",
+        "after": "\"\"\"单一提供方、有界异步请求、显式输出校验；不做自动重试。\"\"\""
+      },
+      {
+        "new_path": "src/anlan/llm/material.py",
+        "before": "        # Count attempts, including failures with unknown usage; never silently retry.",
+        "after": "        # 计入尝试次数，包括用量未知的失败；绝不静默重试。"
+      },
+      {
+        "new_path": "src/anlan/llm/material.py",
+        "before": "            # Never expose raw HTTP errors/bodies or provider reasoning in logs.",
+        "after": "            # 日志中绝不暴露原始 HTTP 错误/响应正文，也不暴露服务端的推理内容。"
+      }
+    ]
+  },
+  {
+    "old_path": "src/anlan/postgres.py",
+    "original_worktree_sha256": "03ad36316013837217e8e733004e96430789a690a1c805e5650ffd72ab92cdf8",
+    "changes": [
+      {
+        "new_path": "src/anlan/infrastructure/postgres.py",
+        "before": "\"\"\"Official checkpoint saver plus a small SQL registry in a dedicated schema.\"\"\"",
+        "after": "\"\"\"官方 checkpoint saver，加上位于专用 schema 中的小型 SQL registry。\"\"\""
+      },
+      {
+        "new_path": "src/anlan/interfaces/runtime.py",
+        "before": "        # Lock and checkpoint writes share the same DB session. Losing the lock connection",
+        "after": "        # 任务锁与 checkpoint 写入共用同一个数据库会话。锁连接断开后，"
+      },
+      {
+        "new_path": "src/anlan/interfaces/runtime.py",
+        "before": "        # must also prevent the stale worker from writing through a second live connection.",
+        "after": "        # 也必须阻止旧的执行者通过另一条存活连接继续写入。"
+      }
+    ]
+  },
+  {
+    "old_path": "src/anlan/registry.py",
+    "original_worktree_sha256": "f7f8f70816d5257ad0883354e3b3f51124d0b1581021e1d936b303e49e53ddea",
+    "changes": [
+      {
+        "new_path": "src/anlan/workflows/registry.py",
+        "before": "\"\"\"Task ownership and submitted commands; current material stays in Graph checkpoints.\"\"\"",
+        "after": "\"\"\"任务归属与已提交命令；当前材料仍保存在 Graph 的 checkpoint 里。\"\"\""
+      },
+      {
+        "new_path": "src/anlan/common/errors.py",
+        "before": "    \"\"\"Same error for absent and inaccessible tasks.\"\"\"",
+        "after": "    \"\"\"任务不存在与无权访问返回同一个错误。\"\"\""
+      }
+    ]
+  },
+  {
+    "old_path": "src/anlan/service.py",
+    "original_worktree_sha256": "7e99579758bc5ee549f085d4edeb20a907fbe32341cd56e88e7fcc35233109e6",
+    "changes": [
+      {
+        "new_path": "src/anlan/workflows/service.py",
+        "before": "\"\"\"Authorized task entry points with durable commands and explicit recovery.\"\"\"",
+        "after": "\"\"\"经授权的任务入口：命令可持久化，恢复路径显式。\"\"\""
+      },
+      {
+        "new_path": "src/anlan/workflows/service.py",
+        "before": "            self._config(record)  # Validate the contract before returning a cached result.",
+        "after": "            self._config(record)  # 在返回缓存结果之前，先校验状态契约版本。"
+      },
+      {
+        "new_path": "src/anlan/workflows/service.py",
+        "before": "            # A crash after material merge must not merge/increment the revision a second time.",
+        "after": "            # 材料已合并后发生的崩溃，不能再次合并字段或重复递增 revision。"
+      },
+      {
+        "new_path": "src/anlan/workflows/service.py",
+        "before": "                # Includes the narrow crash window after creating ownership but before reserve.",
+        "after": "                # 也覆盖“已写入归属、但尚未 reserve”这一小段崩溃窗口。"
+      }
+    ]
+  },
+  {
+    "old_path": "src/anlan/trace.py",
+    "original_worktree_sha256": "a1ca7d5e565c50e5e300c6ef18509f45dcba49ebe11df9c22349c96c17b0760d",
+    "changes": [
+      {
+        "new_path": "src/anlan/infrastructure/trace.py",
+        "before": "\"\"\"Small local trace sink; no raw material, credential, response body or hidden reasoning.\"\"\"",
+        "after": "\"\"\"本地小型轨迹落盘；不记原始材料、凭据、响应正文与隐藏思维链。\"\"\""
+      },
+      {
+        "new_path": "src/anlan/infrastructure/trace.py",
+        "before": "            return False  # Caller must surface the gap; logging is not a business gate.",
+        "after": "            return False  # 由调用方暴露这个缺口；日志不作为业务闸门。"
+      }
+    ]
+  },
+  {
+    "old_path": "src/anlan/workflow.py",
+    "original_worktree_sha256": "f3c4d4f60a3c85d5a84b848820f9bbccc55fab59cf5a1eb37c465c5c409c297f",
+    "changes": [
+      {
+        "new_path": "src/anlan/workflows/materials.py",
+        "before": "\"\"\"Graph owns state transitions; nodes return partial updates, not mutated state.\"\"\"",
+        "after": "\"\"\"图负责状态转换；节点只返回部分状态更新，不直接修改状态。\"\"\""
+      },
+      {
+        "new_path": "src/anlan/workflows/materials.py",
+        "before": "        # Deterministic missing-field findings take precedence over semantic candidates.",
+        "after": "        # 确定性的缺字段结论优先于模型给出的候选问题。"
+      },
+      {
+        "new_path": "src/anlan/workflows/materials.py",
+        "before": "        # No I/O before interrupt: this function is entered again on resume.",
+        "after": "        # interrupt 之前不做任何 I/O：恢复时这个函数会被从头再次进入。"
+      }
+    ]
+  },
+  {
+    "old_path": "tests/test_postgres.py",
+    "original_worktree_sha256": "1dec3b5150647e2c4b5ed3080a977baf5ade21803a7a793f3c19ce0d1d583b09",
+    "changes": [
+      {
+        "new_path": "tests/test_postgres.py",
+        "before": "\"\"\"Real PostgreSQL integration. Explicit test DSN required; never substitute an in-memory DB.\"\"\"",
+        "after": "\"\"\"真实 PostgreSQL 集成测试。必须显式提供测试 DSN；绝不用内存数据库替代。\"\"\""
+      },
+      {
+        "new_path": "tests/test_postgres.py",
+        "before": "            await old._registry.conn.close()  # Server releases the session advisory lock.",
+        "after": "            await old._registry.conn.close()  # 服务端随即释放会话级 advisory 锁。"
+      }
+    ]
+  },
+  {
+    "old_path": "tests/test_workflow.py",
+    "original_worktree_sha256": "759255bb994b28d0e148f0130d72e02610d2efb364c4987ce1be83eadc08908a",
+    "changes": [
+      {
+        "new_path": "tests/test_workflow.py",
+        "before": "    trace.path = tmp_path  # Cannot open a directory as a JSONL file.",
+        "after": "    trace.path = tmp_path  # 目录不能当作 JSONL 文件打开。"
+      }
+    ]
+  }
+]

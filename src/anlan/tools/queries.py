@@ -9,7 +9,7 @@ from time import perf_counter
 
 from pydantic import ValidationError
 
-from anlan.contracts import Identity
+from anlan.common.models import Identity
 from anlan.tools.contracts import (
     AccessData,
     Area,

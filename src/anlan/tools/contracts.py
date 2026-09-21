@@ -4,7 +4,7 @@ from typing import Annotated, Literal
 
 from pydantic import AwareDatetime, Field, StringConstraints, model_validator
 
-from anlan.contracts import StrictModel
+from anlan.common.models import StrictModel
 
 ObjectId = Annotated[str, StringConstraints(
     strict=True, min_length=1, max_length=100, pattern=r"^[a-zA-Z0-9_-]+$")]

@@ -3,11 +3,11 @@ import json
 import httpx
 import pytest
 
-from anlan.analysis import OfflineAnalyzer
-from anlan.cli import DEMO_FIELDS
-from anlan.contracts import Identity
-from anlan.service import WorkflowService
-from anlan.trace import JsonlTrace
+from anlan.common.models import Identity
+from anlan.infrastructure.trace import JsonlTrace
+from anlan.interfaces.cli import DEMO_FIELDS
+from anlan.workflows.material_analysis import OfflineAnalyzer
+from anlan.workflows.service import WorkflowService
 
 RECORD = {
     "event": "agent_tool_finished",
@@ -38,7 +38,7 @@ RECORD = {
 
 
 def test_otlp_payload_has_stable_parent_ids_and_excludes_raw_content():
-    from anlan.telemetry import payload_for, root_span_id, trace_id
+    from anlan.infrastructure.telemetry import payload_for, root_span_id, trace_id
 
     payload = payload_for(RECORD)
     span = payload["resourceSpans"][0]["scopeSpans"][0]["spans"][0]
@@ -57,7 +57,7 @@ def test_otlp_payload_has_stable_parent_ids_and_excludes_raw_content():
 
 
 def test_missing_duration_is_explicit_and_archived_import_is_labeled():
-    from anlan.telemetry import payload_for, trace_id
+    from anlan.infrastructure.telemetry import payload_for, trace_id
 
     record = {k: v for k, v in RECORD.items() if k != "elapsed_ms"}
     span = payload_for(record, archived=True)["resourceSpans"][0]["scopeSpans"][0]["spans"][0]
@@ -79,7 +79,7 @@ def test_missing_duration_is_explicit_and_archived_import_is_labeled():
     ],
 )
 def test_export_destination_is_local_and_credential_free(endpoint):
-    from anlan.telemetry import LocalOtlpExporter
+    from anlan.infrastructure.telemetry import LocalOtlpExporter
 
     with pytest.raises(ValueError):
         LocalOtlpExporter(endpoint)
@@ -97,7 +97,7 @@ def test_export_destination_is_local_and_credential_free(endpoint):
     ],
 )
 def test_export_failure_does_not_retry_or_leak_remote_response(failure):
-    from anlan.telemetry import LocalOtlpExporter
+    from anlan.infrastructure.telemetry import LocalOtlpExporter
 
     calls = []
 
@@ -123,7 +123,7 @@ def test_export_failure_does_not_retry_or_leak_remote_response(failure):
 
 
 async def test_remote_export_failure_keeps_local_json_and_workflow_result(tmp_path):
-    from anlan.telemetry import LocalOtlpExporter
+    from anlan.infrastructure.telemetry import LocalOtlpExporter
 
     with httpx.Client(transport=httpx.MockTransport(lambda r: httpx.Response(500))) as client:
         trace = JsonlTrace(
@@ -138,7 +138,7 @@ async def test_remote_export_failure_keeps_local_json_and_workflow_result(tmp_pa
 
 
 async def test_exporter_lifecycle_exception_does_not_interrupt_business(tmp_path):
-    from anlan.telemetry import LocalOtlpExporter
+    from anlan.infrastructure.telemetry import LocalOtlpExporter
 
     client = httpx.Client(transport=httpx.MockTransport(lambda r: httpx.Response(200, json={})))
     client.close()
@@ -154,7 +154,7 @@ async def test_exporter_lifecycle_exception_does_not_interrupt_business(tmp_path
 
 
 def test_successful_export_with_http_double():
-    from anlan.telemetry import LocalOtlpExporter
+    from anlan.infrastructure.telemetry import LocalOtlpExporter
 
     with httpx.Client(
         transport=httpx.MockTransport(lambda r: httpx.Response(200, json={}))
@@ -163,7 +163,7 @@ def test_successful_export_with_http_double():
 
 
 def test_malformed_archived_usage_is_rejected_without_losing_business_control():
-    from anlan.telemetry import LocalOtlpExporter
+    from anlan.infrastructure.telemetry import LocalOtlpExporter
 
     with httpx.Client(
         transport=httpx.MockTransport(

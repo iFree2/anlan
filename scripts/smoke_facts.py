@@ -9,12 +9,13 @@ import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
-from anlan.analysis import OfflineAnalyzer
-from anlan.contracts import Identity
-from anlan.facts import check_facts
-from anlan.postgres import database_url, postgres_service
+from anlan.common.models import Identity
+from anlan.infrastructure.db import database_url
+from anlan.infrastructure.trace import JsonlTrace
+from anlan.interfaces.runtime import postgres_service
 from anlan.tools.queries import FactTools, read_bytes
-from anlan.trace import JsonlTrace
+from anlan.workflows.facts import check_facts
+from anlan.workflows.material_analysis import OfflineAnalyzer
 
 AS_OF = "2026-09-20T12:00:00+00:00"
 
