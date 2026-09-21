@@ -2,7 +2,7 @@
 
 面向企业安全管理人员的高风险作业全周期安全协同 Agent。先深入动火作业，从准备与预审发展到依据/风险分析、作业中感知协同和事后质量闭环。所有演示均为 **SYNTHETIC 合成数据**，不是企业制度或合规依据；不自动批准，不控制或关闭报警。
 
-P1与P2工程Gate已通过。当前CLI支持材料多轮补充、PostgreSQL跨进程恢复、固定事实查询及有界模型工具循环；材料与工具分别完成过三个已见合成任务的真实联调。外层使用LangGraph状态/条件边/interrupt/resume，默认离线规则仅识别空字段；限定结论见 [P1 Gate](docs/phases/phase-01-workflow/evidence/wp04/gate-report.md)，当前入口见 [status](docs/status.md)。
+P1—P3工程Gate已通过。当前支持材料多轮/PG恢复、事实与知识工具、用户偏好Memory、有界上下文与单模型综合候选。P3全量228测试通过，但真实消融仅接受6/9、有记忆未提高接受率；工程与模型质量分别报告。[P3交接](docs/phases/phase-03-memory-context/handoff.md)和[当前状态](docs/status.md)是继续入口。
 
 ## 启动（PowerShell）
 
@@ -170,7 +170,7 @@ uv run python evals/phase_gate.py --output .runtime/p1-regression.json
 
 ## 本地追踪与P2工程验收
 
-P2工程Gate已通过，最终185项测试、11场景冻结回归和实际平台查询通过；完整边界见[P2交接](docs/phases/phase-02-tools-rag/handoff.md)。当前自动进入P3，个人掌握不随工程结果升级。
+P2工程Gate已通过，历史185项测试、11场景冻结回归和实际平台查询通过；P3结束时重跑11/11仍通过，完整边界见[P2交接](docs/phases/phase-02-tools-rag/handoff.md)。个人掌握不随工程结果升级。
 
 ```powershell
 # PowerShell 7；仅本项目目录内的官方Windows二进制
@@ -188,11 +188,27 @@ uv run python evals/phase02_gate.py --output .runtime/p2-new-check.json
 
 平台内存重启会清空展示，JSONL仍保留。`scripts/import_trace.py --source <已有JSONL> --output <新报告>`仅生成独立archived_import轨迹，不调用模型/工具或恢复任务，不补造缺失耗时。服务列表使用2.21版本的`/api/v3/services`。
 
+## Memory、Context与单Agent综合（P3）
+
+```powershell
+scripts/dev-postgres.ps1 -Action Env
+uv run python -m anlan.memory_cli --help
+uv run python -O scripts/smoke_memory.py --output .runtime/memory-new.json
+uv run python -O evals/evaluate_review.py --mode scripted --output .runtime/review-new.json
+uv run python -O evals/phase03_gate.py --output .runtime/p3-new-gate.json
+```
+
+输出路径须为新路径，保留历史证据。Memory来源/修正/确认均为显式命令，只接受合成详略与顺序偏好；删除保留tombstone，不能静默复活。综合入口为`uv run python -m anlan.review_cli --help`；同一应用用户的记忆和任务必须使用相同`--tenant/--user`。CLI仍是模拟身份，非生产认证。
+
+复現事实/知识用明确as-of `2026-09-20T12:00:00Z`，Memory独立生命周期演示用9月21日至10月21日；真实时间的记录过期是预期。context预算以精确UTF-8字节计，实际token另记录；业务指引不授予权限。固定三工具采集＋一次综合与P2自主选工具循环不同。真实实验已占P3-WP03的9/10，不应直接重复完整9请求实验。
+
+[真实消融报告](docs/phases/phase-03-memory-context/evidence/wp03/live-report.md)保留无收益、离题引用、错误上下文状态说明和材料说明无来源导致的拒绝；逐条引用存在不等于语义有支持。
+
 ## 重要限制
 
 - 内存模式退出即丢失任务；PostgreSQL 模式持久化归属/提交/checkpoint，JSONL 始终不是恢复数据源。
 - 身份为本地模拟；已验证任务级并发互斥与丢锁拒写，不宣称生产权限、任意故障下 exactly-once 或生产 SLA。
-- 已结束的任务重新修改、显式取消、业务写工具、长期Memory、多Agent、企业事件接入尚未实现。已有RAG引用摘要仍存在未显式引用次要主张的Badcase，不是生产合规结论。
+- 已结束任务的重新修改、显式取消、业务写工具、多Agent和企业事件接入尚未实现。Memory仅两类合成偏好，保留审计不代表生产隐私删除；引用摘要与综合候选仍有语义Badcase，不是生产合规结论。
 - 功能测试和 HTTP 替身证明控制流/协议处理，不能证明真实模型质量；个人掌握见学习记录，默认待验证。
 
 长期入口：[产品范围](docs/product-scope.md) · [架构与三张数据流图](docs/architecture.md) · [半年路线](docs/roadmap.md) · [能力矩阵](docs/capability-matrix.md) · [当前状态](docs/status.md) · [本人练习](docs/learning-log.md)。

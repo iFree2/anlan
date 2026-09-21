@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="1.625" timestamp="2026-09-21T22:40:58.837655+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_review" name="test_trace_records_metadata_and_export_failure_does_not_lose_result" time="0.849"><failure message="KeyError: 'status'">tests\test_review.py:126: in test_trace_records_metadata_and_export_failure_does_not_lose_result
+    report = await synthesize(bundle, ScriptedReviewModel(),
+src\anlan\review.py:188: in synthesize
+    trace.emit("review_finished", report, mode=report["mode"], elapsed_ms=report["elapsed_ms"],
+src\anlan\trace.py:31: in emit
+    **{key: state[key] for key in (
+            ^^^^^^^^^^
+E   KeyError: 'status'</failure></testcase></testsuite></testsuites>

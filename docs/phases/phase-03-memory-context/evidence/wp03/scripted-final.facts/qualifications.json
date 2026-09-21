@@ -1,0 +1,46 @@
+{
+  "data_origin": "SYNTHETIC",
+  "version": "qualifications-v1-rag-derived",
+  "records": [
+    {
+      "tenant_id": "synthetic-review-a6c76c27b8e94a6aa3e0c48e9366e69e",
+      "observed_at": "2026-09-20T00:00:00Z",
+      "valid_from": "2026-01-01T00:00:00Z",
+      "valid_until": "2027-01-01T00:00:00Z",
+      "record_id": "qualification-worker-001",
+      "object_id": "worker-001",
+      "qualification_type": "welding",
+      "status": "active"
+    },
+    {
+      "tenant_id": "synthetic-review-a6c76c27b8e94a6aa3e0c48e9366e69e",
+      "observed_at": "2026-09-20T00:00:00Z",
+      "valid_from": "2026-01-01T00:00:00Z",
+      "valid_until": "2026-09-01T00:00:00Z",
+      "record_id": "qualification-worker-expired",
+      "object_id": "worker-expired",
+      "qualification_type": "welding",
+      "status": "active"
+    },
+    {
+      "tenant_id": "synthetic-review-a6c76c27b8e94a6aa3e0c48e9366e69e",
+      "observed_at": "2026-09-20T00:00:00Z",
+      "valid_from": "2027-01-01T00:00:00Z",
+      "valid_until": "2028-01-01T00:00:00Z",
+      "record_id": "qualification-worker-future",
+      "object_id": "worker-future",
+      "qualification_type": "welding",
+      "status": "active"
+    },
+    {
+      "tenant_id": "other-tenant",
+      "observed_at": "2026-09-20T00:00:00Z",
+      "valid_from": "2026-01-01T00:00:00Z",
+      "valid_until": "2027-01-01T00:00:00Z",
+      "record_id": "foreign-qualification",
+      "object_id": "other-tenant-worker",
+      "qualification_type": "welding",
+      "status": "active"
+    }
+  ]
+}

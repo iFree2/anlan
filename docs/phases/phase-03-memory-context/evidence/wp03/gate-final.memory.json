@@ -1,0 +1,1184 @@
+{
+  "data_origin": "SYNTHETIC",
+  "status": "passed",
+  "commands": [
+    {
+      "command": [
+        "anlan.memory_cli",
+        "init",
+        "--tenant",
+        "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+        "--user",
+        "owner",
+        "--as-of",
+        "2026-09-21T00:00:00Z"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"clock_mode\": \"simulated\", \"result\": {\"status\": \"memory_ready\"}}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "anlan.memory_cli",
+        "feedback",
+        "--tenant",
+        "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+        "--user",
+        "owner",
+        "--as-of",
+        "2026-09-21T00:00:00Z",
+        "--file",
+        "examples\\synthetic\\memory\\feedback-v1.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"clock_mode\": \"simulated\", \"result\": {\"source_ref\": \"synthetic-feedback-detail\", \"version\": 1, \"source_hash\": \"d0d0f9807f1c57d0b8194744761291cf75604d46cf0b7b4b5fdcceb5f707c7ee\"}}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "anlan.memory_cli",
+        "propose",
+        "--tenant",
+        "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+        "--user",
+        "owner",
+        "--as-of",
+        "2026-09-21T00:00:00Z",
+        "--source-ref",
+        "synthetic-feedback-detail",
+        "--source-version",
+        "1"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"clock_mode\": \"simulated\", \"result\": {\"data_origin\": \"SYNTHETIC\", \"memory_id\": \"71ec96f7-15af-4b63-a652-3051656502c6\", \"tenant_id\": \"memory-smoke-9a9c2f9db031437a8e86661b3dd142ca\", \"user_id\": \"owner\", \"key\": \"detail_level\", \"value\": \"brief\", \"source_ref\": \"synthetic-feedback-detail\", \"source_version\": 1, \"source_hash\": \"d0d0f9807f1c57d0b8194744761291cf75604d46cf0b7b4b5fdcceb5f707c7ee\", \"expires_at\": \"2026-10-21T00:00:00+00:00\", \"status\": \"candidate\", \"revision\": 1, \"created_at\": \"2026-09-21T00:00:00+00:00\", \"updated_at\": \"2026-09-21T00:00:00+00:00\", \"operation\": \"propose\"}}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "anlan.memory_cli",
+        "list",
+        "--tenant",
+        "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+        "--user",
+        "owner",
+        "--as-of",
+        "2026-09-21T00:00:00Z"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"clock_mode\": \"simulated\", \"result\": []}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "anlan.memory_cli",
+        "show",
+        "--tenant",
+        "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+        "--user",
+        "other",
+        "--as-of",
+        "2026-09-21T00:00:00Z",
+        "--memory-id",
+        "71ec96f7-15af-4b63-a652-3051656502c6"
+      ],
+      "exit_code": 2,
+      "stdout": "",
+      "stderr": "记忆请求被拒绝；检查模拟身份、来源、时区、revision、状态或本地PG。\n"
+    },
+    {
+      "command": [
+        "anlan.memory_cli",
+        "confirm",
+        "--tenant",
+        "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+        "--user",
+        "other",
+        "--as-of",
+        "2026-09-21T00:00:00Z",
+        "--memory-id",
+        "71ec96f7-15af-4b63-a652-3051656502c6",
+        "--revision",
+        "1"
+      ],
+      "exit_code": 2,
+      "stdout": "",
+      "stderr": "记忆请求被拒绝；检查模拟身份、来源、时区、revision、状态或本地PG。\n"
+    },
+    {
+      "command": [
+        "anlan.memory_cli",
+        "show",
+        "--tenant",
+        "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+        "--user",
+        "owner",
+        "--as-of",
+        "2026-09-21T00:00:00Z",
+        "--memory-id",
+        "71ec96f7-15af-4b63-a652-3051656502c6"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"clock_mode\": \"simulated\", \"result\": {\"key\": \"detail_level\", \"value\": \"brief\", \"status\": \"candidate\", \"user_id\": \"owner\", \"revision\": 1, \"memory_id\": \"71ec96f7-15af-4b63-a652-3051656502c6\", \"operation\": \"propose\", \"tenant_id\": \"memory-smoke-9a9c2f9db031437a8e86661b3dd142ca\", \"created_at\": \"2026-09-21T00:00:00+00:00\", \"expires_at\": \"2026-10-21T00:00:00+00:00\", \"source_ref\": \"synthetic-feedback-detail\", \"updated_at\": \"2026-09-21T00:00:00+00:00\", \"data_origin\": \"SYNTHETIC\", \"source_hash\": \"d0d0f9807f1c57d0b8194744761291cf75604d46cf0b7b4b5fdcceb5f707c7ee\", \"source_version\": 1}}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "anlan.memory_cli",
+        "reject",
+        "--tenant",
+        "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+        "--user",
+        "owner",
+        "--as-of",
+        "2026-09-21T00:00:00Z",
+        "--memory-id",
+        "71ec96f7-15af-4b63-a652-3051656502c6",
+        "--revision",
+        "1"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"clock_mode\": \"simulated\", \"result\": {\"key\": \"detail_level\", \"value\": \"brief\", \"status\": \"rejected\", \"user_id\": \"owner\", \"revision\": 2, \"memory_id\": \"71ec96f7-15af-4b63-a652-3051656502c6\", \"operation\": \"reject\", \"tenant_id\": \"memory-smoke-9a9c2f9db031437a8e86661b3dd142ca\", \"created_at\": \"2026-09-21T00:00:00+00:00\", \"expires_at\": \"2026-10-21T00:00:00+00:00\", \"source_ref\": \"synthetic-feedback-detail\", \"updated_at\": \"2026-09-21T00:00:00+00:00\", \"data_origin\": \"SYNTHETIC\", \"source_hash\": \"d0d0f9807f1c57d0b8194744761291cf75604d46cf0b7b4b5fdcceb5f707c7ee\", \"source_version\": 1}}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "anlan.memory_cli",
+        "feedback",
+        "--tenant",
+        "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+        "--user",
+        "owner",
+        "--as-of",
+        "2026-09-21T00:00:00Z",
+        "--file",
+        "docs\\phases\\phase-03-memory-context\\evidence\\wp03\\gate-final.memory.feedback-v2.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"clock_mode\": \"simulated\", \"result\": {\"source_ref\": \"synthetic-feedback-detail\", \"version\": 2, \"source_hash\": \"be3eeab6a4f8e3a58a674b2496adb9c52c1693db4692fcc478f5b9e2bd6cf552\"}}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "anlan.memory_cli",
+        "propose",
+        "--tenant",
+        "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+        "--user",
+        "owner",
+        "--as-of",
+        "2026-09-21T00:00:00Z",
+        "--source-ref",
+        "synthetic-feedback-detail",
+        "--source-version",
+        "2"
+      ],
+      "exit_code": 2,
+      "stdout": "",
+      "stderr": "记忆请求被拒绝；检查模拟身份、来源、时区、revision、状态或本地PG。\n"
+    },
+    {
+      "command": [
+        "anlan.memory_cli",
+        "correct",
+        "--tenant",
+        "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+        "--user",
+        "owner",
+        "--as-of",
+        "2026-09-21T00:00:00Z",
+        "--memory-id",
+        "71ec96f7-15af-4b63-a652-3051656502c6",
+        "--revision",
+        "2",
+        "--source-ref",
+        "synthetic-feedback-detail",
+        "--source-version",
+        "2"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"clock_mode\": \"simulated\", \"result\": {\"key\": \"detail_level\", \"value\": \"detailed\", \"status\": \"candidate\", \"user_id\": \"owner\", \"revision\": 3, \"memory_id\": \"71ec96f7-15af-4b63-a652-3051656502c6\", \"operation\": \"correct\", \"tenant_id\": \"memory-smoke-9a9c2f9db031437a8e86661b3dd142ca\", \"created_at\": \"2026-09-21T00:00:00+00:00\", \"expires_at\": \"2026-10-21T00:00:00+00:00\", \"source_ref\": \"synthetic-feedback-detail\", \"updated_at\": \"2026-09-21T00:00:00+00:00\", \"data_origin\": \"SYNTHETIC\", \"source_hash\": \"be3eeab6a4f8e3a58a674b2496adb9c52c1693db4692fcc478f5b9e2bd6cf552\", \"source_version\": 2}}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "anlan.memory_cli",
+        "confirm",
+        "--tenant",
+        "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+        "--user",
+        "owner",
+        "--as-of",
+        "2026-09-21T00:00:00Z",
+        "--memory-id",
+        "71ec96f7-15af-4b63-a652-3051656502c6",
+        "--revision",
+        "3"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"clock_mode\": \"simulated\", \"result\": {\"key\": \"detail_level\", \"value\": \"detailed\", \"status\": \"active\", \"user_id\": \"owner\", \"revision\": 4, \"memory_id\": \"71ec96f7-15af-4b63-a652-3051656502c6\", \"operation\": \"confirm\", \"tenant_id\": \"memory-smoke-9a9c2f9db031437a8e86661b3dd142ca\", \"created_at\": \"2026-09-21T00:00:00+00:00\", \"expires_at\": \"2026-10-21T00:00:00+00:00\", \"source_ref\": \"synthetic-feedback-detail\", \"updated_at\": \"2026-09-21T00:00:00+00:00\", \"data_origin\": \"SYNTHETIC\", \"source_hash\": \"be3eeab6a4f8e3a58a674b2496adb9c52c1693db4692fcc478f5b9e2bd6cf552\", \"source_version\": 2}}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "anlan.memory_cli",
+        "list",
+        "--tenant",
+        "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+        "--user",
+        "owner",
+        "--as-of",
+        "2026-09-21T00:00:00Z"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"clock_mode\": \"simulated\", \"result\": [{\"key\": \"detail_level\", \"value\": \"detailed\", \"status\": \"active\", \"user_id\": \"owner\", \"revision\": 4, \"memory_id\": \"71ec96f7-15af-4b63-a652-3051656502c6\", \"operation\": \"confirm\", \"tenant_id\": \"memory-smoke-9a9c2f9db031437a8e86661b3dd142ca\", \"created_at\": \"2026-09-21T00:00:00+00:00\", \"expires_at\": \"2026-10-21T00:00:00+00:00\", \"source_ref\": \"synthetic-feedback-detail\", \"updated_at\": \"2026-09-21T00:00:00+00:00\", \"data_origin\": \"SYNTHETIC\", \"source_hash\": \"be3eeab6a4f8e3a58a674b2496adb9c52c1693db4692fcc478f5b9e2bd6cf552\", \"source_version\": 2}]}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "anlan.memory_cli",
+        "reject",
+        "--tenant",
+        "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+        "--user",
+        "owner",
+        "--as-of",
+        "2026-09-21T00:00:00Z",
+        "--memory-id",
+        "71ec96f7-15af-4b63-a652-3051656502c6",
+        "--revision",
+        "3"
+      ],
+      "exit_code": 2,
+      "stdout": "",
+      "stderr": "记忆请求被拒绝；检查模拟身份、来源、时区、revision、状态或本地PG。\n"
+    },
+    {
+      "command": [
+        "anlan.memory_cli",
+        "show",
+        "--tenant",
+        "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+        "--user",
+        "owner",
+        "--as-of",
+        "2026-09-21T00:00:00Z",
+        "--memory-id",
+        "71ec96f7-15af-4b63-a652-3051656502c6"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"clock_mode\": \"simulated\", \"result\": {\"key\": \"detail_level\", \"value\": \"detailed\", \"status\": \"active\", \"user_id\": \"owner\", \"revision\": 4, \"memory_id\": \"71ec96f7-15af-4b63-a652-3051656502c6\", \"operation\": \"confirm\", \"tenant_id\": \"memory-smoke-9a9c2f9db031437a8e86661b3dd142ca\", \"created_at\": \"2026-09-21T00:00:00+00:00\", \"expires_at\": \"2026-10-21T00:00:00+00:00\", \"source_ref\": \"synthetic-feedback-detail\", \"updated_at\": \"2026-09-21T00:00:00+00:00\", \"data_origin\": \"SYNTHETIC\", \"source_hash\": \"be3eeab6a4f8e3a58a674b2496adb9c52c1693db4692fcc478f5b9e2bd6cf552\", \"source_version\": 2}}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "anlan.memory_cli",
+        "conflict",
+        "--tenant",
+        "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+        "--user",
+        "owner",
+        "--as-of",
+        "2026-09-21T00:00:00Z",
+        "--memory-id",
+        "71ec96f7-15af-4b63-a652-3051656502c6",
+        "--revision",
+        "4"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"clock_mode\": \"simulated\", \"result\": {\"key\": \"detail_level\", \"value\": \"detailed\", \"status\": \"conflicted\", \"user_id\": \"owner\", \"revision\": 5, \"memory_id\": \"71ec96f7-15af-4b63-a652-3051656502c6\", \"operation\": \"conflict\", \"tenant_id\": \"memory-smoke-9a9c2f9db031437a8e86661b3dd142ca\", \"created_at\": \"2026-09-21T00:00:00+00:00\", \"expires_at\": \"2026-10-21T00:00:00+00:00\", \"source_ref\": \"synthetic-feedback-detail\", \"updated_at\": \"2026-09-21T00:00:00+00:00\", \"data_origin\": \"SYNTHETIC\", \"source_hash\": \"be3eeab6a4f8e3a58a674b2496adb9c52c1693db4692fcc478f5b9e2bd6cf552\", \"source_version\": 2}}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "anlan.memory_cli",
+        "list",
+        "--tenant",
+        "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+        "--user",
+        "owner",
+        "--as-of",
+        "2026-09-21T00:00:00Z"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"clock_mode\": \"simulated\", \"result\": []}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "anlan.memory_cli",
+        "confirm",
+        "--tenant",
+        "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+        "--user",
+        "owner",
+        "--as-of",
+        "2026-09-21T00:00:00Z",
+        "--memory-id",
+        "71ec96f7-15af-4b63-a652-3051656502c6",
+        "--revision",
+        "5"
+      ],
+      "exit_code": 2,
+      "stdout": "",
+      "stderr": "记忆请求被拒绝；检查模拟身份、来源、时区、revision、状态或本地PG。\n"
+    },
+    {
+      "command": [
+        "anlan.memory_cli",
+        "expire",
+        "--tenant",
+        "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+        "--user",
+        "owner",
+        "--as-of",
+        "2026-10-21T00:00:00Z",
+        "--memory-id",
+        "71ec96f7-15af-4b63-a652-3051656502c6",
+        "--revision",
+        "5"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"clock_mode\": \"simulated\", \"result\": {\"key\": \"detail_level\", \"value\": \"detailed\", \"status\": \"expired\", \"user_id\": \"owner\", \"revision\": 6, \"memory_id\": \"71ec96f7-15af-4b63-a652-3051656502c6\", \"operation\": \"expire\", \"tenant_id\": \"memory-smoke-9a9c2f9db031437a8e86661b3dd142ca\", \"created_at\": \"2026-09-21T00:00:00+00:00\", \"expires_at\": \"2026-10-21T00:00:00+00:00\", \"source_ref\": \"synthetic-feedback-detail\", \"updated_at\": \"2026-10-21T00:00:00+00:00\", \"data_origin\": \"SYNTHETIC\", \"source_hash\": \"be3eeab6a4f8e3a58a674b2496adb9c52c1693db4692fcc478f5b9e2bd6cf552\", \"source_version\": 2}}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "anlan.memory_cli",
+        "delete",
+        "--tenant",
+        "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+        "--user",
+        "owner",
+        "--as-of",
+        "2026-10-21T00:00:00Z",
+        "--memory-id",
+        "71ec96f7-15af-4b63-a652-3051656502c6",
+        "--revision",
+        "6"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"clock_mode\": \"simulated\", \"result\": {\"key\": \"detail_level\", \"value\": \"detailed\", \"status\": \"deleted\", \"user_id\": \"owner\", \"revision\": 7, \"memory_id\": \"71ec96f7-15af-4b63-a652-3051656502c6\", \"operation\": \"delete\", \"tenant_id\": \"memory-smoke-9a9c2f9db031437a8e86661b3dd142ca\", \"created_at\": \"2026-09-21T00:00:00+00:00\", \"expires_at\": \"2026-10-21T00:00:00+00:00\", \"source_ref\": \"synthetic-feedback-detail\", \"updated_at\": \"2026-10-21T00:00:00+00:00\", \"data_origin\": \"SYNTHETIC\", \"source_hash\": \"be3eeab6a4f8e3a58a674b2496adb9c52c1693db4692fcc478f5b9e2bd6cf552\", \"source_version\": 2}}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "anlan.memory_cli",
+        "propose",
+        "--tenant",
+        "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+        "--user",
+        "owner",
+        "--as-of",
+        "2026-10-21T00:00:00Z",
+        "--source-ref",
+        "synthetic-feedback-detail",
+        "--source-version",
+        "2"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"clock_mode\": \"simulated\", \"result\": {\"key\": \"detail_level\", \"value\": \"detailed\", \"status\": \"deleted\", \"user_id\": \"owner\", \"revision\": 7, \"memory_id\": \"71ec96f7-15af-4b63-a652-3051656502c6\", \"operation\": \"delete\", \"tenant_id\": \"memory-smoke-9a9c2f9db031437a8e86661b3dd142ca\", \"created_at\": \"2026-09-21T00:00:00+00:00\", \"expires_at\": \"2026-10-21T00:00:00+00:00\", \"source_ref\": \"synthetic-feedback-detail\", \"updated_at\": \"2026-10-21T00:00:00+00:00\", \"data_origin\": \"SYNTHETIC\", \"source_hash\": \"be3eeab6a4f8e3a58a674b2496adb9c52c1693db4692fcc478f5b9e2bd6cf552\", \"source_version\": 2}}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "anlan.memory_cli",
+        "confirm",
+        "--tenant",
+        "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+        "--user",
+        "owner",
+        "--as-of",
+        "2026-10-21T00:00:00Z",
+        "--memory-id",
+        "71ec96f7-15af-4b63-a652-3051656502c6",
+        "--revision",
+        "7"
+      ],
+      "exit_code": 2,
+      "stdout": "",
+      "stderr": "记忆请求被拒绝；检查模拟身份、来源、时区、revision、状态或本地PG。\n"
+    },
+    {
+      "command": [
+        "anlan.memory_cli",
+        "list",
+        "--tenant",
+        "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+        "--user",
+        "owner",
+        "--as-of",
+        "2026-10-21T00:00:00Z"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"clock_mode\": \"simulated\", \"result\": []}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "anlan.memory_cli",
+        "history",
+        "--tenant",
+        "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+        "--user",
+        "owner",
+        "--as-of",
+        "2026-09-21T00:00:00Z",
+        "--memory-id",
+        "71ec96f7-15af-4b63-a652-3051656502c6"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"data_origin\": \"SYNTHETIC\", \"clock_mode\": \"simulated\", \"result\": [{\"key\": \"detail_level\", \"value\": \"brief\", \"status\": \"candidate\", \"user_id\": \"owner\", \"revision\": 1, \"memory_id\": \"71ec96f7-15af-4b63-a652-3051656502c6\", \"operation\": \"propose\", \"tenant_id\": \"memory-smoke-9a9c2f9db031437a8e86661b3dd142ca\", \"created_at\": \"2026-09-21T00:00:00+00:00\", \"expires_at\": \"2026-10-21T00:00:00+00:00\", \"source_ref\": \"synthetic-feedback-detail\", \"updated_at\": \"2026-09-21T00:00:00+00:00\", \"data_origin\": \"SYNTHETIC\", \"source_hash\": \"d0d0f9807f1c57d0b8194744761291cf75604d46cf0b7b4b5fdcceb5f707c7ee\", \"source_version\": 1}, {\"key\": \"detail_level\", \"value\": \"brief\", \"status\": \"rejected\", \"user_id\": \"owner\", \"revision\": 2, \"memory_id\": \"71ec96f7-15af-4b63-a652-3051656502c6\", \"operation\": \"reject\", \"tenant_id\": \"memory-smoke-9a9c2f9db031437a8e86661b3dd142ca\", \"created_at\": \"2026-09-21T00:00:00+00:00\", \"expires_at\": \"2026-10-21T00:00:00+00:00\", \"source_ref\": \"synthetic-feedback-detail\", \"updated_at\": \"2026-09-21T00:00:00+00:00\", \"data_origin\": \"SYNTHETIC\", \"source_hash\": \"d0d0f9807f1c57d0b8194744761291cf75604d46cf0b7b4b5fdcceb5f707c7ee\", \"source_version\": 1}, {\"key\": \"detail_level\", \"value\": \"detailed\", \"status\": \"candidate\", \"user_id\": \"owner\", \"revision\": 3, \"memory_id\": \"71ec96f7-15af-4b63-a652-3051656502c6\", \"operation\": \"correct\", \"tenant_id\": \"memory-smoke-9a9c2f9db031437a8e86661b3dd142ca\", \"created_at\": \"2026-09-21T00:00:00+00:00\", \"expires_at\": \"2026-10-21T00:00:00+00:00\", \"source_ref\": \"synthetic-feedback-detail\", \"updated_at\": \"2026-09-21T00:00:00+00:00\", \"data_origin\": \"SYNTHETIC\", \"source_hash\": \"be3eeab6a4f8e3a58a674b2496adb9c52c1693db4692fcc478f5b9e2bd6cf552\", \"source_version\": 2}, {\"key\": \"detail_level\", \"value\": \"detailed\", \"status\": \"active\", \"user_id\": \"owner\", \"revision\": 4, \"memory_id\": \"71ec96f7-15af-4b63-a652-3051656502c6\", \"operation\": \"confirm\", \"tenant_id\": \"memory-smoke-9a9c2f9db031437a8e86661b3dd142ca\", \"created_at\": \"2026-09-21T00:00:00+00:00\", \"expires_at\": \"2026-10-21T00:00:00+00:00\", \"source_ref\": \"synthetic-feedback-detail\", \"updated_at\": \"2026-09-21T00:00:00+00:00\", \"data_origin\": \"SYNTHETIC\", \"source_hash\": \"be3eeab6a4f8e3a58a674b2496adb9c52c1693db4692fcc478f5b9e2bd6cf552\", \"source_version\": 2}, {\"key\": \"detail_level\", \"value\": \"detailed\", \"status\": \"conflicted\", \"user_id\": \"owner\", \"revision\": 5, \"memory_id\": \"71ec96f7-15af-4b63-a652-3051656502c6\", \"operation\": \"conflict\", \"tenant_id\": \"memory-smoke-9a9c2f9db031437a8e86661b3dd142ca\", \"created_at\": \"2026-09-21T00:00:00+00:00\", \"expires_at\": \"2026-10-21T00:00:00+00:00\", \"source_ref\": \"synthetic-feedback-detail\", \"updated_at\": \"2026-09-21T00:00:00+00:00\", \"data_origin\": \"SYNTHETIC\", \"source_hash\": \"be3eeab6a4f8e3a58a674b2496adb9c52c1693db4692fcc478f5b9e2bd6cf552\", \"source_version\": 2}, {\"key\": \"detail_level\", \"value\": \"detailed\", \"status\": \"expired\", \"user_id\": \"owner\", \"revision\": 6, \"memory_id\": \"71ec96f7-15af-4b63-a652-3051656502c6\", \"operation\": \"expire\", \"tenant_id\": \"memory-smoke-9a9c2f9db031437a8e86661b3dd142ca\", \"created_at\": \"2026-09-21T00:00:00+00:00\", \"expires_at\": \"2026-10-21T00:00:00+00:00\", \"source_ref\": \"synthetic-feedback-detail\", \"updated_at\": \"2026-10-21T00:00:00+00:00\", \"data_origin\": \"SYNTHETIC\", \"source_hash\": \"be3eeab6a4f8e3a58a674b2496adb9c52c1693db4692fcc478f5b9e2bd6cf552\", \"source_version\": 2}, {\"key\": \"detail_level\", \"value\": \"detailed\", \"status\": \"deleted\", \"user_id\": \"owner\", \"revision\": 7, \"memory_id\": \"71ec96f7-15af-4b63-a652-3051656502c6\", \"operation\": \"delete\", \"tenant_id\": \"memory-smoke-9a9c2f9db031437a8e86661b3dd142ca\", \"created_at\": \"2026-09-21T00:00:00+00:00\", \"expires_at\": \"2026-10-21T00:00:00+00:00\", \"source_ref\": \"synthetic-feedback-detail\", \"updated_at\": \"2026-10-21T00:00:00+00:00\", \"data_origin\": \"SYNTHETIC\", \"source_hash\": \"be3eeab6a4f8e3a58a674b2496adb9c52c1693db4692fcc478f5b9e2bd6cf552\", \"source_version\": 2}]}\n",
+      "stderr": ""
+    }
+  ],
+  "created_at": "2026-09-21T14:52:26.404875+00:00",
+  "clock_mode": "simulated",
+  "as_of": "2026-09-21T00:00:00Z",
+  "tenant": "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+  "budget_before": {
+    "authorization_id": "20260920-long-term-v1",
+    "total_limit": 100,
+    "package_limit": 10,
+    "total_reserved": 21,
+    "packages": {
+      "P2-WP02": 6,
+      "P2-WP04": 6,
+      "P3-WP03": 9
+    },
+    "status_counts": {
+      "reserved": 0,
+      "succeeded": 21,
+      "failed": 0
+    },
+    "attempts": [
+      {
+        "attempt_id": "b90ef7c3-081a-4e8d-b28f-ee0a8544c46c",
+        "work_package": "P2-WP02",
+        "run_id": "9f0d5088-12db-4da8-a6da-73bdbccc285b",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 845,
+          "prompt_tokens": 744,
+          "completion_tokens": 101
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T20:09:36.634759+08:00",
+        "finished_at": "2026-09-20T20:09:39.248536+08:00"
+      },
+      {
+        "attempt_id": "0cb41882-86dc-484e-9533-89a728270555",
+        "work_package": "P2-WP02",
+        "run_id": "9f0d5088-12db-4da8-a6da-73bdbccc285b",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1588,
+          "prompt_tokens": 1393,
+          "completion_tokens": 195
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T20:09:39.538057+08:00",
+        "finished_at": "2026-09-20T20:09:41.354329+08:00"
+      },
+      {
+        "attempt_id": "8f957893-bd92-456b-a111-c95d4f5a2273",
+        "work_package": "P2-WP02",
+        "run_id": "5486522f-943c-4bf0-82bb-c17d5ba8fb2a",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 845,
+          "prompt_tokens": 744,
+          "completion_tokens": 101
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T20:09:41.740488+08:00",
+        "finished_at": "2026-09-20T20:09:43.096256+08:00"
+      },
+      {
+        "attempt_id": "f107319b-f294-4c93-902e-98b88a2caad3",
+        "work_package": "P2-WP02",
+        "run_id": "5486522f-943c-4bf0-82bb-c17d5ba8fb2a",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1622,
+          "prompt_tokens": 1375,
+          "completion_tokens": 247
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T20:09:43.302943+08:00",
+        "finished_at": "2026-09-20T20:09:45.051981+08:00"
+      },
+      {
+        "attempt_id": "a1ddc6a1-32e7-4461-8345-f9895a33a8ef",
+        "work_package": "P2-WP02",
+        "run_id": "2cb77da7-04be-4de2-a029-2eb6242e7446",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 874,
+          "prompt_tokens": 772,
+          "completion_tokens": 102
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T20:09:45.550250+08:00",
+        "finished_at": "2026-09-20T20:09:47.054367+08:00"
+      },
+      {
+        "attempt_id": "a01297a9-1462-40fe-ba03-9945f6f37854",
+        "work_package": "P2-WP02",
+        "run_id": "2cb77da7-04be-4de2-a029-2eb6242e7446",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1509,
+          "prompt_tokens": 1314,
+          "completion_tokens": 195
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T20:09:47.231794+08:00",
+        "finished_at": "2026-09-20T20:09:49.354604+08:00"
+      },
+      {
+        "attempt_id": "0c8e4ea7-eac1-4fe9-ad2f-fd395abd263b",
+        "work_package": "P2-WP04",
+        "run_id": "e21df704-0f57-4bf4-a46d-27ef739e7640",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1160,
+          "prompt_tokens": 1019,
+          "completion_tokens": 141
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T22:38:34.362638+08:00",
+        "finished_at": "2026-09-20T22:38:36.602965+08:00"
+      },
+      {
+        "attempt_id": "6c67f58a-3f3f-49d8-a37e-ea5171487bd4",
+        "work_package": "P2-WP04",
+        "run_id": "e21df704-0f57-4bf4-a46d-27ef739e7640",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 3514,
+          "prompt_tokens": 3208,
+          "completion_tokens": 306
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T22:38:37.038182+08:00",
+        "finished_at": "2026-09-20T22:38:39.407499+08:00"
+      },
+      {
+        "attempt_id": "fc922f5f-ca6f-4719-99d4-8e68a82852c2",
+        "work_package": "P2-WP04",
+        "run_id": "d28ecbf0-8161-4e08-bbc5-4700e10ba296",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1172,
+          "prompt_tokens": 1024,
+          "completion_tokens": 148
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T22:38:39.769682+08:00",
+        "finished_at": "2026-09-20T22:38:41.075628+08:00"
+      },
+      {
+        "attempt_id": "d88439e4-77ef-4947-9fed-eef73ca0c1ff",
+        "work_package": "P2-WP04",
+        "run_id": "d28ecbf0-8161-4e08-bbc5-4700e10ba296",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 3483,
+          "prompt_tokens": 3168,
+          "completion_tokens": 315
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T22:38:41.414797+08:00",
+        "finished_at": "2026-09-20T22:38:43.571709+08:00"
+      },
+      {
+        "attempt_id": "317d0b2a-e020-46d6-b8cd-7a2177005ad3",
+        "work_package": "P2-WP04",
+        "run_id": "b962d4b7-d39f-4f4f-ac5f-26151b78e235",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1156,
+          "prompt_tokens": 1016,
+          "completion_tokens": 140
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T22:38:43.907327+08:00",
+        "finished_at": "2026-09-20T22:38:45.383908+08:00"
+      },
+      {
+        "attempt_id": "47b9d446-a0d5-4a85-85ce-759697ac33d1",
+        "work_package": "P2-WP04",
+        "run_id": "b962d4b7-d39f-4f4f-ac5f-26151b78e235",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 2050,
+          "prompt_tokens": 1850,
+          "completion_tokens": 200
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T22:38:45.713442+08:00",
+        "finished_at": "2026-09-20T22:38:47.610615+08:00"
+      },
+      {
+        "attempt_id": "205c17ff-d26c-4533-8e91-24189e396c77",
+        "work_package": "P3-WP03",
+        "run_id": "54fcf9c4-ed34-4ae4-b59b-79a4d3f1dc89",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 2779,
+          "prompt_tokens": 2440,
+          "completion_tokens": 339
+        },
+        "error": null,
+        "reserved_at": "2026-09-21T22:49:13.759613+08:00",
+        "finished_at": "2026-09-21T22:49:16.712911+08:00"
+      },
+      {
+        "attempt_id": "796fda70-e251-422d-ae42-3d73fcd53310",
+        "work_package": "P3-WP03",
+        "run_id": "f6e80300-c53e-4b63-bcad-8ba8ea619f9a",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 2969,
+          "prompt_tokens": 2628,
+          "completion_tokens": 341
+        },
+        "error": null,
+        "reserved_at": "2026-09-21T22:49:16.907966+08:00",
+        "finished_at": "2026-09-21T22:49:19.003986+08:00"
+      },
+      {
+        "attempt_id": "2d0027ca-3564-417f-966e-9692b15b9fd2",
+        "work_package": "P3-WP03",
+        "run_id": "296e1da9-a996-45a7-b4e2-1f28dbc63ff5",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 2084,
+          "prompt_tokens": 1906,
+          "completion_tokens": 178
+        },
+        "error": null,
+        "reserved_at": "2026-09-21T22:49:19.202652+08:00",
+        "finished_at": "2026-09-21T22:49:21.007987+08:00"
+      },
+      {
+        "attempt_id": "e2f0315e-ed2b-4cad-9dd9-6445cd0da3d6",
+        "work_package": "P3-WP03",
+        "run_id": "aba9cc9e-0236-4d95-9eac-ad80ee027598",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 2775,
+          "prompt_tokens": 2402,
+          "completion_tokens": 373
+        },
+        "error": null,
+        "reserved_at": "2026-09-21T22:49:21.402304+08:00",
+        "finished_at": "2026-09-21T22:49:23.744319+08:00"
+      },
+      {
+        "attempt_id": "ae1dcfcc-a76b-45e1-8c87-b9b31c98392d",
+        "work_package": "P3-WP03",
+        "run_id": "f78ca6f1-9ec3-40a0-b96b-56c49bfcb8ae",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 3141,
+          "prompt_tokens": 2590,
+          "completion_tokens": 551
+        },
+        "error": null,
+        "reserved_at": "2026-09-21T22:49:24.027568+08:00",
+        "finished_at": "2026-09-21T22:49:26.766578+08:00"
+      },
+      {
+        "attempt_id": "b3682a3e-4dfc-448a-9c6a-a50a672e9a43",
+        "work_package": "P3-WP03",
+        "run_id": "b27a260e-0658-4a50-b49c-2fe8c32e47e9",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 2105,
+          "prompt_tokens": 1883,
+          "completion_tokens": 222
+        },
+        "error": null,
+        "reserved_at": "2026-09-21T22:49:26.949368+08:00",
+        "finished_at": "2026-09-21T22:49:28.810340+08:00"
+      },
+      {
+        "attempt_id": "53c60da5-fa45-4230-b42e-9e00a4a21954",
+        "work_package": "P3-WP03",
+        "run_id": "66d20466-3098-4c44-bd5e-e1803ab904a9",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1403,
+          "prompt_tokens": 1219,
+          "completion_tokens": 184
+        },
+        "error": null,
+        "reserved_at": "2026-09-21T22:49:29.227966+08:00",
+        "finished_at": "2026-09-21T22:49:30.824191+08:00"
+      },
+      {
+        "attempt_id": "7a024c4f-bc67-4471-90f9-d8fde51c5054",
+        "work_package": "P3-WP03",
+        "run_id": "a4f933fe-709f-4378-bb8d-c9b50a2ad7c2",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1602,
+          "prompt_tokens": 1407,
+          "completion_tokens": 195
+        },
+        "error": null,
+        "reserved_at": "2026-09-21T22:49:31.117752+08:00",
+        "finished_at": "2026-09-21T22:49:32.607243+08:00"
+      },
+      {
+        "attempt_id": "59032650-f2bb-405b-bf4b-54af8f360666",
+        "work_package": "P3-WP03",
+        "run_id": "8d979a6e-06f0-4f28-b4ac-1d18ae7ceb27",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1607,
+          "prompt_tokens": 1407,
+          "completion_tokens": 200
+        },
+        "error": null,
+        "reserved_at": "2026-09-21T22:49:32.844678+08:00",
+        "finished_at": "2026-09-21T22:49:34.807033+08:00"
+      }
+    ]
+  },
+  "history": [
+    {
+      "key": "detail_level",
+      "value": "brief",
+      "status": "candidate",
+      "user_id": "owner",
+      "revision": 1,
+      "memory_id": "71ec96f7-15af-4b63-a652-3051656502c6",
+      "operation": "propose",
+      "tenant_id": "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+      "created_at": "2026-09-21T00:00:00+00:00",
+      "expires_at": "2026-10-21T00:00:00+00:00",
+      "source_ref": "synthetic-feedback-detail",
+      "updated_at": "2026-09-21T00:00:00+00:00",
+      "data_origin": "SYNTHETIC",
+      "source_hash": "d0d0f9807f1c57d0b8194744761291cf75604d46cf0b7b4b5fdcceb5f707c7ee",
+      "source_version": 1
+    },
+    {
+      "key": "detail_level",
+      "value": "brief",
+      "status": "rejected",
+      "user_id": "owner",
+      "revision": 2,
+      "memory_id": "71ec96f7-15af-4b63-a652-3051656502c6",
+      "operation": "reject",
+      "tenant_id": "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+      "created_at": "2026-09-21T00:00:00+00:00",
+      "expires_at": "2026-10-21T00:00:00+00:00",
+      "source_ref": "synthetic-feedback-detail",
+      "updated_at": "2026-09-21T00:00:00+00:00",
+      "data_origin": "SYNTHETIC",
+      "source_hash": "d0d0f9807f1c57d0b8194744761291cf75604d46cf0b7b4b5fdcceb5f707c7ee",
+      "source_version": 1
+    },
+    {
+      "key": "detail_level",
+      "value": "detailed",
+      "status": "candidate",
+      "user_id": "owner",
+      "revision": 3,
+      "memory_id": "71ec96f7-15af-4b63-a652-3051656502c6",
+      "operation": "correct",
+      "tenant_id": "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+      "created_at": "2026-09-21T00:00:00+00:00",
+      "expires_at": "2026-10-21T00:00:00+00:00",
+      "source_ref": "synthetic-feedback-detail",
+      "updated_at": "2026-09-21T00:00:00+00:00",
+      "data_origin": "SYNTHETIC",
+      "source_hash": "be3eeab6a4f8e3a58a674b2496adb9c52c1693db4692fcc478f5b9e2bd6cf552",
+      "source_version": 2
+    },
+    {
+      "key": "detail_level",
+      "value": "detailed",
+      "status": "active",
+      "user_id": "owner",
+      "revision": 4,
+      "memory_id": "71ec96f7-15af-4b63-a652-3051656502c6",
+      "operation": "confirm",
+      "tenant_id": "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+      "created_at": "2026-09-21T00:00:00+00:00",
+      "expires_at": "2026-10-21T00:00:00+00:00",
+      "source_ref": "synthetic-feedback-detail",
+      "updated_at": "2026-09-21T00:00:00+00:00",
+      "data_origin": "SYNTHETIC",
+      "source_hash": "be3eeab6a4f8e3a58a674b2496adb9c52c1693db4692fcc478f5b9e2bd6cf552",
+      "source_version": 2
+    },
+    {
+      "key": "detail_level",
+      "value": "detailed",
+      "status": "conflicted",
+      "user_id": "owner",
+      "revision": 5,
+      "memory_id": "71ec96f7-15af-4b63-a652-3051656502c6",
+      "operation": "conflict",
+      "tenant_id": "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+      "created_at": "2026-09-21T00:00:00+00:00",
+      "expires_at": "2026-10-21T00:00:00+00:00",
+      "source_ref": "synthetic-feedback-detail",
+      "updated_at": "2026-09-21T00:00:00+00:00",
+      "data_origin": "SYNTHETIC",
+      "source_hash": "be3eeab6a4f8e3a58a674b2496adb9c52c1693db4692fcc478f5b9e2bd6cf552",
+      "source_version": 2
+    },
+    {
+      "key": "detail_level",
+      "value": "detailed",
+      "status": "expired",
+      "user_id": "owner",
+      "revision": 6,
+      "memory_id": "71ec96f7-15af-4b63-a652-3051656502c6",
+      "operation": "expire",
+      "tenant_id": "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+      "created_at": "2026-09-21T00:00:00+00:00",
+      "expires_at": "2026-10-21T00:00:00+00:00",
+      "source_ref": "synthetic-feedback-detail",
+      "updated_at": "2026-10-21T00:00:00+00:00",
+      "data_origin": "SYNTHETIC",
+      "source_hash": "be3eeab6a4f8e3a58a674b2496adb9c52c1693db4692fcc478f5b9e2bd6cf552",
+      "source_version": 2
+    },
+    {
+      "key": "detail_level",
+      "value": "detailed",
+      "status": "deleted",
+      "user_id": "owner",
+      "revision": 7,
+      "memory_id": "71ec96f7-15af-4b63-a652-3051656502c6",
+      "operation": "delete",
+      "tenant_id": "memory-smoke-9a9c2f9db031437a8e86661b3dd142ca",
+      "created_at": "2026-09-21T00:00:00+00:00",
+      "expires_at": "2026-10-21T00:00:00+00:00",
+      "source_ref": "synthetic-feedback-detail",
+      "updated_at": "2026-10-21T00:00:00+00:00",
+      "data_origin": "SYNTHETIC",
+      "source_hash": "be3eeab6a4f8e3a58a674b2496adb9c52c1693db4692fcc478f5b9e2bd6cf552",
+      "source_version": 2
+    }
+  ],
+  "budget_after": {
+    "authorization_id": "20260920-long-term-v1",
+    "total_limit": 100,
+    "package_limit": 10,
+    "total_reserved": 21,
+    "packages": {
+      "P2-WP02": 6,
+      "P2-WP04": 6,
+      "P3-WP03": 9
+    },
+    "status_counts": {
+      "reserved": 0,
+      "succeeded": 21,
+      "failed": 0
+    },
+    "attempts": [
+      {
+        "attempt_id": "b90ef7c3-081a-4e8d-b28f-ee0a8544c46c",
+        "work_package": "P2-WP02",
+        "run_id": "9f0d5088-12db-4da8-a6da-73bdbccc285b",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 845,
+          "prompt_tokens": 744,
+          "completion_tokens": 101
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T20:09:36.634759+08:00",
+        "finished_at": "2026-09-20T20:09:39.248536+08:00"
+      },
+      {
+        "attempt_id": "0cb41882-86dc-484e-9533-89a728270555",
+        "work_package": "P2-WP02",
+        "run_id": "9f0d5088-12db-4da8-a6da-73bdbccc285b",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1588,
+          "prompt_tokens": 1393,
+          "completion_tokens": 195
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T20:09:39.538057+08:00",
+        "finished_at": "2026-09-20T20:09:41.354329+08:00"
+      },
+      {
+        "attempt_id": "8f957893-bd92-456b-a111-c95d4f5a2273",
+        "work_package": "P2-WP02",
+        "run_id": "5486522f-943c-4bf0-82bb-c17d5ba8fb2a",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 845,
+          "prompt_tokens": 744,
+          "completion_tokens": 101
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T20:09:41.740488+08:00",
+        "finished_at": "2026-09-20T20:09:43.096256+08:00"
+      },
+      {
+        "attempt_id": "f107319b-f294-4c93-902e-98b88a2caad3",
+        "work_package": "P2-WP02",
+        "run_id": "5486522f-943c-4bf0-82bb-c17d5ba8fb2a",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1622,
+          "prompt_tokens": 1375,
+          "completion_tokens": 247
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T20:09:43.302943+08:00",
+        "finished_at": "2026-09-20T20:09:45.051981+08:00"
+      },
+      {
+        "attempt_id": "a1ddc6a1-32e7-4461-8345-f9895a33a8ef",
+        "work_package": "P2-WP02",
+        "run_id": "2cb77da7-04be-4de2-a029-2eb6242e7446",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 874,
+          "prompt_tokens": 772,
+          "completion_tokens": 102
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T20:09:45.550250+08:00",
+        "finished_at": "2026-09-20T20:09:47.054367+08:00"
+      },
+      {
+        "attempt_id": "a01297a9-1462-40fe-ba03-9945f6f37854",
+        "work_package": "P2-WP02",
+        "run_id": "2cb77da7-04be-4de2-a029-2eb6242e7446",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1509,
+          "prompt_tokens": 1314,
+          "completion_tokens": 195
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T20:09:47.231794+08:00",
+        "finished_at": "2026-09-20T20:09:49.354604+08:00"
+      },
+      {
+        "attempt_id": "0c8e4ea7-eac1-4fe9-ad2f-fd395abd263b",
+        "work_package": "P2-WP04",
+        "run_id": "e21df704-0f57-4bf4-a46d-27ef739e7640",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1160,
+          "prompt_tokens": 1019,
+          "completion_tokens": 141
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T22:38:34.362638+08:00",
+        "finished_at": "2026-09-20T22:38:36.602965+08:00"
+      },
+      {
+        "attempt_id": "6c67f58a-3f3f-49d8-a37e-ea5171487bd4",
+        "work_package": "P2-WP04",
+        "run_id": "e21df704-0f57-4bf4-a46d-27ef739e7640",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 3514,
+          "prompt_tokens": 3208,
+          "completion_tokens": 306
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T22:38:37.038182+08:00",
+        "finished_at": "2026-09-20T22:38:39.407499+08:00"
+      },
+      {
+        "attempt_id": "fc922f5f-ca6f-4719-99d4-8e68a82852c2",
+        "work_package": "P2-WP04",
+        "run_id": "d28ecbf0-8161-4e08-bbc5-4700e10ba296",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1172,
+          "prompt_tokens": 1024,
+          "completion_tokens": 148
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T22:38:39.769682+08:00",
+        "finished_at": "2026-09-20T22:38:41.075628+08:00"
+      },
+      {
+        "attempt_id": "d88439e4-77ef-4947-9fed-eef73ca0c1ff",
+        "work_package": "P2-WP04",
+        "run_id": "d28ecbf0-8161-4e08-bbc5-4700e10ba296",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 3483,
+          "prompt_tokens": 3168,
+          "completion_tokens": 315
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T22:38:41.414797+08:00",
+        "finished_at": "2026-09-20T22:38:43.571709+08:00"
+      },
+      {
+        "attempt_id": "317d0b2a-e020-46d6-b8cd-7a2177005ad3",
+        "work_package": "P2-WP04",
+        "run_id": "b962d4b7-d39f-4f4f-ac5f-26151b78e235",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1156,
+          "prompt_tokens": 1016,
+          "completion_tokens": 140
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T22:38:43.907327+08:00",
+        "finished_at": "2026-09-20T22:38:45.383908+08:00"
+      },
+      {
+        "attempt_id": "47b9d446-a0d5-4a85-85ce-759697ac33d1",
+        "work_package": "P2-WP04",
+        "run_id": "b962d4b7-d39f-4f4f-ac5f-26151b78e235",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 2050,
+          "prompt_tokens": 1850,
+          "completion_tokens": 200
+        },
+        "error": null,
+        "reserved_at": "2026-09-20T22:38:45.713442+08:00",
+        "finished_at": "2026-09-20T22:38:47.610615+08:00"
+      },
+      {
+        "attempt_id": "205c17ff-d26c-4533-8e91-24189e396c77",
+        "work_package": "P3-WP03",
+        "run_id": "54fcf9c4-ed34-4ae4-b59b-79a4d3f1dc89",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 2779,
+          "prompt_tokens": 2440,
+          "completion_tokens": 339
+        },
+        "error": null,
+        "reserved_at": "2026-09-21T22:49:13.759613+08:00",
+        "finished_at": "2026-09-21T22:49:16.712911+08:00"
+      },
+      {
+        "attempt_id": "796fda70-e251-422d-ae42-3d73fcd53310",
+        "work_package": "P3-WP03",
+        "run_id": "f6e80300-c53e-4b63-bcad-8ba8ea619f9a",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 2969,
+          "prompt_tokens": 2628,
+          "completion_tokens": 341
+        },
+        "error": null,
+        "reserved_at": "2026-09-21T22:49:16.907966+08:00",
+        "finished_at": "2026-09-21T22:49:19.003986+08:00"
+      },
+      {
+        "attempt_id": "2d0027ca-3564-417f-966e-9692b15b9fd2",
+        "work_package": "P3-WP03",
+        "run_id": "296e1da9-a996-45a7-b4e2-1f28dbc63ff5",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 2084,
+          "prompt_tokens": 1906,
+          "completion_tokens": 178
+        },
+        "error": null,
+        "reserved_at": "2026-09-21T22:49:19.202652+08:00",
+        "finished_at": "2026-09-21T22:49:21.007987+08:00"
+      },
+      {
+        "attempt_id": "e2f0315e-ed2b-4cad-9dd9-6445cd0da3d6",
+        "work_package": "P3-WP03",
+        "run_id": "aba9cc9e-0236-4d95-9eac-ad80ee027598",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 2775,
+          "prompt_tokens": 2402,
+          "completion_tokens": 373
+        },
+        "error": null,
+        "reserved_at": "2026-09-21T22:49:21.402304+08:00",
+        "finished_at": "2026-09-21T22:49:23.744319+08:00"
+      },
+      {
+        "attempt_id": "ae1dcfcc-a76b-45e1-8c87-b9b31c98392d",
+        "work_package": "P3-WP03",
+        "run_id": "f78ca6f1-9ec3-40a0-b96b-56c49bfcb8ae",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 3141,
+          "prompt_tokens": 2590,
+          "completion_tokens": 551
+        },
+        "error": null,
+        "reserved_at": "2026-09-21T22:49:24.027568+08:00",
+        "finished_at": "2026-09-21T22:49:26.766578+08:00"
+      },
+      {
+        "attempt_id": "b3682a3e-4dfc-448a-9c6a-a50a672e9a43",
+        "work_package": "P3-WP03",
+        "run_id": "b27a260e-0658-4a50-b49c-2fe8c32e47e9",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 2105,
+          "prompt_tokens": 1883,
+          "completion_tokens": 222
+        },
+        "error": null,
+        "reserved_at": "2026-09-21T22:49:26.949368+08:00",
+        "finished_at": "2026-09-21T22:49:28.810340+08:00"
+      },
+      {
+        "attempt_id": "53c60da5-fa45-4230-b42e-9e00a4a21954",
+        "work_package": "P3-WP03",
+        "run_id": "66d20466-3098-4c44-bd5e-e1803ab904a9",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1403,
+          "prompt_tokens": 1219,
+          "completion_tokens": 184
+        },
+        "error": null,
+        "reserved_at": "2026-09-21T22:49:29.227966+08:00",
+        "finished_at": "2026-09-21T22:49:30.824191+08:00"
+      },
+      {
+        "attempt_id": "7a024c4f-bc67-4471-90f9-d8fde51c5054",
+        "work_package": "P3-WP03",
+        "run_id": "a4f933fe-709f-4378-bb8d-c9b50a2ad7c2",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1602,
+          "prompt_tokens": 1407,
+          "completion_tokens": 195
+        },
+        "error": null,
+        "reserved_at": "2026-09-21T22:49:31.117752+08:00",
+        "finished_at": "2026-09-21T22:49:32.607243+08:00"
+      },
+      {
+        "attempt_id": "59032650-f2bb-405b-bf4b-54af8f360666",
+        "work_package": "P3-WP03",
+        "run_id": "8d979a6e-06f0-4f28-b4ac-1d18ae7ceb27",
+        "status": "succeeded",
+        "usage": {
+          "total_tokens": 1607,
+          "prompt_tokens": 1407,
+          "completion_tokens": 200
+        },
+        "error": null,
+        "reserved_at": "2026-09-21T22:49:32.844678+08:00",
+        "finished_at": "2026-09-21T22:49:34.807033+08:00"
+      }
+    ]
+  },
+  "requests_this_run": 0
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.355" timestamp="2026-09-21T22:49:40.745764+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_phase03_gate" name="test_gate_module_exists" time="0.002"><failure message="AssertionError: assert False&#10; +  where False = is_file()&#10; +    where is_file = WindowsPath('evals/phase03_gate.py').is_file&#10; +      where WindowsPath('evals/phase03_gate.py') = Path('evals/phase03_gate.py')">tests\test_phase03_gate.py:7: in test_gate_module_exists
+    assert Path("evals/phase03_gate.py").is_file()
+E   AssertionError: assert False
+E    +  where False = is_file()
+E    +    where is_file = WindowsPath('evals/phase03_gate.py').is_file
+E    +      where WindowsPath('evals/phase03_gate.py') = Path('evals/phase03_gate.py')</failure></testcase></testsuite></testsuites>

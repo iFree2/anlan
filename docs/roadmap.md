@@ -14,8 +14,8 @@
 |---|---|---|---|---|
 | P1 多轮工作流 | 1—2 | 材料 → 追问 → 补充 → 再分析；真实模型小样本；PostgreSQL 恢复 | CLI 全路径、重启/隔离/故障、冻结工程回归；个人记录独立 | 工程Gate通过；个人掌握/语义泛化待验 |
 | P2 工具与知识 | 3—6 | 合成事实 Python 工具、有界工具循环、示例知识摄取与 pgvector RAG；接追踪平台（优先评估Langfuse） | 越权/超时、时效/撤回；检索与依据支持分开评测 | 工程Gate通过；185测试/11冻结场景；实际追踪Jaeger，语义/个人限制保留 |
-| P3 Memory 与 Context | 7—10 | 跨会话偏好/反馈候选、来源与生命周期；上下文预算与 Skill | 无/有记忆、纠正冲突/删除隔离、上下文消融；形成单 Agent 综合研判基线 | WP01生命周期/隔离/真实PG已验，自动进入WP02 |
-| P4 作业前多 Agent | 11—14 | 11—12 周先拆知识/事实并行；13—14 周加风险、证据复核、受限协调；Java 少量 API/MCP | 并行汇合、超时、部分失败、取消、父子预算、冲突；初次单/多 Agent 对照 | 未开始 |
+| P3 Memory 与 Context | 7—10 | 跨会话偏好/反馈候选、来源与生命周期；上下文预算与 Skill | 无/有记忆、纠正冲突/删除隔离、上下文消融；形成单 Agent 综合研判基线 | 工程Gate通过；228测试、三组真实消融；有记忆无接受率增益，个人待验 |
+| P4 作业前多 Agent | 11—14 | 11—12 周先拆知识/事实并行；13—14 周加风险、证据复核、受限协调；Java 少量 API/MCP | 并行汇合、超时、部分失败、取消、父子预算、冲突；初次单/多 Agent 对照 | 入口计划/验收就绪，自动启动WP01 |
 | P5 感知协同与服务 | 15—18 | 模拟视频/传感器事件、关联去重、条件变更重核、感知 Agent；FastAPI/SSE、Compose/CI | 两类事件与人工反馈回放；报警不依赖 Agent；断连/恢复、清洁环境启动 | 未开始 |
 | P6 质量与可靠性 | 19—22 | 减少功能；反馈→Badcase→归因→改进→回归；只读回放/录制回放/复跑；SQL/语义分析 | 留出集、校准 Judge、单/多 Agent 复测及证据复核消融、故障与性能实验 | 未开始 |
 | P7 接管与求职 | 23—26 | 有限离线多模态；Mem0/Letta 择一比较；小型受限空间复用；本人独立排错、讲解和面试 | 对照数据、失败复盘、可复现演示、如实简历、个人掌握证据 | 未开始 |
@@ -34,7 +34,7 @@
 P1历史计划与证据见 [阶段handoff](phases/phase-01-workflow/handoff.md)。P2只细化最近两周，后半阶段示例知识/pgvector/检索对照和Langfuse在相应业务任务出现时核实兼容与实施，见 [P2计划](phases/phase-02-tools-rag/plan.md)。
 
 
-当前推进P3：[阶段计划](phases/phase-03-memory-context/plan.md)与[验收](phases/phase-03-memory-context/acceptance.md)。先做不需模型调用的合成记忆候选/生命周期，再据证据细化上下文和消融。P2实测与限制见[交接](phases/phase-02-tools-rag/handoff.md)。
+P3已完成：[阶段计划](phases/phase-03-memory-context/plan.md)与[验收](phases/phase-03-memory-context/acceptance.md)。已完成候选/生命周期、上下文及消融，进入[P4](phases/phase-04-multi-agent/plan.md)。P2实测与限制见[交接](phases/phase-02-tools-rag/handoff.md)。
 
 ## 各阶段个人掌握清单
 

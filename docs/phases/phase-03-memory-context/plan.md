@@ -1,6 +1,8 @@
-# P3：Memory与Context
+# P3：Memory与Context（工程完成）
 
 入口：[P2阶段交接](../phase-02-tools-rag/handoff.md)。以单Agent为基线，不提前拆多Agent或引入事件服务。按roadmap长期授权逐包自动推进，个人练习不阻塞实现；工程与个人掌握分别报告。
+
+最终结果见[阶段handoff](handoff.md)与[Gate](evidence/wp03/gate-report.md)。以下为实施计划与历史预算入口；当前累计21/100，P3-WP03=9/10，权威见PG与status。
 
 ## 阶段目标
 

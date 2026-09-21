@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.581" timestamp="2026-09-21T22:38:25.083114+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_review" name="test_review_module_exists" time="0.002"><failure message="AssertionError: assert None is not None&#10; +  where None = &lt;function find_spec at 0x000001CECF28F1A0&gt;('anlan.review')&#10; +    where &lt;function find_spec at 0x000001CECF28F1A0&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec&#10; +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util">tests\test_review.py:15: in test_review_module_exists
+    assert importlib.util.find_spec("anlan.review") is not None
+E   AssertionError: assert None is not None
+E    +  where None = &lt;function find_spec at 0x000001CECF28F1A0&gt;('anlan.review')
+E    +    where &lt;function find_spec at 0x000001CECF28F1A0&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec
+E    +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util</failure></testcase></testsuite></testsuites>

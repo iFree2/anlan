@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="3" time="1.771" timestamp="2026-09-21T22:47:04.260704+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_review" name="test_collection_retains_earlier_fact_trace_warning" time="0.965"><failure message="AssertionError: assert 'fact_trace_write_failed' in []">tests\test_review.py:169: in test_collection_retains_earlier_fact_trace_warning
+    assert "fact_trace_write_failed" in bundle["warnings"]
+E   AssertionError: assert 'fact_trace_write_failed' in []</failure></testcase><testcase classname="tests.test_review_evaluation" name="test_wrong_current_facts_do_not_pass_on_null_reason_alone" time="0.014"><failure message="assert True is False">tests\test_review_evaluation.py:20: in test_wrong_current_facts_do_not_pass_on_null_reason_alone
+    assert score(evidence, case, False, False)["facts_match"] is False
+E   assert True is False</failure></testcase><testcase classname="tests.test_review_evaluation" name="test_shared_ledger_delta_is_not_all_attributed_to_this_experiment" time="0.003"><failure message="assert None is not None">tests\test_review_evaluation.py:26: in test_shared_ledger_delta_is_not_all_attributed_to_this_experiment
+    assert summarize is not None
+E   assert None is not None</failure></testcase></testsuite></testsuites>

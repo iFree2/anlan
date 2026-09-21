@@ -131,6 +131,8 @@ flowchart TD
 
 ## 官方接口依据
 
+P3新增的上下文和综合边界见[ADR007](decisions/007-bounded-review-context.md)：最大24000序列化UTF-8字节，材料/事实/未知必保，知识原文和有效枚举偏好可裁剪；固定三工具采集后一次模型综合。逐条引用与未知清单由宿主校验，模型结果仅候选，指引不是权限来源。单/多Agent后续对照使用这条固定采集基线，不能与P2模型自主选工具循环混同。
+
 2026-09-17 核实：[LangGraph interrupts](https://docs.langchain.com/oss/python/langgraph/interrupts)（节点重入、checkpoint、Command resume），[官方包元数据](https://pypi.org/project/langgraph/)（Python ≥3.10），[DeepSeek JSON Output](https://api-docs.deepseek.com/guides/json_mode/) 与 [Chat Completions](https://api-docs.deepseek.com/api/create-chat-completion/)（JSON 模式与非思考请求）。实际解析出的版本保存在根目录 uv.lock；联网和效果验证另记，文档兼容不替代运行验证。
 
 ## 历史资料来源与适用范围
