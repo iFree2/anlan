@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="3" time="4.599" timestamp="2026-09-21T23:43:40.271417+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_multi_review" name="test_unexpected_http_adapter_failure_retains_reserved_attempt" time="2.063"><failure message="RuntimeError: Cannot send a request, as the client has been closed.">tests\test_multi_review.py:182: in test_unexpected_http_adapter_failure_retains_reserved_attempt
+    result = await multi_review(bundle(), ScriptedReviewModel(),
+src\anlan\multi_review.py:125: in multi_review
+    audit = await step("evidence", audit_model,
+src\anlan\multi_review.py:88: in step
+    result = task.result()
+             ^^^^^^^^^^^^^
+src\anlan\evidence_review.py:116: in generate
+    review, usage, attempt = await self.gateway.call({
+src\anlan\model_gateway.py:39: in call
+    async with self.client.stream(
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\httpx\_client.py:1583: in stream
+    response = await self.send(
+.venv\Lib\site-packages\httpx\_client.py:1616: in send
+    raise RuntimeError("Cannot send a request, as the client has been closed.")
+E   RuntimeError: Cannot send a request, as the client has been closed.</failure></testcase><testcase classname="tests.test_multi_review" name="test_malformed_reviewer_adapter_result_preserves_risk" time="0.007"><failure message="KeyError: 'review'">tests\test_multi_review.py:198: in test_malformed_reviewer_adapter_result_preserves_risk
+    result = await multi_review(bundle(), ScriptedReviewModel(), Malformed())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\multi_review.py:129: in multi_review
+    value = validate_audit(EvidenceReview.model_validate(audit["review"]),
+                                                         ^^^^^^^^^^^^^^^
+E   KeyError: 'review'</failure></testcase><testcase classname="tests.test_multi_review" name="test_synthesis_report_package_matches_actual_gateway" time="0.011"><failure message="AssertionError: assert 'P3-WP03' == 'P4-WP02'&#10;  &#10;  - P4-WP02&#10;  + P3-WP03">tests\test_multi_review.py:213: in test_synthesis_report_package_matches_actual_gateway
+    assert result["work_package"] == ledger.attempts[0]["package"] == "P4-WP02"
+E   AssertionError: assert 'P3-WP03' == 'P4-WP02'
+E     
+E     - P4-WP02
+E     + P3-WP03</failure></testcase></testsuite></testsuites>

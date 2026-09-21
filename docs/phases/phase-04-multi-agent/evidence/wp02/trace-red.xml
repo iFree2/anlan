@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="1.894" timestamp="2026-09-21T23:50:22.724595+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_multi_review" name="test_completed_coordination_trace_is_not_an_error" time="0.054"><failure message="AssertionError: assert ('multi_review_finished' == 'multi_review_finished'&#10;  &#10;    multi_review_finished and 'completed' is None)">tests\test_multi_review.py:256: in test_completed_coordination_trace_is_not_an_error
+    assert record["event"] == "multi_review_finished" and record["error"] is None
+E   AssertionError: assert ('multi_review_finished' == 'multi_review_finished'
+E     
+E       multi_review_finished and 'completed' is None)</failure></testcase></testsuite></testsuites>

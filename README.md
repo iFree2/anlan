@@ -216,11 +216,17 @@ uv run python -O scripts/smoke_parallel.py --source .runtime/parallel-new.json -
 
 输出使用新路径。[同集三路对照与失败记录](docs/phases/phase-04-multi-agent/evidence/wp01/verification.md)保留两例并行更慢的结果，不宣称延迟或质量收益。工具与Memory有共同deadline，材料收尾另有2秒；异步适配器须合作响应取消。
 
+## 风险候选与证据复核（P4-WP02）
+
+`uv run python -m anlan.multi_review_cli --help` 提供两模型职责入口；默认scripted，真实模式才走P4-WP02共享PG预占。两个角色独立上下文，协调器固定，不自动修订或批准。真实实验已占本包9/10，不重复完整9次实验。
+
+`uv run python -O evals/evaluate_multi_review.py --source <已完成parallel报告> --output <新路径>` 可运行不付费替身对照；`scripts/smoke_parallel.py` 加 `--multi-review` 可验证跨进程入口。[真实报告](docs/phases/phase-04-multi-agent/evidence/wp02/live-report.md)保留复核作用、漏检与成本增加。
+
 ## 重要限制
 
 - 内存模式退出即丢失任务；PostgreSQL 模式持久化归属/提交/checkpoint，JSONL 始终不是恢复数据源。
 - 身份为本地模拟；已验证任务级并发互斥与丢锁拒写，不宣称生产权限、任意故障下 exactly-once 或生产 SLA。
-- 已结束任务的重新修改、持久任务取消、业务写工具、多模型协同和企业事件接入尚未实现。P4首包仅增加只读采集分支取消；Memory仅两类合成偏好，保留审计不代表生产隐私删除；引用摘要与综合候选仍有语义Badcase，不是生产合规结论。
+- 已结束任务的重新修改、持久任务取消、业务写工具和企业事件接入尚未实现。P4增加只读采集/两角色模型的有界取消；Memory仅两类合成偏好，保留审计不代表生产隐私删除；引用摘要与综合候选仍有语义Badcase，不是生产合规结论。
 - 功能测试和 HTTP 替身证明控制流/协议处理，不能证明真实模型质量；个人掌握见学习记录，默认待验证。
 
 长期入口：[产品范围](docs/product-scope.md) · [架构与三张数据流图](docs/architecture.md) · [半年路线](docs/roadmap.md) · [能力矩阵](docs/capability-matrix.md) · [当前状态](docs/status.md) · [本人练习](docs/learning-log.md)。

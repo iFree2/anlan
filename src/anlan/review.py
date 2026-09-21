@@ -77,8 +77,10 @@ def validate_candidate(candidate: ReviewCandidate, context: dict):
 class DeepSeekReviewModel:
     mode = "deepseek_live"
 
-    def __init__(self, config, client, ledger):
-        self.gateway = ModelGateway(config, client, ledger, work_package=WORK_PACKAGE)
+    def __init__(self, config, client, ledger, *, work_package=WORK_PACKAGE):
+        if work_package not in {WORK_PACKAGE, "P4-WP02"}:
+            raise ValueError("Unsupported review work package")
+        self.gateway = ModelGateway(config, client, ledger, work_package=work_package)
 
     async def generate(self, context, run_id):
         def parse(envelope):
@@ -145,8 +147,13 @@ async def collect_review(service, identity, task_id, references, question, tools
 
 
 async def synthesize(bundle, model, *, use_memory=True, use_knowledge=True, budget_bytes=24000,
-                     trace=None, run_id=None):
+                     trace=None, run_id=None, work_package=None):
     started = perf_counter()
+    gateway = getattr(model, "gateway", None)
+    actual_package = gateway.work_package if gateway else WORK_PACKAGE
+    if gateway and work_package is not None and work_package != actual_package:
+        raise ValueError("Report package must match the model gateway")
+    work_package = work_package or actual_package
     snapshot = bundle["snapshot"]
     text, digest = guidance()
     report = {"schema_version": "single-review-v1", "data_origin": "SYNTHETIC",
@@ -159,7 +166,7 @@ async def synthesize(bundle, model, *, use_memory=True, use_knowledge=True, budg
               "status": "awaiting_review", "trace_warning": None,
               "requests_this_run": 0, "attempt_id": None, "usage": None,
               "guidance_version": GUIDANCE_VERSION, "guidance_sha256": digest,
-              "work_package": WORK_PACKAGE,
+              "work_package": work_package,
               "notice": "固定只读采集＋单模型综合；结构校验不证明主张语义或批准。"}
     try:
         context = build_context(Identity.model_validate(bundle["identity"]), snapshot,
