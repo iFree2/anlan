@@ -125,6 +125,10 @@ flowchart TD
 
 演进顺序：单工作流 → 单 Agent 受控工具循环与综合研判基线 → 知识/事实两个专业 Agent 并行 → 风险/证据复核与受限协调 → 感知协作扩展。用同任务集比较成功率、调用正确率、引用支持、冲突发现、token/费用与延迟，再做去掉证据复核的消融；无收益的拆分允许退出主链。
 
+## 用户Memory（P3-WP01）
+
+`memory.py`在既有PG维护来源/当前状态/版本审计，`memory_cli.py`提供独立本地模拟入口。SYNTHETIC反馈经枚举白名单生成candidate，明确确认才active；冲突、过期、删除立即不进入普通读取，修正重新确认。tenant/user来自入口，source_ref/version有实际登记归属，hash由代码计算。当前事实仍查询工具、材料仍来自checkpoint、示例依据仍来自知识库，记忆只影响后续呈现。事务、版本与重放边界见[ADR006](decisions/006-user-memory-lifecycle.md)。
+
 ## 官方接口依据
 
 2026-09-17 核实：[LangGraph interrupts](https://docs.langchain.com/oss/python/langgraph/interrupts)（节点重入、checkpoint、Command resume），[官方包元数据](https://pypi.org/project/langgraph/)（Python ≥3.10），[DeepSeek JSON Output](https://api-docs.deepseek.com/guides/json_mode/) 与 [Chat Completions](https://api-docs.deepseek.com/api/create-chat-completion/)（JSON 模式与非思考请求）。实际解析出的版本保存在根目录 uv.lock；联网和效果验证另记，文档兼容不替代运行验证。

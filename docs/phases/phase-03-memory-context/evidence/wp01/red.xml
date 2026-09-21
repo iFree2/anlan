@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="2.060" timestamp="2026-09-21T08:36:50.392547+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_memory" name="test_memory_module_exists" time="0.012"><failure message="AssertionError: assert None is not None&#10; +  where None = &lt;function find_spec at 0x0000015576BBF1A0&gt;('anlan.memory')&#10; +    where &lt;function find_spec at 0x0000015576BBF1A0&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec&#10; +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util">tests\test_memory.py:26: in test_memory_module_exists
+    assert importlib.util.find_spec("anlan.memory") is not None
+E   AssertionError: assert None is not None
+E    +  where None = &lt;function find_spec at 0x0000015576BBF1A0&gt;('anlan.memory')
+E    +    where &lt;function find_spec at 0x0000015576BBF1A0&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec
+E    +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util</failure></testcase></testsuite></testsuites>

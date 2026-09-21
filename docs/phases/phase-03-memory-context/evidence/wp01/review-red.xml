@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="2" time="8.168" timestamp="2026-09-21T08:42:09.830177+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_memory" name="test_unconsumed_older_feedback_cannot_override_newer_source" time="5.184"><failure message="Failed: DID NOT RAISE MemoryConflict">tests\test_memory.py:187: in test_unconsumed_older_feedback_cannot_override_newer_source
+    run(scenario())
+tests\test_memory.py:22: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_memory.py:183: in scenario
+    with pytest.raises(MemoryConflict):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE MemoryConflict</failure></testcase><testcase classname="tests.test_memory" name="test_audit_failure_rolls_back_current_state" time="1.235" /></testsuite></testsuites>
