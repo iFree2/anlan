@@ -1,5 +1,13 @@
 # 学习记录
 
+## P4-WP03 / 阶段工程Gate（2026-09-22）
+
+AI完成Java只读API/MCP、R1分包及P4阶段Gate；297全量＋2新Gate验真测试，冻结9/6/3/2与61故障路径通过，新请求0。真实双角色成本/延迟增加与漏检继续保留，[阶段交接](phases/phase-04-multi-agent/handoff.md)列出原始证据。本人掌握仍待验证。
+
+理解问题：为什么Java不能建立第二事实权威？宿主身份header为什么仍须服务端绑定核对？为什么取消本地await不等于远端工具停止？为什么SDK408、业务unknown和网络失败要区分？为什么工程Gate不证明多Agent质量收益？
+
+可选练习：只读scope-red/cancel-red与其修复，沿MCP requestId找到一次取消通知，再解释数据规则为何仍在Python。无需重跑真实模型，不阻塞P5。
+
 ## R1职责分包（2026-09-22）
 
 按用户要求，AI在P4-WP03基线后完成职责包重构；297测试/原P2-P3冻结回归/P4同集与Java-MCP整链/wheel资源和CLI验证通过。SQL、模型合同、预算和历史原件不变；用户32行译文保留为新路径未提交改动。[报告](refactoring/package-layout-report.md)说明具体映射与失败。个人掌握不因此升级。

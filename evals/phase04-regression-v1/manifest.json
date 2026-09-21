@@ -1,0 +1,14 @@
+{
+  "version": "phase04-regression-v1",
+  "exposure": "developer_seen_engineering_only",
+  "files": {
+    "evals/review-v1/cases.json": "d87268a30880cdaa69d42ecf69928438a234b90719c89002c13c15ffa1b65df5",
+    "evals/context-v1/cases.json": "a3e27e1653ea807705c2bbcfb20eb8496b41debcd4abd3b5b3d939a8a06023ee",
+    "examples/synthetic/knowledge-v1/documents.json": "d06473685361d3873227d7f0f0a4b101963ca69a5728b5e9eee7cab23ba2558e",
+    "examples/synthetic/facts-v1/access.json": "a1d1a7ee10fe1034e199a5fd966260390e88c1b95f8de941eb682c3933f02d39",
+    "examples/synthetic/facts-v1/areas.json": "4301d2994f1f91074fef76974685d662fc440e0ed5bef7a9c3b0ed8153f8394d",
+    "examples/synthetic/facts-v1/qualifications.json": "18effa77aa89f768d7ab0355700f39416262eaae88ece7b47ff006dc4dc3fd1d",
+    "src/anlan/assets/hot-work-review-v1.md": "c402197dc335f2a963fb7f8e85d1117fb3dd80a109e6a4ce499d9308525d941b"
+  },
+  "purpose": "Fixed P3 input, scoped branch/role/Java-MCP engineering equivalence; no quality or held-out claims"
+}

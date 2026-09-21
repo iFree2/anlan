@@ -2,7 +2,7 @@
 
 面向企业安全管理人员的高风险作业全周期安全协同 Agent。先深入动火作业，从准备与预审发展到依据/风险分析、作业中感知协同和事后质量闭环。所有演示均为 **SYNTHETIC 合成数据**，不是企业制度或合规依据；不自动批准，不控制或关闭报警。
 
-P1—P3工程Gate已通过。当前支持材料多轮/PG恢复、事实与知识工具、用户偏好Memory、有界上下文与单模型综合候选。P3全量228测试通过，但真实消融仅接受6/9、有记忆未提高接受率；工程与模型质量分别报告。[P3交接](docs/phases/phase-03-memory-context/handoff.md)和[当前状态](docs/status.md)是继续入口。
+P1—P4工程Gate与R1职责分包已通过。当前支持材料多轮/PG恢复、事实/知识/Memory、有界上下文、受控并行与两职责模型复核、Java只读API/MCP。297项全量回归与2项Gate验真检查通过；并行/多角色仍有成本、延迟和语义不足，工程状态不代表模型质量或本人掌握。[P4交接](docs/phases/phase-04-multi-agent/handoff.md)和[当前状态](docs/status.md)是继续入口。
 
 ## 启动（PowerShell）
 
@@ -223,6 +223,8 @@ uv run python -O scripts/smoke_parallel.py --source .runtime/parallel-new.json -
 `uv run python -O evals/evaluate_multi_review.py --source <已完成parallel报告> --output <新路径>` 可运行不付费替身对照；`scripts/smoke_parallel.py` 加 `--multi-review` 可验证跨进程入口。[真实报告](docs/phases/phase-04-multi-agent/evidence/wp02/live-report.md)保留复核作用、漏检与成本增加。
 
 ## 重要限制
+
+P4工程Gate与R1分包已通过，[阶段交接](docs/phases/phase-04-multi-agent/handoff.md)包含复现与限制。Java/MCP整链可用 `.venv/Scripts/python.exe -O scripts/smoke_business_bridge.py --source <parallel报告> --output <新报告>`；阶段复现用 `evals/phase04_gate.py --output <新报告>`。先加载项目PG Env；有用户chat占用anlan.exe时使用虚拟环境Python或uv run --no-sync，不必终止chat。Java仅代理两条既有只读事实工具，未建立第二规则/数据源。
 
 - 内存模式退出即丢失任务；PostgreSQL 模式持久化归属/提交/checkpoint，JSONL 始终不是恢复数据源。
 - 身份为本地模拟；已验证任务级并发互斥与丢锁拒写，不宣称生产权限、任意故障下 exactly-once 或生产 SLA。
