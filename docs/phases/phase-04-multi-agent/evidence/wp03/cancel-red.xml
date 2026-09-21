@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="6.553" timestamp="2026-09-22T00:03:45.727815+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_business_bridge" name="test_actual_sdk_cancel_and_timeout_notify_remote_handler[True]" time="2.146"><failure message="TimeoutError() [single exception in ExceptionGroup]">+ Exception Group Traceback (most recent call last):
+  |   File "D:\src\agent学习\安澜2.0\tests\test_business_bridge.py", line 192, in test_actual_sdk_cancel_and_timeout_notify_remote_handler
+  |     async with anyio.create_task_group() as group:
+  |                ~~~~~~~~~~~~~~~~~~~~~~~^^
+  |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 847, in __aexit__
+  |     raise BaseExceptionGroup(
+  |         "unhandled errors in a TaskGroup", self._exceptions
+  |     ) from None
+  | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Exception Group Traceback (most recent call last):
+    |   File "D:\src\agent学习\安澜2.0\tests\test_business_bridge.py", line 194, in test_actual_sdk_cancel_and_timeout_notify_remote_handler
+    |     async with ClientSession(client[0], writer) as session:
+    |                ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+    |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\mcp\shared\session.py", line 238, in __aexit__
+    |     return await self._task_group.__aexit__(exc_type, exc_val, exc_tb)
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 847, in __aexit__
+    |     raise BaseExceptionGroup(
+    |         "unhandled errors in a TaskGroup", self._exceptions
+    |     ) from None
+    | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+    +-+---------------- 1 ----------------
+      | Traceback (most recent call last):
+      |   File "C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\tasks.py", line 507, in wait_for
+      |     return await fut
+      |            ^^^^^^^^^
+      |   File "C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\locks.py", line 213, in wait
+      |     await fut
+      | asyncio.exceptions.CancelledError
+      | 
+      | The above exception was the direct cause of the following exception:
+      | 
+      | Traceback (most recent call last):
+      |   File "D:\src\agent学习\安澜2.0\tests\test_business_bridge.py", line 207, in test_actual_sdk_cancel_and_timeout_notify_remote_handler
+      |     await asyncio.wait_for(cleaned.wait(), 0.5)
+      |   File "C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\tasks.py", line 506, in wait_for
+      |     async with timeouts.timeout(timeout):
+      |                ~~~~~~~~~~~~~~~~^^^^^^^^^
+      |   File "C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\timeouts.py", line 116, in __aexit__
+      |     raise TimeoutError from exc_val
+      | TimeoutError
+      +------------------------------------</failure></testcase><testcase classname="tests.test_business_bridge" name="test_actual_sdk_cancel_and_timeout_notify_remote_handler[False]" time="4.016"><failure message="AssertionError(&quot;assert 'data_error' == 'timeout'\n  \n  - timeout\n  + data_error&quot;) [single exception in ExceptionGroup]">+ Exception Group Traceback (most recent call last):
+  |   File "D:\src\agent学习\安澜2.0\tests\test_business_bridge.py", line 192, in test_actual_sdk_cancel_and_timeout_notify_remote_handler
+  |     async with anyio.create_task_group() as group:
+  |                ~~~~~~~~~~~~~~~~~~~~~~~^^
+  |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 847, in __aexit__
+  |     raise BaseExceptionGroup(
+  |         "unhandled errors in a TaskGroup", self._exceptions
+  |     ) from None
+  | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Exception Group Traceback (most recent call last):
+    |   File "D:\src\agent学习\安澜2.0\tests\test_business_bridge.py", line 194, in test_actual_sdk_cancel_and_timeout_notify_remote_handler
+    |     async with ClientSession(client[0], writer) as session:
+    |                ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+    |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\mcp\shared\session.py", line 238, in __aexit__
+    |     return await self._task_group.__aexit__(exc_type, exc_val, exc_tb)
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 847, in __aexit__
+    |     raise BaseExceptionGroup(
+    |         "unhandled errors in a TaskGroup", self._exceptions
+    |     ) from None
+    | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+    +-+---------------- 1 ----------------
+      | Traceback (most recent call last):
+      |   File "D:\src\agent学习\安澜2.0\tests\test_business_bridge.py", line 206, in test_actual_sdk_cancel_and_timeout_notify_remote_handler
+      |     assert result.reason == "timeout"
+      | AssertionError: assert 'data_error' == 'timeout'
+      |   
+      |   - timeout
+      |   + data_error
+      +------------------------------------</failure></testcase></testsuite></testsuites>

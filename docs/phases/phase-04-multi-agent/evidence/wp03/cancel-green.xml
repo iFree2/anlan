@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="5" skipped="0" tests="14" time="14.197" timestamp="2026-09-22T00:04:30.426320+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_business_bridge" name="test_bridge_module_exists" time="0.001" /><testcase classname="tests.test_business_bridge" name="test_java_http_returns_existing_python_facts" time="4.088" /><testcase classname="tests.test_business_bridge" name="test_java_permissions_and_allowlist[/api/area-status-False-parameters0-401-None]" time="0.573" /><testcase classname="tests.test_business_bridge" name="test_java_permissions_and_allowlist[/api/approve-True-parameters1-404-None]" time="0.533" /><testcase classname="tests.test_business_bridge" name="test_java_permissions_and_allowlist[/api/area-status-True-parameters2-200-invalid_parameters]" time="0.545" /><testcase classname="tests.test_business_bridge" name="test_java_permissions_and_allowlist[/api/area-status-True-parameters3-200-access_denied]" time="0.518" /><testcase classname="tests.test_business_bridge" name="test_java_oversize_and_wrong_method" time="0.625" /><testcase classname="tests.test_business_bridge" name="test_actual_mcp_handshake_tools_call_and_scope" time="2.952"><failure message="TypeError(&quot;'RequestTrackingStream' object does not support the asynchronous context manager protocol&quot;) [single exception in ExceptionGroup]">+ Exception Group Traceback (most recent call last):
+  |   File "D:\src\agent学习\安澜2.0\tests\test_business_bridge.py", line 92, in test_actual_mcp_handshake_tools_call_and_scope
+  |     async with mcp_fact_tools(bridge.url, bridge.token, OWNER, NOW) as (tools, session, info):
+  |                ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 214, in __aenter__
+  |     return await anext(self.gen)
+  |            ^^^^^^^^^^^^^^^^^^^^^
+  |   File "D:\src\agent学习\安澜2.0\src\anlan\mcp_tools.py", line 106, in mcp_fact_tools
+  |     async with stdio_client(parameters) as (read, write):
+  |                ~~~~~~~~~~~~^^^^^^^^^^^^
+  |   File "C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 235, in __aexit__
+  |     await self.gen.athrow(value)
+  |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\mcp\client\stdio\__init__.py", line 183, in stdio_client
+  |     anyio.create_task_group() as tg,
+  |     ~~~~~~~~~~~~~~~~~~~~~~~^^
+  |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 847, in __aexit__
+  |     raise BaseExceptionGroup(
+  |         "unhandled errors in a TaskGroup", self._exceptions
+  |     ) from None
+  | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Exception Group Traceback (most recent call last):
+    |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\mcp\client\stdio\__init__.py", line 189, in stdio_client
+    |     yield read_stream, write_stream
+    |   File "D:\src\agent学习\安澜2.0\src\anlan\mcp_tools.py", line 108, in mcp_fact_tools
+    |     async with ClientSession(read, RequestTrackingStream(write, pending),
+    |                ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |                              read_timeout_seconds=timedelta(seconds=8)) as session:
+    |                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\mcp\shared\session.py", line 238, in __aexit__
+    |     return await self._task_group.__aexit__(exc_type, exc_val, exc_tb)
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 847, in __aexit__
+    |     raise BaseExceptionGroup(
+    |         "unhandled errors in a TaskGroup", self._exceptions
+    |     ) from None
+    | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+    +-+---------------- 1 ----------------
+      | Traceback (most recent call last):
+      |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\anyio\_core\_tasks.py", line 327, in _run_coro
+      |     retval = await self._coro
+      |              ^^^^^^^^^^^^^^^^
+      |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\mcp\shared\session.py", line 354, in _receive_loop
+      |     self._write_stream,
+      |     ^^^^^^^^^^^^^^^^^^
+      | TypeError: 'RequestTrackingStream' object does not support the asynchronous context manager protocol
+      +------------------------------------</failure></testcase><testcase classname="tests.test_business_bridge" name="test_mcp_wrong_token_and_as_of_are_explicit_errors" time="2.022"><failure message="TypeError(&quot;'RequestTrackingStream' object does not support the asynchronous context manager protocol&quot;) [single exception in ExceptionGroup]">+ Exception Group Traceback (most recent call last):
+  |   File "D:\src\agent学习\安澜2.0\tests\test_business_bridge.py", line 118, in test_mcp_wrong_token_and_as_of_are_explicit_errors
+  |     async with mcp_fact_tools(bridge.url, token, OWNER, now) as (tools, _, _):
+  |                ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 214, in __aenter__
+  |     return await anext(self.gen)
+  |            ^^^^^^^^^^^^^^^^^^^^^
+  |   File "D:\src\agent学习\安澜2.0\src\anlan\mcp_tools.py", line 106, in mcp_fact_tools
+  |     async with stdio_client(parameters) as (read, write):
+  |                ~~~~~~~~~~~~^^^^^^^^^^^^
+  |   File "C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 235, in __aexit__
+  |     await self.gen.athrow(value)
+  |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\mcp\client\stdio\__init__.py", line 183, in stdio_client
+  |     anyio.create_task_group() as tg,
+  |     ~~~~~~~~~~~~~~~~~~~~~~~^^
+  |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 847, in __aexit__
+  |     raise BaseExceptionGroup(
+  |         "unhandled errors in a TaskGroup", self._exceptions
+  |     ) from None
+  | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Exception Group Traceback (most recent call last):
+    |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\mcp\client\stdio\__init__.py", line 189, in stdio_client
+    |     yield read_stream, write_stream
+    |   File "D:\src\agent学习\安澜2.0\src\anlan\mcp_tools.py", line 108, in mcp_fact_tools
+    |     async with ClientSession(read, RequestTrackingStream(write, pending),
+    |                ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |                              read_timeout_seconds=timedelta(seconds=8)) as session:
+    |                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\mcp\shared\session.py", line 238, in __aexit__
+    |     return await self._task_group.__aexit__(exc_type, exc_val, exc_tb)
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 847, in __aexit__
+    |     raise BaseExceptionGroup(
+    |         "unhandled errors in a TaskGroup", self._exceptions
+    |     ) from None
+    | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+    +-+---------------- 1 ----------------
+      | Traceback (most recent call last):
+      |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\anyio\_core\_tasks.py", line 327, in _run_coro
+      |     retval = await self._coro
+      |              ^^^^^^^^^^^^^^^^
+      |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\mcp\shared\session.py", line 354, in _receive_loop
+      |     self._write_stream,
+      |     ^^^^^^^^^^^^^^^^^^
+      | TypeError: 'RequestTrackingStream' object does not support the asynchronous context manager protocol
+      +------------------------------------</failure></testcase><testcase classname="tests.test_business_bridge" name="test_loopback_config_does_not_allow_credential_forwarding" time="0.001" /><testcase classname="tests.test_business_bridge" name="test_http_bridge_network_and_contract_failures_are_bounded" time="0.009" /><testcase classname="tests.test_business_bridge" name="test_host_identity_must_match_token_bound_backend_scope" time="2.023"><failure message="TypeError(&quot;'RequestTrackingStream' object does not support the asynchronous context manager protocol&quot;) [single exception in ExceptionGroup]">+ Exception Group Traceback (most recent call last):
+  |   File "D:\src\agent学习\安澜2.0\tests\test_business_bridge.py", line 157, in test_host_identity_must_match_token_bound_backend_scope
+  |     async with mcp_fact_tools(bridge.url, bridge.token, wrong, NOW) as (tools, _, _):
+  |                ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 214, in __aenter__
+  |     return await anext(self.gen)
+  |            ^^^^^^^^^^^^^^^^^^^^^
+  |   File "D:\src\agent学习\安澜2.0\src\anlan\mcp_tools.py", line 106, in mcp_fact_tools
+  |     async with stdio_client(parameters) as (read, write):
+  |                ~~~~~~~~~~~~^^^^^^^^^^^^
+  |   File "C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 235, in __aexit__
+  |     await self.gen.athrow(value)
+  |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\mcp\client\stdio\__init__.py", line 183, in stdio_client
+  |     anyio.create_task_group() as tg,
+  |     ~~~~~~~~~~~~~~~~~~~~~~~^^
+  |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 847, in __aexit__
+  |     raise BaseExceptionGroup(
+  |         "unhandled errors in a TaskGroup", self._exceptions
+  |     ) from None
+  | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Exception Group Traceback (most recent call last):
+    |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\mcp\client\stdio\__init__.py", line 189, in stdio_client
+    |     yield read_stream, write_stream
+    |   File "D:\src\agent学习\安澜2.0\src\anlan\mcp_tools.py", line 108, in mcp_fact_tools
+    |     async with ClientSession(read, RequestTrackingStream(write, pending),
+    |                ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |                              read_timeout_seconds=timedelta(seconds=8)) as session:
+    |                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\mcp\shared\session.py", line 238, in __aexit__
+    |     return await self._task_group.__aexit__(exc_type, exc_val, exc_tb)
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 847, in __aexit__
+    |     raise BaseExceptionGroup(
+    |         "unhandled errors in a TaskGroup", self._exceptions
+    |     ) from None
+    | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+    +-+---------------- 1 ----------------
+      | Traceback (most recent call last):
+      |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\anyio\_core\_tasks.py", line 327, in _run_coro
+      |     retval = await self._coro
+      |              ^^^^^^^^^^^^^^^^
+      |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\mcp\shared\session.py", line 354, in _receive_loop
+      |     self._write_stream,
+      |     ^^^^^^^^^^^^^^^^^^
+      | TypeError: 'RequestTrackingStream' object does not support the asynchronous context manager protocol
+      +------------------------------------</failure></testcase><testcase classname="tests.test_business_bridge" name="test_actual_sdk_cancel_and_timeout_notify_remote_handler[True]" time="0.021"><failure message="TypeError(&quot;'RequestTrackingStream' object does not support the asynchronous context manager protocol&quot;) [single exception in ExceptionGroup]">+ Exception Group Traceback (most recent call last):
+  |   File "D:\src\agent学习\安澜2.0\tests\test_business_bridge.py", line 192, in test_actual_sdk_cancel_and_timeout_notify_remote_handler
+  |     async with anyio.create_task_group() as group:
+  |                ~~~~~~~~~~~~~~~~~~~~~~~^^
+  |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 847, in __aexit__
+  |     raise BaseExceptionGroup(
+  |         "unhandled errors in a TaskGroup", self._exceptions
+  |     ) from None
+  | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Exception Group Traceback (most recent call last):
+    |   File "D:\src\agent学习\安澜2.0\tests\test_business_bridge.py", line 194, in test_actual_sdk_cancel_and_timeout_notify_remote_handler
+    |     async with ClientSession(client[0], writer) as session:
+    |                ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+    |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\mcp\shared\session.py", line 238, in __aexit__
+    |     return await self._task_group.__aexit__(exc_type, exc_val, exc_tb)
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 847, in __aexit__
+    |     raise BaseExceptionGroup(
+    |         "unhandled errors in a TaskGroup", self._exceptions
+    |     ) from None
+    | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+    +-+---------------- 1 ----------------
+      | Traceback (most recent call last):
+      |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\anyio\_core\_tasks.py", line 327, in _run_coro
+      |     retval = await self._coro
+      |              ^^^^^^^^^^^^^^^^
+      |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\mcp\shared\session.py", line 354, in _receive_loop
+      |     self._write_stream,
+      |     ^^^^^^^^^^^^^^^^^^
+      | TypeError: 'RequestTrackingStream' object does not support the asynchronous context manager protocol
+      +------------------------------------</failure></testcase><testcase classname="tests.test_business_bridge" name="test_actual_sdk_cancel_and_timeout_notify_remote_handler[False]" time="0.075"><failure message="TypeError(&quot;'RequestTrackingStream' object does not support the asynchronous context manager protocol&quot;) [single exception in ExceptionGroup]">+ Exception Group Traceback (most recent call last):
+  |   File "D:\src\agent学习\安澜2.0\tests\test_business_bridge.py", line 192, in test_actual_sdk_cancel_and_timeout_notify_remote_handler
+  |     async with anyio.create_task_group() as group:
+  |                ~~~~~~~~~~~~~~~~~~~~~~~^^
+  |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 847, in __aexit__
+  |     raise BaseExceptionGroup(
+  |         "unhandled errors in a TaskGroup", self._exceptions
+  |     ) from None
+  | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Exception Group Traceback (most recent call last):
+    |   File "D:\src\agent学习\安澜2.0\tests\test_business_bridge.py", line 194, in test_actual_sdk_cancel_and_timeout_notify_remote_handler
+    |     async with ClientSession(client[0], writer) as session:
+    |                ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+    |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\mcp\shared\session.py", line 238, in __aexit__
+    |     return await self._task_group.__aexit__(exc_type, exc_val, exc_tb)
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 847, in __aexit__
+    |     raise BaseExceptionGroup(
+    |         "unhandled errors in a TaskGroup", self._exceptions
+    |     ) from None
+    | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+    +-+---------------- 1 ----------------
+      | Traceback (most recent call last):
+      |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\anyio\_core\_tasks.py", line 327, in _run_coro
+      |     retval = await self._coro
+      |              ^^^^^^^^^^^^^^^^
+      |   File "D:\src\agent学习\安澜2.0\.venv\Lib\site-packages\mcp\shared\session.py", line 354, in _receive_loop
+      |     self._write_stream,
+      |     ^^^^^^^^^^^^^^^^^^
+      | TypeError: 'RequestTrackingStream' object does not support the asynchronous context manager protocol
+      +------------------------------------</failure></testcase></testsuite></testsuites>
