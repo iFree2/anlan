@@ -85,9 +85,10 @@ def parse_turn(envelope: dict) -> ModelTurn:
 class DeepSeekToolModel:
     mode = "deepseek_live"
 
-    def __init__(self, config, client, ledger, *, include_knowledge=False):
+    def __init__(self, config, client, ledger, *, include_knowledge=False, work_package=None):
         self.gateway = ModelGateway(config, client, ledger,
-                                    work_package="P2-WP04" if include_knowledge else "P2-WP02")
+                                    work_package=work_package or (
+                                        "P2-WP04" if include_knowledge else "P2-WP02"))
         self.tool_schemas = TOOL_SCHEMAS + ([{"type": "function", "function": {
             "name": "query_knowledge", "description": "查询授权范围内有效示例知识，只读并返回引用",
             "parameters": KnowledgeParameters.model_json_schema(),

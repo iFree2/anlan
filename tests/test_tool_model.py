@@ -21,6 +21,21 @@ class FakeLedger:
         self.attempts[int(attempt_id) - 1].update(status=status, usage=usage, error=error)
 
 
+async def test_explicit_p3_package_is_reserved_before_http():
+    from anlan.tool_model import DeepSeekToolModel
+    ledger = FakeLedger()
+
+    def handler(request):
+        assert ledger.attempts[0]["package"] == "P3-WP02"
+        return httpx.Response(200, json=envelope({"content": None, "tool_calls": [call()]}))
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        model = DeepSeekToolModel(ModelConfig(api_key="test"), client, ledger,
+                                  include_knowledge=True, work_package="P3-WP02")
+        await model.next([{"role": "user", "content": "SYNTHETIC"}], "test-p3")
+    assert ledger.attempts[0]["status"] == "succeeded"
+
+
 def envelope(message, finish="tool_calls"):
     return {"choices": [{"finish_reason": finish, "message": {
         "role": "assistant", "reasoning_content": "hidden-sentinel", **message}}],

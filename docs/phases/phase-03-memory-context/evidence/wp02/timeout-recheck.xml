@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="3.660" timestamp="2026-09-21T21:52:35.953737+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_tool_loop" name="test_repeated_call_id_is_rejected_before_second_execution" time="0.098" /></testsuite></testsuites>
