@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="19.950" timestamp="2026-09-22T08:24:28.371452+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_events_cli" name="test_receipt_process_show_and_denied_read" time="18.844" /></testsuite></testsuites>

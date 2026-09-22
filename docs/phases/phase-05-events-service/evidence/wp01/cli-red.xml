@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="2.077" timestamp="2026-09-22T08:23:52.364052+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_events_cli" name="test_receipt_process_show_and_denied_read" time="0.430"><failure message="AssertionError: D:\src\agent学习\安澜2.0\.venv\Scripts\python.exe: No module named anlan.interfaces.events_cli&#10;  &#10;assert 1 == 0&#10; +  where 1 = CompletedProcess(args=['D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe', '-m', 'anlan.interfaces.events_cli', '--...stdout='', stderr='D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe: No module named anlan.interfaces.events_cli\n').returncode">tests\test_events_cli.py:33: in test_receipt_process_show_and_denied_read
+    received = cli("receive", "--source", config.source_id, "--body", body,
+tests\test_events_cli.py:30: in cli
+    assert result.returncode == expect, result.stderr
+E   AssertionError: D:\src\agent学习\安澜2.0\.venv\Scripts\python.exe: No module named anlan.interfaces.events_cli
+E     
+E   assert 1 == 0
+E    +  where 1 = CompletedProcess(args=['D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe', '-m', 'anlan.interfaces.events_cli', '--...stdout='', stderr='D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe: No module named anlan.interfaces.events_cli\n').returncode</failure></testcase></testsuite></testsuites>

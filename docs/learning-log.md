@@ -1,5 +1,17 @@
 # 学习记录
 
+## P5-WP01：原始事件与可信关联（2026-09-22）
+
+AI实现两类合成报警、PG接收/水位/幂等与关联；341全量（54真实PG）＋1报告验真、2类型12进程回放通过；原P4冻结和wheel回归通过。实际终止关联连接后原事件仍可恢复；数据库实例未重启。新模型请求0，个人掌握不随工程通过升级。
+
+理解问题：
+1. event_id、sequence、observed_at、received_at与材料revision/run各解决什么问题？
+2. 为什么接收与关联分两次事务，而关联锁、checkpoint读与结果写必须共用一条连接？
+3. 为什么linked仅是当时时点关联，旧序号、较新材料或过期必须阻止新的处置？
+4. 为什么SourceBinding是可信模拟配置声明，不能由事件正文或模型猜测？
+
+可选练习：在独立输出路径运行event-demo，比较先show的result=null与process后的linked；尝试同事件ID换confidence，解释拒绝为何不修改原报警。不要改已归档fixture/报告。不等练习继续WP02。
+
 ## P4-WP03 / 阶段工程Gate（2026-09-22）
 
 AI完成Java只读API/MCP、R1分包及P4阶段Gate；297全量＋2新Gate验真测试，冻结9/6/3/2与61故障路径通过，新请求0。真实双角色成本/延迟增加与漏检继续保留，[阶段交接](phases/phase-04-multi-agent/handoff.md)列出原始证据。本人掌握仍待验证。

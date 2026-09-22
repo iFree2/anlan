@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="15" skipped="0" tests="15" time="10.190" timestamp="2026-09-22T08:20:42.003035+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_events_postgres" name="test_raw_alarm_survives_disconnect_and_links_once[helmet_missing]" time="0.844"><failure message="NotImplementedError">tests\test_events_postgres.py:61: in test_raw_alarm_survives_disconnect_and_links_once
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_events_postgres.py:49: in scenario
+    received = await store.receive(OWNER, config.source_id, payload(kind), config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\infrastructure\events.py:13: in receive
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events_postgres" name="test_raw_alarm_survives_disconnect_and_links_once[gas_abnormal]" time="0.491"><failure message="NotImplementedError">tests\test_events_postgres.py:61: in test_raw_alarm_survives_disconnect_and_links_once
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_events_postgres.py:49: in scenario
+    received = await store.receive(OWNER, config.source_id, payload(kind), config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\infrastructure\events.py:13: in receive
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events_postgres" name="test_duplicate_concurrency_and_conflicting_reuse" time="0.288"><failure message="NotImplementedError">tests\test_events_postgres.py:75: in test_duplicate_concurrency_and_conflicting_reuse
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_events_postgres.py:67: in scenario
+    rows = await asyncio.gather(*[store.receive(OWNER, config.source_id, payload(), config)
+src\anlan\infrastructure\events.py:13: in receive
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events_postgres" name="test_invalid_temporal_or_object_association_is_retained[changes0-object_mismatch]" time="0.248"><failure message="NotImplementedError">tests\test_events_postgres.py:91: in test_invalid_temporal_or_object_association_is_retained
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_events_postgres.py:87: in scenario
+    row = await store.receive(OWNER, config.source_id, payload(**changes), config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\infrastructure\events.py:13: in receive
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events_postgres" name="test_invalid_temporal_or_object_association_is_retained[changes1-future_event]" time="0.249"><failure message="NotImplementedError">tests\test_events_postgres.py:91: in test_invalid_temporal_or_object_association_is_retained
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_events_postgres.py:87: in scenario
+    row = await store.receive(OWNER, config.source_id, payload(**changes), config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\infrastructure\events.py:13: in receive
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events_postgres" name="test_invalid_temporal_or_object_association_is_retained[changes2-expired_event]" time="0.193"><failure message="NotImplementedError">tests\test_events_postgres.py:91: in test_invalid_temporal_or_object_association_is_retained
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_events_postgres.py:87: in scenario
+    row = await store.receive(OWNER, config.source_id, payload(**changes), config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\infrastructure\events.py:13: in receive
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events_postgres" name="test_unknown_source_kind_and_cross_identity_are_not_authority" time="0.294"><failure message="NotImplementedError">tests\test_events_postgres.py:109: in test_unknown_source_kind_and_cross_identity_are_not_authority
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_events_postgres.py:97: in scenario
+    row = await store.receive(OWNER, "unknown-" + uuid4().hex, payload())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\infrastructure\events.py:13: in receive
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events_postgres" name="test_sequence_and_time_watermarks_never_regress" time="0.179"><failure message="NotImplementedError">tests\test_events_postgres.py:125: in test_sequence_and_time_watermarks_never_regress
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_events_postgres.py:115: in scenario
+    newest = await store.receive(OWNER, config.source_id, payload(sequence=3), config)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\infrastructure\events.py:13: in receive
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events_postgres" name="test_newer_event_stales_pending_old_event_without_changing_raw" time="0.175"><failure message="NotImplementedError">tests\test_events_postgres.py:139: in test_newer_event_stales_pending_old_event_without_changing_raw
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_events_postgres.py:131: in scenario
+    old = await store.receive(OWNER, config.source_id, payload(), config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\infrastructure\events.py:13: in receive
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events_postgres" name="test_task_association_requires_owner_and_current_material[missing]" time="0.147"><failure message="NotImplementedError">tests\test_events_postgres.py:162: in test_task_association_requires_owner_and_current_material
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_events_postgres.py:154: in scenario
+    row = await store.receive(OWNER, config.source_id, payload(), config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\infrastructure\events.py:13: in receive
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events_postgres" name="test_task_association_requires_owner_and_current_material[other_user]" time="0.311"><failure message="NotImplementedError">tests\test_events_postgres.py:162: in test_task_association_requires_owner_and_current_material
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_events_postgres.py:154: in scenario
+    row = await store.receive(OWNER, config.source_id, payload(), config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\infrastructure\events.py:13: in receive
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events_postgres" name="test_task_association_requires_owner_and_current_material[other_tenant]" time="0.311"><failure message="NotImplementedError">tests\test_events_postgres.py:162: in test_task_association_requires_owner_and_current_material
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_events_postgres.py:154: in scenario
+    row = await store.receive(OWNER, config.source_id, payload(), config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\infrastructure\events.py:13: in receive
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events_postgres" name="test_task_association_requires_owner_and_current_material[stale]" time="0.163"><failure message="NotImplementedError">tests\test_events_postgres.py:162: in test_task_association_requires_owner_and_current_material
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_events_postgres.py:154: in scenario
+    row = await store.receive(OWNER, config.source_id, payload(), config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\infrastructure\events.py:13: in receive
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events_postgres" name="test_lock_busy_and_crash_preserve_pending_receipt" time="0.186"><failure message="NotImplementedError">tests\test_events_postgres.py:182: in test_lock_busy_and_crash_preserve_pending_receipt
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_events_postgres.py:168: in scenario
+    row = await store.receive(OWNER, config.source_id, payload(), config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\infrastructure\events.py:13: in receive
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events_postgres" name="test_expiry_at_processing_time_does_not_erase_alarm" time="0.217"><failure message="NotImplementedError">tests\test_events_postgres.py:193: in test_expiry_at_processing_time_does_not_erase_alarm
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_events_postgres.py:188: in scenario
+    row = await store.receive(OWNER, config.source_id, payload(), config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\infrastructure\events.py:13: in receive
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase></testsuite></testsuites>

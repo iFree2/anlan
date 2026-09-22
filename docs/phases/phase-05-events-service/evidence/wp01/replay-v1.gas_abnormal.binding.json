@@ -1,0 +1,14 @@
+{
+  "identity": {
+    "tenant_id": "synthetic-p5-replay",
+    "user_id": "safety-manager-demo"
+  },
+  "source_id": "p5-e93774456c5e433aba3a34576d586f09",
+  "kind": "gas_abnormal",
+  "object_ref": "area-p5-demo",
+  "task_id": "f5218680-06cc-4ff5-a65b-3e55e5617075",
+  "revision": 1,
+  "run_id": "554f1bfb-9e1b-46c7-8407-ba2f83978bf7",
+  "valid_from": "2026-09-22T03:59:00Z",
+  "valid_until": "2026-09-22T05:00:00Z"
+}

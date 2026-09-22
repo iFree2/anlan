@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="1.225" timestamp="2026-09-22T08:20:16.568271+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="" name="tests.test_events_postgres" time="0.000"><error message="collection failure">ImportError while importing test module 'D:\src\agent学习\安澜2.0\tests\test_events_postgres.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_events_postgres.py:11: in &lt;module&gt;
+    from anlan.infrastructure.events import EventStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.events'</error></testcase></testsuite></testsuites>

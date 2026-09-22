@@ -1,0 +1,14 @@
+{
+  "identity": {
+    "tenant_id": "synthetic-p5-replay",
+    "user_id": "safety-manager-demo"
+  },
+  "source_id": "p5-95c2fbacb5724fa088ee91d081a44921",
+  "kind": "helmet_missing",
+  "object_ref": "area-p5-demo",
+  "task_id": "16ac2636-ebfa-4912-8ff2-4015beb54c11",
+  "revision": 1,
+  "run_id": "9e6dea63-2cb6-41b4-b681-196eafb31f8f",
+  "valid_from": "2026-09-22T03:59:00Z",
+  "valid_until": "2026-09-22T05:00:00Z"
+}

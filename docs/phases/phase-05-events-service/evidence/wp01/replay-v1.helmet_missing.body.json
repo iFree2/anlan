@@ -1,0 +1,12 @@
+{
+  "schema_version": "perception-event-v1",
+  "data_origin": "SYNTHETIC",
+  "event_id": "helmet-p5-001",
+  "sequence": 1,
+  "kind": "helmet_missing",
+  "object_ref": "area-p5-demo",
+  "observed_at": "2026-09-22T03:59:50+00:00",
+  "expires_at": "2026-09-22T04:05:00+00:00",
+  "alarm_state": "active",
+  "confidence": 0.91
+}

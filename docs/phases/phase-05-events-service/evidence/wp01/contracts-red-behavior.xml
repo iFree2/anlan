@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="22" skipped="0" tests="22" time="0.528" timestamp="2026-09-22T00:50:31.171079+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_events" name="test_two_explicit_synthetic_alarm_types[helmet_missing]" time="0.002"><failure message="NotImplementedError">tests\test_events.py:35: in test_two_explicit_synthetic_alarm_types
+    event = parse_event(payload(kind))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\workflows\event_contracts.py:10: in parse_event
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events" name="test_two_explicit_synthetic_alarm_types[gas_abnormal]" time="0.002"><failure message="NotImplementedError">tests\test_events.py:35: in test_two_explicit_synthetic_alarm_types
+    event = parse_event(payload(kind))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\workflows\event_contracts.py:10: in parse_event
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events" name="test_body_rejects_authority_invalid_time_and_unbounded_values[changes0]" time="0.001"><failure message="NotImplementedError">tests\test_events.py:49: in test_body_rejects_authority_invalid_time_and_unbounded_values
+    parse_event(payload(**changes))
+src\anlan\workflows\event_contracts.py:10: in parse_event
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events" name="test_body_rejects_authority_invalid_time_and_unbounded_values[changes1]" time="0.002"><failure message="NotImplementedError">tests\test_events.py:49: in test_body_rejects_authority_invalid_time_and_unbounded_values
+    parse_event(payload(**changes))
+src\anlan\workflows\event_contracts.py:10: in parse_event
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events" name="test_body_rejects_authority_invalid_time_and_unbounded_values[changes2]" time="0.001"><failure message="NotImplementedError">tests\test_events.py:49: in test_body_rejects_authority_invalid_time_and_unbounded_values
+    parse_event(payload(**changes))
+src\anlan\workflows\event_contracts.py:10: in parse_event
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events" name="test_body_rejects_authority_invalid_time_and_unbounded_values[changes3]" time="0.002"><failure message="NotImplementedError">tests\test_events.py:49: in test_body_rejects_authority_invalid_time_and_unbounded_values
+    parse_event(payload(**changes))
+src\anlan\workflows\event_contracts.py:10: in parse_event
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events" name="test_body_rejects_authority_invalid_time_and_unbounded_values[changes4]" time="0.001"><failure message="NotImplementedError">tests\test_events.py:49: in test_body_rejects_authority_invalid_time_and_unbounded_values
+    parse_event(payload(**changes))
+src\anlan\workflows\event_contracts.py:10: in parse_event
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events" name="test_body_rejects_authority_invalid_time_and_unbounded_values[changes5]" time="0.001"><failure message="NotImplementedError">tests\test_events.py:49: in test_body_rejects_authority_invalid_time_and_unbounded_values
+    parse_event(payload(**changes))
+src\anlan\workflows\event_contracts.py:10: in parse_event
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events" name="test_body_rejects_authority_invalid_time_and_unbounded_values[changes6]" time="0.001"><failure message="NotImplementedError">tests\test_events.py:49: in test_body_rejects_authority_invalid_time_and_unbounded_values
+    parse_event(payload(**changes))
+src\anlan\workflows\event_contracts.py:10: in parse_event
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events" name="test_body_rejects_authority_invalid_time_and_unbounded_values[changes7]" time="0.001"><failure message="NotImplementedError">tests\test_events.py:49: in test_body_rejects_authority_invalid_time_and_unbounded_values
+    parse_event(payload(**changes))
+src\anlan\workflows\event_contracts.py:10: in parse_event
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events" name="test_body_rejects_authority_invalid_time_and_unbounded_values[changes8]" time="0.001"><failure message="NotImplementedError">tests\test_events.py:49: in test_body_rejects_authority_invalid_time_and_unbounded_values
+    parse_event(payload(**changes))
+src\anlan\workflows\event_contracts.py:10: in parse_event
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events" name="test_body_rejects_authority_invalid_time_and_unbounded_values[changes9]" time="0.001"><failure message="NotImplementedError">tests\test_events.py:49: in test_body_rejects_authority_invalid_time_and_unbounded_values
+    parse_event(payload(**changes))
+src\anlan\workflows\event_contracts.py:10: in parse_event
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events" name="test_body_rejects_authority_invalid_time_and_unbounded_values[changes10]" time="0.002"><failure message="NotImplementedError">tests\test_events.py:49: in test_body_rejects_authority_invalid_time_and_unbounded_values
+    parse_event(payload(**changes))
+src\anlan\workflows\event_contracts.py:10: in parse_event
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events" name="test_body_rejects_authority_invalid_time_and_unbounded_values[changes11]" time="0.002"><failure message="NotImplementedError">tests\test_events.py:49: in test_body_rejects_authority_invalid_time_and_unbounded_values
+    parse_event(payload(**changes))
+src\anlan\workflows\event_contracts.py:10: in parse_event
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events" name="test_body_rejects_authority_invalid_time_and_unbounded_values[changes12]" time="0.002"><failure message="NotImplementedError">tests\test_events.py:49: in test_body_rejects_authority_invalid_time_and_unbounded_values
+    parse_event(payload(**changes))
+src\anlan\workflows\event_contracts.py:10: in parse_event
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events" name="test_body_rejects_authority_invalid_time_and_unbounded_values[changes13]" time="0.001"><failure message="NotImplementedError">tests\test_events.py:49: in test_body_rejects_authority_invalid_time_and_unbounded_values
+    parse_event(payload(**changes))
+src\anlan\workflows\event_contracts.py:10: in parse_event
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events" name="test_body_rejects_authority_invalid_time_and_unbounded_values[changes14]" time="0.001"><failure message="NotImplementedError">tests\test_events.py:49: in test_body_rejects_authority_invalid_time_and_unbounded_values
+    parse_event(payload(**changes))
+src\anlan\workflows\event_contracts.py:10: in parse_event
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events" name="test_sensor_contract_does_not_confuse_units_or_video_fields[changes0]" time="0.001"><failure message="NotImplementedError">tests\test_events.py:56: in test_sensor_contract_does_not_confuse_units_or_video_fields
+    parse_event(payload("gas_abnormal", **changes))
+src\anlan\workflows\event_contracts.py:10: in parse_event
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events" name="test_sensor_contract_does_not_confuse_units_or_video_fields[changes1]" time="0.002"><failure message="NotImplementedError">tests\test_events.py:56: in test_sensor_contract_does_not_confuse_units_or_video_fields
+    parse_event(payload("gas_abnormal", **changes))
+src\anlan\workflows\event_contracts.py:10: in parse_event
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events" name="test_sensor_contract_does_not_confuse_units_or_video_fields[changes2]" time="0.002"><failure message="NotImplementedError">tests\test_events.py:56: in test_sensor_contract_does_not_confuse_units_or_video_fields
+    parse_event(payload("gas_abnormal", **changes))
+src\anlan\workflows\event_contracts.py:10: in parse_event
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events" name="test_sensor_contract_does_not_confuse_units_or_video_fields[changes3]" time="0.002"><failure message="NotImplementedError">tests\test_events.py:56: in test_sensor_contract_does_not_confuse_units_or_video_fields
+    parse_event(payload("gas_abnormal", **changes))
+src\anlan\workflows\event_contracts.py:10: in parse_event
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_events" name="test_binding_is_explicit_bounded_and_immutable" time="0.002"><failure message="pydantic_core._pydantic_core.ValidationError: 9 validation errors for SourceBinding&#10;identity&#10;  Extra inputs are not permitted [type=extra_forbidden, input_value={'tenant_id': 'synthetic-...ts', 'user_id': 'owner'}, input_type=dict]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden&#10;source_id&#10;  Extra inputs are not permitted [type=extra_forbidden, input_value='camera-p5', input_type=str]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden&#10;kind&#10;  Extra inputs are not permitted [type=extra_forbidden, input_value='helmet_missing', input_type=str]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden&#10;object_ref&#10;  Extra inputs are not permitted [type=extra_forbidden, input_value='area-p5', input_type=str]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden&#10;task_id&#10;  Extra inputs are not permitted [type=extra_forbidden, input_value='task', input_type=str]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden&#10;revision&#10;  Extra inputs are not permitted [type=extra_forbidden, input_value=1, input_type=int]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden&#10;run_id&#10;  Extra inputs are not permitted [type=extra_forbidden, input_value='run', input_type=str]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden&#10;valid_from&#10;  Extra inputs are not permitted [type=extra_forbidden, input_value=datetime.datetime(2026, 9...o=datetime.timezone.utc), input_type=datetime]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden&#10;valid_until&#10;  Extra inputs are not permitted [type=extra_forbidden, input_value=datetime.datetime(2026, 9...o=datetime.timezone.utc), input_type=datetime]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden">tests\test_events.py:60: in test_binding_is_explicit_bounded_and_immutable
+    config = binding({"task_id": "task", "revision": 1, "run_id": "run"})
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_events.py:25: in binding
+    return SourceBinding.model_validate({
+E   pydantic_core._pydantic_core.ValidationError: 9 validation errors for SourceBinding
+E   identity
+E     Extra inputs are not permitted [type=extra_forbidden, input_value={'tenant_id': 'synthetic-...ts', 'user_id': 'owner'}, input_type=dict]
+E       For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden
+E   source_id
+E     Extra inputs are not permitted [type=extra_forbidden, input_value='camera-p5', input_type=str]
+E       For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden
+E   kind
+E     Extra inputs are not permitted [type=extra_forbidden, input_value='helmet_missing', input_type=str]
+E       For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden
+E   object_ref
+E     Extra inputs are not permitted [type=extra_forbidden, input_value='area-p5', input_type=str]
+E       For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden
+E   task_id
+E     Extra inputs are not permitted [type=extra_forbidden, input_value='task', input_type=str]
+E       For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden
+E   revision
+E     Extra inputs are not permitted [type=extra_forbidden, input_value=1, input_type=int]
+E       For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden
+E   run_id
+E     Extra inputs are not permitted [type=extra_forbidden, input_value='run', input_type=str]
+E       For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden
+E   valid_from
+E     Extra inputs are not permitted [type=extra_forbidden, input_value=datetime.datetime(2026, 9...o=datetime.timezone.utc), input_type=datetime]
+E       For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden
+E   valid_until
+E     Extra inputs are not permitted [type=extra_forbidden, input_value=datetime.datetime(2026, 9...o=datetime.timezone.utc), input_type=datetime]
+E       For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden</failure></testcase></testsuite></testsuites>

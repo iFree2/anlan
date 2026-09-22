@@ -55,7 +55,8 @@ print(json.dumps({'modules':modules,'resource_bytes':len(files('anlan').joinpath
                     raise ValueError("Wheel isolated import failed")
                 report["isolated_imports"] = json.loads(result.stdout)
                 for module in ("anlan", "anlan.cli", "anlan.memory_cli", "anlan.review_cli",
-                               "anlan.multi_review_cli", "anlan.interfaces.cli"):
+                               "anlan.multi_review_cli", "anlan.interfaces.cli",
+                               "anlan.interfaces.events_cli"):
                     command = ("import runpy,sys;sys.path.insert(0,sys.argv[1]);"
                                "module=sys.argv[2];sys.argv=[module,'--help'];"
                                "runpy.run_module(module,run_name='__main__')")
@@ -66,8 +67,8 @@ print(json.dumps({'modules':modules,'resource_bytes':len(files('anlan').joinpath
                     report["commands"].append({"module": module, "returncode": result.returncode})
                     if result.returncode != 0:
                         raise ValueError("Compatibility CLI failed")
-            if len(report["resources"]) != 5:
-                raise ValueError("Expected four migrations and one guidance resource")
+            if len(report["resources"]) != 6:
+                raise ValueError("Expected five migrations and one guidance resource")
             report["status"] = "completed"
         except Exception as exc:
             report.update(status="failed", error_category=type(exc).__name__)
