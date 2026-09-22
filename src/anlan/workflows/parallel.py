@@ -64,7 +64,7 @@ def source_conflicts(observations):
 
 async def collect_parallel(service, identity, task_id, references, question, tools,
                            knowledge_store, memory_store, *, parallel=True, limits=None,
-                           cancel_event=None, trace=None):
+                           cancel_event=None, trace=None, progress=None):
     snapshot = copy.deepcopy(await service.get(identity, task_id))
     # Authorization deliberately precedes clocks, parameters and all other dependencies.
     limits = limits or CollectionLimits()
@@ -204,6 +204,10 @@ async def collect_parallel(service, identity, task_id, references, question, too
                 for i in sorted(indices)]
     for i in indices:
         observations[i] = unknown(specs[i][0], specs[i][1], now, "source_conflict")
+    if progress is not None:
+        # A host may retain evidence if final material revalidation fails during cancellation.
+        progress["observations"] = copy.deepcopy(observations)
+        progress["rejected_observations"] = copy.deepcopy(rejected)
     # Read-only safety finalization has a separate bounded 2s allowance. No child is live here.
     current = await asyncio.wait_for(service.get(identity, task_id), timeout=2)
     if current != snapshot:

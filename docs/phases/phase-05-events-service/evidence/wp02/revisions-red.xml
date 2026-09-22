@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="6" time="4.976" timestamp="2026-09-22T08:36:04.728287+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_material_revisions" name="test_explicit_revise_preserves_task_and_generates_new_version" time="0.662"><failure message="AttributeError: 'WorkflowService' object has no attribute 'revise'">tests\test_material_revisions.py:41: in test_explicit_revise_preserves_task_and_generates_new_version
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_material_revisions.py:26: in scenario
+    revised = await service.revise(OWNER, original["task_id"], 1, PATCH, request_id="change")
+                    ^^^^^^^^^^^^^^
+E   AttributeError: 'WorkflowService' object has no attribute 'revise'</failure></testcase><testcase classname="tests.test_material_revisions" name="test_revise_cannot_bypass_waiting_input_ownership_or_mode" time="0.183"><failure message="AttributeError: 'WorkflowService' object has no attribute 'revise'">tests\test_material_revisions.py:57: in test_revise_cannot_bypass_waiting_input_ownership_or_mode
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_material_revisions.py:49: in scenario
+    await service.revise(OWNER, waiting["task_id"], 1, PATCH)
+          ^^^^^^^^^^^^^^
+E   AttributeError: 'WorkflowService' object has no attribute 'revise'</failure></testcase><testcase classname="tests.test_material_revisions" name="test_revise_recovers_without_second_merge[before_graph]" time="0.255"><failure message="AttributeError: 'WorkflowService' object has no attribute 'revise'">tests\test_material_revisions.py:88: in test_revise_recovers_without_second_merge
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_material_revisions.py:81: in scenario
+    await service.revise(OWNER, original["task_id"], 1, PATCH, request_id="revise")
+          ^^^^^^^^^^^^^^
+E   AttributeError: 'WorkflowService' object has no attribute 'revise'</failure></testcase><testcase classname="tests.test_material_revisions" name="test_revise_recovers_without_second_merge[analysis]" time="0.274"><failure message="AttributeError: 'WorkflowService' object has no attribute 'revise'">tests\test_material_revisions.py:88: in test_revise_recovers_without_second_merge
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_material_revisions.py:81: in scenario
+    await service.revise(OWNER, original["task_id"], 1, PATCH, request_id="revise")
+          ^^^^^^^^^^^^^^
+E   AttributeError: 'WorkflowService' object has no attribute 'revise'</failure></testcase><testcase classname="tests.test_material_revisions" name="test_revise_recovers_without_second_merge[completion]" time="0.247"><failure message="AttributeError: 'WorkflowService' object has no attribute 'revise'">tests\test_material_revisions.py:88: in test_revise_recovers_without_second_merge
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_material_revisions.py:81: in scenario
+    await service.revise(OWNER, original["task_id"], 1, PATCH, request_id="revise")
+          ^^^^^^^^^^^^^^
+E   AttributeError: 'WorkflowService' object has no attribute 'revise'</failure></testcase><testcase classname="tests.test_material_revisions" name="test_revise_to_missing_fields_enters_normal_interrupt_cycle" time="0.229"><failure message="AttributeError: 'WorkflowService' object has no attribute 'revise'">tests\test_material_revisions.py:100: in test_revise_to_missing_fields_enters_normal_interrupt_cycle
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_material_revisions.py:95: in scenario
+    revised = await service.revise(OWNER, original["task_id"], 1,
+                    ^^^^^^^^^^^^^^
+E   AttributeError: 'WorkflowService' object has no attribute 'revise'</failure></testcase></testsuite></testsuites>

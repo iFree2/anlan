@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.549" timestamp="2026-09-22T22:19:55.983325+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_perception" name="test_schema_failure_retains_field_diagnostics_without_raw_response" time="0.019"><failure message="KeyError: 'output_diagnostics'">tests\test_perception.py:260: in test_schema_failure_retains_field_diagnostics_without_raw_response
+    assert result["output_diagnostics"] == [{"type": "missing", "loc": ["event_id"]}]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'output_diagnostics'</failure></testcase></testsuite></testsuites>

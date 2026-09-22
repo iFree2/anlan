@@ -27,6 +27,8 @@ async def initialize_database(dsn: str) -> None:
             await conn.execute("CREATE SCHEMA IF NOT EXISTS anlan_v2")
             migration = files("anlan").joinpath("sql/001_registry.sql").read_text(encoding="utf-8")
             await conn.execute(migration, prepare=False)
+            await conn.execute(files("anlan").joinpath("sql/006_material_revisions.sql").read_text(
+                encoding="utf-8"), prepare=False)
             async with AsyncPostgresSaver.from_conn_string(
                 conninfo(dsn), serde=checkpoint_serde()
             ) as saver:

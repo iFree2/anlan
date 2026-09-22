@@ -1,0 +1,16 @@
+{
+  "data_origin": "SYNTHETIC",
+  "version": "p5-perception-v1",
+  "records": [
+    {
+      "tenant_id": "synthetic-p5-replay",
+      "user_id": "safety-manager-demo",
+      "worker_ids": [
+        "worker-p5-001"
+      ],
+      "area_ids": [
+        "area-p5-demo"
+      ]
+    }
+  ]
+}

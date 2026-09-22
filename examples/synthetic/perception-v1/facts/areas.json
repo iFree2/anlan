@@ -1,0 +1,15 @@
+{
+  "data_origin": "SYNTHETIC",
+  "version": "p5-perception-v1",
+  "records": [
+    {
+      "tenant_id": "synthetic-p5-replay",
+      "observed_at": "2026-09-22T03:55:00Z",
+      "valid_from": "2026-09-22T03:00:00Z",
+      "valid_until": "2026-09-22T05:00:00Z",
+      "record_id": "p5-area-001",
+      "object_id": "area-p5-demo",
+      "status": "restricted"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "data_origin": "SYNTHETIC",
+  "documents": [
+    {
+      "data_origin": "SYNTHETIC",
+      "doc_id": "p5-helmet",
+      "version": 1,
+      "title": "安全帽事件示例",
+      "source": "synthetic-p5-policy/helmet",
+      "valid_from": "2026-09-22T03:00:00Z",
+      "valid_until": "2026-09-23T00:00:00Z",
+      "allowed_users": [
+        "safety-manager-demo"
+      ],
+      "paragraphs": [
+        "SYNTHETIC：未戴安全帽视频事件可能存在遮挡或误识别。保留来源、时间与对象，交安全管理人员核实现场情况；不依赖助手关闭或降低原始报警。"
+      ]
+    },
+    {
+      "data_origin": "SYNTHETIC",
+      "doc_id": "p5-gas",
+      "version": 1,
+      "title": "气体异常事件示例",
+      "source": "synthetic-p5-policy/gas",
+      "valid_from": "2026-09-22T03:00:00Z",
+      "valid_until": "2026-09-23T00:00:00Z",
+      "allowed_users": [
+        "safety-manager-demo"
+      ],
+      "paragraphs": [
+        "SYNTHETIC：可燃气体浓度异常事件保留读数、单位、时间及测点，关联当前材料并交安全管理人员复核。原始报警与联锁独立，助手不输出实时控制指令。"
+      ]
+    },
+    {
+      "data_origin": "SYNTHETIC",
+      "doc_id": "p5-change",
+      "version": 1,
+      "title": "条件变更示例",
+      "source": "synthetic-p5-policy/change",
+      "valid_from": "2026-09-22T03:00:00Z",
+      "valid_until": "2026-09-23T00:00:00Z",
+      "allowed_users": [
+        "safety-manager-demo"
+      ],
+      "paragraphs": [
+        "SYNTHETIC：材料、对象或条件变化后重新核对当前事实与示例依据，旧候选只作历史。材料齐备、模型建议和合成反馈均不是作业批准。"
+      ]
+    }
+  ]
+}

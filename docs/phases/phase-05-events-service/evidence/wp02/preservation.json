@@ -1,0 +1,12 @@
+{
+  "protected_files": 377,
+  "changed": [],
+  "wp01_changed": [],
+  "translations": 32,
+  "missing_translations": [],
+  "index_translation_exclusions": [
+    "src/anlan/infrastructure/postgres.py",
+    "src/anlan/interfaces/cli.py",
+    "src/anlan/workflows/service.py"
+  ]
+}

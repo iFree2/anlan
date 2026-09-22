@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="4.332" timestamp="2026-09-22T08:48:26.424897+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_perception_cli" name="test_material_revise_and_perception_cli_roundtrip" time="2.384"><failure message="AssertionError: usage: __main__.py [-h] [--mode {offline,deepseek}] [--trace TRACE]&#10;                     [--storage {memory,postgres}] [--task TASK]&#10;                     [--revision REVISION] [--request-id REQUEST_ID]&#10;                     [--fields-file FIELDS_FILE] [--refs-file REFS_FILE]&#10;                     [--facts-dir FACTS_DIR] [--as-of AS_OF]&#10;                     [--knowledge-file KNOWLEDGE_FILE] [--question QUESTION]&#10;                     [--knowledge-question KNOWLEDGE_QUESTION]&#10;                     [--strategy {vector,hybrid}] [--doc-id DOC_ID]&#10;                     [--tenant TENANT] [--user USER]&#10;                     {demo,chat,budget-status,check-facts,check-facts-agent,db-init,history,knowledge-ingest,knowledge-query,knowledge-withdraw,recover,resume,show,start}&#10;  __main__.py: error: argument command: invalid choice: 'revise' (choose from demo, chat, budget-status, check-facts, check-facts-agent, db-init, history, knowledge-ingest, knowledge-query, knowledge-withdraw, recover, resume, show, start)&#10;  &#10;assert 2 == 0&#10; +  where 2 = CompletedProcess(args=['D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe', '-m', 'anlan', 'revise', '--tenant', 'sy...facts-agent, db-init, history, knowledge-ingest, knowledge-query, knowledge-withdraw, recover, resume, show, start)\n&quot;).returncode">tests\test_perception_cli.py:29: in test_material_revise_and_perception_cli_roundtrip
+    assert revised.returncode == 0, revised.stderr
+E   AssertionError: usage: __main__.py [-h] [--mode {offline,deepseek}] [--trace TRACE]
+E                        [--storage {memory,postgres}] [--task TASK]
+E                        [--revision REVISION] [--request-id REQUEST_ID]
+E                        [--fields-file FIELDS_FILE] [--refs-file REFS_FILE]
+E                        [--facts-dir FACTS_DIR] [--as-of AS_OF]
+E                        [--knowledge-file KNOWLEDGE_FILE] [--question QUESTION]
+E                        [--knowledge-question KNOWLEDGE_QUESTION]
+E                        [--strategy {vector,hybrid}] [--doc-id DOC_ID]
+E                        [--tenant TENANT] [--user USER]
+E                        {demo,chat,budget-status,check-facts,check-facts-agent,db-init,history,knowledge-ingest,knowledge-query,knowledge-withdraw,recover,resume,show,start}
+E     __main__.py: error: argument command: invalid choice: 'revise' (choose from demo, chat, budget-status, check-facts, check-facts-agent, db-init, history, knowledge-ingest, knowledge-query, knowledge-withdraw, recover, resume, show, start)
+E     
+E   assert 2 == 0
+E    +  where 2 = CompletedProcess(args=['D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe', '-m', 'anlan', 'revise', '--tenant', 'sy...facts-agent, db-init, history, knowledge-ingest, knowledge-query, knowledge-withdraw, recover, resume, show, start)\n").returncode</failure></testcase></testsuite></testsuites>

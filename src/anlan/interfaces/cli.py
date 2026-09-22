@@ -163,9 +163,10 @@ async def run(args):
             return
         fields = json.loads(args.fields_file.read_text(encoding="utf-8-sig")) \
             if args.fields_file else DEMO_FIELDS
-        if args.command == "resume":
-            show(await service.resume(identity, args.task, args.revision, fields,
-                                      request_id=args.request_id), args.mode)
+        if args.command in {"resume", "revise"}:
+            submit = service.resume if args.command == "resume" else service.revise
+            show(await submit(identity, args.task, args.revision, fields,
+                              request_id=args.request_id), args.mode)
             return
         if args.command == "chat":
             persistence = "可按 task_id 跨进程恢复。" if args.storage == "postgres" \
@@ -209,9 +210,9 @@ async def run(args):
 
 def main():
     parser = argparse.ArgumentParser(description="安澜 2.0 合成动火材料工作流")
-    persistent = {"db-init", "start", "show", "resume", "recover", "history", "check-facts",
-                  "check-facts-agent", "budget-status", "knowledge-ingest", "knowledge-query",
-                  "knowledge-withdraw"}
+    persistent = {"db-init", "start", "show", "resume", "revise", "recover", "history",
+                  "check-facts", "check-facts-agent", "budget-status", "knowledge-ingest",
+                  "knowledge-query", "knowledge-withdraw"}
     parser.add_argument("command", choices=["demo", "chat", *sorted(persistent)])
     parser.add_argument("--mode", choices=["offline", "deepseek"], default="offline")
     parser.add_argument("--trace", type=Path, default=Path(".runtime/traces.jsonl"))
@@ -236,13 +237,13 @@ def main():
     args.storage = args.storage or ("postgres" if args.command in persistent else "memory")
     if args.command in persistent and args.storage != "postgres":
         parser.error("持久化子命令需要 PostgreSQL；内存演示请用 demo/chat")
-    if args.command in {"show", "resume", "recover", "history", "check-facts",
+    if args.command in {"show", "resume", "revise", "recover", "history", "check-facts",
                         "check-facts-agent"} and not args.task:
         parser.error("需要 --task")
-    if args.command == "resume" and any(value is None for value in (
+    if args.command in {"resume", "revise"} and any(value is None for value in (
         args.revision, args.request_id, args.fields_file
     )):
-        parser.error("resume 需要 --revision、--request-id 和 --fields-file")
+        parser.error("resume/revise 需要 --revision、--request-id 和 --fields-file")
     if args.command in {"check-facts", "check-facts-agent"} and args.refs_file is None:
         parser.error("事实核验需要 --refs-file")
     if args.command == "knowledge-query" and not args.question:

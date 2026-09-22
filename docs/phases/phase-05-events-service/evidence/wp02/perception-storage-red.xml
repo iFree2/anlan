@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="10" skipped="0" tests="10" time="2.372" timestamp="2026-09-22T08:42:40.145024+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_perception_postgres" name="test_event_to_evidence_to_durable_human_feedback[helmet_missing]" time="0.354"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.perception'">tests\test_perception_postgres.py:58: in test_event_to_evidence_to_durable_human_feedback
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_perception_postgres.py:43: in scenario
+    runtime, store, state, _, event = await prepared(dsn, kind=kind)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_perception_postgres.py:22: in prepared
+    from anlan.infrastructure.perception import PerceptionStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.perception'</failure></testcase><testcase classname="tests.test_perception_postgres" name="test_event_to_evidence_to_durable_human_feedback[gas_abnormal]" time="0.003"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.perception'">tests\test_perception_postgres.py:58: in test_event_to_evidence_to_durable_human_feedback
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_perception_postgres.py:43: in scenario
+    runtime, store, state, _, event = await prepared(dsn, kind=kind)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_perception_postgres.py:22: in prepared
+    from anlan.infrastructure.perception import PerceptionStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.perception'</failure></testcase><testcase classname="tests.test_perception_postgres" name="test_old_review_becomes_stale_and_cannot_be_confirmed[material]" time="0.003"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.perception'">tests\test_perception_postgres.py:80: in test_old_review_becomes_stale_and_cannot_be_confirmed
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_perception_postgres.py:66: in scenario
+    runtime, store, state, config, event = await prepared(dsn)
+                                           ^^^^^^^^^^^^^^^^^^^
+tests\test_perception_postgres.py:22: in prepared
+    from anlan.infrastructure.perception import PerceptionStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.perception'</failure></testcase><testcase classname="tests.test_perception_postgres" name="test_old_review_becomes_stale_and_cannot_be_confirmed[new_event]" time="0.003"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.perception'">tests\test_perception_postgres.py:80: in test_old_review_becomes_stale_and_cannot_be_confirmed
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_perception_postgres.py:66: in scenario
+    runtime, store, state, config, event = await prepared(dsn)
+                                           ^^^^^^^^^^^^^^^^^^^
+tests\test_perception_postgres.py:22: in prepared
+    from anlan.infrastructure.perception import PerceptionStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.perception'</failure></testcase><testcase classname="tests.test_perception_postgres" name="test_old_review_becomes_stale_and_cannot_be_confirmed[expiry]" time="0.003"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.perception'">tests\test_perception_postgres.py:80: in test_old_review_becomes_stale_and_cannot_be_confirmed
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_perception_postgres.py:66: in scenario
+    runtime, store, state, config, event = await prepared(dsn)
+                                           ^^^^^^^^^^^^^^^^^^^
+tests\test_perception_postgres.py:22: in prepared
+    from anlan.infrastructure.perception import PerceptionStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.perception'</failure></testcase><testcase classname="tests.test_perception_postgres" name="test_identity_object_and_feedback_authority_boundaries" time="0.002"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.perception'">tests\test_perception_postgres.py:102: in test_identity_object_and_feedback_authority_boundaries
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_perception_postgres.py:85: in scenario
+    runtime, _, _, _, event = await prepared(dsn)
+                              ^^^^^^^^^^^^^^^^^^^
+tests\test_perception_postgres.py:22: in prepared
+    from anlan.infrastructure.perception import PerceptionStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.perception'</failure></testcase><testcase classname="tests.test_perception_postgres" name="test_concurrent_idempotent_review_calls_model_once" time="0.017"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.perception'">tests\test_perception_postgres.py:132: in test_concurrent_idempotent_review_calls_model_once
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_perception_postgres.py:121: in scenario
+    runtime, _, _, _, event = await prepared(dsn, model)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_perception_postgres.py:22: in prepared
+    from anlan.infrastructure.perception import PerceptionStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.perception'</failure></testcase><testcase classname="tests.test_perception_postgres" name="test_late_model_result_is_retained_but_stale" time="0.002"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.perception'">tests\test_perception_postgres.py:151: in test_late_model_result_is_retained_but_stale
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_perception_postgres.py:145: in scenario
+    runtime, store, _, config, event = await prepared(dsn, Changing())
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_perception_postgres.py:22: in prepared
+    from anlan.infrastructure.perception import PerceptionStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.perception'</failure></testcase><testcase classname="tests.test_perception_postgres" name="test_model_failure_and_cancel_leave_raw_alarm_and_explicit_review_state" time="0.003"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.perception'">tests\test_perception_postgres.py:179: in test_model_failure_and_cancel_leave_raw_alarm_and_explicit_review_state
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_perception_postgres.py:162: in scenario
+    runtime, store, _, _, event = await prepared(dsn, Broken())
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_perception_postgres.py:22: in prepared
+    from anlan.infrastructure.perception import PerceptionStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.perception'</failure></testcase><testcase classname="tests.test_perception_postgres" name="test_interrupted_review_recovers_without_resending_model" time="0.002"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.perception'">tests\test_perception_postgres.py:183: in test_interrupted_review_recovers_without_resending_model
+    from anlan.infrastructure.perception import PerceptionStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.perception'</failure></testcase></testsuite></testsuites>

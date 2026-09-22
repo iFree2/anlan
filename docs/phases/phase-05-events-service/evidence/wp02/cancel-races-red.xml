@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="3" time="5.665" timestamp="2026-09-22T22:11:58.340795+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_perception" name="test_cancel_during_model_child_cleanup_wins_over_candidate" time="0.028"><failure message="AssertionError: assert (True and 'completed' == 'cancelled'&#10; +  where True = is_set()&#10; +    where is_set = &lt;asyncio.locks.Event object at 0x000001D3DA69AE40 [set]&gt;.is_set&#10;  &#10;  - cancelled&#10;  + completed)">tests\test_perception.py:239: in test_cancel_during_model_child_cleanup_wins_over_candidate
+    assert signal.is_set() and value["stop_reason"] == "cancelled"
+E   AssertionError: assert (True and 'completed' == 'cancelled'
+E    +  where True = is_set()
+E    +    where is_set = &lt;asyncio.locks.Event object at 0x000001D3DA69AE40 [set]&gt;.is_set
+E     
+E     - cancelled
+E     + completed)</failure></testcase><testcase classname="tests.test_perception_postgres" name="test_parent_cancel_in_collection_preserves_completed_observations[False]" time="1.830" /><testcase classname="tests.test_perception_postgres" name="test_parent_cancel_in_collection_preserves_completed_observations[True]" time="1.242"><failure message="Failed: DID NOT RAISE CancelledError">tests\test_perception_postgres.py:288: in test_parent_cancel_in_collection_preserves_completed_observations
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_perception_postgres.py:280: in scenario
+    with pytest.raises(asyncio.CancelledError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE CancelledError</failure></testcase></testsuite></testsuites>

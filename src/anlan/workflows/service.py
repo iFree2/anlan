@@ -73,6 +73,16 @@ class WorkflowService:
 
     async def resume(self, identity: Identity, task_id: str, expected_revision: int,
                      fields: dict, *, request_id: str | None = None) -> dict:
+        return await self._submit(identity, task_id, expected_revision, fields,
+                                  request_id=request_id, kind="resume")
+
+    async def revise(self, identity: Identity, task_id: str, expected_revision: int,
+                     fields: dict, *, request_id: str | None = None) -> dict:
+        """Explicit new analysis revision for a completed material task; never approval."""
+        return await self._submit(identity, task_id, expected_revision, fields,
+                                  request_id=request_id, kind="revise")
+
+    async def _submit(self, identity, task_id, expected_revision, fields, *, request_id, kind):
         async with self._registry.locked(identity, task_id) as record:
             self._check_mode(record)
             self._config(record)  # Validate the contract before returning a cached result.
@@ -85,7 +95,7 @@ class WorkflowService:
                 raise InvalidTransition("回答版本无效")
             previous = await self._registry.operation(task_id, request_id)
             if previous is not None:
-                if (previous.fields != supplement.fields
+                if (previous.kind != kind or previous.fields != supplement.fields
                         or previous.expected_revision != expected_revision):
                     raise InvalidTransition("相同 request_id 的载荷不同")
                 if previous.result is not None:
@@ -95,10 +105,15 @@ class WorkflowService:
                 raise InvalidTransition("存在未完成提交；请执行 recover")
             snapshot = await self._snapshot(record)
             state = snapshot.values
-            if (not state or expected_revision != state["revision"]
-                    or state["status"] != "waiting_input" or not snapshot.interrupts):
-                raise InvalidTransition("任务非待补充或回答版本已过期；请先读取当前状态")
-            operation = Operation(request_id, str(uuid4()), "resume", expected_revision,
+            allowed = bool(state) and (
+                state["status"] == "waiting_input" and bool(snapshot.interrupts)
+                if kind == "resume" else
+                state["status"] == "awaiting_review"
+                and not snapshot.interrupts and not snapshot.next
+            )
+            if not allowed or expected_revision != state["revision"]:
+                raise InvalidTransition("任务状态不允许该操作或版本已过期；请先读取当前状态")
+            operation = Operation(request_id, str(uuid4()), kind, expected_revision,
                                   supplement.fields)
             await self._registry.reserve(task_id, operation)
             return await self._execute(record, operation)
@@ -122,6 +137,15 @@ class WorkflowService:
             await self._graph.ainvoke(Command(resume={
                 "fields": operation.fields, "run_id": operation.run_id,
             }), config, durability="sync")
+        elif (operation.kind == "revise" and state["revision"] == operation.expected_revision
+              and state["status"] == "awaiting_review" and not snapshot.interrupts
+              and not snapshot.next):
+            fields = Application.model_validate({**state["fields"], **operation.fields})
+            await self._graph.ainvoke({
+                **state, "fields": fields.model_dump(), "revision": state["revision"] + 1,
+                "run_id": operation.run_id, "status": "analyzing", "analysis": {},
+                "trace_warning": None,
+            }, config, durability="sync")
         else:
             raise InvalidTransition("提交记录与 checkpoint 不一致，需要人工排查")
         result = deepcopy((await self._snapshot(record)).values)

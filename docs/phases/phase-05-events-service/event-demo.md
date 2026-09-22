@@ -20,3 +20,15 @@ scripts/dev-postgres.ps1 -Action Env
 `received_at`与`observed_at`不同；`result=null`表示原事件已提交、关联尚未完成。锁忙/进程退出后可显式process恢复；重复返回同一结果。`linked`只是当时材料版本的关联，不是作业批准或当前性保证。即使expired/out_of_order/task_unavailable，raw.alarm_state仍是active；没有解除告警接口。
 
 CLI身份和binding文件是本地可信模拟配置；不能把此调用方式当成面向任意用户的服务认证。未知来源留unknown_source，不猜测任务。现场生产阈值、报警控制和原设备系统均不在本例范围。
+
+
+## 显式修订与感知链
+
+`anlan revise --task <task> --revision <当前版本> --request-id <稳定ID> --fields-file <补丁文件>`只允许已结束的材料分析，新revision重新分析；waiting_input继续用resume。
+
+```powershell
+.venv/Scripts/python.exe -m anlan.interfaces.perception_cli init
+.venv/Scripts/python.exe -O evals/evaluate_perception.py --output .runtime/perception-replay-new.json
+```
+
+默认替身模式，实际读取独立P5合成事实、真实BGE/PG知识，演示两条事件/反馈/修订/旧记录stale/重核。不要为演示追加真实请求；已保存的真实两次均invalid_output，见live-report。perception_cli的show/feedback/recover不读模型凭据，recover不重发模型。

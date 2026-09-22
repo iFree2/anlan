@@ -1,0 +1,147 @@
+{
+  "status": "completed",
+  "wheel_sha256": "ba924dbd161b0c27203563aae16bc95a4ad5ad2bf7f2dc5d1482dd37c6470da8",
+  "resources": [
+    {
+      "path": "anlan/sql/001_registry.sql",
+      "sha256": "c9b72ff36dca5bef28a7ce23b68714dff79aa266cacfc7cbfedf28aa6b9dc2ea"
+    },
+    {
+      "path": "anlan/sql/002_model_budget.sql",
+      "sha256": "740e2d081b7432f078f2cf30656edbaf4d1feaabfffd399cbc2ac734ae71b464"
+    },
+    {
+      "path": "anlan/sql/003_knowledge.sql",
+      "sha256": "3bf72e703f77f42eead9492fa6c35882ef0864b3a00335988f7a7ec6cbdabc4e"
+    },
+    {
+      "path": "anlan/sql/004_memory.sql",
+      "sha256": "0aeeaeb0ca26e501141ba1f4c08b27925833606eb54e76f946cd677f98ef36af"
+    },
+    {
+      "path": "anlan/sql/005_events.sql",
+      "sha256": "2ef6d5d6ab3e37c0966e1372557fa514acf466eabee6c8c7ce635a8ab1871c0b"
+    },
+    {
+      "path": "anlan/sql/006_material_revisions.sql",
+      "sha256": "11f1717b4003649dbddc124b5047d76c05ba0b0424a6e536ba29310bd3e531f9"
+    },
+    {
+      "path": "anlan/sql/007_perception_reviews.sql",
+      "sha256": "1d2aeb034adde61615b5d973c606502c6066fd89906dd30d040a1209c04e4515"
+    },
+    {
+      "path": "anlan/assets/hot-work-review-v1.md",
+      "sha256": "c402197dc335f2a963fb7f8e85d1117fb3dd80a109e6a4ce499d9308525d941b"
+    }
+  ],
+  "commands": [
+    {
+      "module": "anlan",
+      "returncode": 0
+    },
+    {
+      "module": "anlan.cli",
+      "returncode": 0
+    },
+    {
+      "module": "anlan.memory_cli",
+      "returncode": 0
+    },
+    {
+      "module": "anlan.review_cli",
+      "returncode": 0
+    },
+    {
+      "module": "anlan.multi_review_cli",
+      "returncode": 0
+    },
+    {
+      "module": "anlan.interfaces.cli",
+      "returncode": 0
+    },
+    {
+      "module": "anlan.interfaces.events_cli",
+      "returncode": 0
+    },
+    {
+      "module": "anlan.interfaces.perception_cli",
+      "returncode": 0
+    }
+  ],
+  "isolated_imports": {
+    "modules": [
+      "anlan.cli",
+      "anlan.common",
+      "anlan.common.errors",
+      "anlan.common.models",
+      "anlan.context",
+      "anlan.context.assembly",
+      "anlan.infrastructure",
+      "anlan.infrastructure.budget",
+      "anlan.infrastructure.db",
+      "anlan.infrastructure.events",
+      "anlan.infrastructure.live",
+      "anlan.infrastructure.perception",
+      "anlan.infrastructure.postgres",
+      "anlan.infrastructure.telemetry",
+      "anlan.infrastructure.trace",
+      "anlan.interfaces",
+      "anlan.interfaces.cli",
+      "anlan.interfaces.event_runtime",
+      "anlan.interfaces.events_cli",
+      "anlan.interfaces.fact_http",
+      "anlan.interfaces.mcp_server",
+      "anlan.interfaces.memory_cli",
+      "anlan.interfaces.multi_review_cli",
+      "anlan.interfaces.perception_cli",
+      "anlan.interfaces.perception_runtime",
+      "anlan.interfaces.review_cli",
+      "anlan.interfaces.runtime",
+      "anlan.knowledge",
+      "anlan.knowledge.contracts",
+      "anlan.knowledge.embeddings",
+      "anlan.knowledge.store",
+      "anlan.knowledge.tool",
+      "anlan.llm",
+      "anlan.llm.config",
+      "anlan.llm.contracts",
+      "anlan.llm.evidence_review",
+      "anlan.llm.gateway",
+      "anlan.llm.material",
+      "anlan.llm.perception",
+      "anlan.llm.review_model",
+      "anlan.llm.tool_model",
+      "anlan.mcp_server",
+      "anlan.memory",
+      "anlan.memory.contracts",
+      "anlan.memory.store",
+      "anlan.memory_cli",
+      "anlan.multi_review_cli",
+      "anlan.review_cli",
+      "anlan.tools",
+      "anlan.tools.contracts",
+      "anlan.tools.http_client",
+      "anlan.tools.mcp",
+      "anlan.tools.queries",
+      "anlan.workflows",
+      "anlan.workflows.evaluation",
+      "anlan.workflows.event_contracts",
+      "anlan.workflows.events",
+      "anlan.workflows.facts",
+      "anlan.workflows.material_analysis",
+      "anlan.workflows.material_contracts",
+      "anlan.workflows.materials",
+      "anlan.workflows.multi_review",
+      "anlan.workflows.parallel",
+      "anlan.workflows.perception",
+      "anlan.workflows.perception_contracts",
+      "anlan.workflows.registry",
+      "anlan.workflows.review",
+      "anlan.workflows.review_contracts",
+      "anlan.workflows.service",
+      "anlan.workflows.tool_loop"
+    ],
+    "resource_bytes": 1093
+  }
+}
