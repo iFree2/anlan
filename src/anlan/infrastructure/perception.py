@@ -22,17 +22,26 @@ class PerceptionStore:
                 .read_text(encoding="utf-8"),
                 prepare=False,
             )
+            await conn.execute(
+                files("anlan")
+                .joinpath("sql/008_perception_cancel.sql")
+                .read_text(encoding="utf-8"),
+                prepare=False,
+            )
 
     @staticmethod
     def document(row):
-        return row["document"] | {k: row[k] for k in ("result", "revision", "feedback")}
+        return row["document"] | {
+            k: row[k] for k in ("result", "revision", "feedback", "cancel_requested")
+        }
 
     async def get(self, identity, review_id, *, conn=None, lock=False):
         if conn is None:
             async with await self.events.connect() as conn:
                 return await self.get(identity, review_id, conn=conn)
         cursor = await conn.execute(
-            "SELECT document,result,revision,feedback FROM anlan_v2.perception_reviews "
+            "SELECT document,result,revision,feedback,cancel_requested "
+            "FROM anlan_v2.perception_reviews "
             "WHERE review_id=%s AND tenant_id=%s AND user_id=%s" + (" FOR UPDATE" if lock else ""),
             (review_id, identity.tenant_id, identity.user_id),
         )
@@ -43,7 +52,8 @@ class PerceptionStore:
 
     async def previous(self, conn, identity, receipt_id, request_id, references):
         cursor = await conn.execute(
-            "SELECT document,result,revision,feedback FROM anlan_v2.perception_reviews "
+            "SELECT document,result,revision,feedback,cancel_requested "
+            "FROM anlan_v2.perception_reviews "
             "WHERE tenant_id=%s AND user_id=%s AND receipt_id=%s AND request_id=%s",
             (identity.tenant_id, identity.user_id, receipt_id, request_id),
         )
@@ -100,14 +110,14 @@ class PerceptionStore:
                 Jsonb(value),
             ),
         )
-        return value | {"result": None, "revision": 1, "feedback": None}
+        return value | {"result": None, "revision": 1, "feedback": None, "cancel_requested": False}
 
     async def finish(self, conn, identity, review_id, report, currentness, *, cancel_event=None):
         async with conn.transaction():
             row = await self.get(identity, review_id, conn=conn, lock=True)
             if row["result"] is not None:
                 return row
-            if cancel_event is not None and cancel_event.is_set():
+            if row["cancel_requested"] or (cancel_event is not None and cancel_event.is_set()):
                 report = {
                     **report,
                     "stop_reason": "cancelled",
@@ -168,3 +178,13 @@ class PerceptionStore:
                 (Jsonb(feedback), review_id),
             )
             return row | {"revision": row["revision"] + 1, "feedback": feedback}
+
+    async def request_cancel(self, identity, review_id):
+        async with await self.events.connect() as conn:
+            row = await self.get(identity, review_id, conn=conn, lock=True)
+            if row["result"] is None:
+                await conn.execute(
+                    "UPDATE anlan_v2.perception_reviews SET cancel_requested=true "
+                    "WHERE review_id=%s",
+                    (review_id,),
+                )

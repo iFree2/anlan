@@ -1,0 +1,14 @@
+{
+  "version": "phase05-regression-v1",
+  "exposure": "developer_seen_engineering_only",
+  "files": {
+    "examples/synthetic/events-v1.json": "67db37e93e6b0c351fb642d4d544aa8c781eb7ffeee0f6d343af1b00e397013c",
+    "examples/synthetic/perception-v1/facts/access.json": "949412397be97587492810db20ba85cde3f68efd4a9cc7d0a6ed1536a37fbb46",
+    "examples/synthetic/perception-v1/facts/areas.json": "c874f01816ab5597b28fb9be8d307d7836baf37c6f6af92f679ccb622c462e50",
+    "examples/synthetic/perception-v1/facts/qualifications.json": "8b0ae24474d57720688bb4534d0305dbe8c34220fc22edf653a2cc822da28c93",
+    "examples/synthetic/perception-v1/knowledge.json": "095b1479a99fbb63cff4842958a0b33cf051d74afd049065148402847ddad916",
+    "examples/synthetic/perception-v1/refs.json": "94b16bc13f4c90b40fcf528a5d7f6954ed1e1fecdea42d9137535d115ddba72c",
+    "src/anlan/assets/hot-work-review-v1.md": "c402197dc335f2a963fb7f8e85d1117fb3dd80a109e6a4ce499d9308525d941b"
+  },
+  "quality_gate": "Q-P5-001 remains not passed; scripted chains are not model quality evidence"
+}

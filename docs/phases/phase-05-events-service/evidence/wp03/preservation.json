@@ -1,0 +1,15 @@
+{
+  "historical_files": 377,
+  "changed": [],
+  "old_p5_evidence_changed": [],
+  "user_translation_count": 32,
+  "missing_user_translations": [],
+  "user_learning_before_sha256": "bf0b8b885772b1387b58abed0e79c6ba753d4f96c33a14ed91d295be80475691",
+  "historical_learning_restored_exactly": true,
+  "learning_staged": false,
+  "index_excluded_translations": [
+    "src/anlan/infrastructure/postgres.py",
+    "src/anlan/workflows/registry.py",
+    "src/anlan/workflows/service.py"
+  ]
+}

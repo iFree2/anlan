@@ -1,0 +1,29 @@
+# Template only: Docker/WSL are unavailable on the verified Windows host.
+services:
+  db:
+    image: pgvector/pgvector:0.8.6-pg17-trixie
+    environment:
+      POSTGRES_USER: anlan_dev
+      POSTGRES_PASSWORD: ${ANLAN_COMPOSE_DB_PASSWORD:?Set a local synthetic database password}
+      POSTGRES_DB: anlan_dev
+    ports: ["127.0.0.1:55433:5432"]
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U anlan_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  api:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ANLAN_DATABASE_URL: postgresql://anlan_dev:${ANLAN_COMPOSE_DB_PASSWORD}@db:5432/anlan_dev
+    ports: ["127.0.0.1:8000:8000"]
+    volumes:
+      - ${ANLAN_SERVICE_CONFIG:?Provide trusted container-path configuration}:/app/config/service.json:ro
+      - runtime:/app/.runtime
+volumes:
+  pgdata:
+  runtime:

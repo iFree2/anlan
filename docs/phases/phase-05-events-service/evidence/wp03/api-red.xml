@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="4" time="1.889" timestamp="2026-09-22T22:37:54.749001+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_service_api" name="test_trusted_identity_precedes_reads_and_request_errors_hide_input" time="0.268"><failure message="ModuleNotFoundError: No module named 'anlan.interfaces.api'">tests\test_service_api.py:51: in test_trusted_identity_precedes_reads_and_request_errors_hide_input
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_service_api.py:33: in scenario
+    app, state, _ = await configured(dsn)
+                    ^^^^^^^^^^^^^^^^^^^^^
+tests\test_service_api.py:19: in configured
+    from anlan.interfaces.api import create_app
+E   ModuleNotFoundError: No module named 'anlan.interfaces.api'</failure></testcase><testcase classname="tests.test_service_api" name="test_material_http_idempotency_revise_and_recovery" time="0.003"><failure message="ModuleNotFoundError: No module named 'anlan.interfaces.api'">tests\test_service_api.py:72: in test_material_http_idempotency_revise_and_recovery
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_service_api.py:56: in scenario
+    app, _, _ = await configured(dsn)
+                ^^^^^^^^^^^^^^^^^^^^^
+tests\test_service_api.py:19: in configured
+    from anlan.interfaces.api import create_app
+E   ModuleNotFoundError: No module named 'anlan.interfaces.api'</failure></testcase><testcase classname="tests.test_service_api" name="test_event_review_feedback_http_chain_uses_host_source_scope" time="0.003"><failure message="ModuleNotFoundError: No module named 'anlan.interfaces.api'">tests\test_service_api.py:98: in test_event_review_feedback_http_chain_uses_host_source_scope
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_service_api.py:77: in scenario
+    app, _, source = await configured(dsn)
+                     ^^^^^^^^^^^^^^^^^^^^^
+tests\test_service_api.py:19: in configured
+    from anlan.interfaces.api import create_app
+E   ModuleNotFoundError: No module named 'anlan.interfaces.api'</failure></testcase><testcase classname="tests.test_service_api" name="test_snapshot_stream_reconnect_skips_seen_snapshot_and_emits_changed_state" time="0.002"><failure message="ModuleNotFoundError: No module named 'anlan.interfaces.streams'">tests\test_service_api.py:102: in test_snapshot_stream_reconnect_skips_seen_snapshot_and_emits_changed_state
+    from anlan.interfaces.streams import snapshot_id, snapshot_stream
+E   ModuleNotFoundError: No module named 'anlan.interfaces.streams'</failure></testcase></testsuite></testsuites>

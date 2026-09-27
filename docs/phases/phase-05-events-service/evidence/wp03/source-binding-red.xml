@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.988" timestamp="2026-09-27T22:34:56.099751+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_phase05_gate" name="test_gate_detects_new_source_and_old_installed_wheel" time="0.639"><failure message="AttributeError: module 'phase05_gate' has no attribute 'source_set_matches'">tests\test_phase05_gate.py:65: in test_gate_detects_new_source_and_old_installed_wheel
+    assert module.source_set_matches(ci, before)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'phase05_gate' has no attribute 'source_set_matches'</failure></testcase></testsuite></testsuites>

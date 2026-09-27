@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.836" timestamp="2026-09-27T22:23:56.028413+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_ci_integrity" name="test_ci_rejects_changed_source_but_ignores_generated_bytecode" time="0.381"><failure message="AttributeError: module 'ci_checks' has no attribute 'source_fingerprints'">tests\test_ci_integrity.py:14: in test_ci_rejects_changed_source_but_ignores_generated_bytecode
+    before = module.source_fingerprints(tmp_path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'ci_checks' has no attribute 'source_fingerprints'</failure></testcase></testsuite></testsuites>

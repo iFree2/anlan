@@ -1,8 +1,9 @@
 """Authorized task entry points with durable commands and explicit recovery."""
 
+import json
 from copy import deepcopy
 from typing import Callable
-from uuid import uuid4
+from uuid import NAMESPACE_URL, uuid4, uuid5
 
 from langgraph.types import Command
 
@@ -21,6 +22,13 @@ from anlan.workflows.registry import (
 )
 
 __all__ = ["AccessDenied", "InvalidTransition", "WorkflowService"]
+
+
+def start_task_id(identity: Identity, request_id: str) -> str:
+    if not isinstance(request_id, str) or not request_id.strip() or len(request_id) > 100:
+        raise InvalidTransition("start request_id无效")
+    return str(uuid5(NAMESPACE_URL, json.dumps(
+        ["anlan-material-start-v1", identity.tenant_id, identity.user_id, request_id])))
 
 
 class WorkflowService:
@@ -42,9 +50,12 @@ class WorkflowService:
             raise InvalidTransition("任务分析模式不同，续接时请使用创建任务时的 mode")
 
     async def start(self, identity: Identity, fields: dict, *,
-                    on_created: Callable[[str], None] | None = None) -> dict:
+                    on_created: Callable[[str], None] | None = None,
+                    request_id: str | None = None) -> dict:
         application = Application.model_validate(fields)
         task_id, thread_id = str(uuid4()), str(uuid4())
+        if request_id is not None:
+            task_id = start_task_id(identity, request_id)
         state = {
             "task_id": task_id, "thread_id": thread_id,
             "session_id": str(uuid4()), "run_id": str(uuid4()),
@@ -53,11 +64,24 @@ class WorkflowService:
             "analysis_mode": self.mode,
         }
         record = TaskRecord(task_id, thread_id, identity, self.mode, state)
-        await self._registry.create(record)
+        if request_id is None:
+            await self._registry.create(record)
+        else:
+            await self._registry.create(record, idempotent=True)
         if on_created is not None:
             on_created(task_id)
         async with self._registry.locked(identity, task_id) as record:
-            operation = Operation("start", state["run_id"], "start", 0, state["fields"])
+            self._config(record)
+            self._check_mode(record)
+            if record.initial_state["fields"] != state["fields"]:
+                raise InvalidTransition("相同start request_id的初始材料不同")
+            previous = await self._registry.operation(task_id, "start")
+            if previous is not None:
+                if previous.result is not None:
+                    return deepcopy(previous.result)
+                raise InvalidTransition("创建尚未完成；请执行recover")
+            initial = record.initial_state
+            operation = Operation("start", initial["run_id"], "start", 0, initial["fields"])
             await self._registry.reserve(task_id, operation)
             return await self._execute(record, operation)
 

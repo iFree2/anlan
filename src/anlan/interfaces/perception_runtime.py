@@ -131,6 +131,8 @@ class PerceptionRuntime:
                 "requests_this_run": 0,
             }
             progress = {}
+            signal = cancel_event if cancel_event is not None else asyncio.Event()
+            monitor = asyncio.create_task(self._watch_cancel(identity, row["review_id"], signal))
             try:
                 try:
                     question = (
@@ -138,7 +140,6 @@ class PerceptionRuntime:
                         if event["raw"]["kind"] == "helmet_missing"
                         else "SYNTHETIC：可燃气体浓度异常事件需核对哪些示例依据？"
                     )
-                    signal = cancel_event if cancel_event is not None else asyncio.Event()
                     collection = asyncio.create_task(
                         collect_parallel(
                             service,
@@ -191,7 +192,23 @@ class PerceptionRuntime:
                     service, identity, row, event, report, cancel_event=signal
                 )
             finally:
+                monitor.cancel()
+                await asyncio.gather(monitor, return_exceptions=True)
                 await self.store.release(registry.conn, row["review_id"])
+
+    async def _watch_cancel(self, identity, review_id, signal):
+        try:
+            while not signal.is_set():
+                if (await self.store.get(identity, review_id))["cancel_requested"]:
+                    signal.set()
+                    return
+                await asyncio.sleep(0.25)
+        except Exception:
+            signal.set()
+
+    async def cancel(self, identity, review_id):
+        await self.store.request_cancel(identity, review_id)
+        return await self.get(identity, review_id)
 
     async def feedback(self, identity, review_id, expected_revision, decision, *, request_id):
         row = await self.store.get(identity, review_id)

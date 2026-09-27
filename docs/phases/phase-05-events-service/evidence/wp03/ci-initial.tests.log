@@ -1,0 +1,82 @@
+........................................................................ [ 18%]
+........................................................................ [ 36%]
+........................................................................ [ 54%]
+............................................................FF..FF...... [ 72%]
+......................FFF.....................FF........................ [ 91%]
+...................................                                      [100%]
+================================== FAILURES ===================================
+___________________ test_cli_restart_and_duplicate_request ____________________
+tests\test_postgres.py:185: in test_cli_restart_and_duplicate_request
+    second = cli(*args)
+             ^^^^^^^^^^
+tests\test_postgres.py:175: in cli
+    assert result.returncode == 0, result.stderr
+E   AssertionError: Traceback (most recent call last):
+E       File "<frozen runpy>", line 198, in _run_module_as_main
+E       File "<frozen runpy>", line 88, in _run_code
+E       File "D:\src\agent学习\安澜2.0\src\anlan\__main__.py", line 1, in <module>
+E         from anlan.interfaces.cli import main
+E       File "D:\src\agent学习\安澜2.0\src\anlan\interfaces\cli.py", line 22, in <module>
+E         from anlan.interfaces.runtime import postgres_service
+E       File "D:\src\agent学习\安澜2.0\src\anlan\interfaces\runtime.py", line 12, in <module>
+E         from anlan.workflows.service import WorkflowService
+E       File "D:\src\agent学习\安澜2.0\src\anlan\workflows\service.py", line 15, in <module>
+E         from anlan.workflows.materials import build_graph
+E     ImportError: cannot import name 'build_graph' from 'anlan.workflows.materials' (D:\src\agent学习\安澜2.0\src\anlan\workflows\materials.py)
+E     
+E   assert 1 == 0
+E    +  where 1 = CompletedProcess(args=['D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe', '-m', 'anlan', 'resume', '--task', 'e475...e \'build_graph\' from \'anlan.workflows.materials\' (D:\\src\\agent学习\\安澜2.0\\src\\anlan\\workflows\\materials.py)\n').returncode
+___________ test_hard_process_exit_after_material_merge_can_recover ___________
+tests\test_postgres.py:219: in test_hard_process_exit_after_material_merge_can_recover
+    assert crashed.returncode == 31
+E   assert 1 == 31
+E    +  where 1 = CompletedProcess(args=['D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe', '-c', "\nimport asyncio, os\nfrom anlan....ials\' (D:\\src\\agent\xe5\xad\xa6\xe4\xb9\xa0\\\xe5\xae\x89\xe6\xbe\x9c2.0\\src\\anlan\\workflows\\materials.py)\r\n').returncode
+__________ test_initial_hard_exit_emits_task_receipt_before_analysis __________
+tests\test_postgres.py:310: in test_initial_hard_exit_emits_task_receipt_before_analysis
+    assert crashed.returncode == 32
+E   assert 1 == 32
+E    +  where 1 = CompletedProcess(args=['D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe', '-c', "\nimport os, sys\nfrom anlan.inte...e \'build_graph\' from \'anlan.workflows.materials\' (D:\\src\\agent学习\\安澜2.0\\src\\anlan\\workflows\\materials.py)\n').returncode
+_____ test_cli_process_is_rejected_while_another_process_holds_task_lock ______
+tests\test_postgres.py:341: in test_cli_process_is_rejected_while_another_process_holds_task_lock
+    assert other.returncode == 2
+E   AssertionError: assert 1 == 2
+E    +  where 1 = CompletedProcess(args=['D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe', '-m', 'anlan', 'resume', '--task', '451c...e \'build_graph\' from \'anlan.workflows.materials\' (D:\\src\\agent学习\\安澜2.0\\src\\anlan\\workflows\\materials.py)\n').returncode
+_________ test_real_http_sse_disconnect_reconnect_and_server_restart __________
+tests\test_service_http.py:120: in test_real_http_sse_disconnect_reconnect_and_server_restart
+    server.start()
+tests\test_service_http.py:82: in start
+    raise AssertionError("Owned service exited before readiness; inspect test log")
+E   AssertionError: Owned service exited before readiness; inspect test log
+____ test_review_disconnect_persistent_cancel_or_restart_recovery[cancel] _____
+tests\test_service_http.py:158: in test_review_disconnect_persistent_cancel_or_restart_recovery
+    server.start(slow=True)
+tests\test_service_http.py:82: in start
+    raise AssertionError("Owned service exited before readiness; inspect test log")
+E   AssertionError: Owned service exited before readiness; inspect test log
+____ test_review_disconnect_persistent_cancel_or_restart_recovery[restart] ____
+tests\test_service_http.py:158: in test_review_disconnect_persistent_cancel_or_restart_recovery
+    server.start(slow=True)
+tests\test_service_http.py:82: in start
+    raise AssertionError("Owned service exited before readiness; inspect test log")
+E   AssertionError: Owned service exited before readiness; inspect test log
+___________ test_unavailable_database_does_not_echo_password[False] ___________
+tests\test_test_output.py:22: in test_unavailable_database_does_not_echo_password
+    assert result.returncode == 1
+E   AssertionError: assert 4 == 1
+E    +  where 4 = CompletedProcess(args=['D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe', '-m', 'pytest', 'tests/test_postgres.py:...found no collectors for D:\\src\\agent学习\\安澜2.0\\tests\\test_postgres.py::test_mode_mismatch_does_not_mutate_task\n\n').returncode
+___________ test_unavailable_database_does_not_echo_password[True] ____________
+tests\test_test_output.py:22: in test_unavailable_database_does_not_echo_password
+    assert result.returncode == 1
+E   AssertionError: assert 4 == 1
+E    +  where 4 = CompletedProcess(args=['D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe', '-m', 'pytest', 'tests/test_postgres.py:...found no collectors for D:\\src\\agent学习\\安澜2.0\\tests\\test_postgres.py::test_mode_mismatch_does_not_mutate_task\n\n').returncode
+=========================== short test summary info ===========================
+FAILED tests/test_postgres.py::test_cli_restart_and_duplicate_request - Asser...
+FAILED tests/test_postgres.py::test_hard_process_exit_after_material_merge_can_recover
+FAILED tests/test_postgres.py::test_initial_hard_exit_emits_task_receipt_before_analysis
+FAILED tests/test_postgres.py::test_cli_process_is_rejected_while_another_process_holds_task_lock
+FAILED tests/test_service_http.py::test_real_http_sse_disconnect_reconnect_and_server_restart
+FAILED tests/test_service_http.py::test_review_disconnect_persistent_cancel_or_restart_recovery[cancel]
+FAILED tests/test_service_http.py::test_review_disconnect_persistent_cancel_or_restart_recovery[restart]
+FAILED tests/test_test_output.py::test_unavailable_database_does_not_echo_password[False]
+FAILED tests/test_test_output.py::test_unavailable_database_does_not_echo_password[True]
+9 failed, 386 passed in 257.75s (0:04:17)

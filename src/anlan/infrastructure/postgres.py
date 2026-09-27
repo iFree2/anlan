@@ -42,12 +42,13 @@ class PostgresRegistry:
         self.conn = conn
         self._serial = asyncio.Lock()
 
-    async def create(self, record: TaskRecord) -> None:
+    async def create(self, record: TaskRecord, *, idempotent: bool = False) -> None:
         async with self._serial:
             await self.conn.execute(
                 "INSERT INTO anlan_tasks "
                 "(task_id, thread_id, tenant_id, user_id, mode, contract_version, initial_state) "
-                "VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                "VALUES (%s, %s, %s, %s, %s, %s, %s)" +
+                (" ON CONFLICT (task_id) DO NOTHING" if idempotent else ""),
                 (record.task_id, record.thread_id, record.identity.tenant_id,
                  record.identity.user_id, record.mode, record.contract_version,
                  Jsonb(record.initial_state)),

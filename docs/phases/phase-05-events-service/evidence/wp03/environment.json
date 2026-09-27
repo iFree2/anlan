@@ -1,0 +1,7 @@
+{
+  "docker_available": false,
+  "compose_available": false,
+  "remote_ci": "not_run",
+  "native_clean_environment": "separate venv with locked dependencies and installed wheel",
+  "wsl_status_exitcode": 50
+}

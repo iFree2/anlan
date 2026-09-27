@@ -80,7 +80,7 @@ flowchart LR
 
 真实三例验证证明小样本动作与引用链路可用，不证明自由摘要的每条主张都被充分引用；第二例的引用覆盖Badcase保留于[WP04实验](phases/phase-02-tools-rag/evidence/wp04/live-report.md)。模型引用模式的真实调用归P2-WP04，使用同一项目累计授权，不重置总额。
 
-## 全周期数据流（已确定产品方向，尚未实现）
+## 全周期数据流（P1—P5工程主链已实现，质量复盘继续演进）
 
 ```mermaid
 flowchart TD
@@ -100,7 +100,7 @@ flowchart TD
     ASSET --> PRE
 ```
 
-SAFE 不依赖 Agent 成功、响应或存在；Agent 无 SAFE 的写权限。原始事件不可被推断覆盖。视频事件契约包含 event_id、event_type、site_id、occurred_at、confidence、attributes、evidence_ref；传感器增加测点、读数、单位、阈值版本。可信接入绑定 tenant/site/event 身份；模型不能补造。乱序、重复、过期和错误关联要保留可查原因。
+SAFE 不依赖 Agent 成功、响应或存在；Agent 无 SAFE 的写权限。P5当前最小合同包括schema_version、data_origin、event_id、sequence、kind、object_ref、observed_at/expires_at和active原始报警；视频另有confidence，传感器另有value与percent_lel单位。可信宿主SourceBinding给出identity/source/task/revision/run与有效窗口，正文不能补造身份。原始记录先提交，乱序/重复/过期/错误关联保留原因，感知失败不修改原报警。真实设备evidence_ref、site和阈值版本管理尚未接入；当前仅模拟上游异常声明。感知真实模型0/2仍未通过质量验收。
 
 ## 多 Agent 协作方向（P4 才实现）
 
@@ -153,3 +153,10 @@ P3新增的上下文和综合边界见[ADR007](decisions/007-bounded-review-cont
 | [旧报告](D:/src/agent学习/gpt下的安澜/evidence/b3-cloud-live/reports/20260916T141104448855Z-continuation/final-report.md) 与 [findings](D:/src/agent学习/gpt下的安澜/evidence/b3-cloud-live/reports/20260916T141104448855Z-continuation/agent-findings.md) | 结构有效与语义正确分离；额外字段误报、类别混淆、传输失败分开归因 | 53.3% precision 仅属旧四字段合成口径，不能沿用为新版基线；旧费用/批准非本项目无限授权 |
 
 旧报告有 23/24 收到候选、23/23 结构有效、45 条建议中 24 命中/21 误报；20 个误报是额外字段缺陷，另 1 个是类别混淆。有效原文引用不保证主张得到支持。这些观察只指导本包保守 Prompt 与输出复验设计，尚未证明新版 Prompt 更好。旧 B4 设计/Prompt/数据本轮未读取，尤其未打开 holdout-gold；等真实优化问题出现再有选择参考。
+
+
+## P5服务与持久快照
+
+宿主Bearer配置 → 可信Identity → 原WorkflowService/EventStore/PerceptionRuntime → PG。材料锁与Saver共用连接；原始事件先独立提交，重核结果/反馈校验材料revision、来源水位和时效。review运行锁防止恢复时重发，cancel_requested由PG保存并在终态事务中复核。SSE只是受权读取持久快照与摘要ID，断流不取消业务，不保证传递全部历史中间事件。
+
+[ADR011](decisions/011-synthetic-event-association.md)、[ADR012](decisions/012-material-revision-and-perception-review.md)、[ADR013](decisions/013-local-api-and-snapshot-stream.md)与[P5模块入口](phases/phase-05-events-service/module-map.md)记录当前实现；[Q-P5-001](quality-items.md)保留真实模型质量未通过，不以接口/替身通过替代。

@@ -33,7 +33,7 @@ class Operation:
 
 
 class Registry(Protocol):
-    async def create(self, record: TaskRecord) -> None: ...
+    async def create(self, record: TaskRecord, *, idempotent: bool = False) -> None: ...
     def locked(self, identity: Identity, task_id: str) -> AsyncContextManager[TaskRecord]: ...
     async def operation(self, task_id: str, request_id: str) -> Operation | None: ...
     async def pending(self, task_id: str) -> Operation | None: ...
@@ -48,7 +48,9 @@ class MemoryRegistry:
         self.operations: dict[tuple[str, str], Operation] = {}
         self.lock = asyncio.Lock()
 
-    async def create(self, record: TaskRecord) -> None:
+    async def create(self, record: TaskRecord, *, idempotent: bool = False) -> None:
+        if idempotent and record.task_id in self.records:
+            return
         self.records[record.task_id] = deepcopy(record)
 
     @asynccontextmanager

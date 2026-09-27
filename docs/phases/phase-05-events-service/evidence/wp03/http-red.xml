@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="2.766" timestamp="2026-09-22T22:43:24.764499+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_service_http" name="test_real_http_sse_disconnect_reconnect_and_server_restart" time="1.165"><failure message="AssertionError: Owned service exited before readiness; inspect test log">tests\test_service_http.py:101: in test_real_http_sse_disconnect_reconnect_and_server_restart
+    server.start()
+tests\test_service_http.py:67: in start
+    raise AssertionError("Owned service exited before readiness; inspect test log")
+E   AssertionError: Owned service exited before readiness; inspect test log</failure></testcase></testsuite></testsuites>
