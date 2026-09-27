@@ -67,7 +67,8 @@ def validate_candidate(value, context):
     unknown = {o["evidence_id"] for o in data["observations"] if o["outcome"] != "ok"}
     if candidate.event_id != event["event_id"]:
         raise ValueError("Candidate event identity differs")
-    if set(candidate.unknown_observation_ids) != unknown:
+    if (set(candidate.unknown_observation_ids) != unknown
+            or len(candidate.unknown_observation_ids) != len(unknown)):
         raise ValueError("All unknown observations must remain explicit")
     categories = [c.category for c in candidate.concerns]
     if categories.count(event["kind"]) != 1 or len(set(categories)) != len(categories):

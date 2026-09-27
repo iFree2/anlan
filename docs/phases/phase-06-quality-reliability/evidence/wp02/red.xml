@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="7" skipped="0" tests="7" time="0.420" timestamp="2026-09-27T23:05:38.615068+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_quality" name="test_recorded_failures_stay_unavailable_and_success_replays_without_network" time="0.056"><failure message="ModuleNotFoundError: No module named 'anlan.workflows.quality'">tests\test_quality.py:25: in test_recorded_failures_stay_unavailable_and_success_replays_without_network
+    from anlan.workflows.quality import inspect_records, load_corpus, replay_records
+E   ModuleNotFoundError: No module named 'anlan.workflows.quality'</failure></testcase><testcase classname="tests.test_quality" name="test_corpus_rejects_tampering_non_synthetic_and_split_leakage[hash]" time="0.011"><failure message="ModuleNotFoundError: No module named 'anlan.workflows.quality'">tests\test_quality.py:46: in test_corpus_rejects_tampering_non_synthetic_and_split_leakage
+    from anlan.workflows.quality import load_corpus
+E   ModuleNotFoundError: No module named 'anlan.workflows.quality'</failure></testcase><testcase classname="tests.test_quality" name="test_corpus_rejects_tampering_non_synthetic_and_split_leakage[origin]" time="0.004"><failure message="ModuleNotFoundError: No module named 'anlan.workflows.quality'">tests\test_quality.py:46: in test_corpus_rejects_tampering_non_synthetic_and_split_leakage
+    from anlan.workflows.quality import load_corpus
+E   ModuleNotFoundError: No module named 'anlan.workflows.quality'</failure></testcase><testcase classname="tests.test_quality" name="test_corpus_rejects_tampering_non_synthetic_and_split_leakage[family]" time="0.005"><failure message="ModuleNotFoundError: No module named 'anlan.workflows.quality'">tests\test_quality.py:46: in test_corpus_rejects_tampering_non_synthetic_and_split_leakage
+    from anlan.workflows.quality import load_corpus
+E   ModuleNotFoundError: No module named 'anlan.workflows.quality'</failure></testcase><testcase classname="tests.test_quality" name="test_corpus_rejects_tampering_non_synthetic_and_split_leakage[selection]" time="0.004"><failure message="ModuleNotFoundError: No module named 'anlan.workflows.quality'">tests\test_quality.py:46: in test_corpus_rejects_tampering_non_synthetic_and_split_leakage
+    from anlan.workflows.quality import load_corpus
+E   ModuleNotFoundError: No module named 'anlan.workflows.quality'</failure></testcase><testcase classname="tests.test_quality" name="test_corpus_rejects_tampering_non_synthetic_and_split_leakage[escape]" time="0.004"><failure message="ModuleNotFoundError: No module named 'anlan.workflows.quality'">tests\test_quality.py:46: in test_corpus_rejects_tampering_non_synthetic_and_split_leakage
+    from anlan.workflows.quality import load_corpus
+E   ModuleNotFoundError: No module named 'anlan.workflows.quality'</failure></testcase><testcase classname="tests.test_quality" name="test_unknown_duplicates_are_not_a_complete_unknown_list" time="0.021"><failure message="Failed: DID NOT RAISE ValueError">tests\test_quality.py:76: in test_unknown_duplicates_are_not_a_complete_unknown_list
+    with pytest.raises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE ValueError</failure></testcase></testsuite></testsuites>

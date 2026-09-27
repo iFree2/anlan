@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="7" time="0.614" timestamp="2026-09-27T23:06:25.483606+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_quality" name="test_recorded_failures_stay_unavailable_and_success_replays_without_network" time="0.099"><failure message="AssertionError: assert 'accepted' == 'rejected'&#10;  &#10;  - rejected&#10;  + accepted">tests\test_quality.py:40: in test_recorded_failures_stay_unavailable_and_success_replays_without_network
+    assert rows["dev-duplicate"]["actual"] == "rejected"
+E   AssertionError: assert 'accepted' == 'rejected'
+E     
+E     - rejected
+E     + accepted</failure></testcase><testcase classname="tests.test_quality" name="test_corpus_rejects_tampering_non_synthetic_and_split_leakage[hash]" time="0.045" /><testcase classname="tests.test_quality" name="test_corpus_rejects_tampering_non_synthetic_and_split_leakage[origin]" time="0.030" /><testcase classname="tests.test_quality" name="test_corpus_rejects_tampering_non_synthetic_and_split_leakage[family]" time="0.039" /><testcase classname="tests.test_quality" name="test_corpus_rejects_tampering_non_synthetic_and_split_leakage[selection]" time="0.083" /><testcase classname="tests.test_quality" name="test_corpus_rejects_tampering_non_synthetic_and_split_leakage[escape]" time="0.030" /><testcase classname="tests.test_quality" name="test_unknown_duplicates_are_not_a_complete_unknown_list" time="0.002"><failure message="Failed: DID NOT RAISE ValueError">tests\test_quality.py:76: in test_unknown_duplicates_are_not_a_complete_unknown_list
+    with pytest.raises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE ValueError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,167 @@
+{
+  "schema_version": "quality-cases-v1",
+  "data_origin": "SYNTHETIC",
+  "cases": [
+    {
+      "id": "dev-duplicate",
+      "family": "duplicate-unknown",
+      "data_origin": "SYNTHETIC",
+      "event": {
+        "schema_version": "perception-event-v1",
+        "data_origin": "SYNTHETIC",
+        "event_id": "dev-duplicate",
+        "sequence": 1,
+        "object_ref": "synthetic-quality-duplicate-unknown",
+        "observed_at": "2026-09-22T04:00:00Z",
+        "expires_at": "2026-09-22T04:10:00Z",
+        "alarm_state": "active",
+        "kind": "helmet_missing",
+        "confidence": 0.8
+      },
+      "bundle": {
+        "snapshot": {
+          "task_id": "dev-duplicate",
+          "revision": 1,
+          "run_id": "dev-duplicate-run",
+          "status": "awaiting_review",
+          "fields": {
+            "description": "SYNTHETIC独立合同样本"
+          }
+        },
+        "as_of": "2026-09-22T04:00:00Z",
+        "observations": [
+          {
+            "tool": "query_worker_qualification",
+            "data_origin": "SYNTHETIC",
+            "outcome": "ok",
+            "reason": null,
+            "facts": {
+              "synthetic": true
+            }
+          },
+          {
+            "tool": "query_area_status",
+            "data_origin": "SYNTHETIC",
+            "outcome": "unknown",
+            "reason": "expired",
+            "facts": null
+          },
+          {
+            "tool": "query_knowledge",
+            "data_origin": "SYNTHETIC",
+            "outcome": "ok",
+            "reason": null,
+            "facts": {
+              "synthetic": true
+            }
+          }
+        ]
+      },
+      "candidate": {
+        "event_id": "dev-duplicate",
+        "concerns": [
+          {
+            "category": "helmet_missing",
+            "evidence_ids": [
+              "e1"
+            ]
+          }
+        ],
+        "unknown_observation_ids": [
+          "o2",
+          "o2"
+        ],
+        "next_steps": [
+          "verify_event_on_site",
+          "review_evidence_with_safety_manager"
+        ],
+        "notice": "感知辅助候选，仍需人工确认；不改变原始报警"
+      },
+      "expected": "rejected",
+      "annotation_origin": "ai_authored_contract_oracle",
+      "feedback": {
+        "origin": "synthetic_dataset_annotation",
+        "decision": "disputed_event",
+        "reason_code": "duplicate_unknown"
+      }
+    },
+    {
+      "id": "dev-valid",
+      "family": "basic-valid",
+      "data_origin": "SYNTHETIC",
+      "event": {
+        "schema_version": "perception-event-v1",
+        "data_origin": "SYNTHETIC",
+        "event_id": "dev-valid",
+        "sequence": 1,
+        "object_ref": "synthetic-quality-basic-valid",
+        "observed_at": "2026-09-22T04:00:00Z",
+        "expires_at": "2026-09-22T04:10:00Z",
+        "alarm_state": "active",
+        "kind": "helmet_missing",
+        "confidence": 0.8
+      },
+      "bundle": {
+        "snapshot": {
+          "task_id": "dev-valid",
+          "revision": 1,
+          "run_id": "dev-valid-run",
+          "status": "awaiting_review",
+          "fields": {
+            "description": "SYNTHETIC独立合同样本"
+          }
+        },
+        "as_of": "2026-09-22T04:00:00Z",
+        "observations": [
+          {
+            "tool": "query_worker_qualification",
+            "data_origin": "SYNTHETIC",
+            "outcome": "ok",
+            "reason": null,
+            "facts": {
+              "synthetic": true
+            }
+          },
+          {
+            "tool": "query_area_status",
+            "data_origin": "SYNTHETIC",
+            "outcome": "ok",
+            "reason": null,
+            "facts": {
+              "synthetic": true
+            }
+          },
+          {
+            "tool": "query_knowledge",
+            "data_origin": "SYNTHETIC",
+            "outcome": "ok",
+            "reason": null,
+            "facts": {
+              "synthetic": true
+            }
+          }
+        ]
+      },
+      "candidate": {
+        "event_id": "dev-valid",
+        "concerns": [
+          {
+            "category": "helmet_missing",
+            "evidence_ids": [
+              "e1"
+            ]
+          }
+        ],
+        "unknown_observation_ids": [],
+        "next_steps": [
+          "verify_event_on_site",
+          "review_evidence_with_safety_manager"
+        ],
+        "notice": "感知辅助候选，仍需人工确认；不改变原始报警"
+      },
+      "expected": "accepted",
+      "annotation_origin": "ai_authored_contract_oracle",
+      "feedback": null
+    }
+  ]
+}

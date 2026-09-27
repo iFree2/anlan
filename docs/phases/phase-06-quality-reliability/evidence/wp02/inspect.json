@@ -1,0 +1,140 @@
+{
+  "status": "completed",
+  "mode": "inspect",
+  "model_requests": 0,
+  "manifest_sha256": "e9af8164f039dedad8ada27b1a6aa56cf736cb96bc53e69724a87a7131004492",
+  "rows": [
+    {
+      "id": "dev-duplicate",
+      "family": "duplicate-unknown",
+      "split": "dev",
+      "source_sha256": "ef432e07dc279e09d541667550c68517dc0e0a25b36869b8eea2789a48007dcb",
+      "run_id": "dev-duplicate-run",
+      "feedback_origin": "synthetic_dataset_annotation",
+      "feedback_decision": "disputed_event",
+      "original_stop": null,
+      "expected": "rejected",
+      "root_cause": "duplicate_unknown_present"
+    },
+    {
+      "id": "dev-valid",
+      "family": "basic-valid",
+      "split": "dev",
+      "source_sha256": "ef432e07dc279e09d541667550c68517dc0e0a25b36869b8eea2789a48007dcb",
+      "run_id": "dev-valid-run",
+      "feedback_origin": null,
+      "feedback_decision": null,
+      "original_stop": null,
+      "expected": "accepted",
+      "root_cause": "not_established"
+    },
+    {
+      "id": "hold-all-unknown",
+      "family": "all-unknown",
+      "split": "holdout",
+      "source_sha256": "66f3275a7825d1e884219cfcb969bf92ceffd2f5c6b137bda388a47e4e38ebbf",
+      "run_id": "hold-all-unknown-run",
+      "feedback_origin": null,
+      "feedback_decision": null,
+      "original_stop": null,
+      "expected": "accepted",
+      "root_cause": "not_established"
+    },
+    {
+      "id": "hold-missing-material",
+      "family": "waiting-material",
+      "split": "holdout",
+      "source_sha256": "66f3275a7825d1e884219cfcb969bf92ceffd2f5c6b137bda388a47e4e38ebbf",
+      "run_id": "hold-missing-material-run",
+      "feedback_origin": null,
+      "feedback_decision": null,
+      "original_stop": null,
+      "expected": "accepted",
+      "root_cause": "not_established"
+    },
+    {
+      "id": "hold-wrong-event",
+      "family": "wrong-event",
+      "split": "holdout",
+      "source_sha256": "66f3275a7825d1e884219cfcb969bf92ceffd2f5c6b137bda388a47e4e38ebbf",
+      "run_id": "hold-wrong-event-run",
+      "feedback_origin": null,
+      "feedback_decision": null,
+      "original_stop": null,
+      "expected": "rejected",
+      "root_cause": "not_established"
+    },
+    {
+      "id": "hold-control",
+      "family": "forbidden-control",
+      "split": "holdout",
+      "source_sha256": "66f3275a7825d1e884219cfcb969bf92ceffd2f5c6b137bda388a47e4e38ebbf",
+      "run_id": "hold-control-run",
+      "feedback_origin": null,
+      "feedback_decision": null,
+      "original_stop": null,
+      "expected": "rejected",
+      "root_cause": "not_established"
+    },
+    {
+      "id": "hold-unknown-omission",
+      "family": "unknown-omission",
+      "split": "holdout",
+      "source_sha256": "66f3275a7825d1e884219cfcb969bf92ceffd2f5c6b137bda388a47e4e38ebbf",
+      "run_id": "hold-unknown-omission-run",
+      "feedback_origin": null,
+      "feedback_decision": null,
+      "original_stop": null,
+      "expected": "rejected",
+      "root_cause": "not_established"
+    },
+    {
+      "id": "old-helmet",
+      "family": "p5-seen-helmet",
+      "split": "dev",
+      "source_sha256": "76d8bea8f9a3dee79482be746846f65cfbb6989228d0969573e8f37be87f1ae6",
+      "run_id": "01b75c9a-cbaf-45f7-9ff3-06bdfa0b4328",
+      "feedback_origin": null,
+      "feedback_decision": null,
+      "original_stop": "invalid_output",
+      "expected": "not_replayable",
+      "root_cause": "not_established"
+    },
+    {
+      "id": "old-gas",
+      "family": "p5-seen-gas",
+      "split": "dev",
+      "source_sha256": "76d8bea8f9a3dee79482be746846f65cfbb6989228d0969573e8f37be87f1ae6",
+      "run_id": "2a2ac222-281c-4e59-a280-3e6bfc211552",
+      "feedback_origin": null,
+      "feedback_decision": null,
+      "original_stop": "invalid_output",
+      "expected": "not_replayable",
+      "root_cause": "not_established"
+    },
+    {
+      "id": "new-helmet",
+      "family": "p5-seen-helmet",
+      "split": "dev",
+      "source_sha256": "916ec909b82478ebb3875e8d101b0872caeee117bf7af2b1c2343c6076c3a5e1",
+      "run_id": "040c2677-f567-4aa1-92c9-9c4843115199",
+      "feedback_origin": "synthetic_replay_actor",
+      "feedback_decision": "needs_verification",
+      "original_stop": "completed",
+      "expected": "accepted",
+      "root_cause": "not_established"
+    },
+    {
+      "id": "new-gas",
+      "family": "p5-seen-gas",
+      "split": "dev",
+      "source_sha256": "916ec909b82478ebb3875e8d101b0872caeee117bf7af2b1c2343c6076c3a5e1",
+      "run_id": "53c68067-df7c-4299-9026-1040da3ebb36",
+      "feedback_origin": "synthetic_replay_actor",
+      "feedback_decision": "needs_verification",
+      "original_stop": "completed",
+      "expected": "accepted",
+      "root_cause": "not_established"
+    }
+  ]
+}

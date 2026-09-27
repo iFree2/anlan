@@ -1,7 +1,7 @@
 # 当前状态（唯一入口）
 
 - 项目：安澜2.0；**P1—P5工程Gate与R1职责分包通过，P6-WP01真实感知最小复验2/2；P6质量闭环进行中**。个人掌握、模型泛化与全摘要引用完整性未通过或未验证，不能随工程状态升级。
-- 当前工作包：P6-WP01完成，WP02启动；精确Schema/notice提示与安全分层诊断已做红绿验证，真实两类已见合成样本2/2接受、5843token；原P5的0/2保留。首轮CI408通过，补网关诊断后82相关回归通过，最终CI412 passed、0 skipped。[本包验证](phases/phase-06-quality-reliability/evidence/wp01/verification.md)。下一包按WP02反馈/Badcase计划自动继续。
+- 当前工作包：P6-WP02完成，WP03启动。WP01提交780558f、最终CI412 passed/0 skipped；WP02反馈/Badcase/只读与录制回放、来源及开发/合同留出隔离已实现，开发标签5/6→6/6（2项不可回放）、合同留出一次5/5；最终44离线与此前54含13真实PG相关验证通过。新请求0，累计34。[WP02证据](phases/phase-06-quality-reliability/evidence/wp02/verification.md)。
 - 质量项：[Q-P5-001](quality-items.md)最小真实候选阻塞关闭，不能据此宣称现场能力或泛化通过。两例结构/有限语义由AI逐项复核，未知场景仅离线负例、非独立人类金标。[复验报告](phases/phase-06-quality-reliability/evidence/wp01/live-report.md)。
 - 持续授权（2026-09-20，用户本任务及项目协调任务同步）：按路线图逐工作包自动实现、验证、保存失败/退化、更新状态/矩阵/学习/交接，再继续下一包；不等待常规范围确认、个人练习或“继续”。阶段工程Gate通过后在同目录创建下一阶段GPT-6 Astra/high任务并以handoff续接。只在明显范围变化、破坏性操作、真实业务副作用、缺少关键输入或用量预算耗尽时暂停依赖部分，可独立工作继续。
 - 模型长期执行授权（2026-09-20，协调任务同步用户“长期授权你全力推进”）：采用已告知用户的保守执行上限，每工作包最多10次、新授权后项目累计最多100次，失败尝试也占用；这是我方执行上限而非用户指定金额预算。仅既定供应商/模型、合成数据、有界输入输出/超时/无隐式重试，不扩价位或购买额度。唯一账本为项目PG的model_budget_authorizations/model_budget_attempts，生产授权20260920-long-term-v1，当前累计34/100，P2-WP02=6/10、P2-WP04=6/10、P3-WP03=9/10、P4-WP02=9/10、P5-WP02=4/10；32次succeeded、旧2次invalid_output failed，无未完成预占；已知新授权输入65109/输出8550/总73659token。[最新实验与账本快照](phases/phase-06-quality-reliability/evidence/wp01/live-v1.json)。P1历史3次/1184token单独保留；跨进程/子任务共享预占，达上限才再询问。
@@ -12,7 +12,7 @@
 - P3模型效果：三已见任务×三策略共9请求，应用接受6拒绝3；无/有记忆均2/3接受，有记忆多755token（10.9%），未证明质量收益。去知识原文少token但丢依据；保留错述上下文、离题引用与材料说明无引用类型导致的拒绝。[报告](phases/phase-03-memory-context/evidence/wp03/live-report.md)。P1/P2历史效果见各阶段交接。
 - 历史配置/用量：用户指定 `docs/DS.txt`，已Git忽略且不输出密钥。P1-WP03调用3次，无重试，输入1126/输出58/总1184 token；实际扣费未查询。P2-WP01未读取模型凭据、新请求0，不重复历史调用覆盖结果。
 - 本人实践：已核对本人追问修改与三轮demo；断言及WP02实现由AI完成，不记作本人掌握。WP02可选恢复演示练习见 [学习记录](learning-log.md)，不阻塞继续开发。
-- 下一步主目标：按[P6-WP02计划](phases/phase-06-quality-reliability/wp02-plan.md)实现反馈→Badcase→归因→改动→回归，冻结开发/留出并分开只读/录制回放/真实复跑。感知同一问题仍沿用P5-WP02已消耗4/10，不换包重置。
+- 下一步主目标：按[P6-WP03计划](phases/phase-06-quality-reliability/wp03-plan.md)冻结有限Judge标签，做单/双职责复测与同候选复核消融；独立文本评测包预注册最多8请求。相同感知问题仍用P5-WP02=4/10，不以新包绕限。
 - 范围/限制：本地模拟身份，非生产认证；Jaeger内存不是恢复/预算权威。P2保留摘要次要主张缺显式引用、混合检索无增益和PG非正常退出原因未明等事实。原始事件/关联、显式材料修订与感知重核已完成；重核持久取消与本地服务已完成，材料通用取消/生产接入未实现；Compose和远程CI未运行；P3记忆仅两类合成偏好，保留审计不是生产隐私删除。WP02长暂停超时根因未定；个人掌握仍待本人证据。
 
 下一任务冷启动读：适用AGENTS、产品/路线图、[P5交接](phases/phase-05-events-service/handoff.md)、[P6 plan](phases/phase-06-quality-reliability/plan.md)/acceptance、quality-items与ADR002—013。Git/最小smoke后继续。原16路径32行译文与.idea保留；用户学习记录P1→P5重排和本包新入口仍unstaged，不覆盖或整文件提交。协调任务已有30分钟续接，不重复创建。

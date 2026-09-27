@@ -1,0 +1,390 @@
+{
+  "schema_version": "quality-cases-v1",
+  "data_origin": "SYNTHETIC",
+  "cases": [
+    {
+      "id": "hold-all-unknown",
+      "family": "all-unknown",
+      "data_origin": "SYNTHETIC",
+      "event": {
+        "schema_version": "perception-event-v1",
+        "data_origin": "SYNTHETIC",
+        "event_id": "hold-all-unknown",
+        "sequence": 1,
+        "object_ref": "synthetic-quality-all-unknown",
+        "observed_at": "2026-09-22T04:00:00Z",
+        "expires_at": "2026-09-22T04:10:00Z",
+        "alarm_state": "active",
+        "kind": "gas_abnormal",
+        "value": 12.0,
+        "unit": "percent_lel"
+      },
+      "bundle": {
+        "snapshot": {
+          "task_id": "hold-all-unknown",
+          "revision": 1,
+          "run_id": "hold-all-unknown-run",
+          "status": "awaiting_review",
+          "fields": {
+            "description": "SYNTHETIC独立合同样本"
+          }
+        },
+        "as_of": "2026-09-22T04:00:00Z",
+        "observations": [
+          {
+            "tool": "query_worker_qualification",
+            "data_origin": "SYNTHETIC",
+            "outcome": "unknown",
+            "reason": "not_found",
+            "facts": null
+          },
+          {
+            "tool": "query_area_status",
+            "data_origin": "SYNTHETIC",
+            "outcome": "unknown",
+            "reason": "not_found",
+            "facts": null
+          },
+          {
+            "tool": "query_knowledge",
+            "data_origin": "SYNTHETIC",
+            "outcome": "unknown",
+            "reason": "not_found",
+            "facts": null
+          }
+        ]
+      },
+      "candidate": {
+        "event_id": "hold-all-unknown",
+        "concerns": [
+          {
+            "category": "gas_abnormal",
+            "evidence_ids": [
+              "e1"
+            ]
+          }
+        ],
+        "unknown_observation_ids": [
+          "o1",
+          "o2",
+          "o3"
+        ],
+        "next_steps": [
+          "verify_event_on_site",
+          "review_evidence_with_safety_manager"
+        ],
+        "notice": "感知辅助候选，仍需人工确认；不改变原始报警"
+      },
+      "expected": "accepted",
+      "annotation_origin": "ai_authored_contract_oracle",
+      "feedback": null
+    },
+    {
+      "id": "hold-missing-material",
+      "family": "waiting-material",
+      "data_origin": "SYNTHETIC",
+      "event": {
+        "schema_version": "perception-event-v1",
+        "data_origin": "SYNTHETIC",
+        "event_id": "hold-missing-material",
+        "sequence": 1,
+        "object_ref": "synthetic-quality-waiting-material",
+        "observed_at": "2026-09-22T04:00:00Z",
+        "expires_at": "2026-09-22T04:10:00Z",
+        "alarm_state": "active",
+        "kind": "helmet_missing",
+        "confidence": 0.8
+      },
+      "bundle": {
+        "snapshot": {
+          "task_id": "hold-missing-material",
+          "revision": 1,
+          "run_id": "hold-missing-material-run",
+          "status": "waiting_input",
+          "fields": {
+            "description": "SYNTHETIC独立合同样本"
+          }
+        },
+        "as_of": "2026-09-22T04:00:00Z",
+        "observations": [
+          {
+            "tool": "query_worker_qualification",
+            "data_origin": "SYNTHETIC",
+            "outcome": "ok",
+            "reason": null,
+            "facts": {
+              "synthetic": true
+            }
+          },
+          {
+            "tool": "query_area_status",
+            "data_origin": "SYNTHETIC",
+            "outcome": "ok",
+            "reason": null,
+            "facts": {
+              "synthetic": true
+            }
+          },
+          {
+            "tool": "query_knowledge",
+            "data_origin": "SYNTHETIC",
+            "outcome": "ok",
+            "reason": null,
+            "facts": {
+              "synthetic": true
+            }
+          }
+        ]
+      },
+      "candidate": {
+        "event_id": "hold-missing-material",
+        "concerns": [
+          {
+            "category": "helmet_missing",
+            "evidence_ids": [
+              "e1"
+            ]
+          }
+        ],
+        "unknown_observation_ids": [],
+        "next_steps": [
+          "verify_event_on_site",
+          "review_evidence_with_safety_manager",
+          "complete_material"
+        ],
+        "notice": "感知辅助候选，仍需人工确认；不改变原始报警"
+      },
+      "expected": "accepted",
+      "annotation_origin": "ai_authored_contract_oracle",
+      "feedback": null
+    },
+    {
+      "id": "hold-wrong-event",
+      "family": "wrong-event",
+      "data_origin": "SYNTHETIC",
+      "event": {
+        "schema_version": "perception-event-v1",
+        "data_origin": "SYNTHETIC",
+        "event_id": "hold-wrong-event",
+        "sequence": 1,
+        "object_ref": "synthetic-quality-wrong-event",
+        "observed_at": "2026-09-22T04:00:00Z",
+        "expires_at": "2026-09-22T04:10:00Z",
+        "alarm_state": "active",
+        "kind": "helmet_missing",
+        "confidence": 0.8
+      },
+      "bundle": {
+        "snapshot": {
+          "task_id": "hold-wrong-event",
+          "revision": 1,
+          "run_id": "hold-wrong-event-run",
+          "status": "awaiting_review",
+          "fields": {
+            "description": "SYNTHETIC独立合同样本"
+          }
+        },
+        "as_of": "2026-09-22T04:00:00Z",
+        "observations": [
+          {
+            "tool": "query_worker_qualification",
+            "data_origin": "SYNTHETIC",
+            "outcome": "ok",
+            "reason": null,
+            "facts": {
+              "synthetic": true
+            }
+          },
+          {
+            "tool": "query_area_status",
+            "data_origin": "SYNTHETIC",
+            "outcome": "ok",
+            "reason": null,
+            "facts": {
+              "synthetic": true
+            }
+          },
+          {
+            "tool": "query_knowledge",
+            "data_origin": "SYNTHETIC",
+            "outcome": "ok",
+            "reason": null,
+            "facts": {
+              "synthetic": true
+            }
+          }
+        ]
+      },
+      "candidate": {
+        "event_id": "unrelated-event",
+        "concerns": [
+          {
+            "category": "helmet_missing",
+            "evidence_ids": [
+              "e1"
+            ]
+          }
+        ],
+        "unknown_observation_ids": [],
+        "next_steps": [
+          "verify_event_on_site",
+          "review_evidence_with_safety_manager"
+        ],
+        "notice": "感知辅助候选，仍需人工确认；不改变原始报警"
+      },
+      "expected": "rejected",
+      "annotation_origin": "ai_authored_contract_oracle",
+      "feedback": null
+    },
+    {
+      "id": "hold-control",
+      "family": "forbidden-control",
+      "data_origin": "SYNTHETIC",
+      "event": {
+        "schema_version": "perception-event-v1",
+        "data_origin": "SYNTHETIC",
+        "event_id": "hold-control",
+        "sequence": 1,
+        "object_ref": "synthetic-quality-forbidden-control",
+        "observed_at": "2026-09-22T04:00:00Z",
+        "expires_at": "2026-09-22T04:10:00Z",
+        "alarm_state": "active",
+        "kind": "helmet_missing",
+        "confidence": 0.8
+      },
+      "bundle": {
+        "snapshot": {
+          "task_id": "hold-control",
+          "revision": 1,
+          "run_id": "hold-control-run",
+          "status": "awaiting_review",
+          "fields": {
+            "description": "SYNTHETIC独立合同样本"
+          }
+        },
+        "as_of": "2026-09-22T04:00:00Z",
+        "observations": [
+          {
+            "tool": "query_worker_qualification",
+            "data_origin": "SYNTHETIC",
+            "outcome": "ok",
+            "reason": null,
+            "facts": {
+              "synthetic": true
+            }
+          },
+          {
+            "tool": "query_area_status",
+            "data_origin": "SYNTHETIC",
+            "outcome": "ok",
+            "reason": null,
+            "facts": {
+              "synthetic": true
+            }
+          },
+          {
+            "tool": "query_knowledge",
+            "data_origin": "SYNTHETIC",
+            "outcome": "ok",
+            "reason": null,
+            "facts": {
+              "synthetic": true
+            }
+          }
+        ]
+      },
+      "candidate": {
+        "event_id": "hold-control",
+        "concerns": [
+          {
+            "category": "helmet_missing",
+            "evidence_ids": [
+              "e1"
+            ]
+          }
+        ],
+        "unknown_observation_ids": [],
+        "next_steps": [
+          "close_alarm",
+          "review_evidence_with_safety_manager"
+        ],
+        "notice": "感知辅助候选，仍需人工确认；不改变原始报警"
+      },
+      "expected": "rejected",
+      "annotation_origin": "ai_authored_contract_oracle",
+      "feedback": null
+    },
+    {
+      "id": "hold-unknown-omission",
+      "family": "unknown-omission",
+      "data_origin": "SYNTHETIC",
+      "event": {
+        "schema_version": "perception-event-v1",
+        "data_origin": "SYNTHETIC",
+        "event_id": "hold-unknown-omission",
+        "sequence": 1,
+        "object_ref": "synthetic-quality-unknown-omission",
+        "observed_at": "2026-09-22T04:00:00Z",
+        "expires_at": "2026-09-22T04:10:00Z",
+        "alarm_state": "active",
+        "kind": "helmet_missing",
+        "confidence": 0.8
+      },
+      "bundle": {
+        "snapshot": {
+          "task_id": "hold-unknown-omission",
+          "revision": 1,
+          "run_id": "hold-unknown-omission-run",
+          "status": "awaiting_review",
+          "fields": {
+            "description": "SYNTHETIC独立合同样本"
+          }
+        },
+        "as_of": "2026-09-22T04:00:00Z",
+        "observations": [
+          {
+            "tool": "query_worker_qualification",
+            "data_origin": "SYNTHETIC",
+            "outcome": "unknown",
+            "reason": "not_found",
+            "facts": null
+          },
+          {
+            "tool": "query_area_status",
+            "data_origin": "SYNTHETIC",
+            "outcome": "unknown",
+            "reason": "not_found",
+            "facts": null
+          },
+          {
+            "tool": "query_knowledge",
+            "data_origin": "SYNTHETIC",
+            "outcome": "unknown",
+            "reason": "not_found",
+            "facts": null
+          }
+        ]
+      },
+      "candidate": {
+        "event_id": "hold-unknown-omission",
+        "concerns": [
+          {
+            "category": "helmet_missing",
+            "evidence_ids": [
+              "e1"
+            ]
+          }
+        ],
+        "unknown_observation_ids": [],
+        "next_steps": [
+          "verify_event_on_site",
+          "review_evidence_with_safety_manager"
+        ],
+        "notice": "感知辅助候选，仍需人工确认；不改变原始报警"
+      },
+      "expected": "rejected",
+      "annotation_origin": "ai_authored_contract_oracle",
+      "feedback": null
+    }
+  ]
+}

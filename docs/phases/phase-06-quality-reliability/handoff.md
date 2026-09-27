@@ -19,3 +19,7 @@ PG唯一账本累计34/100：P2-WP02=6、P2-WP04=6、P3-WP03=9、P4-WP02=9、P5-
 用户16路径32行中文译文仍保留，.idea不动。learning-log继续P1→P5原排序后新增P6入口和WP01条目，完整文件不提交；本次原始备份.runtime/p6-wp01/learning-log-before.md可逐字节验证。独立wp01-learning.md可提交。原用户变化映射与P5交接保护要求继续有效。
 
 新shell先scripts/dev-postgres.ps1 -Action Env，PG17.11在127.0.0.1:55432；不碰系统PG10。无Docker/Compose/远程CI事实不变。实际模型端点/模型/20秒/1024输出token/无重试与合成数据约束继续。
+
+## WP02已完成
+
+新增workflows/quality.py和interfaces/quality_cli.py，离线inspect/replay无HTTP/PG导入，显式来源SHA/合成边界、file/family/event分组和不可覆盖报告。evals/quality-v1冻结11项，6dev（2旧无输出不可回放）+5合同留出，非模型泛化留出。重复unknown的开发Badcase由集合去重造成误接受，补长度验证后开发5/6→6/6，留出首次5/5。源文件跨split和畸形CLI空报告两漏洞已红绿修复。最终44离线/此前54含13真实PG相关检查；账本34不变，未读模型凭据。接WP03计划先冻结6条Judge可核对标签，独立文本实验最多8请求，不能复用它追加感知问题。
