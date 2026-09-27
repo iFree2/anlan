@@ -9,7 +9,7 @@ class DeepSeekReviewModel:
     mode = "deepseek_live"
 
     def __init__(self, config, client, ledger, *, work_package=WORK_PACKAGE):
-        if work_package not in {WORK_PACKAGE, "P4-WP02"}:
+        if work_package not in {WORK_PACKAGE, "P4-WP02", "P6-WP03"}:
             raise ValueError("Unsupported review work package")
         self.gateway = ModelGateway(config, client, ledger, work_package=work_package)
 

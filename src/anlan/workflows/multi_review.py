@@ -25,17 +25,19 @@ class ReviewLimits(StrictModel):
 
 
 async def multi_review(bundle, risk_model, audit_model, *, limits=None, cancel_event=None,
-                       trace=None, run_id=None):
+                       trace=None, run_id=None, work_package=WORK_PACKAGE):
+    if work_package not in {WORK_PACKAGE, "P6-WP03"}:
+        raise ValueError("Unsupported multi-role work package")
     for model in (risk_model, audit_model):
         gateway = getattr(model, "gateway", None)
-        if gateway and gateway.work_package != WORK_PACKAGE:
-            raise ValueError("Multi-role requests require trusted P4-WP02 package")
+        if gateway and gateway.work_package != work_package:
+            raise ValueError(f"Multi-role requests require trusted {work_package} package")
     limits = limits or ReviewLimits()
     started = perf_counter()
     deadline = started + limits.timeout_seconds
     snapshot = bundle["snapshot"]
     report = {"schema_version": "multi-review-v1", "data_origin": "SYNTHETIC",
-              "mode": "bounded_risk_evidence_roles", "work_package": WORK_PACKAGE,
+              "mode": "bounded_risk_evidence_roles", "work_package": work_package,
               "run_id": run_id or str(uuid4()), "task_id": snapshot["task_id"],
               "revision": snapshot["revision"], "source_run_id": snapshot["run_id"],
               "correlation_id": snapshot.get("correlation_id", snapshot["task_id"]),
@@ -110,7 +112,7 @@ async def multi_review(bundle, risk_model, audit_model, *, limits=None, cancel_e
         report["stop_reason"] = "collection_" + collection_stop
     else:
         risk = await step("risk", risk_model, lambda child_id: synthesize(
-            bundle, risk_model, trace=trace, run_id=child_id, work_package=WORK_PACKAGE))
+            bundle, risk_model, trace=trace, run_id=child_id, work_package=work_package))
         if risk is not None:
             report["risk"] = risk
             report["candidate"] = risk["candidate"]

@@ -23,3 +23,9 @@ PG唯一账本累计34/100：P2-WP02=6、P2-WP04=6、P3-WP03=9、P4-WP02=9、P5-
 ## WP02已完成
 
 新增workflows/quality.py和interfaces/quality_cli.py，离线inspect/replay无HTTP/PG导入，显式来源SHA/合成边界、file/family/event分组和不可覆盖报告。evals/quality-v1冻结11项，6dev（2旧无输出不可回放）+5合同留出，非模型泛化留出。重复unknown的开发Badcase由集合去重造成误接受，补长度验证后开发5/6→6/6，留出首次5/5。源文件跨split和畸形CLI空报告两漏洞已红绿修复。最终44离线/此前54含13真实PG相关检查；账本34不变，未读模型凭据。接WP03计划先冻结6条Judge可核对标签，独立文本实验最多8请求，不能复用它追加感知问题。
+
+## WP03已完成
+
+可信宿主白名单新增P6-WP03（旧P3/P4默认与CLI不变），不是追加感知预算。evals/judge-v1冻结两包六标签，不向模型传gold；观察是手写合成夹具。真实8请求、Judge5/6，保留unknown/expired误判unsupported为Q-P6-001；两单/双各2/2接受，双token+87%/模型阶段延迟+107%，无本组收益。固定同候选audit消融不发请求且不改变候选。报告evidence/wp03/live-v2.json。
+
+PG当前42/100：新增P6-WP03=8/10；P5-WP02仍4/10；40succeeded/2failed/0reserved。累计70746输入/9844输出/80590总token，P1另列1184。最终账本读取失败会保留已知预占下限、总数未知而非零，审查红绿及独立复审通过；相对runpy启动首轮在指纹阶段失败，PG34未变，修复后才真正调用8次，旧失败证据保留。44相关测试通过。下一步WP04零模型请求的可靠性与阶段Gate。

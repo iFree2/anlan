@@ -102,8 +102,10 @@ class ScriptedEvidenceModel:
 class DeepSeekEvidenceModel:
     mode = "deepseek_live"
 
-    def __init__(self, config, client, ledger):
-        self.gateway = ModelGateway(config, client, ledger, work_package=WORK_PACKAGE)
+    def __init__(self, config, client, ledger, *, work_package=WORK_PACKAGE):
+        if work_package not in {WORK_PACKAGE, "P6-WP03"}:
+            raise ValueError("Unsupported evidence review work package")
+        self.gateway = ModelGateway(config, client, ledger, work_package=work_package)
 
     async def generate(self, context, run_id):
         def parse(envelope):

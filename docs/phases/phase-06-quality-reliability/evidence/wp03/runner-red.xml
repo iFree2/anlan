@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="1.000" timestamp="2026-09-27T23:15:32.429406+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_judge_calibration" name="test_experiment_has_eight_reservations_saved_before_http_and_no_gold_leak" time="0.004"><failure message="FileNotFoundError: [Errno 2] No such file or directory: 'D:\\src\\agent学习\\安澜2.0\\evals/evaluate_quality.py'">tests\test_judge_calibration.py:79: in test_experiment_has_eight_reservations_saved_before_http_and_no_gold_leak
+    spec.loader.exec_module(module)
+&lt;frozen importlib._bootstrap_external&gt;:1022: in exec_module
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:1159: in get_code
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:1217: in get_data
+    ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'D:\\src\\agent学习\\安澜2.0\\evals/evaluate_quality.py'</failure></testcase></testsuite></testsuites>

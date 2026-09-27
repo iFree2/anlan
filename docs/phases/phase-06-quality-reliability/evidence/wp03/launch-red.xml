@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="1.389" timestamp="2026-09-27T23:21:10.240486+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_judge_calibration" name="test_relative_runpy_entry_keeps_absolute_source_fingerprints" time="0.138"><failure message="ValueError: 'evals\\evaluate_quality.py' is not in the subpath of 'D:\\src\\agent学习\\安澜2.0'">tests\test_judge_calibration.py:147: in test_relative_runpy_entry_keeps_absolute_source_fingerprints
+    assert await module.evaluate(SimpleNamespace(mode="scripted", output=output)) == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+evals\evaluate_quality.py:141: in evaluate
+    "sources": {p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+                ^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\pathlib\_local.py:385: in relative_to
+    raise ValueError(f"{str(self)!r} is not in the subpath of {str(other)!r}")
+E   ValueError: 'evals\\evaluate_quality.py' is not in the subpath of 'D:\\src\\agent学习\\安澜2.0'</failure></testcase></testsuite></testsuites>

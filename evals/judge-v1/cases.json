@@ -1,0 +1,203 @@
+{
+  "schema_version": "judge-calibration-v1",
+  "data_origin": "SYNTHETIC",
+  "exposure": "developer_seen",
+  "label_origin": "ai_authored_verifiable_enum_facts",
+  "observation_origin": "frozen_synthetic_fixtures_not_new_tool_queries",
+  "rubric": "supported=可见证据直接支持；unsupported=与可见证据冲突；uncertain=可见证据不足。",
+  "cases": [
+    {
+      "id": "active-unknown",
+      "bundle": {
+        "identity": {
+          "tenant_id": "synthetic-p6-calibration",
+          "user_id": "safety-demo"
+        },
+        "snapshot": {
+          "task_id": "p6-active-unknown",
+          "run_id": "frozen-active-unknown",
+          "revision": 1,
+          "fields": {
+            "work_location_description": "SYNTHETIC试验区",
+            "work_object_description": "SYNTHETIC试件",
+            "work_method_description": "SYNTHETIC焊接",
+            "attachment_description": "SYNTHETIC示意图"
+          }
+        },
+        "observations": [
+          {
+            "tool": "query_worker_qualification",
+            "data_origin": "SYNTHETIC",
+            "outcome": "ok",
+            "reason": null,
+            "facts": {
+              "status": "active",
+              "qualification_type": "welding"
+            },
+            "source": {
+              "record_id": "active-unknown-worker"
+            }
+          },
+          {
+            "tool": "query_area_status",
+            "data_origin": "SYNTHETIC",
+            "outcome": "unknown",
+            "reason": "not_found",
+            "facts": null,
+            "source": {
+              "record_id": "active-unknown-area"
+            }
+          },
+          {
+            "tool": "query_knowledge",
+            "data_origin": "SYNTHETIC",
+            "outcome": "unknown",
+            "reason": "not_found",
+            "facts": null,
+            "source": [],
+            "citations": []
+          }
+        ],
+        "memories": [],
+        "warnings": [],
+        "question": "请核对人员资质、区域当前状态和示例依据，保留未知。",
+        "as_of": "2026-09-22T04:00:00Z"
+      },
+      "judge_candidate": {
+        "claims": [
+          {
+            "text": "人员焊工资质状态为active。",
+            "observation_ids": [
+              "o1"
+            ],
+            "knowledge_citations": []
+          },
+          {
+            "text": "人员焊工资质状态为inactive。",
+            "observation_ids": [
+              "o1"
+            ],
+            "knowledge_citations": []
+          },
+          {
+            "text": "当前区域可以安全作业。",
+            "observation_ids": [
+              "o2"
+            ],
+            "knowledge_citations": []
+          }
+        ],
+        "unknown_observation_ids": [
+          "o2",
+          "o3"
+        ],
+        "presentation": {
+          "detail_level": "brief",
+          "presentation_order": "unknowns_first"
+        },
+        "notice": "待人工复核；不是作业批准"
+      },
+      "gold": {
+        "c1": "supported",
+        "c2": "unsupported",
+        "c3": "uncertain"
+      }
+    },
+    {
+      "id": "expired-restricted",
+      "bundle": {
+        "identity": {
+          "tenant_id": "synthetic-p6-calibration",
+          "user_id": "safety-demo"
+        },
+        "snapshot": {
+          "task_id": "p6-expired-restricted",
+          "run_id": "frozen-expired-restricted",
+          "revision": 1,
+          "fields": {
+            "work_location_description": "SYNTHETIC试验区",
+            "work_object_description": "SYNTHETIC试件",
+            "work_method_description": "SYNTHETIC焊接",
+            "attachment_description": "SYNTHETIC示意图"
+          }
+        },
+        "observations": [
+          {
+            "tool": "query_worker_qualification",
+            "data_origin": "SYNTHETIC",
+            "outcome": "unknown",
+            "reason": "expired",
+            "facts": null,
+            "source": {
+              "record_id": "expired-restricted-worker"
+            }
+          },
+          {
+            "tool": "query_area_status",
+            "data_origin": "SYNTHETIC",
+            "outcome": "ok",
+            "reason": null,
+            "facts": {
+              "status": "restricted"
+            },
+            "source": {
+              "record_id": "expired-restricted-area"
+            }
+          },
+          {
+            "tool": "query_knowledge",
+            "data_origin": "SYNTHETIC",
+            "outcome": "unknown",
+            "reason": "not_found",
+            "facts": null,
+            "source": [],
+            "citations": []
+          }
+        ],
+        "memories": [],
+        "warnings": [],
+        "question": "请核对人员资质、区域当前状态和示例依据，保留未知。",
+        "as_of": "2026-09-22T04:00:00Z"
+      },
+      "judge_candidate": {
+        "claims": [
+          {
+            "text": "当前区域状态为restricted。",
+            "observation_ids": [
+              "o2"
+            ],
+            "knowledge_citations": []
+          },
+          {
+            "text": "当前区域状态为open。",
+            "observation_ids": [
+              "o2"
+            ],
+            "knowledge_citations": []
+          },
+          {
+            "text": "当前人员焊工资质有效。",
+            "observation_ids": [
+              "o1"
+            ],
+            "knowledge_citations": []
+          }
+        ],
+        "unknown_observation_ids": [
+          "o1",
+          "o3"
+        ],
+        "presentation": {
+          "detail_level": "brief",
+          "presentation_order": "unknowns_first"
+        },
+        "notice": "待人工复核；不是作业批准"
+      },
+      "gold": {
+        "c1": "supported",
+        "c2": "unsupported",
+        "c3": "uncertain"
+      }
+    }
+  ]
+}
