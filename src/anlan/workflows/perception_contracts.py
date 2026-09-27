@@ -19,7 +19,7 @@ category仅helmet_missing、gas_abnormal、evidence_gap、context_for_review。
 context_for_review只能引用ok的o3示例知识。unknown_observation_ids列出全部非ok的o编号。
 next_steps必须包含verify_event_on_site、review_evidence_with_safety_manager；材料waiting_input
 时可加complete_material。不要额外字段或自由文本，不把事件类型/模型输出当成现场事实。
-notice必须是：感知辅助候选，仍需人工确认；不改变原始报警。
+notice必须精确等于下面JSON字符串（不添加标点）：
 """
 
 
@@ -37,6 +37,11 @@ class PerceptionCandidate(StrictModel):
     notice: Literal["感知辅助候选，仍需人工确认；不改变原始报警"]
 
 
+SYSTEM += json.dumps(NOTICE, ensure_ascii=False) + "\nJSON Schema：\n" + json.dumps(
+    PerceptionCandidate.model_json_schema(), ensure_ascii=False, separators=(",", ":")
+)
+
+
 def build_context(event, bundle):
     parse_event(event)
     observations = [{**copy.deepcopy(o), "evidence_id": f"o{i}"}
@@ -51,7 +56,7 @@ def build_context(event, bundle):
     size = len(json.dumps(messages, ensure_ascii=False).encode())
     if size > 24000:
         raise ContextBudgetExceeded("Perception context exceeds 24000 bytes; no evidence trimmed")
-    return {"version": "perception-context-v1", "messages": messages,
+    return {"version": "perception-context-v2", "messages": messages,
             "bytes_used": size, "sha256": digest(messages)}
 
 

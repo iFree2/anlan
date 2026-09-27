@@ -16,9 +16,11 @@ class ModelGateway:
         self.work_package = work_package
         self.requests_used = 0
         self.last_attempt_id = None
+        self.last_output_diagnostic = None
 
     async def call(self, payload: dict, parse, run_id: str):
         self.last_attempt_id = None
+        self.last_output_diagnostic = None
         if self.config.model != "deepseek-flash":
             raise AnalysisFailure("model_not_authorized")
         if len(json.dumps(payload, ensure_ascii=False).encode()) > 32768:
@@ -50,8 +52,16 @@ class ModelGateway:
                     async for chunk in response.aiter_bytes():
                         content.extend(chunk)
                         if len(content) > 65536:
+                            self.last_output_diagnostic = "response_too_large"
                             raise AnalysisFailure("invalid_output")
-                envelope = json.loads(content)
+                try:
+                    envelope = json.loads(content)
+                except (ValueError, RecursionError):
+                    self.last_output_diagnostic = "outer_json_invalid"
+                    raise
+                if not isinstance(envelope, dict):
+                    self.last_output_diagnostic = "invalid_envelope"
+                    raise AnalysisFailure("invalid_output")
                 raw_usage = envelope.get("usage")
                 if isinstance(raw_usage, dict):
                     usage = {name: value if type(value := raw_usage.get(name)) is int

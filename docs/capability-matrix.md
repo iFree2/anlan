@@ -30,7 +30,7 @@ JD 的专业学历/经历及自驱、抗压等要求不由项目代码或量化�
 | 能力 | 原始 JD / 通用补充 | 优先级 / 深度 | 业务增量 / 实现任务 | 验证方式与证据 | 项目状态 | 我的掌握 |
 |---|---|---|---|---|---|---|
 | 1 Python / SQL | J7；补充类型、Pydantic、asyncio、pytest、依赖/配置、异常资源管理 | P0 基础 | P1 节点和 DTO；P2 工具 SQL；P6 数据分析/事务索引 | 修改节点，定位校验/异步问题，SQL 查对应 run | R1职责包/轻量合同/连接与装配分离已验；原PG迁移/恢复与SQL合同不变；本人SQL/架构掌握待验 | 本人已修改追问并演示；断言/核心修改/排错与 SQL 待验证，见 learning-log |
-| 2 模型行为与接入 | J8；补充消息角色/token/采样/流式/Schema/限流/usage | P0 基础 | P1 材料分析；P5 SSE；缓存/模型选择按实验 | 合法/无效/请求失败路径；结构与语义分开评测 | WP03三次真实调用已验；仅小样本，流式/限流深化后置 | 待验证 |
+| 2 模型行为与接入 | J8；补充消息角色/token/采样/流式/Schema/限流/usage | P0 基础 | P1 材料分析；P5 SSE；缓存/模型选择按实验 | 合法/无效/请求失败路径；结构与语义分开评测 | P6-WP01合同/分层诊断红绿与两真实感知候选已验；原0/2保留，非泛化结论 | 待验证 |
 | 3 Agent 循环与架构 | J8；补充工作流/ReAct/规划执行/路由 | P0 基础 | P1 固定图；P2 有界模型→工具→观察→停止 | 演示停止条件与非法动作，解释代码/模型分工 | P2-WP02有界模型工具循环及3任务真实联调；仅已见合成集 | 待验证 |
 | 4 会话/任务状态 | J2/J9；补充身份 ID/checkpoint/取消/历史裁剪 | P0 基础 | P1 跨轮补充与 PostgreSQL；P3 历史预算 | 隔离、跨轮、重启、重复执行风险 | PG跨进程/checkpoint/归属与P3上下文裁剪已验；持久任务取消后置 | 待验证 |
 | 5 工作流/人工介入 | J5；补充 Graph 条件边/合并/interrupt/resume | P0 基础 | P1 补充再分析；P4 并行；P5 条件变更 | 补充恢复、修改触发重核、不丢输入/重做无关操作 | PG跨进程interrupt/恢复与P4只读并行汇合已验；P5显式已结束材料revise与崩溃恢复已验 | 待验证 |
@@ -47,3 +47,5 @@ JD 的专业学历/经历及自驱、抗压等要求不由项目代码或量化�
 | 16 服务部署 / CI | J7；补充 FastAPI/SSE/断连/迁移/Compose/健康检查 | P0 基础，后置 | P5 服务与事件演示；P6 延迟/并发瓶颈 | 清洁环境启动、恢复任务、断连语义与小规模测量 | P5本机FastAPI/快照SSE与断连恢复、干净venv/wheel及本地CI已验；Compose与远程CI未运行 | 待验证 |
 
 所有效果指标在各阶段冻结任务与口径后测量；测试数量、安装包数量、文档数量都不能作为掌握程度。近期练习入口见 [learning-log](learning-log.md)，实施证据见 [WP01](phases/phase-01-workflow/evidence/wp01/verification.md) / [WP02](phases/phase-01-workflow/evidence/wp02/verification.md)，真实联调见 [WP03](phases/phase-01-workflow/evidence/wp03/final-report.md)，P1阶段结论见 [Gate](phases/phase-01-workflow/evidence/wp04/gate-report.md)，当前状态见 [status](status.md)。
+
+P6-WP01新增工程证据：[合同诊断与最小真实复验](phases/phase-06-quality-reliability/evidence/wp01/live-report.md)。新2/2不升级任何“我的掌握”；Q-P5-001最小候选阻塞关闭，原失败及未知根因保留。

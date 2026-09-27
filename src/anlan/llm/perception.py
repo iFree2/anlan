@@ -6,7 +6,24 @@ import json
 from pydantic import ValidationError
 
 from anlan.llm.gateway import ModelGateway
-from anlan.workflows.perception_contracts import NOTICE, WORK_PACKAGE, PerceptionCandidate
+from anlan.workflows.perception_contracts import NOTICE, WORK_PACKAGE, Concern, PerceptionCandidate
+
+
+def safe_diagnostics(exc):
+    """Retain contract locations, never provider-controlled extra field names or values."""
+    fields = set(PerceptionCandidate.model_fields) | set(Concern.model_fields)
+    diagnostics = []
+    for error in exc.errors(include_input=False, include_url=False)[:20]:
+        location = [
+            part if (isinstance(part, str) and part in fields)
+            or (type(part) is int and 0 <= part < 3) else "<extra_field>"
+            for part in error["loc"][:5]
+        ]
+        # Even a schema-known name is untrusted when supplied as an extra field.
+        if error["type"] == "extra_forbidden" and location:
+            location[-1] = "<extra_field>"
+        diagnostics.append({"type": error["type"], "loc": location})
+    return diagnostics
 
 
 class DeepSeekPerceptionModel:
@@ -26,25 +43,28 @@ class DeepSeekPerceptionModel:
 
     async def generate(self, context, run_id):
         def parse(envelope):
-            choice = envelope["choices"][0]
-            message = choice["message"]
-            if (
-                choice["finish_reason"] != "stop"
-                or message["role"] != "assistant"
-                or message.get("tool_calls")
-            ):
-                raise ValueError("Expected a bounded perception classification")
+            try:
+                choice = envelope["choices"][0]
+                message = choice["message"]
+                if (
+                    choice["finish_reason"] != "stop"
+                    or message["role"] != "assistant"
+                    or message.get("tool_calls")
+                    or not isinstance(message["content"], str)
+                ):
+                    raise ValueError("Expected a bounded perception classification")
+            except (ValueError, TypeError, KeyError, IndexError, AttributeError):
+                self._diagnostics[run_id] = [{"type": "invalid_envelope", "loc": []}]
+                raise
             try:
                 return PerceptionCandidate.model_validate_json(message["content"])
             except ValidationError as exc:
                 # Field/type metadata only: no HTTP body, input values or provider reasoning.
-                self._diagnostics[run_id] = [
-                    {"type": error["type"], "loc": list(error["loc"])}
-                    for error in exc.errors(include_input=False, include_url=False)[:20]
-                ]
+                self._diagnostics[run_id] = safe_diagnostics(exc)
                 raise
 
         async with self._serial:
+            self._diagnostics.pop(run_id, None)
             try:
                 candidate, usage, attempt = await self.gateway.call(
                     {
@@ -60,6 +80,10 @@ class DeepSeekPerceptionModel:
                 )
             finally:
                 self._attempts[run_id] = self.gateway.last_attempt_id
+                if self.gateway.last_output_diagnostic:
+                    self._diagnostics[run_id] = [
+                        {"type": self.gateway.last_output_diagnostic, "loc": []}
+                    ]
         return {"candidate": candidate.model_dump(), "usage": usage, "attempt_id": attempt}
 
 
