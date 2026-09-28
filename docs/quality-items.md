@@ -15,3 +15,9 @@ WP03独立服务化继续。WP03收束后或P6安排一个有界诊断/修复包
 ## Q-P6-001：Judge混淆证据不足与矛盾（开放）
 
 WP03冻结六条标签5/6匹配。expired-restricted/c3将o1=unknown/expired、facts=null时的“资质有效”判unsupported而非uncertain，理由错误地把观察失效当作与事实冲突。保留[原输出和标签](phases/phase-06-quality-reliability/evidence/wp03/live-report.md)，不改金标/不追加请求。Judge不得作为唯一质量Gate或自动决策；P7接管时可由本人解释此例，扩大独立人工标注后再决定是否改提示。该限制不阻止本地工程/可靠性工作。
+
+## Q-P6-002：同任务并发状态读取冲突（开放）
+
+WP04本机预热后对同一材料GET做1/4/8并发、每组24请求：串行全成功；并发4有11个409，并发8有13个409。[原始失败实验](phases/phase-06-quality-reliability/evidence/wp04/benchmark-v1.json)。WorkflowService.get与写入共享Registry.locked，PG使用pg_try_advisory_lock；HTTP将TaskBusy映射409，此结果与现有非阻塞同任务锁一致。没有绕过ADR002或静默重试。
+
+这是同任务并发读取可用性限制，不能宣称并发服务验收全通过或生产SLA。本阶段目标是测量/归因并保留限制，不新建队列/缓存；阶段工程Gate仅可证明受限本地链和证据有效。今后若要承诺并发读取，需要单独设计不破坏归属/版本/恢复边界的快照读取方案及竞争验证。P7先如实演示与讲解，不能删除失败计数。

@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "translated_lines_preserved": 32,
+  "total_translated_lines": 32,
+  "learning_without_p6_equals_before": true,
+  "before_sha256": "e9655d2337793c9750f48e68dcd0c9c928bbb0f0fde5a910e968032388a736ab",
+  "stripped_sha256": "e9655d2337793c9750f48e68dcd0c9c928bbb0f0fde5a910e968032388a736ab",
+  "anchors_now": 31,
+  "personal_mastery": "not_changed"
+}

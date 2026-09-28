@@ -2,7 +2,7 @@
 
 面向企业安全管理人员的高风险作业全周期安全协同 Agent。先深入动火作业，从准备与预审发展到依据/风险分析、作业中感知协同和事后质量闭环。所有演示均为 **SYNTHETIC 合成数据**，不是企业制度或合规依据；不自动批准，不控制或关闭报警。
 
-P1—P4工程Gate与R1职责分包已通过。当前支持材料多轮/PG恢复、事实/知识/Memory、有界上下文、受控并行与两职责模型复核、Java只读API/MCP。297项全量回归与2项Gate验真检查通过；并行/多角色仍有成本、延迟和语义不足，工程状态不代表模型质量或本人掌握。[P4交接](docs/phases/phase-04-multi-agent/handoff.md)和[当前状态](docs/status.md)是继续入口。
+P1—P6工程Gate已通过。当前支持材料多轮/PG恢复、事实/知识/Memory、受控单/双职责复核、模拟感知/修订/反馈、本地HTTP/SSE，以及Badcase/录制回放/有限Judge校准。最终本地CI434项通过，当前wheel88文件与测试源码匹配；同任务并发读取409和Judge误分类保留，工程状态不代表生产能力或本人掌握。[P6交接](docs/phases/phase-06-quality-reliability/handoff.md)和[当前状态](docs/status.md)是继续入口。
 
 ## 启动（PowerShell）
 
@@ -226,7 +226,9 @@ uv run python -O scripts/smoke_parallel.py --source .runtime/parallel-new.json -
 
 两类SYNTHETIC事件、PG关联/去重/乱序、显式材料revise、感知候选/反馈、可信本地FastAPI与快照SSE已实现。启动、接口和断连语义见[服务演示](docs/phases/phase-05-events-service/service-demo.md)，原事件回放见[事件演示](docs/phases/phase-05-events-service/event-demo.md)。默认服务使用替身，原始报警独立且没有批准/告警控制入口。
 
-**真实感知模型尚未通过：两请求0/2接受。** [Q-P5-001](docs/quality-items.md)为最终质量阻塞；替身/API/本机工程通过不能替代模型验收。Docker/Compose和远程GitHubCI未运行，本机验证与未验证模板分开记录。
+**真实感知最小复验新2/2接受，原0/2保留。** P6修订合同提示并补安全诊断后获得两个已见合成任务的有效候选，[Q-P5-001](docs/quality-items.md)最小阻塞关闭，泛化/现场能力仍未验证。Judge误分类与同任务并发读取409是开放限制；替身/API/本机工程通过不能替代模型验收。Docker/Compose和远程GitHubCI未运行，本机验证与未验证模板分开记录。
+
+离线质量入口见[冻结开发/合同留出与inspect/replay](evals/quality-v1/README.md)；有限Judge与单多复测见[实验边界](evals/judge-v1/README.md)。只读查看/录制回放不调用模型；真实复跑必须明确走唯一PG预算预占，不因换阶段重置。完整失败与限制见[P6工程Gate](docs/phases/phase-06-quality-reliability/evidence/wp04/gate-report.md)。
 
 ## 重要限制
 

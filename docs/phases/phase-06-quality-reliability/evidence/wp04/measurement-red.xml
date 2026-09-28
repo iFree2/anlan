@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="4" time="0.368" timestamp="2026-09-27T23:25:33.604816+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_reliability_measurement" name="test_latency_measurement_retains_http_failures_timeouts_and_changed_snapshots" time="0.004"><failure message="FileNotFoundError: [Errno 2] No such file or directory: 'D:\\src\\agent学习\\安澜2.0\\scripts/benchmark_service.py'">tests\test_reliability_measurement.py:15: in test_latency_measurement_retains_http_failures_timeouts_and_changed_snapshots
+    benchmark = module()
+                ^^^^^^^^
+tests\test_reliability_measurement.py:10: in module
+    spec.loader.exec_module(value)
+&lt;frozen importlib._bootstrap_external&gt;:1022: in exec_module
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:1159: in get_code
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:1217: in get_data
+    ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'D:\\src\\agent学习\\安澜2.0\\scripts/benchmark_service.py'</failure></testcase><testcase classname="tests.test_reliability_measurement" name="test_only_predeclared_small_loads_are_allowed[0]" time="0.003"><failure message="FileNotFoundError: [Errno 2] No such file or directory: 'D:\\src\\agent学习\\安澜2.0\\scripts/benchmark_service.py'">tests\test_reliability_measurement.py:40: in test_only_predeclared_small_loads_are_allowed
+    await module().measure(None, "/tasks/task", {}, concurrency)
+          ^^^^^^^^
+tests\test_reliability_measurement.py:10: in module
+    spec.loader.exec_module(value)
+&lt;frozen importlib._bootstrap_external&gt;:1022: in exec_module
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:1159: in get_code
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:1217: in get_data
+    ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'D:\\src\\agent学习\\安澜2.0\\scripts/benchmark_service.py'</failure></testcase><testcase classname="tests.test_reliability_measurement" name="test_only_predeclared_small_loads_are_allowed[2]" time="0.003"><failure message="FileNotFoundError: [Errno 2] No such file or directory: 'D:\\src\\agent学习\\安澜2.0\\scripts/benchmark_service.py'">tests\test_reliability_measurement.py:40: in test_only_predeclared_small_loads_are_allowed
+    await module().measure(None, "/tasks/task", {}, concurrency)
+          ^^^^^^^^
+tests\test_reliability_measurement.py:10: in module
+    spec.loader.exec_module(value)
+&lt;frozen importlib._bootstrap_external&gt;:1022: in exec_module
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:1159: in get_code
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:1217: in get_data
+    ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'D:\\src\\agent学习\\安澜2.0\\scripts/benchmark_service.py'</failure></testcase><testcase classname="tests.test_reliability_measurement" name="test_only_predeclared_small_loads_are_allowed[9]" time="0.003"><failure message="FileNotFoundError: [Errno 2] No such file or directory: 'D:\\src\\agent学习\\安澜2.0\\scripts/benchmark_service.py'">tests\test_reliability_measurement.py:40: in test_only_predeclared_small_loads_are_allowed
+    await module().measure(None, "/tasks/task", {}, concurrency)
+          ^^^^^^^^
+tests\test_reliability_measurement.py:10: in module
+    spec.loader.exec_module(value)
+&lt;frozen importlib._bootstrap_external&gt;:1022: in exec_module
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:1159: in get_code
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:1217: in get_data
+    ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'D:\\src\\agent学习\\安澜2.0\\scripts/benchmark_service.py'</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,16 @@
+usage: quality_cli.py [-h] --manifest MANIFEST [--root ROOT]
+                      [--split {dev,holdout}] --output OUTPUT
+                      {inspect,replay}
+
+Explicit offline evidence modes; live reruns remain in the budgeted experiment
+runner.
+
+positional arguments:
+  {inspect,replay}
+
+options:
+  -h, --help            show this help message and exit
+  --manifest MANIFEST
+  --root ROOT
+  --split {dev,holdout}
+  --output OUTPUT

@@ -1,0 +1,24 @@
+{
+  "data_origin": "SYNTHETIC",
+  "version": "areas-v1-rag-derived",
+  "records": [
+    {
+      "tenant_id": "synthetic-parallel-2e3c4cbef3a94e8e8c5d60827602fcb2",
+      "observed_at": "2026-09-20T00:00:00Z",
+      "valid_from": "2026-09-20T00:00:00Z",
+      "valid_until": "2026-09-21T00:00:00Z",
+      "record_id": "observation-area-001",
+      "object_id": "area-001",
+      "status": "restricted"
+    },
+    {
+      "tenant_id": "synthetic-parallel-2e3c4cbef3a94e8e8c5d60827602fcb2",
+      "observed_at": "2026-09-20T00:00:00Z",
+      "valid_from": "2026-01-01T00:00:00Z",
+      "valid_until": "2026-09-19T00:00:00Z",
+      "record_id": "observation-area-expired",
+      "object_id": "area-expired",
+      "status": "normal"
+    }
+  ]
+}
