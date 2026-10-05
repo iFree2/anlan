@@ -2,7 +2,7 @@
 
 面向企业安全管理人员的高风险作业全周期安全协同 Agent。先深入动火作业，从准备与预审发展到依据/风险分析、作业中感知协同和事后质量闭环。所有演示均为 **SYNTHETIC 合成数据**，不是企业制度或合规依据；不自动批准，不控制或关闭报警。
 
-P1—P6工程Gate已通过。当前支持材料多轮/PG恢复、事实/知识/Memory、受控单/双职责复核、模拟感知/修订/反馈、本地HTTP/SSE，以及Badcase/录制回放/有限Judge校准。最终本地CI434项通过，当前wheel88文件与测试源码匹配；同任务并发读取409和Judge误分类保留，工程状态不代表生产能力或本人掌握。[P6交接](docs/phases/phase-06-quality-reliability/handoff.md)和[当前状态](docs/status.md)是继续入口。
+P1—P7有限工程Gate已通过，最终本地CI456项通过、0跳过。当前包括可恢复材料工作流、事实/知识/偏好、模拟事件/重核/反馈、本地HTTP/SSE、质量回放和有限合成图对照。Mem0仅静态比较，Judge误分类与同任务并发409保留；工程结果不代表本人掌握、真实现场或生产能力。先看[项目说明](docs/phases/phase-07-takeover-career/project-brief.md)、[如实求职素材](docs/phases/phase-07-takeover-career/career-materials.md)和[当前状态](docs/status.md)。
 
 ## 启动（PowerShell）
 
