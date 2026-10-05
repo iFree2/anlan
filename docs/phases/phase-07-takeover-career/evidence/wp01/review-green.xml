@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="8" time="0.712" timestamp="2026-10-05T17:59:21.438231+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_takeover_demo" name="test_existing_directory_is_never_overwritten" time="0.127" /><testcase classname="tests.test_takeover_demo" name="test_failure_saves_stage_without_exception_text[error0]" time="0.057" /><testcase classname="tests.test_takeover_demo" name="test_failure_saves_stage_without_exception_text[error1]" time="0.068" /><testcase classname="tests.test_takeover_demo" name="test_unavailable_budget_is_unknown_and_prevents_steps" time="0.056" /><testcase classname="tests.test_takeover_demo" name="test_replay_cannot_turn_missing_outputs_into_model_success" time="0.002" /><testcase classname="tests.test_takeover_demo" name="test_scripted_chain_requires_both_events_and_no_requests" time="0.002" /><testcase classname="tests.test_takeover_demo" name="test_execute_binds_source_despite_inherited_pythonpath" time="0.088"><failure message="TypeError: None is not a valid string in this context">tests\test_takeover_demo.py:106: in test_execute_binds_source_despite_inherited_pythonpath
+    assert demo.execute([str(probe), str(demo.ROOT / "src/anlan")]) == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts\takeover_demo.py:99: in execute
+    job = win32job.CreateJobObject(None, None)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: None is not a valid string in this context</failure></testcase><testcase classname="tests.test_takeover_demo" name="test_timeout_cleans_grandchild_before_return" time="0.005"><failure message="TypeError: None is not a valid string in this context">tests\test_takeover_demo.py:131: in test_timeout_cleans_grandchild_before_return
+    demo.execute([str(parent), str(child), str(marker)])
+scripts\takeover_demo.py:99: in execute
+    job = win32job.CreateJobObject(None, None)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: None is not a valid string in this context</failure></testcase></testsuite></testsuites>

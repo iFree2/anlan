@@ -49,3 +49,5 @@ JD 的专业学历/经历及自驱、抗压等要求不由项目代码或量化�
 所有效果指标在各阶段冻结任务与口径后测量；测试数量、安装包数量、文档数量都不能作为掌握程度。近期练习入口见 [learning-log](learning-log.md)，实施证据见 [WP01](phases/phase-01-workflow/evidence/wp01/verification.md) / [WP02](phases/phase-01-workflow/evidence/wp02/verification.md)，真实联调见 [WP03](phases/phase-01-workflow/evidence/wp03/final-report.md)，P1阶段结论见 [Gate](phases/phase-01-workflow/evidence/wp04/gate-report.md)，当前状态见 [status](status.md)。
 
 P6-WP01新增工程证据：[合同诊断与最小真实复验](phases/phase-06-quality-reliability/evidence/wp01/live-report.md)。新2/2不升级任何“我的掌握”；Q-P5-001最小候选阻塞关闭，原失败及未知根因保留。
+
+P7-WP01新增[可复现演示与排错入口](phases/phase-07-takeover-career/takeover-demo.md)：材料/事件/重核/反馈/录制回放五段工程演示、进程树/源码绑定及账本不可用故障通过，零模型请求。对应工作流、Runtime、评测与追踪的工程可接管资料；所有“我的掌握”仍待本人操作/讲解，Q-P6-001/002开放。

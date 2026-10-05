@@ -6,6 +6,8 @@ P1—P6工程Gate已通过。当前支持材料多轮/PG恢复、事实/知识/M
 
 ## 启动（PowerShell）
 
+P7接管入口：[一条命令复现主链](docs/phases/phase-07-takeover-career/takeover-demo.md)、[排错路径](docs/phases/phase-07-takeover-career/troubleshooting.md)、[已知限制](docs/phases/phase-07-takeover-career/known-limitations.md)。该演示零真实模型请求，个人掌握另验。
+
 前提：Python 3.13、uv；项目锁定版本见 `uv.lock`。以下内存演示无需数据库，持久化演示见下一节。
 
 ```powershell

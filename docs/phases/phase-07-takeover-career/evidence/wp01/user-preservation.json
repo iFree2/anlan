@@ -1,0 +1,23 @@
+{
+  "user_files_byte_equal": {
+    "evals/evaluate.py": true,
+    "scripts/install_postgres.py": true,
+    "scripts/smoke_postgres.py": true,
+    "src/anlan/common/errors.py": true,
+    "src/anlan/infrastructure/postgres.py": true,
+    "src/anlan/infrastructure/trace.py": true,
+    "src/anlan/interfaces/cli.py": true,
+    "src/anlan/interfaces/runtime.py": true,
+    "src/anlan/llm/material.py": true,
+    "src/anlan/workflows/evaluation.py": true,
+    "src/anlan/workflows/material_contracts.py": true,
+    "src/anlan/workflows/materials.py": true,
+    "src/anlan/workflows/registry.py": true,
+    "src/anlan/workflows/service.py": true,
+    "tests/test_postgres.py": true,
+    "tests/test_workflow.py": true
+  },
+  "learning_without_p7_byte_equal": true,
+  "learning_original_sha256": "118f13a03020026c3bdb1edf576025b7f7e29556f5b647ce54536c22a4348f10",
+  "new_learning_anchors": 33
+}

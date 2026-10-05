@@ -1,0 +1,12 @@
+{
+  "repeat_exit": 2,
+  "original_sha_equal": true,
+  "unavailable_exit": 1,
+  "failed_stage": "budget_before",
+  "budget_before_unknown": true,
+  "budget_after_unknown": true,
+  "delta_unknown": true,
+  "steps_not_started": true,
+  "secret_absent": true,
+  "project_pg_stopped": false
+}
