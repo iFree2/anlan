@@ -1,0 +1,24 @@
+{
+  "checked_at": "2026-10-05",
+  "model": "deepseek-flash",
+  "documented_alias_version": "DeepSeek-V4.1-Flash",
+  "endpoint": "https://api.deepseek.com/chat/completions",
+  "vision_supported_per_official_docs": true,
+  "input": "user content image_url with inline PNG base64",
+  "existing_authorization_only": true,
+  "real_person_data": false,
+  "sources": [
+    "https://api-docs.deepseek.com/quick_start/pricing/",
+    "https://api-docs.deepseek.com/guides/vision/",
+    "https://api-docs.deepseek.com/api/create-chat-completion/"
+  ],
+  "initial_no_trailing_slash_fetches": "tool timeout; canonical trailing-slash pages subsequently read",
+  "local_modules": {
+    "PIL": true,
+    "torch": false,
+    "transformers": false
+  },
+  "local_vision_model_executed": false,
+  "experiment": "offline synthetic fixture inputs, remote API inference when explicitly live",
+  "requests_at_this_preflight": 0
+}

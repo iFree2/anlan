@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="7" time="0.570" timestamp="2026-10-05T20:41:14.380445+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_multimodal" name="test_frozen_inputs_are_separate_and_gold_is_not_sent" time="0.147" /><testcase classname="tests.test_multimodal" name="test_rejects_unscoped_output[value0]" time="0.003" /><testcase classname="tests.test_multimodal" name="test_rejects_unscoped_output[value1]" time="0.002" /><testcase classname="tests.test_multimodal" name="test_rejects_unscoped_output[value2]" time="0.002" /><testcase classname="tests.test_multimodal" name="test_preallocation_and_final_snapshot_failure_preserve_attempt_lower_bound" time="0.015" /><testcase classname="tests.test_multimodal" name="test_any_previous_experiment_attempt_prevents_whole_run_repeat[1]" time="0.005"><failure message="Failed: Previous attempt must prevent reserving another experiment">tests\test_multimodal.py:113: in test_any_previous_experiment_attempt_prevents_whole_run_repeat
+    await m.execute(m.load_dataset(), {"rows": [], "budget_after": None}, lambda: None,
+evals\evaluate_multimodal.py:110: in execute
+    parsed, usage, attempt = await gateway.call(request, parse, row["run_id"])
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\llm\gateway.py:31: in call
+    attempt = await self.ledger.reserve(self.work_package, run_id)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_multimodal.py:107: in reserve
+    pytest.fail("Previous attempt must prevent reserving another experiment")
+E   Failed: Previous attempt must prevent reserving another experiment</failure></testcase><testcase classname="tests.test_multimodal" name="test_any_previous_experiment_attempt_prevents_whole_run_repeat[4]" time="0.006"><failure message="Failed: Previous attempt must prevent reserving another experiment">tests\test_multimodal.py:113: in test_any_previous_experiment_attempt_prevents_whole_run_repeat
+    await m.execute(m.load_dataset(), {"rows": [], "budget_after": None}, lambda: None,
+evals\evaluate_multimodal.py:110: in execute
+    parsed, usage, attempt = await gateway.call(request, parse, row["run_id"])
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\anlan\llm\gateway.py:31: in call
+    attempt = await self.ledger.reserve(self.work_package, run_id)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_multimodal.py:107: in reserve
+    pytest.fail("Previous attempt must prevent reserving another experiment")
+E   Failed: Previous attempt must prevent reserving another experiment</failure></testcase></testsuite></testsuites>

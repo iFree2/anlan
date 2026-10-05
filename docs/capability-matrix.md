@@ -53,3 +53,5 @@ P6-WP01新增工程证据：[合同诊断与最小真实复验](phases/phase-06-
 P7-WP01新增[可复现演示与排错入口](phases/phase-07-takeover-career/takeover-demo.md)：材料/事件/重核/反馈/录制回放五段工程演示、进程树/源码绑定及账本不可用故障通过，零模型请求。对应工作流、Runtime、评测与追踪的工程可接管资料；所有“我的掌握”仍待本人操作/讲解，Q-P6-001/002开放。
 
 P7-WP02：[Mem0有限比较与合成任务复用](phases/phase-07-takeover-career/memory-comparison.md)。Mem0仅官方源码/合同分析，框架未运行；现有PG偏好生命周期、通用材料/工具在一个合成受限空间资料任务实测，领域安全规则未复用。Memory/资产复用工程证据增加，“我的掌握”保持待验证。
+
+P7-WP03：[两张合成图真实对照](phases/phase-07-takeover-career/multimodal-report.md)4请求，图像/结构化各2/2，图片token更多；只证明有限图示处理，真实视频/现场泛化未验证，个人掌握不变。

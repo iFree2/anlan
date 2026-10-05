@@ -1,0 +1,38 @@
+{
+  "status": "preflight_passed",
+  "data_origin": "SYNTHETIC",
+  "work_package": "P7-WP03",
+  "planned_request_ceiling": 0,
+  "mode": "preflight_only",
+  "rows": [],
+  "budget_before": null,
+  "budget_after": null,
+  "project_total_after": null,
+  "observed_attempt_lower_bound": 0,
+  "personal_evidence": "not_provided",
+  "manifest_sha256": "51784269fc0a3d9bacaf4541e572c255fa2b2884c45e41dba778f7ba774edb6a",
+  "runner_sha256": "b6981d6158b129fc7da74647e68edfeb8a3e498b62b4439d6e54ff1ded881816",
+  "system_sha256": "118e04a5e5a99067d5221717e46a44f99cccf3a71b1525c494f0340eea3aabba",
+  "input_bytes": [
+    {
+      "case_id": "diagram-1",
+      "mode": "structured",
+      "bytes": 913
+    },
+    {
+      "case_id": "diagram-1",
+      "mode": "image",
+      "bytes": 9867
+    },
+    {
+      "case_id": "diagram-2",
+      "mode": "structured",
+      "bytes": 910
+    },
+    {
+      "case_id": "diagram-2",
+      "mode": "image",
+      "bytes": 9987
+    }
+  ]
+}

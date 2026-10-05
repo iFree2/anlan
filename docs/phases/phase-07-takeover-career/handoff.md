@@ -12,6 +12,8 @@
 
 ## 下一包
 
+WP03完成：既定deepseek-flash官方支持图片，固定两张程序绘制图×structured/image实际4请求，均2/2；image765token、structured398，本组无质量增益。预算42→46，累计44成功/2原失败/0reserved，P7-WP03=4/10、P5-WP02不变；新授权总81753token，P1另列1184。不能重跑冻结实验刷分、不能称真实现场识别。见[multimodal-report](multimodal-report.md)。接WP04最终如实项目表达与工程收束，个人证据继续待用户。
+
 WP02于2026-10-05完成有限范围：Mem0固定commit静态合同分析，未安装/执行框架；一个合成受限空间资料任务真实复用PG材料/工具/七版本偏好生命周期，12定向检查通过、预算42→42。见[memory-comparison](memory-comparison.md)、[验证](evidence/wp02/verification.md)、[学习](wp02-learning.md)。不迁移动火规则、不声称Mem0集成或质量胜负。接WP03核实当前既定模型视觉能力后再冻结有限实验。
 
 按plan的WP02，先查官方Mem0/Letta与本地环境，择一有限比较；禁用隐式模型/embedding/遥测外发，不默认安装另一平台。若边界不支持真实集成，可完成明确标注的离线合同/源码分析；一个受限空间合成小任务仅复用通用资产，不照搬动火规则作合规判断。随后WP03有限多模态、WP04诚实求职材料；新模型/真实素材授权缺失不擅自扩展。

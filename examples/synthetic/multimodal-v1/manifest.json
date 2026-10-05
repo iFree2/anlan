@@ -1,0 +1,35 @@
+{
+  "data_origin": "SYNTHETIC",
+  "origin": "program_drawn_geometric_diagrams",
+  "label_origin": "AI_authored_fixture_not_independent_human_gold",
+  "cases": [
+    {
+      "id": "diagram-1",
+      "image": "diagram-1.png",
+      "image_sha256": "a0bf8a5ccc9f6ddc1f62db37e6ed7f6f0305fe048ffe762815c6f66876c0b99d",
+      "structured": {
+        "data_origin": "SYNTHETIC",
+        "head_visible": true,
+        "headwear": "none"
+      },
+      "gold": {
+        "head_observation": "bare_head",
+        "requires_human_review": true
+      }
+    },
+    {
+      "id": "diagram-2",
+      "image": "diagram-2.png",
+      "image_sha256": "3616eb19334bd8f8ceb861093e285fd8857049f7f11870bb397199082c73bd32",
+      "structured": {
+        "data_origin": "SYNTHETIC",
+        "head_visible": false,
+        "headwear": null
+      },
+      "gold": {
+        "head_observation": "not_visible",
+        "requires_human_review": true
+      }
+    }
+  ]
+}

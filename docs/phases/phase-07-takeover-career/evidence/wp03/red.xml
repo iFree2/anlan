@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="5" skipped="0" tests="5" time="0.375" timestamp="2026-10-05T18:15:49.968762+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_multimodal" name="test_frozen_inputs_are_separate_and_gold_is_not_sent" time="0.001"><failure message="AssertionError: Bounded image experiment is missing&#10;assert False&#10; +  where False = exists()&#10; +    where exists = WindowsPath('D:/src/agent学习/安澜2.0/evals/evaluate_multimodal.py').exists">tests\test_multimodal.py:29: in test_frozen_inputs_are_separate_and_gold_is_not_sent
+    m = module()
+        ^^^^^^^^
+tests\test_multimodal.py:15: in module
+    assert path.exists(), "Bounded image experiment is missing"
+E   AssertionError: Bounded image experiment is missing
+E   assert False
+E    +  where False = exists()
+E    +    where exists = WindowsPath('D:/src/agent学习/安澜2.0/evals/evaluate_multimodal.py').exists</failure></testcase><testcase classname="tests.test_multimodal" name="test_rejects_unscoped_output[value0]" time="0.001"><failure message="AssertionError: Bounded image experiment is missing&#10;assert False&#10; +  where False = exists()&#10; +    where exists = WindowsPath('D:/src/agent学习/安澜2.0/evals/evaluate_multimodal.py').exists">tests\test_multimodal.py:50: in test_rejects_unscoped_output
+    module().parse(envelope(value))
+    ^^^^^^^^
+tests\test_multimodal.py:15: in module
+    assert path.exists(), "Bounded image experiment is missing"
+E   AssertionError: Bounded image experiment is missing
+E   assert False
+E    +  where False = exists()
+E    +    where exists = WindowsPath('D:/src/agent学习/安澜2.0/evals/evaluate_multimodal.py').exists</failure></testcase><testcase classname="tests.test_multimodal" name="test_rejects_unscoped_output[value1]" time="0.001"><failure message="AssertionError: Bounded image experiment is missing&#10;assert False&#10; +  where False = exists()&#10; +    where exists = WindowsPath('D:/src/agent学习/安澜2.0/evals/evaluate_multimodal.py').exists">tests\test_multimodal.py:50: in test_rejects_unscoped_output
+    module().parse(envelope(value))
+    ^^^^^^^^
+tests\test_multimodal.py:15: in module
+    assert path.exists(), "Bounded image experiment is missing"
+E   AssertionError: Bounded image experiment is missing
+E   assert False
+E    +  where False = exists()
+E    +    where exists = WindowsPath('D:/src/agent学习/安澜2.0/evals/evaluate_multimodal.py').exists</failure></testcase><testcase classname="tests.test_multimodal" name="test_rejects_unscoped_output[value2]" time="0.002"><failure message="AssertionError: Bounded image experiment is missing&#10;assert False&#10; +  where False = exists()&#10; +    where exists = WindowsPath('D:/src/agent学习/安澜2.0/evals/evaluate_multimodal.py').exists">tests\test_multimodal.py:50: in test_rejects_unscoped_output
+    module().parse(envelope(value))
+    ^^^^^^^^
+tests\test_multimodal.py:15: in module
+    assert path.exists(), "Bounded image experiment is missing"
+E   AssertionError: Bounded image experiment is missing
+E   assert False
+E    +  where False = exists()
+E    +    where exists = WindowsPath('D:/src/agent学习/安澜2.0/evals/evaluate_multimodal.py').exists</failure></testcase><testcase classname="tests.test_multimodal" name="test_preallocation_and_final_snapshot_failure_preserve_attempt_lower_bound" time="0.004"><failure message="AssertionError: Bounded image experiment is missing&#10;assert False&#10; +  where False = exists()&#10; +    where exists = WindowsPath('D:/src/agent学习/安澜2.0/evals/evaluate_multimodal.py').exists">tests\test_multimodal.py:54: in test_preallocation_and_final_snapshot_failure_preserve_attempt_lower_bound
+    m = module()
+        ^^^^^^^^
+tests\test_multimodal.py:15: in module
+    assert path.exists(), "Bounded image experiment is missing"
+E   AssertionError: Bounded image experiment is missing
+E   assert False
+E    +  where False = exists()
+E    +    where exists = WindowsPath('D:/src/agent学习/安澜2.0/evals/evaluate_multimodal.py').exists</failure></testcase></testsuite></testsuites>
