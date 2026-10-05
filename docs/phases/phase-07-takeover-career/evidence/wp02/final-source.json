@@ -1,0 +1,5 @@
+{
+  "final_runner_sha256": "eb4bbca3e999da1dc69489ae574ca201008d83f4dd885f85ed1131b9549335ad",
+  "changes_after_reuse_v1": "Only split final print expression across two lines for E501; no experiment logic change.",
+  "ruff": "passed"
+}

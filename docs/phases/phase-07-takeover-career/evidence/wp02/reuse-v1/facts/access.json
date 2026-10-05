@@ -1,0 +1,16 @@
+{
+  "data_origin": "SYNTHETIC",
+  "version": "p7-reuse-v1",
+  "records": [
+    {
+      "tenant_id": "synthetic-p7-reuse",
+      "user_id": "reuse-86d2045bc0df4cfaa307671d8cfe448b",
+      "worker_ids": [
+        "worker-p7-001"
+      ],
+      "area_ids": [
+        "space-p7-demo"
+      ]
+    }
+  ]
+}

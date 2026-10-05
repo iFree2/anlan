@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="3" time="0.601" timestamp="2026-10-05T18:07:46.097044+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_reuse" name="test_transfer_keeps_unknown_even_with_sources_first_preference" time="0.003"><failure message="AssertionError: Bounded reuse experiment is missing&#10;assert False&#10; +  where False = exists()&#10; +    where exists = WindowsPath('D:/src/agent学习/安澜2.0/evals/evaluate_reuse.py').exists">tests\test_reuse.py:19: in test_transfer_keeps_unknown_even_with_sources_first_preference
+    reuse = module()
+            ^^^^^^^^
+tests\test_reuse.py:11: in module
+    assert path.exists(), "Bounded reuse experiment is missing"
+E   AssertionError: Bounded reuse experiment is missing
+E   assert False
+E    +  where False = exists()
+E    +    where exists = WindowsPath('D:/src/agent学习/安澜2.0/evals/evaluate_reuse.py').exists</failure></testcase><testcase classname="tests.test_reuse" name="test_wrong_domain_or_real_fixture_is_rejected[data_origin-REAL]" time="0.004"><failure message="AssertionError: Bounded reuse experiment is missing&#10;assert False&#10; +  where False = exists()&#10; +    where exists = WindowsPath('D:/src/agent学习/安澜2.0/evals/evaluate_reuse.py').exists">tests\test_reuse.py:33: in test_wrong_domain_or_real_fixture_is_rejected
+    reuse = module()
+            ^^^^^^^^
+tests\test_reuse.py:11: in module
+    assert path.exists(), "Bounded reuse experiment is missing"
+E   AssertionError: Bounded reuse experiment is missing
+E   assert False
+E    +  where False = exists()
+E    +    where exists = WindowsPath('D:/src/agent学习/安澜2.0/evals/evaluate_reuse.py').exists</failure></testcase><testcase classname="tests.test_reuse" name="test_wrong_domain_or_real_fixture_is_rejected[task_kind-hot_work]" time="0.003"><failure message="AssertionError: Bounded reuse experiment is missing&#10;assert False&#10; +  where False = exists()&#10; +    where exists = WindowsPath('D:/src/agent学习/安澜2.0/evals/evaluate_reuse.py').exists">tests\test_reuse.py:33: in test_wrong_domain_or_real_fixture_is_rejected
+    reuse = module()
+            ^^^^^^^^
+tests\test_reuse.py:11: in module
+    assert path.exists(), "Bounded reuse experiment is missing"
+E   AssertionError: Bounded reuse experiment is missing
+E   assert False
+E    +  where False = exists()
+E    +    where exists = WindowsPath('D:/src/agent学习/安澜2.0/evals/evaluate_reuse.py').exists</failure></testcase></testsuite></testsuites>

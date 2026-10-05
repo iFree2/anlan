@@ -1,0 +1,151 @@
+{
+  "checked_at": "2026-10-05",
+  "method": "static_official_source_only_not_imported",
+  "commit": "abb81c88e1f738a8117d8293530fbc31a5ef8fd9",
+  "files": [
+    {
+      "path": "mem0/memory/main.py",
+      "sha256": "f329ca4a17af1fbefb32ac10d4cc7ae7ddbdb7435a87eb74c30915cff98b8b7c",
+      "url": "https://github.com/mem0ai/mem0/blob/abb81c88e1f738a8117d8293530fbc31a5ef8fd9/mem0/memory/main.py",
+      "line_matches": {
+        "if not infer:": [
+          882,
+          2564
+        ],
+        "msg_embeddings = self.embedding_model.embed": [
+          904
+        ],
+        "MEM0_TELEMETRY": [
+          53,
+          516,
+          2220
+        ],
+        "capture_event": [
+          53,
+          552,
+          1215,
+          1232,
+          1328,
+          1492,
+          1857,
+          1890,
+          1931,
+          1970,
+          2046,
+          2173,
+          2238,
+          2896,
+          2913,
+          3009,
+          3177,
+          3535,
+          3569,
+          3610,
+          3666,
+          3764,
+          3895
+        ],
+        "expiration_date": [
+          427,
+          438,
+          439,
+          445,
+          446,
+          449,
+          769,
+          788,
+          820,
+          828,
+          829,
+          1245,
+          1363,
+          1711,
+          1834,
+          1846,
+          1867,
+          1868,
+          1871,
+          1873,
+          2464,
+          2480,
+          2499,
+          2504,
+          2505,
+          2926,
+          3044,
+          3398,
+          3512,
+          3524,
+          3545,
+          3546,
+          3549,
+          3551
+        ],
+        "expected_revision": [],
+        "provider: str": [
+          422
+        ]
+      }
+    },
+    {
+      "path": "mem0/memory/telemetry.py",
+      "sha256": "89f36bd0b87059fa0710adcccfbd9639ab4d5c4a762d875a1caceaf688aca687",
+      "url": "https://github.com/mem0ai/mem0/blob/abb81c88e1f738a8117d8293530fbc31a5ef8fd9/mem0/memory/telemetry.py",
+      "line_matches": {
+        "if not infer:": [],
+        "msg_embeddings = self.embedding_model.embed": [],
+        "MEM0_TELEMETRY": [
+          14,
+          19,
+          20,
+          22,
+          23,
+          31,
+          36,
+          40,
+          43,
+          48,
+          67,
+          72,
+          78,
+          198,
+          229
+        ],
+        "capture_event": [
+          51,
+          91,
+          148,
+          192,
+          218,
+          239
+        ],
+        "expiration_date": [],
+        "expected_revision": [],
+        "provider: str": []
+      }
+    },
+    {
+      "path": "mem0/configs/base.py",
+      "sha256": "8bc0431f599c13ab2aff887e7b6eecc2688f8f4d070d76f029b3b55e37169b33",
+      "url": "https://github.com/mem0ai/mem0/blob/abb81c88e1f738a8117d8293530fbc31a5ef8fd9/mem0/configs/base.py",
+      "line_matches": {
+        "if not infer:": [],
+        "msg_embeddings = self.embedding_model.embed": [],
+        "MEM0_TELEMETRY": [],
+        "capture_event": [],
+        "expiration_date": [],
+        "expected_revision": [],
+        "provider: str": []
+      }
+    }
+  ],
+  "local_modules": {
+    "mem0": false,
+    "letta": false,
+    "PIL": true,
+    "torch": false,
+    "transformers": false
+  },
+  "framework_installed": false,
+  "model_requests": 0
+}

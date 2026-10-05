@@ -1,0 +1,36 @@
+{
+  "data_origin": "SYNTHETIC",
+  "task_kind": "confined_space_demo",
+  "as_of": "2026-10-05T04:00:00+00:00",
+  "identity": {
+    "tenant_id": "synthetic-p7-reuse",
+    "user_id": "safety-manager-demo"
+  },
+  "fields": {
+    "work_location_description": "SYNTHETIC：space-p7-demo封闭台架",
+    "work_object_description": "SYNTHETIC：离线资料整理，无实际人员进入",
+    "work_method_description": "",
+    "attachment_description": "SYNTHETIC：没有检测记录，不具备实际作业判断依据"
+  },
+  "supplement": {
+    "work_method_description": "SYNTHETIC：拟整理内部目视检查资料；进入条件待人工确认"
+  },
+  "refs": {
+    "worker_id": "worker-p7-001",
+    "qualification_type": "synthetic_confined_training",
+    "area_id": "space-p7-demo"
+  },
+  "unverified_domain_inputs": [
+    "实际空间辨识",
+    "检测记录",
+    "现场监护及其他适用要求"
+  ],
+  "feedback": {
+    "data_origin": "SYNTHETIC",
+    "version": 1,
+    "key": "presentation_order",
+    "value": "sources_first",
+    "observed_at": "2026-10-05T03:00:00+00:00",
+    "expires_at": "2026-10-06T04:00:00+00:00"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "data_origin": "SYNTHETIC",
+  "version": "p7-reuse-v1",
+  "records": [
+    {
+      "tenant_id": "synthetic-p7-reuse",
+      "observed_at": "2026-10-05T03:55:00Z",
+      "valid_from": "2026-10-05T03:00:00Z",
+      "valid_until": "2026-10-05T05:00:00Z",
+      "record_id": "p7-area-001",
+      "object_id": "space-p7-demo",
+      "status": "restricted"
+    }
+  ]
+}
