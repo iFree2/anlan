@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "ci_current_source_fingerprints_match": true,
+  "ci_tests": 467,
+  "wheel_current_app_and_assets_match": true,
+  "historical_46_rows_unchanged": true,
+  "real_requests_succeeded": 3,
+  "production_total": 49,
+  "package_remaining": 7,
+  "protected_user_paths": 16,
+  "protected_user_paths_unchanged": true,
+  "credentials_recorded": false,
+  "deployment_script_sha256": "1138e9f1a8ba73a7d2ce9338eaf1634cdb80d99071069649a921e4bb4598720a"
+}

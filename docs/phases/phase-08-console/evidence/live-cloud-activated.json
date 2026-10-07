@@ -1,0 +1,21 @@
+{
+  "status": "activated",
+  "previous_release": "/opt/anlan2/releases/p8-console-20261007",
+  "release": "/opt/anlan2/releases/p8-deepseek-20261007",
+  "before_pid": 2143209,
+  "after_pid": 2153128,
+  "model_mode": "deepseek_live",
+  "material_mode": "deepseek_live",
+  "model": "deepseek-flash",
+  "budget": {
+    "status": "available",
+    "work_package": "P8-WP03",
+    "total_used": 46,
+    "total_limit": 100,
+    "package_used": 0,
+    "package_limit": 10,
+    "package_remaining": 10
+  },
+  "new_model_requests": 0,
+  "credentials_recorded": false
+}

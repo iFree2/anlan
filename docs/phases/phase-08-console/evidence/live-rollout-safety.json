@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "checks": {
+    "wrong_digest_no_release": true,
+    "prepare_preserves_current": true,
+    "config_drift_no_stop": true,
+    "failed_health_rolls_back": true,
+    "ready_activation_switches_release": true,
+    "private_env_mode": true
+  },
+  "scope": "temporary filesystem and mocked service/health commands on Linux",
+  "real_service_untouched": true,
+  "new_model_requests": 0
+}

@@ -17,7 +17,7 @@ scripts/dev-postgres.ps1 -Action Env
 
 打开 http://127.0.0.1:8000/console，选择生成的 .runtime/console-demo.json 连接。已有配置不能覆盖，再次准备使用新路径；刷新后重新选择配置，业务记录从PG恢复。点击“填入缺项示例”→提交→依次补位置/方式→模拟事件→核查→保存人工反馈；修订材料后旧候选显示过时。令牌仅页面内存，配置不上传到服务端。
 
-实现入口：interfaces/console/assets/app.js → console/routes.py/service.py → 原材料与感知运行时。[计划与范围](docs/phases/phase-08-console/plan.md)、[学习五题](docs/phases/phase-08-console/wp01-learning.md)、[验证与失败](docs/phases/phase-08-console/evidence/verification.md)。[阿里云操作台](http://47.93.218.52/anlan/console)已部署；使用本机.runtime/aliyun-console-access.json连接，[访问与运维说明](docs/phases/phase-08-console/deployment.md)。云端为offline/scripted合成学习环境，真实模型预算已切换至云端唯一账本，本地相同生产授权只读；状态以[status](docs/status.md)为准。
+实现入口：interfaces/console/assets/app.js → console/routes.py/service.py → 原材料与感知运行时。[计划与范围](docs/phases/phase-08-console/plan.md)、[学习五题](docs/phases/phase-08-console/wp01-learning.md)、[验证与失败](docs/phases/phase-08-console/evidence/verification.md)。[阿里云操作台](http://47.93.218.52/anlan/console)已切换为DeepSeek真实材料分析与事件核查，使用本机.runtime/aliyun-console-access.json连接；上述本地默认启动仍为offline/scripted模式。[访问与运维说明](docs/phases/phase-08-console/deployment.md)。云端实际3次调用验收通过，数据仍为合成示例、结果需人工复核；预算累计49/100，本包剩7次，云端为唯一生产账本，本地相同生产授权只读。当前状态以[status](docs/status.md)为准。
 
 ## 启动（PowerShell）
 

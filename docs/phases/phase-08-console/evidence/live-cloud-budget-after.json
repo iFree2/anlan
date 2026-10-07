@@ -1,0 +1,90 @@
+{
+  "authorization_id": "20260920-long-term-v1",
+  "total_limit": 100,
+  "package_limit": 10,
+  "total_reserved": 49,
+  "packages": {
+    "P2-WP02": 6,
+    "P2-WP04": 6,
+    "P3-WP03": 9,
+    "P4-WP02": 9,
+    "P5-WP02": 4,
+    "P6-WP03": 8,
+    "P7-WP03": 4,
+    "P8-WP03": 3
+  },
+  "status_counts": {
+    "reserved": 0,
+    "succeeded": 47,
+    "failed": 2
+  },
+  "history_sha256": "5f00fd0f6d6be987fc6c6280cac6e62894891518e9f0953817dad3a3adf49885",
+  "history_ids_sha256": "4b76071990fff36767c6970590f6c765c690db1c48c8bc4a892765f93d5c5ac4",
+  "current_release": "/opt/anlan2/releases/p8-deepseek-20261007",
+  "model_mode": "deepseek_live",
+  "model_key_present": true,
+  "release_files": [
+    "app",
+    "examples",
+    "model-budget.json",
+    "p8-live-wheel.whl",
+    "rollout.json",
+    "venv"
+  ],
+  "free_bytes": 25955033088,
+  "service": "MainPID=2153128\nWorkingDirectory=/opt/anlan2/current\nUser=anlan2\nActiveState=active",
+  "dropin_exists": false,
+  "original_migration_rows_equal": true,
+  "normalized_history_sha256": "02982029f4cb60494871022e794d4266e11e09654b6e6dd82515dcde061420ea",
+  "new_package_attempts": [
+    {
+      "attempt_id": "cb27cc4b-c48b-4b12-b1f1-cc98e9e9a39f",
+      "work_package": "P8-WP03",
+      "run_id": "3a6f50f0-a8f5-4c8f-9b38-59014530a904",
+      "status": "succeeded",
+      "usage": {
+        "total_tokens": 400,
+        "prompt_tokens": 395,
+        "completion_tokens": 5
+      },
+      "error": null,
+      "reserved_at": "2026-10-07T23:56:35.667663+08:00",
+      "finished_at": "2026-10-07T23:56:36.569858+08:00"
+    },
+    {
+      "attempt_id": "51bba332-c339-4803-8902-4555bc21b017",
+      "work_package": "P8-WP03",
+      "run_id": "a636ecf4-4c16-4b66-8961-f9ec8e4eda8f",
+      "status": "succeeded",
+      "usage": {
+        "total_tokens": 3169,
+        "prompt_tokens": 3073,
+        "completion_tokens": 96
+      },
+      "error": null,
+      "reserved_at": "2026-10-07T23:56:53.265629+08:00",
+      "finished_at": "2026-10-07T23:56:54.470403+08:00"
+    },
+    {
+      "attempt_id": "275121fd-fd12-46dc-a263-968e4d4c6020",
+      "work_package": "P8-WP03",
+      "run_id": "efb149f9-3c9e-464c-be07-644893855c99",
+      "status": "succeeded",
+      "usage": {
+        "total_tokens": 2773,
+        "prompt_tokens": 2672,
+        "completion_tokens": 101
+      },
+      "error": null,
+      "reserved_at": "2026-10-07T23:57:15.585957+08:00",
+      "finished_at": "2026-10-07T23:57:16.711217+08:00"
+    }
+  ],
+  "new_package_tokens": 6342,
+  "known_total_tokens": 88095,
+  "private_file_modes": {
+    "app.env": "0o600",
+    "console.json": "0o600"
+  },
+  "credentials_recorded": false
+}

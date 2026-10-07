@@ -1,0 +1,9 @@
+{
+  "status": "prepared",
+  "previous_release": "/opt/anlan2/releases/p8-console-20261007",
+  "release": "/opt/anlan2/releases/p8-deepseek-20261007",
+  "wheel_sha256": "1b3b3a7fc021d5b2bcca0d6657254b6f702a4b67e302ac51072ba17dad027d67",
+  "dependencies_reused": true,
+  "cloud_mode_changed": false,
+  "credentials_recorded": false
+}

@@ -1,0 +1,39 @@
+{
+  "authorization_id": "20260920-long-term-v1",
+  "total_limit": 100,
+  "package_limit": 10,
+  "total_reserved": 46,
+  "packages": {
+    "P2-WP02": 6,
+    "P2-WP04": 6,
+    "P3-WP03": 9,
+    "P4-WP02": 9,
+    "P5-WP02": 4,
+    "P6-WP03": 8,
+    "P7-WP03": 4
+  },
+  "status_counts": {
+    "reserved": 0,
+    "succeeded": 44,
+    "failed": 2
+  },
+  "history_sha256": "5f00fd0f6d6be987fc6c6280cac6e62894891518e9f0953817dad3a3adf49885",
+  "history_ids_sha256": "4b76071990fff36767c6970590f6c765c690db1c48c8bc4a892765f93d5c5ac4",
+  "current_release": "/opt/anlan2/releases/p8-console-20261007",
+  "model_mode": "scripted_double",
+  "model_key_present": false,
+  "release_files": [
+    "anlan-0.1.0-py3-none-any.whl",
+    "examples",
+    "model-budget.json",
+    "p8-requirements.txt",
+    "scripts",
+    "venv"
+  ],
+  "free_bytes": 25962987520,
+  "service": "MainPID=2143209\nWorkingDirectory=/opt/anlan2/current\nUser=anlan2\nActiveState=active",
+  "dropin_exists": false,
+  "original_migration_rows_equal": true,
+  "normalized_history_sha256": "02982029f4cb60494871022e794d4266e11e09654b6e6dd82515dcde061420ea",
+  "credentials_recorded": false
+}

@@ -1,5 +1,5 @@
 {
-  "status": "local_ready_awaiting_cloud_access",
+  "status": "passed",
   "checks": {
     "local_ci": true,
     "source_fingerprints": true,
@@ -7,8 +7,12 @@
     "historical_material_write_rejected": true,
     "failure_no_scripted_fallback": true,
     "shared_package_budget": true,
-    "cloud_deployed": false,
-    "real_deepseek_verified": false
+    "cloud_deployed": true,
+    "real_deepseek_verified": true,
+    "original_budget_rows_preserved": true,
+    "original_site_and_historical_task_unchanged": true,
+    "linux_rollout_safety": true,
+    "browser_refresh_recovery": true
   },
   "ci": "live-ci.json",
   "tests": {
@@ -18,12 +22,20 @@
     "skipped": 0
   },
   "wheel": "live-wheel-v2.json",
-  "cloud_current_mode": "offline/scripted_double",
+  "cloud_current_mode": "deepseek_live",
   "planned_model": "deepseek-flash",
   "work_package": "P8-WP03",
-  "production_requests_this_package": 0,
-  "production_budget_last_verified_total": 46,
+  "production_requests_this_package": 3,
+  "production_budget_last_verified_total": 49,
   "production_budget_reset": false,
-  "blocker": "SSH management connection required; existing key authentication was denied",
-  "credentials_recorded": false
+  "credentials_recorded": false,
+  "package_remaining": 7,
+  "new_tokens": 6342,
+  "cloud_evidence": [
+    "live-cloud-activated.json",
+    "live-cloud-acceptance.json",
+    "live-cloud-budget-after.json",
+    "live-cloud-browser.json",
+    "live-rollout-safety-v2.json"
+  ]
 }

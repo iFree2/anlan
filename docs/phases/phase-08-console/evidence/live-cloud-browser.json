@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "checked_at": "2026-10-08T00:04:03.060194+08:00",
+  "url": "http://47.93.218.52/anlan/console",
+  "task_id": "5dad3ddc-ed59-522c-97bc-0a9ac1e9a08f",
+  "checks": {
+    "server_reported_deepseek_mode_and_budget": true,
+    "material_semantic_checked": true,
+    "helmet_deepseek_response_validated": true,
+    "gas_deepseek_response_validated": true,
+    "two_feedbacks_saved": true,
+    "reload_requires_reauthentication": true,
+    "task_events_review_feedback_restored_from_pg": true,
+    "remaining_package_calls_displayed": 7
+  },
+  "real_model_requests": 3,
+  "screenshot_displayed_in_conversation": true,
+  "retained_ui_failure": "One task selection timed out while reconnect was loading and buttons were disabled. A fresh UI state showed the task loaded; selecting the event restored the saved review and feedback. No additional model requests.",
+  "credentials_recorded": false
+}

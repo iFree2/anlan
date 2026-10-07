@@ -1,0 +1,135 @@
+{
+  "status": "passed",
+  "checked_at": "2026-10-07T23:58:37.067636+08:00",
+  "task_id": "5dad3ddc-ed59-522c-97bc-0a9ac1e9a08f",
+  "material_revision": 1,
+  "material_analysis": {
+    "issues": [],
+    "semantic_status": "checked",
+    "error": null,
+    "model": "deepseek-flash",
+    "prompt_version": "materials-v1",
+    "usage": {
+      "prompt_tokens": 395,
+      "completion_tokens": 5,
+      "total_tokens": 400
+    }
+  },
+  "reviews": [
+    {
+      "kind": "gas_abnormal",
+      "receipt_id": "77f30548-ab27-4b11-94dd-c64eaa56687b",
+      "review_id": "efb149f9-3c9e-464c-be07-644893855c99",
+      "revision": 2,
+      "feedback": {
+        "decision": "needs_verification",
+        "request_id": "e443bca71c0a6eea1f611b7310f356ab",
+        "recorded_at": "2026-09-22T04:00:00+00:00",
+        "expected_revision": 1
+      },
+      "currentness": "current",
+      "mode": "deepseek_live",
+      "work_package": "P8-WP03",
+      "attempt_id": "275121fd-fd12-46dc-a263-968e4d4c6020",
+      "usage": {
+        "total_tokens": 2773,
+        "prompt_tokens": 2672,
+        "completion_tokens": 101
+      },
+      "stop_reason": "completed",
+      "candidate": {
+        "notice": "感知辅助候选，仍需人工确认；不改变原始报警",
+        "concerns": [
+          {
+            "category": "gas_abnormal",
+            "evidence_ids": [
+              "e1"
+            ]
+          },
+          {
+            "category": "context_for_review",
+            "evidence_ids": [
+              "o3"
+            ]
+          }
+        ],
+        "event_id": "c51dbff9b7621616f54ffd4d384e72ec",
+        "next_steps": [
+          "verify_event_on_site",
+          "review_evidence_with_safety_manager"
+        ],
+        "unknown_observation_ids": []
+      },
+      "all_three_observations_ok": true
+    },
+    {
+      "kind": "helmet_missing",
+      "receipt_id": "9afa2e12-b42a-4bfb-bd44-b011e410a077",
+      "review_id": "a636ecf4-4c16-4b66-8961-f9ec8e4eda8f",
+      "revision": 2,
+      "feedback": {
+        "decision": "needs_verification",
+        "request_id": "821b084ccf9826b5a9f7497aabba3067",
+        "recorded_at": "2026-09-22T04:00:00+00:00",
+        "expected_revision": 1
+      },
+      "currentness": "current",
+      "mode": "deepseek_live",
+      "work_package": "P8-WP03",
+      "attempt_id": "51bba332-c339-4803-8902-4555bc21b017",
+      "usage": {
+        "total_tokens": 3169,
+        "prompt_tokens": 3073,
+        "completion_tokens": 96
+      },
+      "stop_reason": "completed",
+      "candidate": {
+        "notice": "感知辅助候选，仍需人工确认；不改变原始报警",
+        "concerns": [
+          {
+            "category": "helmet_missing",
+            "evidence_ids": [
+              "e1"
+            ]
+          },
+          {
+            "category": "context_for_review",
+            "evidence_ids": [
+              "o3"
+            ]
+          }
+        ],
+        "event_id": "10669456205e183f65a653aa774766eb",
+        "next_steps": [
+          "verify_event_on_site",
+          "review_evidence_with_safety_manager"
+        ],
+        "unknown_observation_ids": []
+      },
+      "all_three_observations_ok": true
+    }
+  ],
+  "info": {
+    "material_mode": "deepseek_live",
+    "model_mode": "deepseek_live",
+    "model": "deepseek-flash",
+    "budget": {
+      "status": "available",
+      "work_package": "P8-WP03",
+      "total_used": 49,
+      "total_limit": 100,
+      "package_used": 3,
+      "package_limit": 10,
+      "package_remaining": 7
+    }
+  },
+  "original_site_unchanged": true,
+  "historical_task_snapshot_unchanged": true,
+  "assets_match_source": {
+    "api.js": true,
+    "app.js": true,
+    "styles.css": true
+  },
+  "new_real_requests": 3,
+  "credentials_recorded": false
+}
