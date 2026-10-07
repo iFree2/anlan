@@ -22,3 +22,13 @@
 证据：cloud-browser-v1/report.json、restart-result.json、cloud-http.json、budget-cutover.json；访问/限制见[部署说明](deployment.md)。
 
 最终只读交接核对见[final-readonly-verification.json](evidence/final-readonly-verification.json)。预算迁移的公开报告为汇总与本地冻结证据，不含云端逐条字段比对；不得据此扩大为重复导入安全或逐条一致性已独立验证。
+
+## WP03真实DeepSeek接入（尚未线上验收）
+
+- [x] 服务端密钥、材料/事件双链路接线；独立测试账本＋受控HTTP合同验证，失败不回退替身。
+- [x] P8-WP03固定包名及原累计100/每包10上限，历史记录保留；模式和预算提示。
+- [x] 原离线材料不可续写或新增事件/核查；同成功请求重放不重复调用；恢复可能再计次的限制已说明。
+- [ ] 可用SSH连接、服务端配置及独立发布切换。
+- [ ] 云端真实材料＋事件请求及预算增量证据、浏览器验收和交接。
+
+详见[evidence/live-verification.md](evidence/live-verification.md)。尚未通过的云端Gate不得由本地测试替代。

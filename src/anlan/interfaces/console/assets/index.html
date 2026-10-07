@@ -14,20 +14,20 @@
     <div class="sidebar-intro">从材料到事件，<br>看清每一步安全核查。</div>
     <div class="task-list-heading">最近任务 <span>最多 50 条</span></div>
     <div id="task-list" class="task-list"><p class="sidebar-muted">连接后加载任务</p></div>
-    <div class="sidebar-footer"><span class="dot"></span> 本地学习环境<br><small>合成数据 · 人工决策</small></div>
+    <div class="sidebar-footer"><span class="dot"></span> 安澜学习环境<br><small>合成数据 · 人工决策</small></div>
   </aside>
   <div class="workspace">
     <header class="topbar"><span>安全管理 / 作业协同</span><div><span id="connection-status" class="pill">未连接</span><button id="disconnect" class="quiet" hidden>断开</button></div></header>
     <main>
       <div class="page-heading"><div><div class="eyebrow">HOT WORK ASSISTANT</div><h1>作业安全协同</h1><p>准备材料，核对异常，与安全管理人员共同确认。</p></div><span class="environment">SYNTHETIC / 合成演示</span></div>
       <section id="connect-panel" class="card connect-panel">
-        <div><h2>连接本地演示服务</h2><p>选择启动时的本地配置文件，或输入测试访问令牌。令牌仅保留在当前页面内存。</p></div>
+        <div><h2>连接安澜服务</h2><p>选择本地访问配置文件，或输入访问令牌。令牌仅保留在当前页面内存；模型模式将在连接后显示。</p></div>
         <div class="connection-form"><label class="file-button">选择演示配置<input id="config-file" type="file" accept=".json,application/json"></label><span>或</span><input id="token" type="password" autocomplete="off" aria-label="测试访问令牌" placeholder="测试访问令牌"><button id="connect" class="primary">连接</button></div>
       </section>
       <div id="error" class="message error" role="alert" hidden></div>
       <div id="notice" class="message success" role="status" hidden></div>
       <div id="workbench" hidden>
-        <div class="mode-banner"><span class="dot"></span><span>材料：离线规则　·　事件核查：模型替身　·　事实与知识：本地合成数据</span><span id="identity" class="muted"></span></div>
+        <div class="mode-banner"><span class="dot"></span><span id="model-mode">连接后读取服务端模型模式</span><span id="identity" class="muted"></span></div>
         <nav class="steps" aria-label="协同步骤"><span><b>01</b> 材料准备</span><i>→</i><span><b>02</b> 追问补充</span><i>→</i><span><b>03</b> 事件核查</span><i>→</i><span><b>04</b> 人工反馈</span></nav>
         <div class="work-grid">
           <section class="card material-card">

@@ -2,6 +2,8 @@
 
 用户10月7日追加的五项操作台与阿里云部署已完成运行验收。原P1—P7历史包不重做；原自动化2-0已删除，不新建循环或P9。个人掌握仍待本人证据。
 
+后续新增P8-WP03：用户要求线上使用DeepSeek，代码已接线材料与核查两链路，见[计划](wp03-deepseek-plan.md)与[本地证据](evidence/live-verification.md)。当前尚缺可用SSH管理连接，未发布或发真实模型请求；下文WP01/WP02的offline/scripted_double描述仍是实际线上状态。下一步完成云端切换和真实请求验收后才更新该状态。
+
 ## 当前入口
 
 [部署/访问说明](deployment.md)，公网http://47.93.218.52/anlan/console。本机ignored访问文件.runtime/aliyun-console-access.json供浏览器本地选择，不打印/上传配置正文，不含SSH/PG管理密码。云端模型为替身，材料offline，原报警无控制入口。服务器新数据库anlan2_console和systemd用户anlan2；原PG13/现有库/网站保留。

@@ -19,6 +19,7 @@ class ConsoleService:
     def __init__(self, dsn, config, *, clock):
         self.dsn, self.config = dsn, config
         self.events = EventStore(dsn, clock=clock)
+        self.material_mode = "deepseek_live" if config.model_mode == "deepseek_live" else "offline"
 
     def profile(self, identity):
         profile = self.config.console_profile(identity)
@@ -35,8 +36,9 @@ class ConsoleService:
     async def tasks(self, identity):
         async with await self.events.connect() as conn:
             cursor = await conn.execute(
-                "SELECT task_id,created_at,initial_state->'fields' AS initial_fields "
-                "FROM anlan_v2.anlan_tasks WHERE tenant_id=%s AND user_id=%s AND mode='offline' "
+                "SELECT task_id,created_at,mode,initial_state->'fields' AS initial_fields "
+                "FROM anlan_v2.anlan_tasks WHERE tenant_id=%s AND user_id=%s "
+                "AND mode IN ('offline','deepseek_live') "
                 "ORDER BY created_at DESC,task_id DESC LIMIT 50",
                 (identity.tenant_id, identity.user_id),
             )
@@ -74,6 +76,8 @@ class ConsoleService:
         async with postgres_service(self.dsn, OfflineAnalyzer()) as workflow:
             registry = workflow._registry
             async with registry.locked(identity, task_id) as record:
+                if record.mode != self.material_mode:
+                    raise InvalidTransition("历史材料只读，请新建当前模型模式的任务")
                 async with registry.conn.transaction():
                     await self.events._stream_lock(registry.conn, identity, sid)
                     cursor = await registry.conn.execute(
@@ -91,7 +95,6 @@ class ConsoleService:
                                 or event["raw"]["kind"] != request.kind):
                             raise InvalidTransition("同事件请求的材料版本或类型不同")
                         return event
-                    workflow._check_mode(record)
                     state = (await workflow._snapshot(record)).values
                     if (not state or state["revision"] != request.expected_revision
                             or state["status"] not in {"waiting_input", "awaiting_review"}
@@ -127,5 +130,9 @@ class ConsoleService:
                 identity, binding["task_id"], event["raw"]["kind"])
                 or binding["object_ref"] != profile.references.area_id):
             raise AccessDenied("事件不属于当前合成操作台来源")
+        async with postgres_service(self.dsn, OfflineAnalyzer()) as workflow:
+            async with workflow._registry.locked(identity, binding["task_id"]) as record:
+                if record.mode != self.material_mode:
+                    raise InvalidTransition("历史材料只读，请新建当前模型模式的任务")
         return await runtime.review(identity, receipt, profile.references.model_dump(),
                                     request_id=request_id)

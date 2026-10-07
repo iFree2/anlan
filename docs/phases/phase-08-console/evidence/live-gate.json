@@ -1,0 +1,29 @@
+{
+  "status": "local_ready_awaiting_cloud_access",
+  "checks": {
+    "local_ci": true,
+    "source_fingerprints": true,
+    "wheel_all_source_files": true,
+    "historical_material_write_rejected": true,
+    "failure_no_scripted_fallback": true,
+    "shared_package_budget": true,
+    "cloud_deployed": false,
+    "real_deepseek_verified": false
+  },
+  "ci": "live-ci.json",
+  "tests": {
+    "tests": 467,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0
+  },
+  "wheel": "live-wheel-v2.json",
+  "cloud_current_mode": "offline/scripted_double",
+  "planned_model": "deepseek-flash",
+  "work_package": "P8-WP03",
+  "production_requests_this_package": 0,
+  "production_budget_last_verified_total": 46,
+  "production_budget_reset": false,
+  "blocker": "SSH management connection required; existing key authentication was denied",
+  "credentials_recorded": false
+}

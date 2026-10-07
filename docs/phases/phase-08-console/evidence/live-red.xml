@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="3" time="3.503" timestamp="2026-10-07T23:11:06.534366+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_console_live" name="test_live_mode_requires_server_key" time="0.004"><failure message="AssertionError: Regex pattern did not match.&#10;  Expected regex: 'DEEPSEEK_API_KEY'&#10;  Actual message: &quot;1 validation error for ServiceConfig\nmodel_mode\n  Extra inputs are not permitted [type=extra_forbidden, input_value='deepseek_live', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden&quot;">tests\test_console_live.py:26: in test_live_mode_requires_server_key
+    with pytest.raises(ValueError, match="DEEPSEEK_API_KEY"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'DEEPSEEK_API_KEY'
+E     Actual message: "1 validation error for ServiceConfig\nmodel_mode\n  Extra inputs are not permitted [type=extra_forbidden, input_value='deepseek_live', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden"</failure></testcase><testcase classname="tests.test_console_live" name="test_live_material_and_event_share_budget_and_keep_history" time="1.601"><failure message="pydantic_core._pydantic_core.ValidationError: 1 validation error for ServiceConfig&#10;model_mode&#10;  Extra inputs are not permitted [type=extra_forbidden, input_value='deepseek_live', input_type=str]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden">tests\test_console_live.py:110: in test_live_material_and_event_share_budget_and_keep_history
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_console_live.py:63: in scenario
+    app = create_app(dsn, live_config(), knowledge=knowledge,
+                          ^^^^^^^^^^^^^
+tests\test_console_live.py:21: in live_config
+    return ServiceConfig.model_validate(config().model_dump() | {"model_mode": "deepseek_live"})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 1 validation error for ServiceConfig
+E   model_mode
+E     Extra inputs are not permitted [type=extra_forbidden, input_value='deepseek_live', input_type=str]
+E       For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden</failure></testcase><testcase classname="tests.test_console_live" name="test_live_failure_and_exhaustion_never_fall_back" time="0.086"><failure message="pydantic_core._pydantic_core.ValidationError: 1 validation error for ServiceConfig&#10;model_mode&#10;  Extra inputs are not permitted [type=extra_forbidden, input_value='deepseek_live', input_type=str]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden">tests\test_console_live.py:139: in test_live_failure_and_exhaustion_never_fall_back
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_console_live.py:124: in scenario
+    app = create_app(dsn, live_config(), knowledge=UnavailableKnowledgeStore(lambda: NOW),
+                          ^^^^^^^^^^^^^
+tests\test_console_live.py:21: in live_config
+    return ServiceConfig.model_validate(config().model_dump() | {"model_mode": "deepseek_live"})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 1 validation error for ServiceConfig
+E   model_mode
+E     Extra inputs are not permitted [type=extra_forbidden, input_value='deepseek_live', input_type=str]
+E       For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden</failure></testcase></testsuite></testsuites>

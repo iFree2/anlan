@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="4.329" timestamp="2026-10-07T23:18:19.880197+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_console_live" name="test_live_material_and_event_share_budget_and_keep_history" time="2.556"><failure message="assert 200 == 409&#10; +  where 200 = &lt;Response [200 OK]&gt;.status_code">tests\test_console_live.py:123: in test_live_material_and_event_share_budget_and_keep_history
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_console_live.py:94: in scenario
+    assert (await client.post("/console/api/tasks/" + old["task_id"] + "/events",
+E   assert 200 == 409
+E    +  where 200 = &lt;Response [200 OK]&gt;.status_code</failure></testcase></testsuite></testsuites>

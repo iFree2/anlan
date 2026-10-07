@@ -2,6 +2,8 @@
 
 2026-10-07用户授权部署已运行验收。入口：[安澜操作台](http://47.93.218.52/anlan/console)。
 
+后续用户要求接入真实DeepSeek的P8-WP03已完成本地接线，尚未发布，正在等待SSH连接。下列模式表仍描述当前线上；不要仅因仓库已有deepseek_live代码就认为公网页面已切换。详见[WP03验证](evidence/live-verification.md)。
+
 ## 如何开始
 
 页面点击“选择演示配置”，选择本机ignored文件：

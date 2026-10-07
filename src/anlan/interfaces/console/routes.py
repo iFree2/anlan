@@ -32,7 +32,7 @@ HEADERS = {
 }
 
 
-def install_console(app, dsn, config, who, clock, runtime_factory):
+def install_console(app, dsn, config, who, clock, runtime_factory, model_info):
     service = ConsoleService(dsn, config, clock=clock)
     Actor = Annotated[Identity, Depends(who)]
     assets = files("anlan.interfaces.console").joinpath("assets")
@@ -57,7 +57,7 @@ def install_console(app, dsn, config, who, clock, runtime_factory):
     async def info(identity: Actor):
         profile = config.console_profile(identity)
         return {"identity": identity.model_dump(), "data_origin": "SYNTHETIC",
-                "material_mode": "offline", "model_mode": "scripted_double",
+                **await model_info(),
                 "simulation_enabled": profile is not None,
                 "references": profile.references.model_dump() if profile else None,
                 "as_of": clock().isoformat()}

@@ -1,7 +1,7 @@
 # 当前状态（唯一入口）
 
 - 项目：安澜2.0。P1—P7原计划有限工程Gate已交接；用户于2026-10-07追加的P8轻量操作台及阿里云学习部署已完成运行验收。工程完成不等于模型泛化、生产能力或本人掌握。
-- 当前工作包：P8-WP01页面＋WP02云端部署已收束。[最终交接](phases/phase-08-console/handoff.md)、[验收](phases/phase-08-console/acceptance.md)、[部署/运维](phases/phase-08-console/deployment.md)。提交以Git最新日志为准。
+- 当前工作包：P8-WP01页面＋WP02云端部署已收束；用户随后明确要求线上使用DeepSeek，追加[P8-WP03](phases/phase-08-console/wp03-deepseek-plan.md)。双链路真实模型接线与本地合同测试已完成，云端发布等待可用SSH管理连接；线上仍是原offline/scripted_double，不能把本地替身HTTP测试当真实上线。[新增验证](phases/phase-08-console/evidence/live-verification.md)、[交接](phases/phase-08-console/handoff.md)、[部署/运维](phases/phase-08-console/deployment.md)。提交以Git最新日志为准。
 - 入口：http://47.93.218.52/anlan/console。浏览器选择本机ignored .runtime/aliyun-console-access.json；仅演示访问token，不含SSH/PG管理凭据。云端新库anlan2_console，systemd非root用户anlan2，原PG13/现有库与网站保留。原网站200且摘要不变。
 - 当前能力：材料表单/缺项追问/补充/修订、任务列表、两类服务端合成事件、事实/示例依据查询、核查候选/未知/引用、人工反馈、过时结果拒绝及PG恢复。材料offline、核查scripted_double；没有页面live模型入口或云端模型密钥。
 - 最近验证：本地CI-v3记录463 passed/0 skipped，交接时受检源码指纹一致；7个console包文件与当前wheel源码一致、SQL009在包中；公网浏览器九项通过，三项事实/知识查询均ok；服务PID变更后任务/事件/反馈/核查快照完全一致。[本地验证与失败](phases/phase-08-console/evidence/verification.md)、[公网浏览器](phases/phase-08-console/evidence/cloud-browser-v1/report.json)、[重启核对](phases/phase-08-console/evidence/restart-result.json)。

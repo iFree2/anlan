@@ -19,14 +19,22 @@ function message(value, failed = false) {
 }
 function setPill(id, value, variant = "") { text(id, value); $(id).className = "pill " + variant; }
 function canFeedback() { return state.review?.currentness === "current" && state.review?.result?.status === "completed"; }
+function historicalMode() { return state.task && state.info && state.task.analysis_mode !== state.info.material_mode; }
+function renderMode() {
+  const info = state.info;
+  if (!info) { text("model-mode", "连接后读取服务端模型模式"); return; }
+  const budget = info.budget;
+  const remaining = budget?.status === "available" ? " · 本包剩余 " + budget.package_remaining + " 次（累计 " + budget.total_used + "/" + budget.total_limit + "）" : " · 预算暂不可用";
+  text("model-mode", info.model_mode === "deepseek_live" ? "材料与事件核查模式：DeepSeek（" + info.model + "） · 事实与知识：合成示例" + remaining : "材料：离线规则 · 事件核查：模型替身 · 事实与知识：合成示例");
+}
 function buttons() {
   document.querySelectorAll("[data-action], .task-item, .event-item, .review-history button").forEach(b => b.disabled = state.busy);
-  $("submit-material").disabled = state.busy || !state.info || (state.taskId && !state.task);
-  const simulate = state.task && state.info?.simulation_enabled;
+  $("submit-material").disabled = state.busy || !state.info || (state.taskId && !state.task) || historicalMode();
+  const simulate = state.task && state.info?.simulation_enabled && !historicalMode();
   $("helmet-event").disabled = $("gas-event").disabled = state.busy || !simulate;
-  $("run-review").disabled = state.busy || !state.event || !state.info?.simulation_enabled;
+  $("run-review").disabled = state.busy || !state.event || !state.info?.simulation_enabled || historicalMode();
   $("send-feedback").disabled = state.busy || !canFeedback();
-  $("recover-task").disabled = state.busy || !state.taskId;
+  $("recover-task").disabled = state.busy || !state.taskId || historicalMode();
   $("refresh").disabled = state.busy || !state.info;
   $("connect").disabled = state.busy; $("config-file").disabled = state.busy;
 }
@@ -37,7 +45,14 @@ async function action(work) {
   catch (error) {
     message(error instanceof ApiError ? error.message : "操作未完成，请刷新核对服务端状态。", true);
     if (error.status === 401) disconnect();
-  } finally { state.busy = false; buttons(); }
+  } finally {
+    if (state.info?.model_mode === "deepseek_live") {
+      try { state.info = await request("/console/api/info"); }
+      catch { state.info.budget = {status:"unavailable"}; }
+      renderMode();
+    }
+    state.busy = false; buttons();
+  }
 }
 function formValues() { return Object.fromEntries(fields.map(f => [f, $(f).value.trim()])); }
 function fill(value) { fields.forEach(f => $(f).value = value?.[f] || ""); }
@@ -49,12 +64,15 @@ function renderTask() {
   if (state.taskId && !task) setPill("task-status", "快照待读取或恢复", "warn");
   text("submit-material", !task ? "创建并分析材料" : task.status === "waiting_input" ? "提交补充并再分析" : "修订材料并重新分析");
   text("material-action-hint", task ? "仅提交已修改字段；版本由服务端校验" : "提交后查看缺项与追问");
+  if (historicalMode()) text("material-action-hint", "历史材料模式：" + task.analysis_mode + "，保留只读。请新建任务使用当前模型。");
+  else if (state.info?.material_mode === "deepseek_live") text("material-action-hint", "提交将调用 DeepSeek 并计入预算；失败也计次，不自动重试。");
   text("task-json", task ? json(task) : "暂无状态");
   $("recover-task").hidden = !state.taskId;
+  text("recover-task", state.info?.material_mode === "deepseek_live" ? "恢复任务（可能再次计次）" : "恢复任务");
   const issues = task?.analysis?.issues || [];
   text("issue-count", task ? issues.length + " 项" : ""); $("issues").replaceChildren();
   if (!task) $("issues").append(node("p", "提交材料后，追问会出现在这里。", "empty-small"));
-  else if (!issues.length) $("issues").append(node("p", "当前材料未发现缺项。离线规则尚未检查内容语义，仍需人工复核。", "empty-small"));
+  else if (!issues.length) $("issues").append(node("p", task.analysis?.semantic_status === "checked" ? "本次规则与 DeepSeek 语义检查未报告问题，仍需人工复核，不代表批准或安全。" : "当前规则未发现缺项，语义检查未完成；仍需人工复核。", "empty-small"));
   else issues.forEach(issue => {
     const card = node("div", undefined, "issue");
     card.append(node("strong", labels[issue.field] || issue.field), node("p", issue.question), node("p", issue.reason));
@@ -62,6 +80,7 @@ function renderTask() {
     focus.addEventListener("click", () => $(issue.field)?.focus()); card.append(focus); $("issues").append(card);
   });
   if (task?.analysis?.error) $("issues").append(node("p", "分析未完成：" + task.analysis.error, "unknown"));
+  if (task) $("issues").append(node("p", "本次材料：" + (task.analysis?.model || task.analysis_mode) + " · 语义状态：" + task.analysis?.semantic_status, "muted"));
   text("event-scope", task ? state.info?.references ? "模拟对象：" + state.info.references.area_id + " · 自动绑定材料 v" + task.revision : "当前身份未配置事件模拟；可查看已有记录。" : "先创建或选择一个任务。");
 }
 async function loadTasks() {
@@ -70,7 +89,7 @@ async function loadTasks() {
   result.items.forEach(task => {
     const b = node("button", undefined, "task-item" + (state.task?.task_id === task.task_id ? " active" : ""));
     const title = task.initial_fields?.work_object_description || "材料任务";
-    b.append(node("span", title.length > 20 ? title.slice(0, 20) + "…" : title), node("small", task.task_id.slice(0, 12) + " · " + new Date(task.created_at).toLocaleDateString()));
+    b.append(node("span", title.length > 20 ? title.slice(0, 20) + "…" : title), node("small", (task.mode === "deepseek_live" ? "DeepSeek" : "离线历史") + " · " + task.task_id.slice(0, 12) + " · " + new Date(task.created_at).toLocaleDateString()));
     b.addEventListener("click", () => action(() => chooseTask(task.task_id))); $("task-list").append(b);
   }); buttons(); return result.items;
 }
@@ -122,6 +141,8 @@ function renderReview() {
   const target = $("review-result"), summary = node("div", undefined, "review-summary");
   summary.append(node("span", statusNames[result?.status] || "待完成", "pill"), node("span", statusNames[review.currentness] || review.currentness, "pill " + (review.currentness === "current" ? "good" : "warn")), node("span", "绑定材料 v" + review.material_revision, "muted"));
   target.append(summary);
+  const execution = report?.mode === "deepseek_live" ? (report.attempt_id ? (report.stop_reason === "completed" ? "DeepSeek 响应已校验" : "DeepSeek 调用尝试未完成") : "DeepSeek 模式，未产生调用预占") : report?.mode === "scripted_double" ? "模型替身（历史演示）" : "尚未执行";
+  target.append(node("p", "本次核查：" + execution, "muted"));
   if (review.currentness !== "current") target.append(node("p", "该结果已不适用于当前材料或事件。请核对最新条件，生成新的合成事件后重新核查。", "unknown"));
   if (!report?.candidate) target.append(node("p", "未生成有效候选：" + (report?.stop_reason || "执行未完成") + "。原始报警继续保留。", "unknown"));
   if (report?.candidate) {
@@ -149,7 +170,7 @@ function draft() { state.taskId = null; state.task = null; state.event = null; s
 function disconnect() {
   disconnectToken(); state.taskId = null; state.info = state.task = state.event = state.review = null; state.events = []; state.reviews = [];
   $("token").value = ""; $("config-file").value = ""; $("connect-panel").hidden = false; $("workbench").hidden = true;
-  $("disconnect").hidden = true; setPill("connection-status", "未连接"); text("identity", "");
+  $("disconnect").hidden = true; setPill("connection-status", "未连接"); text("identity", ""); renderMode();
   $("task-list").replaceChildren(node("p", "连接后加载任务", "sidebar-muted")); fill({}); renderTask(); renderEvents(); renderReview();
 }
 async function connect(value) {
@@ -158,7 +179,7 @@ async function connect(value) {
   try { state.info = await request("/console/api/info"); }
   catch (error) { disconnectToken(); state.info = null; throw error; }
   $("token").value = ""; $("connect-panel").hidden = true; $("workbench").hidden = false; $("disconnect").hidden = false;
-  setPill("connection-status", "已连接", "good"); text("identity", state.info.identity.tenant_id + " / " + state.info.identity.user_id);
+  setPill("connection-status", "已连接", "good"); text("identity", state.info.identity.tenant_id + " / " + state.info.identity.user_id); renderMode();
   renderTask(); const tasks = await loadTasks(); if (tasks.length) await chooseTask(tasks[0].task_id);
 }
 $("connect").addEventListener("click", () => action(() => connect($("token").value.trim())));
@@ -216,7 +237,8 @@ for (const [id, kind] of [["helmet-event","helmet_missing"],["gas-event","gas_ab
 $("run-review").addEventListener("click", () => action(async () => {
   const review = await mutate("/console/api/events/" + state.event.receipt_id + "/reviews");
   await loadEvents(); await chooseEvent(state.event.receipt_id, review.review_id);
-  message(review.result?.status === "completed" ? "模型替身核查已完成，请查看依据并记录人工反馈。" : "核查没有完成，请查看失败原因。");
+  const model = review.result?.report?.mode === "deepseek_live" ? "DeepSeek" : "模型替身";
+  message(review.result?.status === "completed" ? model + "核查已完成，请查看依据并记录人工反馈。" : "核查没有完成，请查看失败原因。");
 }));
 $("send-feedback").addEventListener("click", () => action(async () => {
   await mutate("/reviews/" + state.review.review_id + "/feedback", {expected_revision:state.review.revision,decision:$("feedback-decision").value});

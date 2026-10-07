@@ -5,6 +5,7 @@ import json
 
 from pydantic import ValidationError
 
+from anlan.infrastructure.budget import CONSOLE_WORK_PACKAGE
 from anlan.llm.gateway import ModelGateway
 from anlan.workflows.perception_contracts import NOTICE, WORK_PACKAGE, Concern, PerceptionCandidate
 
@@ -29,8 +30,10 @@ def safe_diagnostics(exc):
 class DeepSeekPerceptionModel:
     mode = "deepseek_live"
 
-    def __init__(self, config, client, ledger):
-        self.gateway = ModelGateway(config, client, ledger, work_package=WORK_PACKAGE)
+    def __init__(self, config, client, ledger, *, work_package=WORK_PACKAGE):
+        if work_package not in {WORK_PACKAGE, CONSOLE_WORK_PACKAGE}:
+            raise ValueError("Perception requires an authorized host package")
+        self.gateway = ModelGateway(config, client, ledger, work_package=work_package)
         self._serial = asyncio.Lock()
         self._attempts = {}
         self._diagnostics = {}

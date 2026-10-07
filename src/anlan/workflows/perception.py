@@ -33,9 +33,14 @@ async def synthesize_perception(
     if not 0 < timeout_seconds <= 20:
         raise ValueError("Perception model deadline must be within 20 seconds")
     started = perf_counter()
+    from anlan.infrastructure.budget import CONSOLE_WORK_PACKAGE
+    gateway = getattr(model, "gateway", None)
+    package = gateway.work_package if gateway else WORK_PACKAGE
+    if package not in {WORK_PACKAGE, CONSOLE_WORK_PACKAGE}:
+        raise ValueError("Perception model gateway must use an authorized host package")
     result = {
         "schema_version": "perception-review-v1",
-        "work_package": WORK_PACKAGE,
+        "work_package": package,
         "mode": model.mode,
         "run_id": run_id,
         "event": copy.deepcopy(event),
@@ -51,9 +56,6 @@ async def synthesize_perception(
         "stop_reason": "not_started",
         "output_diagnostics": None,
     }
-    gateway = getattr(model, "gateway", None)
-    if gateway and gateway.work_package != WORK_PACKAGE:
-        raise ValueError("Perception model gateway must use the trusted P5 package")
     stop = bundle.get("collection", {}).get("stop_reason", "completed")
     if stop != "completed":
         result["stop_reason"] = stop

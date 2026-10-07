@@ -192,6 +192,26 @@ def test_invalid_packages_rejected_before_connecting(package):
         run(BudgetLedger("invalid").reserve(package, "run"))
 
 
+@pytest.mark.postgres
+def test_console_package_preserves_history_and_shares_existing_limits(ledger):
+    from anlan.infrastructure.budget import BudgetExceeded
+
+    async def scenario():
+        old = await ledger.reserve("P5-WP02", "historical")
+        await ledger.finish(old, "failed", error="invalid_output")
+        before = (await ledger.snapshot())["attempts"][0]
+        await ledger.initialize()
+        await ledger.reserve("P8-WP03", "material")
+        await ledger.reserve("P8-WP03", "event")
+        with pytest.raises(BudgetExceeded):
+            await ledger.reserve("P8-WP03", "over-limit")
+        after = await ledger.snapshot()
+        assert after["attempts"][0] == before
+        assert after["total_reserved"] == 3
+        assert after["packages"] == {"P5-WP02": 1, "P8-WP03": 2}
+    run(scenario())
+
+
 @pytest.mark.parametrize("arguments", [
     {"status": "reserved"}, {"status": "failed", "error": "contains secret text"},
     {"status": "failed", "error": "sk-secret"},

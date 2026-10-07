@@ -49,6 +49,7 @@ class ServiceConfig(StrictModel):
     embeddings_cache: Path = Path(".runtime/embeddings")
     as_of: AwareDatetime | None = None
     console_profiles: list[ConsoleProfile] = Field(default_factory=list, max_length=20)
+    model_mode: Literal["scripted_double", "deepseek_live"] = "scripted_double"
 
     @model_validator(mode="after")
     def unique_scopes(self):

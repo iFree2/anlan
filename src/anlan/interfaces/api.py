@@ -14,7 +14,6 @@ from pydantic import Field, ValidationError
 
 from anlan.common.errors import AccessDenied, InvalidTransition, TaskBusy
 from anlan.common.models import Identity, StrictModel
-from anlan.infrastructure.budget import BudgetLedger
 from anlan.infrastructure.events import EventStore
 from anlan.infrastructure.perception import PerceptionStore
 from anlan.infrastructure.postgres import initialize_database
@@ -22,7 +21,7 @@ from anlan.interfaces.console.routes import install_console
 from anlan.interfaces.console.service import ConsoleService
 from anlan.interfaces.event_runtime import process_event
 from anlan.interfaces.perception_runtime import Feedback, PerceptionRuntime
-from anlan.interfaces.runtime import postgres_service
+from anlan.interfaces.service_models import ServiceModels
 from anlan.interfaces.streams import snapshot_stream
 from anlan.knowledge.embeddings import LocalEmbeddings
 from anlan.knowledge.store import KnowledgeStore
@@ -31,7 +30,6 @@ from anlan.llm.perception import ScriptedPerceptionModel
 from anlan.memory.store import MemoryStore
 from anlan.tools.queries import FactTools
 from anlan.workflows.event_contracts import Identifier
-from anlan.workflows.material_analysis import OfflineAnalyzer
 from anlan.workflows.material_contracts import Application, Supplement
 from anlan.workflows.service import start_task_id
 
@@ -80,7 +78,9 @@ class BoundedBody:
 
 
 def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionModel,
-               root_path=""):
+               root_path="", model_config=None, model_transport=None, budget_ledger=None):
+    models = ServiceModels(dsn, config, model_factory, model_config=model_config,
+                           transport=model_transport, ledger=budget_ledger)
     if root_path and not re.fullmatch(r"(?:/[A-Za-z0-9_-]+)+", root_path):
         raise ValueError("Invalid trusted reverse proxy prefix")
     clock = lambda: config.as_of or datetime.now(UTC)  # noqa: E731
@@ -94,7 +94,7 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
         await PerceptionStore(dsn).initialize()
         await ConsoleService(dsn, config, clock=clock).initialize()
         await memory.initialize()
-        await BudgetLedger(dsn).initialize()
+        await models.ledger.initialize()
         selected = knowledge
         if selected is None:
             try:
@@ -105,7 +105,8 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
             except Exception:
                 selected = UnavailableKnowledgeStore(clock)
         app.state.knowledge = selected
-        yield
+        async with models.lifespan():
+            yield
 
     app = FastAPI(title="安澜 SYNTHETIC 本地服务", lifespan=lifespan, docs_url=None,
                   redoc_url=None, root_path=root_path)
@@ -141,18 +142,18 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
     ):
         app.add_exception_handler(error, safe_error)
 
-    def perception(factory=model_factory):
+    def perception(factory=None):
         return PerceptionRuntime(
             dsn,
             FactTools(config.facts_dir, clock=clock),
             app.state.knowledge,
             memory,
-            factory(),
+            factory() if factory else models.perception(),
             clock=clock,
         )
 
     async def task_read(identity, task):
-        async with postgres_service(dsn, OfflineAnalyzer()) as service:
+        async with models.material_service() as service:
             return await service.get(identity, task)
 
     @app.get("/healthz")
@@ -163,11 +164,12 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
     async def ready(identity: Actor):
         async with await events.connect() as conn:
             await conn.execute("SELECT 1")
-        return {"status": "ready", "data_origin": "SYNTHETIC", "model_mode": "scripted_double"}
+        return {"status": "ready", "data_origin": "SYNTHETIC",
+                "model_mode": models.model_mode}
 
     @app.post("/tasks")
     async def start(payload: StartRequest, identity: Actor):
-        async with postgres_service(dsn, OfflineAnalyzer()) as service:
+        async with models.material_service() as service:
             try:
                 return await service.start(
                     identity, payload.fields.model_dump(), request_id=payload.request_id
@@ -191,19 +193,19 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
 
     @app.get("/tasks/{task}/history")
     async def history(task: str, identity: Actor):
-        async with postgres_service(dsn, OfflineAnalyzer()) as service:
+        async with models.material_service() as service:
             return await service.history(identity, task)
 
     @app.post("/tasks/{task}/recover")
     async def recover_task(task: str, identity: Actor):
-        async with postgres_service(dsn, OfflineAnalyzer()) as service:
+        async with models.material_service() as service:
             return await service.recover(identity, task)
 
     @app.post("/tasks/{task}/{action}")
     async def submit(
         task: str, action: Literal["resume", "revise"], payload: SubmitRequest, identity: Actor
     ):
-        async with postgres_service(dsn, OfflineAnalyzer()) as service:
+        async with models.material_service() as service:
             method = service.resume if action == "resume" else service.revise
             return await method(
                 identity,
@@ -283,5 +285,6 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
         )
 
     install_console(app, dsn, config, who, clock,
-                    lambda: perception(ScriptedPerceptionModel))
+                    lambda: perception() if models.live else perception(ScriptedPerceptionModel),
+                    models.public_info)
     return app
