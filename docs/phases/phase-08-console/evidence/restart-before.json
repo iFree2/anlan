@@ -1,0 +1,41 @@
+{
+  "status": "passed",
+  "data_origin": "SYNTHETIC",
+  "task_id": "4d30c156-99d5-507f-b4ed-7327044d8ee2",
+  "material_revision": 5,
+  "event_ids": [
+    "0b4c1df2-a3b8-41f5-8ca1-51111e54c48f",
+    "409f46e7-99f9-4a7f-868b-dfa4b51edaed"
+  ],
+  "reviews": [
+    {
+      "review_id": "74ae5242-30a5-447e-89e1-839fe1630783",
+      "revision": 2,
+      "feedback": {
+        "decision": "needs_verification",
+        "request_id": "5dd302c4f2d45ea84dd23d83aa7ab8aa",
+        "recorded_at": "2026-09-22T04:00:00+00:00",
+        "expected_revision": 1
+      },
+      "currentness": "stale_material",
+      "mode": "scripted_double",
+      "knowledge_citations": 3
+    },
+    {
+      "review_id": "9f5266d8-2a2b-4746-8f3f-590d356237ea",
+      "revision": 2,
+      "feedback": {
+        "decision": "disputed_event",
+        "request_id": "93e492f563a782bb7bf30abc33cc05b6",
+        "recorded_at": "2026-09-22T04:00:00+00:00",
+        "expected_revision": 1
+      },
+      "currentness": "stale_material",
+      "mode": "scripted_double",
+      "knowledge_citations": 2
+    }
+  ],
+  "all_three_observations_ok": true,
+  "invalid_token_rejected": true,
+  "credentials_recorded": false
+}

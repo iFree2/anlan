@@ -1,0 +1,12 @@
+{
+  "status": "failed",
+  "reason": "Verifier incorrectly expected unauthenticated readyz to return 200; endpoint requires Actor authentication.",
+  "observed_statuses": {
+    "console": 200,
+    "healthz": 200,
+    "readyz_unauthenticated": 401
+  },
+  "application_changed": false,
+  "credentials_recorded": false,
+  "new_model_requests": 0
+}

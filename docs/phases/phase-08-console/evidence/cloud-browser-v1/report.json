@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "data_origin": "SYNTHETIC",
+  "model_mode": "scripted_double",
+  "checks": {
+    "material_questions_supplements": true,
+    "two_events_review_feedback": true,
+    "failed_selection_clears_dependent_state": true,
+    "selected_id_recovery_without_snapshot": true,
+    "stale_feedback_rejected": true,
+    "recovery_revalidates_old_review": true,
+    "reload_from_pg": true,
+    "safe_text_and_memory_only_token": true,
+    "mobile_no_horizontal_overflow": true
+  },
+  "page_errors": [],
+  "task_id": "4d30c156-99d5-507f-b4ed-7327044d8ee2",
+  "mobile_widths": {
+    "viewport": 390,
+    "page": 390
+  }
+}

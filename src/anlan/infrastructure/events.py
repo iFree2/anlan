@@ -73,7 +73,7 @@ class EventStore:
             (identity.tenant_id, identity.user_id, source_id))
         return await cursor.fetchone()
 
-    async def receive(self, identity, source_id, payload, source=None):
+    async def receive(self, identity, source_id, payload, source=None, *, conn=None):
         source_id = TypeAdapter(Identifier).validate_python(source_id)
         if source is not None:
             source = SourceBinding.model_validate(source)
@@ -84,7 +84,14 @@ class EventStore:
         raw = json.loads(json.dumps(payload, allow_nan=False))
         body_hash = digest(raw)
         now = self.now()
-        async with await self.connect() as conn:
+        if conn is None:
+            async with await self.connect() as own_conn:
+                return await self._receive(own_conn, identity, source_id, event, raw,
+                                           body_hash, source, now)
+        return await self._receive(conn, identity, source_id, event, raw, body_hash, source, now)
+
+    async def _receive(self, conn, identity, source_id, event, raw, body_hash, source, now):
+        async with conn.transaction():
             await self._stream_lock(conn, identity, source_id)
             cursor = await conn.execute(
                 "SELECT document,result,body_hash FROM anlan_v2.perception_events "

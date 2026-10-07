@@ -18,6 +18,8 @@ from anlan.infrastructure.budget import BudgetLedger
 from anlan.infrastructure.events import EventStore
 from anlan.infrastructure.perception import PerceptionStore
 from anlan.infrastructure.postgres import initialize_database
+from anlan.interfaces.console.routes import install_console
+from anlan.interfaces.console.service import ConsoleService
 from anlan.interfaces.event_runtime import process_event
 from anlan.interfaces.perception_runtime import Feedback, PerceptionRuntime
 from anlan.interfaces.runtime import postgres_service
@@ -77,7 +79,10 @@ class BoundedBody:
         await self.app(scope, bounded_receive, send)
 
 
-def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionModel):
+def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionModel,
+               root_path=""):
+    if root_path and not re.fullmatch(r"(?:/[A-Za-z0-9_-]+)+", root_path):
+        raise ValueError("Invalid trusted reverse proxy prefix")
     clock = lambda: config.as_of or datetime.now(UTC)  # noqa: E731
     events, memory = EventStore(dsn, clock=clock), MemoryStore(dsn, clock=clock)
     sources = config
@@ -87,6 +92,7 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
         await initialize_database(dsn)
         await events.initialize()
         await PerceptionStore(dsn).initialize()
+        await ConsoleService(dsn, config, clock=clock).initialize()
         await memory.initialize()
         await BudgetLedger(dsn).initialize()
         selected = knowledge
@@ -101,7 +107,8 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
         app.state.knowledge = selected
         yield
 
-    app = FastAPI(title="安澜 SYNTHETIC 本地服务", lifespan=lifespan, docs_url=None, redoc_url=None)
+    app = FastAPI(title="安澜 SYNTHETIC 本地服务", lifespan=lifespan, docs_url=None,
+                  redoc_url=None, root_path=root_path)
     app.add_middleware(BoundedBody)
 
     async def who(authorization: Annotated[str | None, Header()] = None):
@@ -134,13 +141,13 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
     ):
         app.add_exception_handler(error, safe_error)
 
-    def perception():
+    def perception(factory=model_factory):
         return PerceptionRuntime(
             dsn,
             FactTools(config.facts_dir, clock=clock),
             app.state.knowledge,
             memory,
-            model_factory(),
+            factory(),
             clock=clock,
         )
 
@@ -275,4 +282,6 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
             headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
         )
 
+    install_console(app, dsn, config, who, clock,
+                    lambda: perception(ScriptedPerceptionModel))
     return app

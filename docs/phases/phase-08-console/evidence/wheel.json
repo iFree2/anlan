@@ -1,0 +1,14 @@
+{
+  "wheel_sha256": "ff8ca2498f6a48870d1cb9fae8cb4158f53cc0dc13e4a5697233c0b83373b2b3",
+  "console_assets_match": true,
+  "console_files": [
+    "anlan/interfaces/console/__init__.py",
+    "anlan/interfaces/console/routes.py",
+    "anlan/interfaces/console/service.py",
+    "anlan/interfaces/console/assets/api.js",
+    "anlan/interfaces/console/assets/app.js",
+    "anlan/interfaces/console/assets/index.html",
+    "anlan/interfaces/console/assets/styles.css"
+  ],
+  "sql009_present": true
+}

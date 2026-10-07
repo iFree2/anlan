@@ -34,6 +34,13 @@ class ConfiguredSource(StrictModel):
         return self
 
 
+class ConsoleProfile(StrictModel):
+    """Explicit synthetic console permission; references remain host-controlled."""
+
+    identity: Identity
+    references: FactReferences
+
+
 class ServiceConfig(StrictModel):
     schema_version: Literal["local-service-v1"]
     tokens: list[TokenGrant] = Field(min_length=1, max_length=20)
@@ -41,6 +48,7 @@ class ServiceConfig(StrictModel):
     facts_dir: Path = Path("examples/synthetic/facts-v1")
     embeddings_cache: Path = Path(".runtime/embeddings")
     as_of: AwareDatetime | None = None
+    console_profiles: list[ConsoleProfile] = Field(default_factory=list, max_length=20)
 
     @model_validator(mode="after")
     def unique_scopes(self):
@@ -56,6 +64,9 @@ class ServiceConfig(StrictModel):
             keys.append((*owner, binding.source_id))
         if len(set(keys)) != len(keys):
             raise ValueError("Ambiguous source binding")
+        owners = [(p.identity.tenant_id, p.identity.user_id) for p in self.console_profiles]
+        if len(set(owners)) != len(owners) or any(owner not in identities for owner in owners):
+            raise ValueError("Console profile must have one configured token identity")
         return self
 
     @classmethod
@@ -74,3 +85,6 @@ class ServiceConfig(StrictModel):
             ),
             None,
         )
+
+    def console_profile(self, identity):
+        return next((p for p in self.console_profiles if p.identity == identity), None)

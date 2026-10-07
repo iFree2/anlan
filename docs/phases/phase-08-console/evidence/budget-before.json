@@ -1,0 +1,18 @@
+{
+  "authorization_id": "20260920-long-term-v1",
+  "total_reserved": 46,
+  "status_counts": {
+    "reserved": 0,
+    "succeeded": 44,
+    "failed": 2
+  },
+  "packages": {
+    "P2-WP02": 6,
+    "P2-WP04": 6,
+    "P3-WP03": 9,
+    "P4-WP02": 9,
+    "P5-WP02": 4,
+    "P6-WP03": 8,
+    "P7-WP03": 4
+  }
+}

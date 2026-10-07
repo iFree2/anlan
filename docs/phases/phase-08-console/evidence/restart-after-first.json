@@ -1,0 +1,5 @@
+{
+  "status": "failed",
+  "reason": "remote_read_not_ready_during_restart",
+  "credentials_recorded": false
+}

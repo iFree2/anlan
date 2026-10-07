@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "data_origin": "SYNTHETIC",
+  "model_mode": "scripted_double",
+  "checks": {
+    "material_questions_supplements": true,
+    "two_events_review_feedback": true,
+    "stale_feedback_rejected": true,
+    "reload_from_pg": true,
+    "safe_text_and_memory_only_token": true,
+    "mobile_no_horizontal_overflow": true
+  },
+  "page_errors": [],
+  "task_id": "73af0dcd-a05b-54d3-b1d7-c05ea6da7e08",
+  "mobile_widths": {
+    "viewport": 390,
+    "page": 390
+  }
+}

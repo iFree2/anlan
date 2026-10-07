@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "snapshots_identical": true,
+  "before_pid": 2141398,
+  "after_pid": 2143209,
+  "task_event_feedback_restored": true,
+  "knowledge_and_fact_queries_ok": true,
+  "credentials_recorded": false
+}

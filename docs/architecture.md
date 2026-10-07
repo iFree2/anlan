@@ -1,5 +1,13 @@
 # 架构：当前基线与已确定的演进边界
 
+## P8轻量操作台与云端学习部署（已实现）
+
+FastAPI同源页面由interfaces/console独立包提供。HTML/CSS/ES模块不引入前端构建服务。页面只存当前选择与输入，真实任务/事件/核查/反馈从PG读取；列表按tenant/user过滤，最近50事件/20核查采用独立bigserial入库顺序，不使用固定合成业务时间排序。
+
+材料仍调用原start/resume/revise/recover；核查与反馈仍由PerceptionRuntime及revision/currentness校验。可选console_profiles由可信配置绑定身份与事实引用；模拟事件的task/revision/run、时间、序列和区域由服务端生成，同request_id改kind/version拒绝。原事件先提交，随后显式发起scripted_double核查，无批准/报警控制接口。前端状态更新前清除旧核查，网络失败保持不可反馈。
+
+Token仅内存、文本DOM/CSP、同源请求，无模型密钥。可信root_path支持反向代理前缀；/anlan/云端原生部署已验，预算迁移/本地冻结及运行界限见ADR014与P8交接。[P8计划](phases/phase-08-console/plan.md)。
+
 当前实际架构：Python CLI、Pydantic、LangGraph材料状态图与官方PG checkpoint；工具/知识、共享请求预占、用户偏好与上下文、受控并行及两职责模型复核已实现。Java仅为两个既有只读事实工具提供HTTP门面，官方MCP stdio适配接入同一Python规则。pgvector0.8.6、本地BGE/512维、知识版本/过滤与Jaeger保留；FastAPI/Compose仍后置。R1按职责分包，状态以[status](status.md)为准。
 
 ## 职责包与依赖入口（R1）

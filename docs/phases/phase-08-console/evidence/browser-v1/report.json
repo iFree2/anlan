@@ -1,0 +1,8 @@
+{
+  "status": "failed",
+  "data_origin": "SYNTHETIC",
+  "model_mode": "scripted_double",
+  "checks": {},
+  "page_errors": [],
+  "failure": "browser_acceptance_failed"
+}

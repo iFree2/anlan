@@ -1,0 +1,10 @@
+{
+  "embeddings.tar.gz": {
+    "bytes": 54526596,
+    "sha256": "c5bf6dfe1f01394657294b301af274ed864bb76ae9f1c4bf78816bdbf9e41586"
+  },
+  "release.tar.gz": {
+    "bytes": 159857,
+    "sha256": "3f8445bdff30fb1b3cf90170297cd9a340f9d23ed170018d53d87308ec495c25"
+  }
+}

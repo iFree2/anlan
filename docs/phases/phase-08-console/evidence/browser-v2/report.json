@@ -1,0 +1,15 @@
+{
+  "status": "failed",
+  "data_origin": "SYNTHETIC",
+  "model_mode": "scripted_double",
+  "checks": {
+    "material_questions_supplements": true,
+    "two_events_review_feedback": true,
+    "stale_feedback_rejected": true,
+    "reload_from_pg": true,
+    "safe_text_and_memory_only_token": true
+  },
+  "page_errors": [],
+  "task_id": "29b8edc1-cfd5-5bda-9c06-1e496e136c4c",
+  "failure": "browser_acceptance_failed"
+}

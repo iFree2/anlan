@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>安澜 · 安全协同操作台</title>
+  <link rel="stylesheet" href="/console/assets/styles.css">
+  <script type="module" src="/console/assets/app.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark">安</span><div>安澜 <small>ANLAN / 2.0</small></div></div>
+    <div class="nav-caption">安全协同</div>
+    <div class="nav-current"><span>◈</span> 作业操作台</div>
+    <div class="sidebar-intro">从材料到事件，<br>看清每一步安全核查。</div>
+    <div class="task-list-heading">最近任务 <span>最多 50 条</span></div>
+    <div id="task-list" class="task-list"><p class="sidebar-muted">连接后加载任务</p></div>
+    <div class="sidebar-footer"><span class="dot"></span> 本地学习环境<br><small>合成数据 · 人工决策</small></div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar"><span>安全管理 / 作业协同</span><div><span id="connection-status" class="pill">未连接</span><button id="disconnect" class="quiet" hidden>断开</button></div></header>
+    <main>
+      <div class="page-heading"><div><div class="eyebrow">HOT WORK ASSISTANT</div><h1>作业安全协同</h1><p>准备材料，核对异常，与安全管理人员共同确认。</p></div><span class="environment">SYNTHETIC / 合成演示</span></div>
+      <section id="connect-panel" class="card connect-panel">
+        <div><h2>连接本地演示服务</h2><p>选择启动时的本地配置文件，或输入测试访问令牌。令牌仅保留在当前页面内存。</p></div>
+        <div class="connection-form"><label class="file-button">选择演示配置<input id="config-file" type="file" accept=".json,application/json"></label><span>或</span><input id="token" type="password" autocomplete="off" aria-label="测试访问令牌" placeholder="测试访问令牌"><button id="connect" class="primary">连接</button></div>
+      </section>
+      <div id="error" class="message error" role="alert" hidden></div>
+      <div id="notice" class="message success" role="status" hidden></div>
+      <div id="workbench" hidden>
+        <div class="mode-banner"><span class="dot"></span><span>材料：离线规则　·　事件核查：模型替身　·　事实与知识：本地合成数据</span><span id="identity" class="muted"></span></div>
+        <nav class="steps" aria-label="协同步骤"><span><b>01</b> 材料准备</span><i>→</i><span><b>02</b> 追问补充</span><i>→</i><span><b>03</b> 事件核查</span><i>→</i><span><b>04</b> 人工反馈</span></nav>
+        <div class="work-grid">
+          <section class="card material-card">
+            <div class="card-heading"><div><span class="section-number">01 / 02</span><h2>作业材料</h2></div><div><button id="refresh" class="quiet" data-action>刷新状态</button><button id="new-task" class="secondary" data-action>新建任务</button></div></div>
+            <div class="material-meta"><span id="task-status" class="pill">草稿</span><span id="revision">尚未创建</span><button id="sample" class="text-button" data-action>填入缺项示例</button></div>
+            <div id="task-id" class="identifier">创建后显示任务标识</div>
+            <form id="material-form">
+              <label>作业位置 <span>区域与具体作业点</span><textarea id="work_location_description" rows="2" maxlength="2000" placeholder="例如：SYNTHETIC：area-p5-demo 台架"></textarea></label>
+              <label>作业对象 <span>试件、设备或部件</span><textarea id="work_object_description" rows="2" maxlength="2000" placeholder="说明作业对象"></textarea></label>
+              <label>作业方式 <span>具体操作方式</span><textarea id="work_method_description" rows="2" maxlength="2000" placeholder="说明计划采用的作业方式"></textarea></label>
+              <label>附件说明 <span>描述附件，或如实说明未提供</span><textarea id="attachment_description" rows="2" maxlength="2000" placeholder="本版填写说明，不上传文件"></textarea></label>
+              <div class="form-actions"><button id="submit-material" type="submit" class="primary" data-action>创建并分析材料</button><button id="recover-task" type="button" class="quiet" data-action hidden>恢复待完成操作</button><span id="material-action-hint" class="muted">提交后查看缺项与追问</span></div>
+            </form>
+            <div class="analysis-panel"><h3>材料核查与追问 <span id="issue-count"></span></h3><div id="issues"><p class="empty-small">提交材料后，追问会出现在这里。</p></div></div>
+            <details class="technical"><summary>状态与源码入口</summary><p>cli / API → WorkflowService → LangGraph 材料节点 → PostgreSQL checkpoint</p><pre id="task-json">暂无状态</pre></details>
+          </section>
+          <div class="right-column">
+            <section class="card events-card">
+              <div class="card-heading"><div><span class="section-number">03</span><h2>作业中事件</h2></div><span id="event-count" class="pill">0 条</span></div>
+              <p class="section-description">模拟一个结构化事件；服务端绑定当前任务与材料版本。</p>
+              <div class="event-actions"><button id="helmet-event" class="secondary" data-action>＋ 未戴安全帽</button><button id="gas-event" class="secondary" data-action>＋ 气体浓度异常</button></div>
+              <p id="event-scope" class="hint">先创建或选择一个任务。</p>
+              <div id="event-list" class="event-list"><div class="empty">暂无事件<span>生成合成事件，开始核查链路</span></div></div>
+            </section>
+            <section class="card review-card">
+              <div class="card-heading"><div><span class="section-number">03 / 04</span><h2>核查与人工反馈</h2></div><button id="run-review" class="primary" data-action disabled>核查所选事件</button></div>
+              <div id="review-history" class="review-history"></div>
+              <div id="review-result"><div class="empty">等待事件核查<span>这里展示关注项、依据和未知信息</span></div></div>
+              <div id="feedback-panel" class="feedback-panel" hidden><label>安全管理人员反馈<select id="feedback-decision"><option value="needs_verification">需要继续核实</option><option value="confirmed_event">确认事件</option><option value="disputed_event">对事件有异议</option></select></label><button id="send-feedback" class="secondary" data-action>保存人工反馈</button><p id="feedback-status" class="hint"></p></div>
+              <details class="technical"><summary>事件与核查原始记录</summary><pre id="event-json">暂无事件</pre><pre id="review-json">暂无核查</pre></details>
+            </section>
+          </div>
+        </div>
+        <footer class="page-footer">所有建议仍需人工核实。原始报警保持独立；本操作台不提供作业批准或报警控制。</footer>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

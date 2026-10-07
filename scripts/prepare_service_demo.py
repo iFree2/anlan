@@ -21,7 +21,7 @@ from anlan.workflows.material_analysis import OfflineAnalyzer
 ROOT = Path(__file__).resolve().parents[1]
 
 
-async def prepare(output):
+async def prepare(output, *, console=False):
     if output.exists():
         raise ValueError("Use a new config path to preserve running service credentials")
     dsn = database_url()
@@ -71,6 +71,11 @@ async def prepare(output):
         "facts_dir": str(data / "facts"),
         "embeddings_cache": str(ROOT / ".runtime/embeddings"),
     }
+    if console:
+        config["console_profiles"] = [{
+            "identity": identity.model_dump(),
+            "references": json.loads((data / "refs.json").read_text(encoding="utf-8")),
+        }]
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open("x", encoding="utf-8") as handle:
         json.dump(config, handle, ensure_ascii=False, indent=2)

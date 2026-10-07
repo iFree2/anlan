@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="4" time="2.691" timestamp="2026-10-07T20:57:31.488564+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_console" name="test_console_static_and_auth_boundary" time="0.328"><failure message="pydantic_core._pydantic_core.ValidationError: 1 validation error for ServiceConfig&#10;console_profiles&#10;  Extra inputs are not permitted [type=extra_forbidden, input_value=[{'identity': {'tenant_id... 'area_id': 'area-p5'}}], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden">tests\test_console.py:51: in test_console_static_and_auth_boundary
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_console.py:35: in scenario
+    app = create_app(dsn, config(), knowledge=UnavailableKnowledgeStore(lambda: NOW))
+                          ^^^^^^^^
+tests\test_console.py:29: in config
+    return ServiceConfig.model_validate(data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 1 validation error for ServiceConfig
+E   console_profiles
+E     Extra inputs are not permitted [type=extra_forbidden, input_value=[{'identity': {'tenant_id... 'area_id': 'area-p5'}}], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden</failure></testcase><testcase classname="tests.test_console" name="test_console_workflow_events_feedback_revision_and_isolation[helmet_missing]" time="0.002"><failure message="pydantic_core._pydantic_core.ValidationError: 1 validation error for ServiceConfig&#10;console_profiles&#10;  Extra inputs are not permitted [type=extra_forbidden, input_value=[{'identity': {'tenant_id... 'area_id': 'area-p5'}}], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden">tests\test_console.py:129: in test_console_workflow_events_feedback_revision_and_isolation
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_console.py:58: in scenario
+    cfg = config()
+          ^^^^^^^^
+tests\test_console.py:29: in config
+    return ServiceConfig.model_validate(data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 1 validation error for ServiceConfig
+E   console_profiles
+E     Extra inputs are not permitted [type=extra_forbidden, input_value=[{'identity': {'tenant_id... 'area_id': 'area-p5'}}], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden</failure></testcase><testcase classname="tests.test_console" name="test_console_workflow_events_feedback_revision_and_isolation[gas_abnormal]" time="0.002"><failure message="pydantic_core._pydantic_core.ValidationError: 1 validation error for ServiceConfig&#10;console_profiles&#10;  Extra inputs are not permitted [type=extra_forbidden, input_value=[{'identity': {'tenant_id... 'area_id': 'area-p5'}}], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden">tests\test_console.py:129: in test_console_workflow_events_feedback_revision_and_isolation
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_console.py:58: in scenario
+    cfg = config()
+          ^^^^^^^^
+tests\test_console.py:29: in config
+    return ServiceConfig.model_validate(data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 1 validation error for ServiceConfig
+E   console_profiles
+E     Extra inputs are not permitted [type=extra_forbidden, input_value=[{'identity': {'tenant_id... 'area_id': 'area-p5'}}], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden</failure></testcase><testcase classname="tests.test_console" name="test_console_simulation_is_disabled_without_trusted_profile" time="0.626"><failure message="KeyError: 'simulation_enabled'">tests\test_console.py:147: in test_console_simulation_is_disabled_without_trusted_profile
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_console.py:143: in scenario
+    assert (await client.get("/console/api/info")).json()["simulation_enabled"] is False
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'simulation_enabled'</failure></testcase></testsuite></testsuites>

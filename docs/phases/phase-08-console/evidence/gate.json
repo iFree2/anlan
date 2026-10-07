@@ -1,0 +1,25 @@
+{
+  "status": "passed",
+  "checks": {
+    "ci": true,
+    "local_browser": true,
+    "cloud_browser": true,
+    "restart": true,
+    "wheel": true,
+    "original_site": true,
+    "local_budget_frozen": true,
+    "user_preserved": true,
+    "final_readonly": true
+  },
+  "new_model_requests": 0,
+  "personal_mastery": "not_verified",
+  "mode": "offline/scripted_double",
+  "public_tls": "not_configured",
+  "evidence": {
+    "ci": "ci-final-v3.json",
+    "ci_xml": "ci-final-v3.xml",
+    "final_readonly": "final-readonly-verification.json",
+    "historical_failures_retained": true
+  },
+  "budget_row_by_row_comparison": "not_independently_verified"
+}

@@ -1,0 +1,74 @@
+{
+  "downloads": [
+    {
+      "file": "keyutils-libs-devel-1.5.10-9.al8.x86_64.rpm",
+      "status": 200,
+      "bytes": 49160
+    },
+    {
+      "file": "krb5-devel-1.18.2-32.0.1.al8.x86_64.rpm",
+      "status": 200,
+      "bytes": 576232
+    },
+    {
+      "file": "libcom_err-devel-1.46.0-1.0.3.al8.x86_64.rpm",
+      "status": 200,
+      "bytes": 39796
+    },
+    {
+      "file": "libicu-devel-60.3-2.2.al8.x86_64.rpm",
+      "status": 200,
+      "bytes": 944596
+    },
+    {
+      "file": "libkadm5-1.18.2-32.0.1.al8.x86_64.rpm",
+      "status": 200,
+      "bytes": 193908
+    },
+    {
+      "file": "libselinux-devel-2.9-10.1.al8.x86_64.rpm",
+      "status": 200,
+      "bytes": 205364
+    },
+    {
+      "file": "libsepol-devel-2.9-3.0.1.al8.x86_64.rpm",
+      "status": 200,
+      "bytes": 89112
+    },
+    {
+      "file": "libverto-devel-0.3.2-2.al8.x86_64.rpm",
+      "status": 200,
+      "bytes": 18424
+    },
+    {
+      "file": "pcre2-devel-10.32-3.0.2.al8.x86_64.rpm",
+      "status": 200,
+      "bytes": 619456
+    },
+    {
+      "file": "pcre2-utf16-10.32-3.0.2.al8.x86_64.rpm",
+      "status": 200,
+      "bytes": 240604
+    },
+    {
+      "file": "pcre2-utf32-10.32-3.0.2.al8.x86_64.rpm",
+      "status": 200,
+      "bytes": 230700
+    }
+  ],
+  "sha256": {
+    "keyutils-libs-devel-1.5.10-9.al8.x86_64.rpm": "4a978a9a7c425181c2a882900dce4724765514bbbc7c174c0e4c725b3bcbdaa9",
+    "krb5-devel-1.18.2-32.0.1.al8.x86_64.rpm": "ac86128cf98634f1e1134703530a12a7978bc9e99d346b1507be9b1e665c40fd",
+    "libcom_err-devel-1.46.0-1.0.3.al8.x86_64.rpm": "c36e333cfd723113b3d923ca99c75865cf5fbc10b47457410e674c389a451dfd",
+    "libicu-devel-60.3-2.2.al8.x86_64.rpm": "15b2c66a8492cbc2d45512325cf756611dad02e05bd5ca9d38b2dc243d039948",
+    "libkadm5-1.18.2-32.0.1.al8.x86_64.rpm": "5215940fa462632d900301ed5728c09d3af33873ccee2e0e9df52ae8f3bd10e3",
+    "libpq-devel-13.23-2.0.1.al8.x86_64.rpm": "496d76093f03cbaf73eefe65c740f5460c94f42fea49f855bcb1a3b356ae3a9e",
+    "libselinux-devel-2.9-10.1.al8.x86_64.rpm": "cf5f40bdf2950975285de5728c7280d7ba4ea511f26dc61f5d6369fdd10a2087",
+    "libsepol-devel-2.9-3.0.1.al8.x86_64.rpm": "7df32da1bd09035d9a18e7dbd77537fc1791fdb7794d5e413e51beffea245ded",
+    "libverto-devel-0.3.2-2.al8.x86_64.rpm": "77489c003c637b091161abbacc3777f2b44728c720a81f2c522036516ceb260a",
+    "pcre2-devel-10.32-3.0.2.al8.x86_64.rpm": "c49c3bbd936fb69accb1a33fd88e2df174e9f894e5923c244528cb137f1b7354",
+    "pcre2-utf16-10.32-3.0.2.al8.x86_64.rpm": "29123c0bc66a5ac96256ff37a0f6424bc18d302e1571f6a39e7d67b63f7c058a",
+    "pcre2-utf32-10.32-3.0.2.al8.x86_64.rpm": "265a29e17bc21605f480015b82a9fa42564f688458103b21fb85da2991190ca8",
+    "postgresql-server-devel-13.23-3.0.1.al8.x86_64.rpm": "e5c861bd72d747bc245c744833922611065f7f0fed8fe3ebe41414837effadda"
+  }
+}

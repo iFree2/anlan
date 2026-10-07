@@ -1,21 +1,18 @@
 # 当前状态（唯一入口）
 
-- **用户已恢复推进（2026-10-05）：明确“继续推进”，解除9月28日暂停并恢复以下长期授权。当前P7独立工程项已收束；协调器恢复现有自动化2-0，不创建重复任务/自动化。**
-- 暂停历史（2026-09-28）：用户要求“先暂停，我让你继续再继续”，任务随即停止新增工作并保留未提交计划/脚本/测试。冷启动23项、入口/质量定向17项通过；已启动的`evidence/wp01/demo-v1/report.json`自然结束为passed、账本42→42。暂停时故障演示/独立审查、演示/排错/限制手册、学习/矩阵/handoff尚未完成，未将WP01标完成。原用户译文、learning-log排序和.idea保留；备份在`.runtime/p7-wp01/`。10月5日从这些原件接续，不覆盖旧报告。
+- 项目：安澜2.0。P1—P7原计划有限工程Gate已交接；用户于2026-10-07追加的P8轻量操作台及阿里云学习部署已完成运行验收。工程完成不等于模型泛化、生产能力或本人掌握。
+- 当前工作包：P8-WP01页面＋WP02云端部署已收束。[最终交接](phases/phase-08-console/handoff.md)、[验收](phases/phase-08-console/acceptance.md)、[部署/运维](phases/phase-08-console/deployment.md)。提交以Git最新日志为准。
+- 入口：http://47.93.218.52/anlan/console。浏览器选择本机ignored .runtime/aliyun-console-access.json；仅演示访问token，不含SSH/PG管理凭据。云端新库anlan2_console，systemd非root用户anlan2，原PG13/现有库与网站保留。原网站200且摘要不变。
+- 当前能力：材料表单/缺项追问/补充/修订、任务列表、两类服务端合成事件、事实/示例依据查询、核查候选/未知/引用、人工反馈、过时结果拒绝及PG恢复。材料offline、核查scripted_double；没有页面live模型入口或云端模型密钥。
+- 最近验证：本地CI-v3记录463 passed/0 skipped，交接时受检源码指纹一致；7个console包文件与当前wheel源码一致、SQL009在包中；公网浏览器九项通过，三项事实/知识查询均ok；服务PID变更后任务/事件/反馈/核查快照完全一致。[本地验证与失败](phases/phase-08-console/evidence/verification.md)、[公网浏览器](phases/phase-08-console/evidence/cloud-browser-v1/report.json)、[重启核对](phases/phase-08-console/evidence/restart-result.json)。
+- 最终只读交接：[复核报告](phases/phase-08-console/evidence/final-readonly-verification.json)。页面/健康200、认证就绪200，原网站摘要及已有任务/事件/反馈快照一致；未执行SSH、重启或模型调用。公开预算报告缺少云端逐条字段摘要比对，此项未独立复验；不要重复运行bootstrap作为同步或修复。
+- 保留的本轮失败：缺Playwright自带浏览器、移动端引用溢出、一次环境中断导致未完成CI、软件源超时、pgvector缺RPM构建spec、localhost ident认证拒绝、重启后首次读取未成功。后续复验不追认未知中断根因，也不声称无停机。
+- 模型预算：20260920-long-term-v1，46/100，44成功/2历史失败/0pending；100累计/每包10上限不变，失败与预占计数。P1历史3次1184token另列；新授权已知总81753token，实际金额未查。本包真实请求0。
+- 唯一预算写入位置已切换到云端PG；46原始尝试/时间/用量保留。本地PG相同生产authorization触发器冻结为历史只读，其他测试授权不受影响；本地offline演示可继续。真实调用不可用旧本地账本预占或重置额度；切换回本地前必须做单一写入方交接。[ADR014](decisions/014-console-cloud-deployment.md)、[冻结验证](phases/phase-08-console/evidence/budget-cutover.json)。
+- 历史实验归属：P2-WP02=6、P2-WP04=6、P3-WP03=9、P4-WP02=9、P5-WP02=4、P6-WP03=8、P7-WP03=4。原感知失败0/2及后续最低2/2不改写，未知旧字段根因保留。后续模型请求先预占云端账本，不换包绕限、不隐式重试。
+- 仍开放：[quality-items](quality-items.md)的Q-P6-001 Judge误判、Q-P6-002同任务并发409。Memory/多职责无已证实质量收益、引用缺口与历史未知故障保留；Mem0仅静态比较。当前HTTP/IP/模拟身份，TLS、生产规模/SLA、真实设备/人员、Docker/Compose与远程GitHubCI未验证。
+- 用户改动：16路径32行译文与.idea保留；learning-log原P1→P5重排与P6/P7/P8条目保持，整文件不提交。P8核对16路径无意外变化，见[evidence/user-preservation.json](phases/phase-08-console/evidence/user-preservation.json)。旧项目始终只读。
+- 本人掌握：[能力矩阵](capability-matrix.md)与[学习记录](learning-log.md)独立待验证；仅本人历史追问修改/演示有证据，AI编写/运行不升级本人。下一步先按[P8五题与小练习](phases/phase-08-console/wp01-learning.md)亲自操作一次材料→事件→反馈。
+- 协作授权：9月28日暂停已由10月5日“继续推进”解除；常规既定范围可自动推进，范围改变/破坏/真实业务副作用/必要输入或额度耗尽才暂停依赖部分。原自动化2-0已在10月5日工程收束后删除，本轮不创建定时任务或无目标新阶段。
 
-- 项目：安澜2.0；**P1—P7有限工程Gate通过，当前路线图独立工程项已完成；模型泛化、并发读取能力与本人掌握未通过或未验证**。不能随工程状态升级这些结论。
-- 当前工作包：P7-WP04与最终有限工程Gate完成，本地CI **456 passed、0 skipped**，锁/ruff/前后源码指纹通过。P7四包交付主链/排错、Mem0静态比较与合成小任务复用、两张图有限真实API对照、项目/架构/如实求职资料。[最终Gate](phases/phase-07-takeover-career/evidence/wp04/gate-report.md)、[项目说明](phases/phase-07-takeover-career/project-brief.md)、[最终交接](phases/phase-07-takeover-career/handoff.md)。工程结论不升级个人掌握；Q-P6-001/002开放，Mem0未运行，生产/现场/Compose/远程CI未验证。
-- 质量项：[Q-P5-001](quality-items.md)最小真实候选阻塞关闭，不能据此宣称现场能力或泛化通过。两例结构/有限语义由AI逐项复核，未知场景仅离线负例、非独立人类金标。[复验报告](phases/phase-06-quality-reliability/evidence/wp01/live-report.md)。
-- 持续授权（2026-09-20，用户本任务及项目协调任务同步）：按路线图逐工作包自动实现、验证、保存失败/退化、更新状态/矩阵/学习/交接，再继续下一包；不等待常规范围确认、个人练习或“继续”。阶段工程Gate通过后在同目录创建下一阶段GPT-6 Astra/high任务并以handoff续接。只在明显范围变化、破坏性操作、真实业务副作用、缺少关键输入或用量预算耗尽时暂停依赖部分，可独立工作继续。
-- 模型长期执行授权（2026-09-20，协调任务同步用户“长期授权你全力推进”）：采用已告知用户的保守执行上限，每工作包最多10次、新授权后项目累计最多100次，失败尝试也占用；这是我方执行上限而非用户指定金额预算。仅既定供应商/模型、合成数据、有界输入输出/超时/无隐式重试，不扩价位或购买额度。唯一账本为项目PG的model_budget_authorizations/model_budget_attempts，生产授权20260920-long-term-v1，当前累计46/100，P2-WP02=6/10、P2-WP04=6/10、P3-WP03=9/10、P4-WP02=9/10、P5-WP02=4/10、P6-WP03=8/10、P7-WP03=4/10；44次succeeded、旧2次invalid_output failed，无未完成预占；已知新授权输入71843/输出9910/总81753token。[最新实验与账本快照](phases/phase-07-takeover-career/evidence/wp03/live-v1.json)。P1历史3次/1184token单独保留；跨进程/子任务共享预占，达上限才再询问。
-- 冷启动历史：2026-09-20基于 `fc64b27`，分支 `work/phase-01-wp-04`；冷启动24项smoke（含2项真实PG）、三轮demo和冻结回归通过。既有14文件中文注释与.idea保留，未发现适用AGENTS；[核对记录](phases/phase-02-tools-rag/cold-start.md)。旧项目未读取或修改；[来源边界](architecture.md#历史资料来源与适用范围)。
-- 已实现：材料循环/PG恢复、三只读工具/有界模型引用摘要、共享预占、真实本地中文向量/pgvector/知识版本时效撤回；本地Jaeger/OTLP追踪和独立归档导入；PG用户枚举偏好生命周期、上下文预算、版本化指引与单模型综合候选。模型摘要仍是待人工复核候选，不改变原材料或产生批准。
-- P1最终验证（历史证据，本轮已核对原始报告）：2026-09-20全量 **56 passed、0 skipped（含11项真实PG）**，ruff/锁文件同步通过；冻结工程回归8例/25步骤、9命令跨进程PG演示通过。历史3例预测本地重评分相符，WP04新模型请求0。[P1 Gate及最终证据](phases/phase-01-workflow/evidence/wp04/gate-report.md)。这是P1冻结时的历史记录，P2最新验证以上述当前工作包证据为准。
-- 本机运行：独立 PG17.11 在127.0.0.1:55432，系统PG10未改。新终端先 `scripts/dev-postgres.ps1 -Action Env`；需要停库用同脚本 `-Action Stop`。数据/凭据位置与复现命令见 README，凭据不入 Git。
-- P3模型效果：三已见任务×三策略共9请求，应用接受6拒绝3；无/有记忆均2/3接受，有记忆多755token（10.9%），未证明质量收益。去知识原文少token但丢依据；保留错述上下文、离题引用与材料说明无引用类型导致的拒绝。[报告](phases/phase-03-memory-context/evidence/wp03/live-report.md)。P1/P2历史效果见各阶段交接。
-- 历史配置/用量：用户指定 `docs/DS.txt`，已Git忽略且不输出密钥。P1-WP03调用3次，无重试，输入1126/输出58/总1184 token；实际扣费未查询。P2-WP01未读取模型凭据、新请求0，不重复历史调用覆盖结果。
-- 本人实践：已核对本人追问修改与三轮demo；断言及WP02实现由AI完成，不记作本人掌握。WP02可选恢复演示练习见 [学习记录](learning-log.md)，不阻塞继续开发。
-- 下一步：由用户按[本人最小接管清单](phases/phase-07-takeover-career/personal-takeover.md)提供亲自操作/改动/排错/讲解证据，再逐项更新能力矩阵；[求职草稿](phases/phase-07-takeover-career/career-materials.md)尚未投递/发布。P7为路线图末阶段，不自动创建P8或重复付费实验。所有已授权且可独立完成的工程事项已做完，新的工程范围需具体目标；这不撤销10月5日持续授权。
-- 范围/限制：本地模拟身份，非生产认证；Jaeger内存不是恢复/预算权威。P2保留摘要次要主张缺显式引用、混合检索无增益和PG非正常退出原因未明等事实。原始事件/关联、显式材料修订与感知重核已完成；重核持久取消与本地服务已完成，材料通用取消/生产接入未实现；Compose和远程CI未运行；P3记忆仅两类合成偏好，保留审计不是生产隐私删除。WP02长暂停超时根因未定；个人掌握仍待本人证据。
-
-后续冷启动读：适用AGENTS、当前status、[P7最终交接](phases/phase-07-takeover-career/handoff.md)、最终Gate、quality-items与必要ADR，再核对Git/即时PG预算。只有新的具体目标或本人证据才产生后续工作，不把旧包当未完成重做。原16路径32行译文/.idea及用户学习排序继续保护；P6/P7学习条目附后，整文件仍unstaged。协调任务现有2-0，不重复创建；状态不变时不派发重复开发。
+后续冷启动：适用AGENTS → 本状态 → P8交接/验收 → ADR014 → Git/index与必要最小smoke。云端服务保持运行；本机PG17在55432只供offline学习/测试，系统PG10未动，新shell先scripts/dev-postgres.ps1 -Action Env。SSH/PG管理凭据仅连接时使用，不读取或公开私密配置。未有新的具体目标或本人证据时，不重复既有包、付费实验或凭长期授权无限扩栈。

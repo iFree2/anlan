@@ -16,11 +16,13 @@ def main():
     parser.add_argument("--config", required=True, type=Path)
     parser.add_argument("--host", default="127.0.0.1", choices=["127.0.0.1", "0.0.0.0"])
     parser.add_argument("--port", type=int, default=8000)
+    parser.add_argument("--root-path", default="", help="Trusted proxy prefix, e.g. /anlan")
     args = parser.parse_args()
     if not 1 <= args.port <= 65535:
         parser.error("port must be 1..65535")
     try:
-        app = create_app(database_url(), ServiceConfig.from_file(args.config))
+        app = create_app(database_url(), ServiceConfig.from_file(args.config),
+                         root_path=args.root_path)
         server = uvicorn.Server(
             uvicorn.Config(
                 app, host=args.host, port=args.port, access_log=False, log_level="warning"

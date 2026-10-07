@@ -1,0 +1,79 @@
+{
+  "checked_at": "2026-10-07T22:49:15.233170+08:00",
+  "status": "passed",
+  "operation_scope": "read_only_http_and_local_evidence",
+  "http_checks": {
+    "/anlan/console": 200,
+    "/anlan/healthz": 200,
+    "readyz_unauthenticated": 401,
+    "api.js_matches_source": true,
+    "app.js_matches_source": true,
+    "styles.css_matches_source": true,
+    "readyz_authenticated": 200
+  },
+  "original_site_status": 200,
+  "original_site_sha256": "b5a7f25ac949b5f26ded8692c39c42f64f85cb919736f5db68bc776987515b12",
+  "original_site_unchanged": true,
+  "existing_task_snapshot_matches_restart_after": true,
+  "snapshot": {
+    "status": "passed",
+    "data_origin": "SYNTHETIC",
+    "task_id": "4d30c156-99d5-507f-b4ed-7327044d8ee2",
+    "material_revision": 5,
+    "event_ids": [
+      "0b4c1df2-a3b8-41f5-8ca1-51111e54c48f",
+      "409f46e7-99f9-4a7f-868b-dfa4b51edaed"
+    ],
+    "reviews": [
+      {
+        "review_id": "74ae5242-30a5-447e-89e1-839fe1630783",
+        "revision": 2,
+        "feedback": {
+          "decision": "needs_verification",
+          "request_id": "5dd302c4f2d45ea84dd23d83aa7ab8aa",
+          "recorded_at": "2026-09-22T04:00:00+00:00",
+          "expected_revision": 1
+        },
+        "currentness": "stale_material",
+        "mode": "scripted_double",
+        "knowledge_citations": 3
+      },
+      {
+        "review_id": "9f5266d8-2a2b-4746-8f3f-590d356237ea",
+        "revision": 2,
+        "feedback": {
+          "decision": "disputed_event",
+          "request_id": "93e492f563a782bb7bf30abc33cc05b6",
+          "recorded_at": "2026-09-22T04:00:00+00:00",
+          "expected_revision": 1
+        },
+        "currentness": "stale_material",
+        "mode": "scripted_double",
+        "knowledge_citations": 2
+      }
+    ],
+    "all_three_observations_ok": true,
+    "invalid_token_rejected": true,
+    "credentials_recorded": false
+  },
+  "onboarding": {
+    "task_id": "cd7599c6-d408-5662-a26f-0704a5c8c52d",
+    "status": "waiting_input",
+    "revision": 1,
+    "expected_initial_state_unchanged": true
+  },
+  "ci_evidence": "ci-final-v3.json",
+  "ci_test_summary": {
+    "tests": 463,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0
+  },
+  "ci_sources_match_current": true,
+  "public_browser_page_opened": true,
+  "user_paths_checked": 16,
+  "user_baseline_matches": true,
+  "new_model_requests": 0,
+  "credentials_recorded": false,
+  "ssh_or_database_admin_actions": false
+}

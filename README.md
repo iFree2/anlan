@@ -4,6 +4,21 @@
 
 P1—P7有限工程Gate已通过，最终本地CI456项通过、0跳过。当前包括可恢复材料工作流、事实/知识/偏好、模拟事件/重核/反馈、本地HTTP/SSE、质量回放和有限合成图对照。Mem0仅静态比较，Judge误分类与同任务并发409保留；工程结果不代表本人掌握、真实现场或生产能力。先看[项目说明](docs/phases/phase-07-takeover-career/project-brief.md)、[如实求职素材](docs/phases/phase-07-takeover-career/career-materials.md)和[当前状态](docs/status.md)。
 
+## 轻量操作台（P8）
+
+材料表单、缺项追问/补充、任务切换、两类合成事件、核查依据/未知项和人工反馈均可在同源页面操作。材料offline、核查scripted_double；本地工具/示例知识实际执行。先按下方准备锁定环境与PG，再执行：
+
+~~~powershell
+scripts/dev-postgres.ps1 -Action Start
+scripts/dev-postgres.ps1 -Action Env
+.venv/Scripts/python.exe scripts/prepare_console_demo.py --output .runtime/console-demo.json
+.venv/Scripts/python.exe -m anlan.interfaces.serve --config .runtime/console-demo.json --port 8000
+~~~
+
+打开 http://127.0.0.1:8000/console，选择生成的 .runtime/console-demo.json 连接。已有配置不能覆盖，再次准备使用新路径；刷新后重新选择配置，业务记录从PG恢复。点击“填入缺项示例”→提交→依次补位置/方式→模拟事件→核查→保存人工反馈；修订材料后旧候选显示过时。令牌仅页面内存，配置不上传到服务端。
+
+实现入口：interfaces/console/assets/app.js → console/routes.py/service.py → 原材料与感知运行时。[计划与范围](docs/phases/phase-08-console/plan.md)、[学习五题](docs/phases/phase-08-console/wp01-learning.md)、[验证与失败](docs/phases/phase-08-console/evidence/verification.md)。[阿里云操作台](http://47.93.218.52/anlan/console)已部署；使用本机.runtime/aliyun-console-access.json连接，[访问与运维说明](docs/phases/phase-08-console/deployment.md)。云端为offline/scripted合成学习环境，真实模型预算已切换至云端唯一账本，本地相同生产授权只读；状态以[status](docs/status.md)为准。
+
 ## 启动（PowerShell）
 
 P7接管入口：[一条命令复现主链](docs/phases/phase-07-takeover-career/takeover-demo.md)、[排错路径](docs/phases/phase-07-takeover-career/troubleshooting.md)、[已知限制](docs/phases/phase-07-takeover-career/known-limitations.md)。该演示零真实模型请求，个人掌握另验。
