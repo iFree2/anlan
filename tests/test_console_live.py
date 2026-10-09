@@ -9,7 +9,7 @@ from test_events import NOW
 from test_events_postgres import dsn, run  # noqa: F401
 from test_material_revisions import COMPLETE
 
-from anlan.infrastructure.budget import BudgetLedger
+from anlan.infrastructure.budget import CONSOLE_WORK_PACKAGE, BudgetLedger
 from anlan.interfaces.api import create_app
 from anlan.interfaces.service_config import ServiceConfig
 from anlan.knowledge.tool import UnavailableKnowledgeStore
@@ -38,7 +38,7 @@ def test_live_material_and_event_share_budget_and_keep_history(dsn):  # noqa: F8
             payload = json.loads(request.content)
             budget = await ledger.snapshot()
             assert budget["total_reserved"] == len(sent) + 1
-            assert budget["attempts"][-1]["work_package"] == "P8-WP03"
+            assert budget["attempts"][-1]["work_package"] == CONSOLE_WORK_PACKAGE
             assert request.url.host == "api.deepseek.com"
             sent.append(payload)
             if "event" in json.loads(payload["messages"][1]["content"]):
@@ -111,14 +111,14 @@ def test_live_material_and_event_share_budget_and_keep_history(dsn):  # noqa: F8
             assert review.status_code == 200
             report = review.json()["result"]["report"]
             assert report["mode"] == "deepseek_live"
-            assert report["work_package"] == "P8-WP03"
+            assert report["work_package"] == CONSOLE_WORK_PACKAGE
             assert report["stop_reason"] == "completed"
             assert report["attempt_id"] and report["usage"]["total_tokens"] == 20
             replay = (await client.post(url, json=request)).json()
             assert replay["review_id"] == review.json()["review_id"]
             assert len(sent) == 2
             budget = await ledger.snapshot()
-            assert budget["packages"] == {"P8-WP03": 2}
+            assert budget["packages"] == {CONSOLE_WORK_PACKAGE: 2}
             assert budget["status_counts"] == {"reserved": 0, "succeeded": 2, "failed": 0}
     run(scenario())
 

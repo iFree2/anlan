@@ -141,7 +141,7 @@ async def test_trace_write_failure_is_visible_and_does_not_strand_task(tmp_path)
     trace = JsonlTrace(tmp_path / "trace.jsonl")
     service = WorkflowService(OfflineAnalyzer(), trace)
     first = await service.start(OWNER, FIELDS)
-    trace.path = tmp_path  # Cannot open a directory as a JSONL file.
+    trace.path = tmp_path  # 目录不能当作 JSONL 文件打开。
     second = await service.resume(OWNER, first["task_id"], 1, {
         "work_location_description": "SYNTHETIC：A 区 1 号台",
     })

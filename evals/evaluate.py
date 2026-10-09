@@ -1,4 +1,4 @@
-"""Three seen development examples, explicit offline/live labels, no overwrites."""
+"""三个已见的开发样本、明确的离线/真实标注、不覆盖已有结果。"""
 
 import argparse
 import asyncio
@@ -69,7 +69,7 @@ async def evaluate(args):
         "results": [],
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    # Exclusive creation happens before requests; an existing run is never overwritten.
+    # 先以独占方式创建文件，再发起请求；已存在的运行结果绝不会被覆盖。
     with args.output.open("x", encoding="utf-8") as output:
         async with AsyncExitStack() as stack:
             if args.mode == "deepseek":
@@ -92,7 +92,7 @@ async def evaluate(args):
                 })
                 report["summary"] = summarize(
                     report["results"], getattr(analyzer, "requests_used", 0))
-                # Persist each completed attempt, including failure; no hidden success filtering.
+                # 每次完成的尝试都落盘，包括失败；不做只保留成功结果的美化过滤。
                 output.seek(0)
                 json.dump(report, output, ensure_ascii=False, indent=2)
                 output.truncate()

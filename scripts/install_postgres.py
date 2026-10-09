@@ -1,4 +1,4 @@
-"""Install pinned EDB portable binaries into a dedicated user-local ASCII path."""
+"""把锁定版本的 EDB 便携二进制安装到用户目录下的专用 ASCII 路径。"""
 
 import hashlib
 import os

@@ -1,4 +1,4 @@
-"""Small local trace sink; no raw material, credential, response body or hidden reasoning."""
+"""本地小型轨迹落盘；不记原始材料、凭据、响应正文与隐藏思维链。"""
 
 import json
 import os
@@ -39,7 +39,7 @@ class JsonlTrace:
                     output.write(json.dumps(record, ensure_ascii=False) + "\n")
         except OSError:
             self.warning = "trace_write_failed"
-            return False  # Caller must surface the gap; logging is not a business gate.
+            return False  # 由调用方暴露这个缺口；日志不作为业务闸门。
         try:
             exported = self.exporter is None or self.exporter.export(record)
         except Exception:

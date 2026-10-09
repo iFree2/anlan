@@ -1,4 +1,4 @@
-"""Real PostgreSQL integration. Explicit test DSN required; never substitute an in-memory DB."""
+"""真实 PostgreSQL 集成测试。必须显式提供测试 DSN；绝不用内存数据库替代。"""
 
 import asyncio
 import json
@@ -276,7 +276,7 @@ def test_lost_lock_connection_cannot_overwrite_newer_checkpoint(dsn):
             operation = asyncio.create_task(old.resume(
                 OWNER, first["task_id"], 1, DEMO_PATCHES[0], request_id="old"))
             await asyncio.wait_for(started.wait(), timeout=5)
-            await old._registry.conn.close()  # Server releases the session advisory lock.
+            await old._registry.conn.close()  # 服务端随即释放会话级 advisory 锁。
             try:
                 async with postgres_service(dsn, OfflineAnalyzer()) as newer:
                     recovered = await newer.recover(OWNER, first["task_id"])

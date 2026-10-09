@@ -18,8 +18,8 @@ async def postgres_service(dsn: str, analyzer: Analyzer, trace: JsonlTrace | Non
     async with await AsyncConnection.connect(
         conninfo(dsn), autocommit=True, row_factory=dict_row, prepare_threshold=0,
     ) as connection:
-        # Lock and checkpoint writes share the same DB session. Losing the lock connection
-        # must also prevent the stale worker from writing through a second live connection.
+        # 任务锁与 checkpoint 写入共用同一个数据库会话。锁连接断开后，
+        # 也必须阻止旧的执行者通过另一条存活连接继续写入。
         saver = AsyncPostgresSaver(connection, serde=checkpoint_serde())
         yield WorkflowService(analyzer, trace, registry=PostgresRegistry(connection),
                               checkpointer=saver, mode=mode)

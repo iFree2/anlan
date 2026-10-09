@@ -1,4 +1,4 @@
-"""Small exact issue-set scorer; does not judge citation support or real-world safety."""
+"""小型精确问题集合评分器；不判断引用是否成立，也不判断真实世界安全性。"""
 
 
 def score_issues(predicted: list[list[str]], expected: list[list[str]]) -> dict:

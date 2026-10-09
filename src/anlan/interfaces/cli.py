@@ -1,4 +1,4 @@
-"""Run `anlan demo` for JSON snapshots; `anlan chat` for local interactive input."""
+"""`anlan demo` 输出 JSON 状态快照；`anlan chat` 用于本地交互输入。"""
 
 import argparse
 import asyncio
@@ -53,12 +53,12 @@ def show(state: dict, mode: str):
 
 
 def created_receipt(task_id: str):
-    # Available even if the first analysis fails or the process exits abruptly.
+    # 即使首次分析失败或进程异常退出，这条回执也已经在输出里。
     print(json.dumps({"event": "task_created", "task_id": task_id}), file=sys.stderr, flush=True)
 
 
 async def run(args):
-    # Local test identity is host input, not read from material or model output.
+    # 本地测试身份由宿主进程注入，不读取材料内容，也不来自模型输出。
     identity = Identity(tenant_id=args.tenant, user_id=args.user)
     if args.command in {"knowledge-ingest", "knowledge-query", "knowledge-withdraw"}:
         as_of = datetime.fromisoformat(args.as_of) if args.as_of else None
@@ -251,7 +251,7 @@ def main():
     if args.command == "knowledge-withdraw" and not args.doc_id:
         parser.error("knowledge-withdraw需要 --doc-id")
     try:
-        # Psycopg async I/O requires a selector loop on Windows; Python 3.13 supports loop_factory.
+        # Windows 上 Psycopg 的异步 I/O 需要 selector 事件循环；Python 3.13 支持 loop_factory。
         asyncio.run(run(args), loop_factory=asyncio.SelectorEventLoop)
     except (EOFError, KeyboardInterrupt):
         print("已结束会话；PostgreSQL 任务可用 show/recover 读取或续接，内存任务已结束。")
@@ -264,7 +264,7 @@ def main():
     except (OSError, json.JSONDecodeError, ValidationError):
         parser.exit(2, "无法读取或校验输入；请检查 UTF-8 JSON 和字段类型。\n")
     except ValueError:
-        # Do not print a ValidationError that could include config secrets.
+        # 不打印可能包含配置密钥的 ValidationError。
         if args.command.startswith("knowledge-"):
             parser.exit(2, "知识配置或本地编码器无效；检查模型缓存和带时区的 --as-of。\n")
         if args.command in {"check-facts", "check-facts-agent"}:

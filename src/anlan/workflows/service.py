@@ -1,4 +1,4 @@
-"""Authorized task entry points with durable commands and explicit recovery."""
+"""经授权的任务入口：命令可持久化，恢复路径显式。"""
 
 import json
 from copy import deepcopy
@@ -109,7 +109,7 @@ class WorkflowService:
     async def _submit(self, identity, task_id, expected_revision, fields, *, request_id, kind):
         async with self._registry.locked(identity, task_id) as record:
             self._check_mode(record)
-            self._config(record)  # Validate the contract before returning a cached result.
+            self._config(record)  # 在返回缓存结果之前，先校验状态契约版本。
             supplement = Supplement.model_validate({"fields": fields})
             request_id = request_id if request_id is not None else str(uuid4())
             if (not isinstance(request_id, str) or not request_id.strip()
@@ -151,7 +151,7 @@ class WorkflowService:
                 raise InvalidTransition("checkpoint 缺失，需要人工排查")
             await self._graph.ainvoke(record.initial_state, config, durability="sync")
         elif state["run_id"] == operation.run_id:
-            # A crash after material merge must not merge/increment the revision a second time.
+            # 材料已合并后发生的崩溃，不能再次合并字段或重复递增 revision。
             if (state["status"] == "analyzing" or
                     (state["status"] == "waiting_input" and not snapshot.interrupts
                      and snapshot.next)):
@@ -183,7 +183,7 @@ class WorkflowService:
             self._check_mode(record)
             operation = await self._registry.pending(task_id)
             if operation is None:
-                # Includes the narrow crash window after creating ownership but before reserve.
+                # 也覆盖“已写入归属、但尚未 reserve”这一小段崩溃窗口。
                 snapshot = await self._snapshot(record)
                 if snapshot.values:
                     return deepcopy(snapshot.values)

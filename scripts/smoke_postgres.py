@@ -1,4 +1,4 @@
-"""Cross-process synthetic demo; saves commands and snapshots, never connection credentials."""
+"""跨进程合成演示；保存命令与状态快照，绝不保存连接凭据。"""
 
 import argparse
 import json

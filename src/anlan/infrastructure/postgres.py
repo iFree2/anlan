@@ -1,4 +1,4 @@
-"""Official checkpoint saver plus a small SQL registry in a dedicated schema."""
+"""官方 checkpoint saver，加上位于专用 schema 中的小型 SQL registry。"""
 
 
 import asyncio

@@ -7,7 +7,7 @@ from test_tool_model import FakeLedger
 
 from anlan.llm.config import ModelConfig
 from anlan.llm.contracts import AnalysisFailure
-from anlan.llm.material import DeepSeekAnalyzer
+from anlan.llm.material import PROMPT_VERSION, SYSTEM_PROMPT, DeepSeekAnalyzer
 from anlan.workflows.material_contracts import Application
 
 MATERIAL = Application(
@@ -20,6 +20,12 @@ ISSUE = {
     "field": "work_location_description", "kind": "ambiguous", "quote": "那边",
     "reason": "指代不明确", "question": "请明确区域与作业点。",
 }
+
+
+def test_location_prompt_requires_an_action_phrase_to_be_reported_as_not_a_location():
+    """“去哪里操练”有文字，但没有提供任何作业地点。"""
+    assert "去哪里操练" in SYSTEM_PROMPT
+    assert "没有任何区域或作业点" in SYSTEM_PROMPT
 
 
 def response(content, finish="stop"):
@@ -104,7 +110,7 @@ async def test_failure_is_bounded_and_does_not_leak_response_or_credentials(fail
             "transport": "model_unavailable", "invalid_envelope": "invalid_output",
         }[failure]
         assert error.value.model == "deepseek-flash"
-        assert error.value.prompt_version == "materials-v1"
+        assert error.value.prompt_version == PROMPT_VERSION
         assert calls == 1
 
 

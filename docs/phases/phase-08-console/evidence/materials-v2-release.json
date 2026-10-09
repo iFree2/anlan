@@ -1,0 +1,39 @@
+{
+  "data_origin": "SYNTHETIC",
+  "release": "/opt/anlan2/releases/p8-materials-v2-budget-20261008",
+  "wheel_sha256": "cd19ed1ac3c6adc2d8501e4751ed979cb59cb2015a1d02d52cdddcdb4c29876c",
+  "changed_source_files": [
+    "infrastructure/budget.py",
+    "llm/material.py",
+    "sql/011_console_materials_v2_budget.sql"
+  ],
+  "prompt_version": "materials-v2",
+  "work_package": "P8-WP04",
+  "live_regression": {
+    "input": {
+      "work_location_description": "去哪里操练"
+    },
+    "semantic_status": "checked",
+    "analysis_error": null,
+    "location_issue": {
+      "kind": "ambiguous",
+      "quote_matches_input": true,
+      "question_present": true
+    },
+    "usage": {
+      "total_tokens": 467
+    }
+  },
+  "budget_after": {
+    "total_used": 57,
+    "total_limit": 100,
+    "package_used": 1,
+    "package_limit": 10,
+    "package_remaining": 9
+  },
+  "limitations": [
+    "One synthetic regression sample verifies this prompt case only.",
+    "This does not establish broad model quality or production safety capability.",
+    "No real personnel, location, equipment, video, or sensor data was used."
+  ]
+}

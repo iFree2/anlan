@@ -1,4 +1,4 @@
-"""Task ownership and submitted commands; current material stays in Graph checkpoints."""
+"""任务归属与已提交命令；当前材料仍保存在 Graph 的 checkpoint 里。"""
 
 import asyncio
 from contextlib import asynccontextmanager

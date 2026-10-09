@@ -192,6 +192,12 @@ def test_invalid_packages_rejected_before_connecting(package):
         run(BudgetLedger("invalid").reserve(package, "run"))
 
 
+def test_new_console_fix_package_is_validated_before_connecting():
+    from anlan.infrastructure.budget import BudgetLedger, BudgetUnavailable
+    with pytest.raises(BudgetUnavailable):
+        run(BudgetLedger("invalid").reserve("P8-WP04", "material-location-fix"))
+
+
 @pytest.mark.postgres
 def test_console_package_preserves_history_and_shares_existing_limits(ledger):
     from anlan.infrastructure.budget import BudgetExceeded

@@ -1,4 +1,4 @@
-"""Runtime-validated DTOs. Identity is supplied by the host, never by the model."""
+"""运行时校验的 DTO。身份由宿主进程提供，绝不来自模型。"""
 
 from typing import Annotated, Literal
 

@@ -1,4 +1,4 @@
-"""Graph owns state transitions; nodes return partial updates, not mutated state."""
+"""图负责状态转换；节点只返回部分状态更新，不直接修改状态。"""
 
 from time import perf_counter
 from typing import Any, TypedDict
@@ -37,7 +37,7 @@ def build_graph(analyzer: Analyzer, trace: JsonlTrace, checkpointer=None):
         except AnalysisFailure as exc:
             result = Analysis(semantic_status="failed", error=exc.category, usage=exc.usage,
                               model=exc.model, prompt_version=exc.prompt_version)
-        # Deterministic missing-field findings take precedence over semantic candidates.
+        # 确定性的缺字段结论优先于模型给出的候选问题。
         missing = {issue.field for issue in rules}
         result.issues = rules + [issue for issue in result.issues if issue.field not in missing]
         status = "waiting_input" if result.issues else "awaiting_review"
@@ -53,7 +53,7 @@ def build_graph(analyzer: Analyzer, trace: JsonlTrace, checkpointer=None):
         return update
 
     def ask(state: TaskState) -> dict[str, Any]:
-        # No I/O before interrupt: this function is entered again on resume.
+        # interrupt 之前不做任何 I/O：恢复时这个函数会被从头再次进入。
         response = interrupt({
             "revision": state["revision"], "questions": state["analysis"]["issues"],
         })

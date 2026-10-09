@@ -13,7 +13,7 @@ from psycopg.types.json import Jsonb
 from anlan.infrastructure.db import conninfo
 
 AUTHORIZATION_ID = "20260920-long-term-v1"
-CONSOLE_WORK_PACKAGE = "P8-WP03"
+CONSOLE_WORK_PACKAGE = "P8-WP04"
 _ERROR_CATEGORIES = frozenset({
     "http_error", "transport_error", "timeout", "invalid_response", "cancelled", "unknown_error",
     "model_timeout", "model_unavailable", "model_rate_limited", "model_unauthorized",
@@ -97,6 +97,8 @@ class BudgetLedger:
             await conn.execute(migration, prepare=False)
             await conn.execute(files("anlan").joinpath("sql/010_console_live_budget.sql").read_text(
                 encoding="utf-8"), prepare=False)
+            migration = files("anlan").joinpath("sql/011_console_materials_v2_budget.sql")
+            await conn.execute(migration.read_text(encoding="utf-8"), prepare=False)
             await conn.execute(
                 "INSERT INTO anlan_v2.model_budget_authorizations "
                 "(authorization_id, total_limit, package_limit) VALUES (%s,%s,%s) "
@@ -108,7 +110,7 @@ class BudgetLedger:
     @_hide_database_errors
     async def reserve(self, work_package: str, run_id: str) -> str:
         if not isinstance(work_package, str) or not re.fullmatch(
-                r"(?:P[1-7]-WP[0-9]{2}|P8-WP03)", work_package,
+                r"(?:P[1-7]-WP[0-9]{2}|P8-WP0[34])", work_package,
                 flags=re.IGNORECASE | re.ASCII):
             raise ValueError("work_package must use an authorized phase/package")
         if not isinstance(run_id, str) or not run_id.strip():

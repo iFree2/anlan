@@ -2,6 +2,8 @@
 
 用户10月7日追加的P8-WP01页面、WP02云端部署及WP03真实DeepSeek接入均完成有限运行验收。原P1—P7不重做，不新建循环或P9，个人掌握仍待本人证据。
 
+2026-10-08后续地点语义修复作为P8-WP04完成：当前发布为`/opt/anlan2/releases/p8-materials-v2-budget-20261008`，`materials-v2`会将“去哪里操练”判为作业地点含糊并追问。P8-WP03已达到10/10，因此通过SQL011创建独立P8-WP04包，未改写历史、总100或单包10限制。一次真实合成回归成功，当前预算57/100、P8-WP04为1/10；定向本地测试18项及Ruff通过，本机缺专用PG的两项集成测试未运行。见[回归证据](evidence/materials-v2-release.json)和[发布计划](../../superpowers/plans/2026-10-08-material-location-prompt-release.md)。
+
 ## 当前入口与使用
 
 [操作台](http://47.93.218.52/anlan/console)。刷新后选择本机ignored `.runtime/aliyun-console-access.json`。点击“新建任务”，创建/补充/修订材料与新事件核查会使用真实deepseek-flash；失败计次，手动恢复也可能再次计次。可以只读查看“DeepSeek云端验收试件A接缝”的现有结果。旧offline材料不能续写或新增事件/核查，既有结果仍可按版本/当前性记录人工反馈。
@@ -22,7 +24,7 @@ WP03的ServiceModels把材料和事件两链路接到真实DeepSeek，P8-WP03共
 
 ## 预算与限制
 
-[云端账本](evidence/live-cloud-budget-after.json)：49/100，47成功/2历史失败/0pending；P8-WP03三次成功，包剩7次，累计100/每包10不变。原46条已与首次迁移文件逐字段规范化比对，发布前后相同，补齐先前仅有汇总证据的限制。本地生产authorization仍冻结，云端唯一写入，不退还失败或回滚次数；P1历史3次另列。
+[云端账本](evidence/live-cloud-budget-after.json)记录的是2026-10-07的历史快照：49/100，47成功/2历史失败/0pending；当时P8-WP03三次成功、包剩7次。后续页面使用使P8-WP03达到10/10；P8-WP04回归后当前为57/100、该新包1/10，见[回归证据](evidence/materials-v2-release.json)。原46条已与首次迁移文件逐字段规范化比对，发布前后相同，补齐先前仅有汇总证据的限制。本地生产authorization仍冻结，云端唯一写入，不退还失败或回滚次数；P1历史3次另列。
 
 HTTP/IP/模拟身份仍未升级生产认证/TLS/SLA；未接真实设备、图片/视频输入或生产资料。历史Judge误判、并发409、引用缺口与未知故障保留。真实3次只证明本次接线，不证明全面模型质量或本人掌握。
 

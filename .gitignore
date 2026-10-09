@@ -9,3 +9,6 @@ __pycache__/
 .runtime/
 .worktrees/
 /docs/DS.txt
+.idea/
+*.iml
+
