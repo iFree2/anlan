@@ -33,7 +33,10 @@ addopts = "--tb=short"
 pythonpath = ["src"]
 asyncio_mode = "auto"
 testpaths = ["tests"]
-markers = ["postgres: requires explicit ANLAN_TEST_DATABASE_URL and real PostgreSQL"]
+markers = [
+  "postgres: requires explicit ANLAN_TEST_DATABASE_URL and real PostgreSQL",
+  "live_model: makes explicitly enabled real model requests and consumes shared budget",
+]
 
 [tool.ruff]
 target-version = "py313"
