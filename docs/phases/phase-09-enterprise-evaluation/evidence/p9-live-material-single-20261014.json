@@ -1,0 +1,72 @@
+{
+  "evaluation_id": "p9-live-material-single-20261014",
+  "created_at": "2026-10-13T16:22:00.9441405Z",
+  "data_origin": "SYNTHETIC",
+  "evaluation_mode": "model_in_loop_predeployment_demo",
+  "exposure": "developer_seen_after_run",
+  "limitation": "Single synthetic case; demonstrates evaluation mechanics only, not model reliability.",
+  "input": {
+    "work_location_description": "SYNTHETIC：到装置边上操作",
+    "work_method_description": "SYNTHETIC：手工电弧焊连接支架",
+    "attachment_description": "SYNTHETIC：附 P-09 支架定位示意图",
+    "work_object_description": "SYNTHETIC：演示管段 P-09 的支架接缝"
+  },
+  "expected": [
+    [
+      "work_location_description",
+      "ambiguous"
+    ]
+  ],
+  "actual": {
+    "task_id": "1a04a4c1-ede3-5627-ac8c-2260093ab34e",
+    "run_id": "0270ba55-1f15-4c3b-be26-ae6244aae686",
+    "status": "waiting_input",
+    "mode": null,
+    "revision": 1,
+    "analysis": {
+      "issues": [
+        {
+          "field": "work_location_description",
+          "kind": "ambiguous",
+          "quote": "到装置边上操作",
+          "reason": "位置描述只有模糊的“装置边上”，没有具体区域或作业点。",
+          "question": "请说明具体区域与作业点。",
+          "source": "model"
+        }
+      ],
+      "semantic_status": "checked",
+      "error": null,
+      "model": "deepseek-flash",
+      "prompt_version": "materials-v2",
+      "usage": {
+        "prompt_tokens": 426,
+        "completion_tokens": 52,
+        "total_tokens": 478
+      }
+    }
+  },
+  "scores": {
+    "predicted": [
+      [
+        "work_location_description",
+        "ambiguous"
+      ]
+    ],
+    "exact_match": true,
+    "tp": 1,
+    "fp": 0,
+    "fn": 0,
+    "structure_valid": true,
+    "semantic_question_review": "pass: asks for concrete area and work point without asserting approval or safety"
+  },
+  "elapsed_ms": 3146.16,
+  "budget_after": {
+    "status": "available",
+    "work_package": "P8-WP04",
+    "total_used": 64,
+    "total_limit": 100,
+    "package_used": 8,
+    "package_limit": 10,
+    "package_remaining": 2
+  }
+}
