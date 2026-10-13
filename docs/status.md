@@ -13,6 +13,6 @@
 - 保留的失败：历史缺浏览器/移动端溢出/一次未完成CI/软件源超时/pgvector构建/ident拒绝/重启首次未就绪等均保留；WP03初始合同red、历史模式隔离red、旧打包校验器固定SQL数失败、SSH认证失败、浏览器重连时按钮仍禁用导致一次选择超时也保留说明。后续成功不用于臆断所有失败根因。
 - 仍开放：[Q-P6-001](quality-items.md) Judge误判与Q-P6-002并发409；Memory/多职责无已证实质量收益，Mem0仅静态比较。当前HTTP/IP/模拟身份，TLS、生产认证/SLA、真实现场/设备、Docker/Compose和远程GitHubCI未验证。P8-WP03初始3次及P8-WP04地点回归1次仅证明有限接线与该单一样本，不证明模型全面可靠。
 - 用户改动：16路径32行译文、.idea和learning-log整文件保持unstaged；不恢复或整体stage工作树。旧项目只读。AI编写/运行不升级本人掌握：[能力矩阵](capability-matrix.md)、[学习记录](learning-log.md)、[P8学习五题](phases/phase-08-console/wp01-learning.md)。
-- 下一步由用户亲自操作或提出具体小增量；本包已交付，不创建自动化或无目标新阶段。原自动化2-0已删除，长期授权不等于无限扩栈或无限付费。
+- 用户已要求把企业级评测优化方向写入仓库；新增[P9评测强化计划](phases/phase-09-enterprise-evaluation/plan.md)与[验收条件](phases/phase-09-enterprise-evaluation/acceptance.md)。当前仅完成计划，尚未建立新数据集、人工金标、统一评分器或运行新模型实验；推荐首包为P9-WP01评测合同与统一报告。原自动化2-0已删除，长期授权不等于无限扩栈或无限付费。
 
 冷启动：适用AGENTS → 本状态 → P8交接/部署与ADR014 → Git/index及最小必要smoke。云端服务保持运行；本地PG17/55432仅供offline学习和独立测试授权，系统PG10未动。管理凭据只在连接进程中使用，不打印、不提交；不要重复bootstrap/activate，不为证明完成重复付费实验。
