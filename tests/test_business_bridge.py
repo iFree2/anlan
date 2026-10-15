@@ -111,6 +111,24 @@ async def test_actual_mcp_handshake_tools_call_and_scope(bridge):
         assert unknown.isError
 
 
+async def test_mcp_worker_qualification_debug_entry(bridge):
+    """Small real MCP entry point intended for stepping through McpFactTools in PyCharm."""
+    from anlan.tools.mcp import mcp_fact_tools
+
+    async with mcp_fact_tools(bridge.url, bridge.token, OWNER, NOW) as (tools, _, _):
+        result = await tools.query_worker_qualification(
+            OWNER,
+            {
+                "worker_id": "worker-001",
+                "qualification_type": "welding",
+            },
+        )
+
+    assert result.outcome == "ok"
+    assert result.object_id == "worker-001"
+    assert result.facts == {"status": "active", "qualification_type": "welding"}
+
+
 async def test_mcp_wrong_token_and_as_of_are_explicit_errors(bridge):
     from anlan.tools.mcp import mcp_fact_tools
 
