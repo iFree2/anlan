@@ -12,6 +12,8 @@ from test_tools import NOW, OWNER
 from anlan.tools.queries import FactTools
 from anlan.workflows.parallel import canonical_observations
 
+ROOT = Path(__file__).resolve().parents[1]
+
 
 def test_bridge_module_exists():
     assert importlib.util.find_spec("anlan.tools.http_client") is not None
@@ -19,11 +21,12 @@ def test_bridge_module_exists():
 
 @pytest.fixture(scope="module")
 def bridge(tmp_path_factory):
-    sys.path.insert(0, str(Path("scripts").resolve()))
+    scripts = ROOT / "scripts"
+    sys.path.insert(0, str(scripts))
     from bridge_support import bridge_stack
 
     with bridge_stack(
-        Path("examples/synthetic/facts-v1"), OWNER, NOW, tmp_path_factory.mktemp("java")
+        ROOT / "examples/synthetic/facts-v1", OWNER, NOW, tmp_path_factory.mktemp("java")
     ) as stack:
         yield stack
 
@@ -35,7 +38,7 @@ def test_java_http_returns_existing_python_facts(bridge):
         )
     assert response.status_code == 200
     direct = asyncio.run(
-        FactTools(Path("examples/synthetic/facts-v1"), clock=lambda: NOW).query_area_status(
+        FactTools(ROOT / "examples/synthetic/facts-v1", clock=lambda: NOW).query_area_status(
             OWNER, {"area_id": "area-001"}
         )
     )
@@ -234,7 +237,7 @@ def test_java_real_backend_failures(tmp_path, fault, status):
 
     from bridge_support import bridge_stack
 
-    with bridge_stack(Path("examples/synthetic/facts-v1"), OWNER, NOW, tmp_path) as stack:
+    with bridge_stack(ROOT / "examples/synthetic/facts-v1", OWNER, NOW, tmp_path) as stack:
         if fault == "unavailable":
             stack.server.shutdown()
             stack.server.server_close()
