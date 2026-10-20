@@ -14,6 +14,7 @@ from pydantic import Field, ValidationError
 
 from anlan.common.errors import AccessDenied, InvalidTransition, TaskBusy
 from anlan.common.models import Identity, StrictModel
+from anlan.infrastructure.conversations import ConversationStore
 from anlan.infrastructure.events import EventStore
 from anlan.infrastructure.perception import PerceptionStore
 from anlan.infrastructure.postgres import initialize_database
@@ -85,6 +86,7 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
         raise ValueError("Invalid trusted reverse proxy prefix")
     clock = lambda: config.as_of or datetime.now(UTC)  # noqa: E731
     events, memory = EventStore(dsn, clock=clock), MemoryStore(dsn, clock=clock)
+    conversations = ConversationStore(dsn)
     sources = config
 
     @asynccontextmanager
@@ -94,6 +96,7 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
         await PerceptionStore(dsn).initialize()
         await ConsoleService(dsn, config, clock=clock).initialize()
         await memory.initialize()
+        await conversations.initialize()
         await models.ledger.initialize()
         selected = knowledge
         if selected is None:
