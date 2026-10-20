@@ -224,11 +224,20 @@ def test_only_one_process_can_hold_the_conversation_operation_lock(dsn):  # noqa
         first = ConversationStore(dsn)
         second = ConversationStore(dsn)
         conversation = await first.create(OWNER, request_id=request_id("lock"))
-        async with first.locked(OWNER, conversation["conversation_id"]):
+        message = await first.reserve_message(
+            OWNER, conversation["conversation_id"], "lock-message", 1, "等待处理"
+        )
+        async with first.operation_lock(
+            OWNER, conversation["conversation_id"], message["message_id"]
+        ):
             with pytest.raises(TaskBusy):
-                async with second.locked(OWNER, conversation["conversation_id"]):
+                async with second.operation_lock(
+                    OWNER, conversation["conversation_id"], message["message_id"]
+                ):
                     pytest.fail("a second writer acquired the same conversation lock")
-        async with second.locked(OWNER, conversation["conversation_id"]):
+        async with second.operation_lock(
+            OWNER, conversation["conversation_id"], message["message_id"]
+        ):
             pass
 
     run(scenario())

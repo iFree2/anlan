@@ -252,10 +252,12 @@ class ConversationStore:
         )
 
     @asynccontextmanager
-    async def locked(self, identity, conversation_id):
+    async def operation_lock(self, identity, conversation_id, message_id):
         conversation_id = _identifier.validate_python(conversation_id)
+        message_id = _identifier.validate_python(message_id)
         async with await self.connect() as conn:
             await self._row(conn, identity, conversation_id)
+            await self._owned_message(conn, conversation_id, message_id)
             cursor = await conn.execute(
                 "SELECT pg_try_advisory_lock(hashtextextended(%s,0)) AS acquired",
                 ("conversation:" + conversation_id,),
