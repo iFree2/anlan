@@ -14,6 +14,7 @@ from anlan.llm.conversation import (
     DeepSeekIntentClassifier,
     ScriptedConversationModel,
     VisibleMessage,
+    serialize_context,
 )
 
 
@@ -148,6 +149,30 @@ async def test_context_is_bounded_to_twelve_visible_messages_and_sixteen_kib():
     assert len(prompt_context["messages"]) <= 12
     assert len(requests[0]["messages"][1]["content"].encode()) <= 16 * 1024
     assert "raw_evidence" not in json.dumps(prompt_context)
+
+
+def test_maximum_pending_candidate_is_still_serialized_within_sixteen_kib():
+    pending = PendingIntent(
+        intent_id="intent-large",
+        kind="hot_work_candidate",
+        fields={
+            "work_location_description": "区" * 2000,
+            "work_object_description": "管" * 2000,
+            "work_method_description": "焊" * 2000,
+            "attachment_description": "件" * 2000,
+        },
+        revision=1,
+    )
+    serialized = serialize_context(
+        ConversationContext(
+            status="pending_confirmation",
+            messages=[VisibleMessage(role="user", text="确认前查看候选")],
+            pending_intent=pending,
+            task_projection={"status": "waiting_input", "raw_evidence": "must-not-escape"},
+        )
+    )
+    assert len(serialized.encode()) <= 16 * 1024
+    assert "raw_evidence" not in serialized
 
 
 @pytest.mark.asyncio

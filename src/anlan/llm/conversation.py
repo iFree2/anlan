@@ -72,7 +72,8 @@ def _safe_task_projection(value: dict | None) -> dict | None:
     return {key: value[key] for key in allowed if key in value}
 
 
-def _serialized_context(context: ConversationContext) -> str:
+def serialize_context(context: ConversationContext) -> str:
+    """Serialize only bounded visible context, trimming oldest/longest text first."""
     value = {
         "status": context.status,
         "messages": [message.model_dump() for message in context.messages[-_MAX_VISIBLE_MESSAGES:]],
@@ -90,9 +91,22 @@ def _serialized_context(context: ConversationContext) -> str:
             continue
         if value["messages"] and len(value["messages"][0]["text"]) > 1:
             text = value["messages"][0]["text"]
-            value["messages"][0]["text"] = text[len(text) // 4 :]
+            value["messages"][0]["text"] = text[len(text) // 2 :]
             continue
-        value["task_projection"] = None
+        if value["task_projection"] is not None:
+            value["task_projection"] = None
+            continue
+        pending = value["pending_intent"]
+        fields = pending.get("fields", {}) if isinstance(pending, dict) else {}
+        candidates = [(len(text.encode()), name, text) for name, text in fields.items()]
+        if candidates:
+            _, name, text = max(candidates)
+            if len(text) > 1:
+                fields[name] = text[: max(1, len(text) // 2)]
+                continue
+            fields.pop(name)
+            continue
+        raise ValueError("Conversation context cannot fit the provider boundary")
 
 
 def _parse_message(envelope: dict) -> str:
@@ -143,7 +157,7 @@ class DeepSeekIntentClassifier:
                                 "classifier_version 可留空占位。"
                             ),
                         },
-                        {"role": "user", "content": _serialized_context(context)},
+                        {"role": "user", "content": serialize_context(context)},
                     ],
                 },
                 parse,
@@ -187,7 +201,7 @@ class DeepSeekChatResponder:
                             "不得执行工具或业务写入，任务状态仅以服务端侧栏为准。"
                         ),
                     },
-                    {"role": "user", "content": _serialized_context(context)},
+                    {"role": "user", "content": serialize_context(context)},
                 ],
             },
             parse,
