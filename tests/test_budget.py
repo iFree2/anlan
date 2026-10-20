@@ -198,6 +198,12 @@ def test_new_console_fix_package_is_validated_before_connecting():
         run(BudgetLedger("invalid").reserve("P8-WP04", "material-location-fix"))
 
 
+def test_conversation_package_is_validated_before_connecting():
+    from anlan.infrastructure.budget import BudgetLedger, BudgetUnavailable
+    with pytest.raises(BudgetUnavailable):
+        run(BudgetLedger("invalid").reserve("P11-WP01", "conversation-message"))
+
+
 @pytest.mark.postgres
 def test_console_package_preserves_history_and_shares_existing_limits(ledger):
     from anlan.infrastructure.budget import BudgetExceeded
@@ -215,6 +221,26 @@ def test_console_package_preserves_history_and_shares_existing_limits(ledger):
         assert after["attempts"][0] == before
         assert after["total_reserved"] == 3
         assert after["packages"] == {"P5-WP02": 1, "P8-WP03": 2}
+    run(scenario())
+
+
+@pytest.mark.postgres
+def test_conversation_migration_preserves_attempts_and_authorization_limits(ledger):
+    from anlan.infrastructure.budget import CONVERSATION_WORK_PACKAGE
+
+    async def scenario():
+        old = await ledger.reserve("P5-WP02", "historical-conversation-baseline")
+        await ledger.finish(old, "failed", error="invalid_output")
+        before = await ledger.snapshot()
+        await ledger.initialize()
+        conversation = await ledger.reserve(CONVERSATION_WORK_PACKAGE, "conversation-message")
+        after = await ledger.snapshot()
+        assert after["attempts"][:-1] == before["attempts"]
+        assert after["total_limit"] == before["total_limit"]
+        assert after["package_limit"] == before["package_limit"]
+        assert after["attempts"][-1]["attempt_id"] == conversation
+        assert after["packages"] == {"P5-WP02": 1, "P11-WP01": 1}
+
     run(scenario())
 
 

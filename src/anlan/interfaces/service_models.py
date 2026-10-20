@@ -6,6 +6,12 @@ import httpx
 from anlan.infrastructure.budget import CONSOLE_WORK_PACKAGE, BudgetLedger
 from anlan.interfaces.runtime import postgres_service
 from anlan.llm.config import ModelConfig
+from anlan.llm.conversation import (
+    ConversationModelPair,
+    DeepSeekChatResponder,
+    DeepSeekIntentClassifier,
+    ScriptedConversationModel,
+)
 from anlan.llm.material import DeepSeekAnalyzer
 from anlan.llm.perception import DeepSeekPerceptionModel
 from anlan.workflows.material_analysis import OfflineAnalyzer
@@ -48,6 +54,20 @@ class ServiceModels:
             return DeepSeekPerceptionModel(self.config, self.client, self.ledger,
                                            work_package=CONSOLE_WORK_PACKAGE)
         return self.model_factory()
+
+    def conversation(self):
+        """Create operation-local models so gateway counters cannot cross messages."""
+        if self.live:
+            if self.client is None:
+                raise RuntimeError("Service model lifespan is not active")
+            return ConversationModelPair(
+                classifier=DeepSeekIntentClassifier(self.config, self.client, self.ledger),
+                responder=DeepSeekChatResponder(self.config, self.client, self.ledger),
+            )
+        return ConversationModelPair(
+            classifier=ScriptedConversationModel(),
+            responder=ScriptedConversationModel(),
+        )
 
     async def public_info(self):
         value = {"material_mode": self.material_mode, "model_mode": self.model_mode,
