@@ -282,7 +282,7 @@ class ConversationStore:
                 message = await self._owned_message(conn, conversation_id, message_id)
                 if message["status"] != "pending":
                     if message["status"] == status and message["result"] == result:
-                        return self._message(message)
+                        return message["result"]
                     raise InvalidTransition("消息已完成且结果不可覆盖")
                 cursor = await conn.execute(
                     "UPDATE anlan_v2.conversation_messages SET status=%s,result=%s,"
@@ -294,7 +294,7 @@ class ConversationStore:
                     "WHERE conversation_id=%s",
                     (conversation_id,),
                 )
-                return self._message(await cursor.fetchone())
+                return (await cursor.fetchone())["result"]
 
     @staticmethod
     async def _row(conn, identity, conversation_id, *, lock=False):

@@ -70,12 +70,13 @@ def test_messages_have_monotonic_order_and_survive_restart(dsn):  # noqa: F811
         first = await store.reserve_message(
             OWNER, conversation["conversation_id"], "ordered-1", 1, "第一条"
         )
-        await store.finish_message(
+        first_result = {"status": "assistant_completed", "text": "已收到第一条"}
+        assert await store.finish_message(
             OWNER,
             conversation["conversation_id"],
             first["message_id"],
-            {"status": "assistant_completed", "text": "已收到第一条"},
-        )
+            first_result,
+        ) == first_result
         second = await store.reserve_message(
             OWNER, conversation["conversation_id"], "ordered-2", 2, "第二条"
         )
@@ -209,8 +210,7 @@ def test_failed_message_releases_the_active_writer_slot(dsn):  # noqa: F811
         failed = await store.fail_message(
             OWNER, conversation["conversation_id"], first["message_id"], "classifier_failure"
         )
-        assert failed["status"] == "failed"
-        assert failed["result"] == {"error_category": "classifier_failure"}
+        assert failed == {"error_category": "classifier_failure"}
         second = await store.reserve_message(
             OWNER, conversation["conversation_id"], "failure-2", 2, "重试"
         )
