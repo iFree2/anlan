@@ -185,8 +185,9 @@ class PerceptionRuntime:
                         report["requests_this_run"] = int(report["attempt_id"] is not None)
                     await self._finish(service, identity, row, event, report)
                     raise
-                except Exception:
+                except Exception as exc:
                     report["stop_reason"] = "collection_unavailable"
+                    report["collection_error_type"] = type(exc).__name__
                     report["observations"] = progress.get("observations", report["observations"])
                 return await self._finish(
                     service, identity, row, event, report, cancel_event=signal

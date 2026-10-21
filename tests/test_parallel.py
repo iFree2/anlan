@@ -8,7 +8,7 @@ import pytest
 from test_context import SNAPSHOT
 from test_tools import NOW, OWNER
 
-from anlan.common.errors import AccessDenied, InvalidTransition
+from anlan.common.errors import AccessDenied, InvalidTransition, TaskBusy
 from anlan.tools.queries import FactTools
 
 REFS = {"worker_id": "worker-001", "qualification_type": "welding", "area_id": "area-001"}
@@ -17,6 +17,23 @@ REFS = {"worker_id": "worker-001", "qualification_type": "welding", "area_id": "
 class Service:
     async def get(self, identity, task_id):
         return copy.deepcopy(SNAPSHOT)
+
+
+async def test_snapshot_reader_waits_for_transient_ui_read_locks_without_repeating_tools():
+    class BusyRead(Service):
+        calls = 0
+
+        async def get(self, identity, task_id):
+            self.calls += 1
+            if self.calls in {1, 3}:
+                raise TaskBusy("concurrent UI snapshot")
+            return await super().get(identity, task_id)
+
+    service = BusyRead()
+    result = await collect(service=service)
+    assert service.calls == 4
+    assert result["collection"]["tool_calls"] == 3
+    assert result["collection"]["material_unchanged"] is True
 
 
 class Memory:

@@ -8,7 +8,7 @@ from uuid import uuid4
 
 from pydantic import Field
 
-from anlan.common.errors import InvalidTransition
+from anlan.common.errors import InvalidTransition, TaskBusy
 from anlan.common.models import StrictModel
 from anlan.knowledge.tool import KnowledgeObservation, KnowledgeParameters, query_knowledge
 from anlan.tools.contracts import FactReferences, ToolResult
@@ -19,6 +19,16 @@ WORK_PACKAGE = "P4-WP01"
 class CollectionLimits(StrictModel):
     tool_calls: int = Field(default=3, ge=0, le=3, strict=True)
     timeout_seconds: float = Field(default=10, gt=0, le=30)
+
+
+async def read_material_snapshot(service, identity, task_id):
+    """Wait briefly for read-side advisory locks; never repeat tools or model calls."""
+    async with asyncio.timeout(2):
+        while True:
+            try:
+                return await service.get(identity, task_id)
+            except TaskBusy:
+                await asyncio.sleep(0.05)
 
 
 def canonical_observations(observations):
@@ -65,7 +75,7 @@ def source_conflicts(observations):
 async def collect_parallel(service, identity, task_id, references, question, tools,
                            knowledge_store, memory_store, *, parallel=True, limits=None,
                            cancel_event=None, trace=None, progress=None):
-    snapshot = copy.deepcopy(await service.get(identity, task_id))
+    snapshot = copy.deepcopy(await read_material_snapshot(service, identity, task_id))
     # Authorization deliberately precedes clocks, parameters and all other dependencies.
     limits = limits or CollectionLimits()
     refs = FactReferences.model_validate(references)
@@ -209,7 +219,7 @@ async def collect_parallel(service, identity, task_id, references, question, too
         progress["observations"] = copy.deepcopy(observations)
         progress["rejected_observations"] = copy.deepcopy(rejected)
     # Read-only safety finalization has a separate bounded 2s allowance. No child is live here.
-    current = await asyncio.wait_for(service.get(identity, task_id), timeout=2)
+    current = await read_material_snapshot(service, identity, task_id)
     if current != snapshot:
         raise InvalidTransition("采集期间材料发生变化；拒绝混合版本")
     if cancel_event is not None and cancel_event.is_set():
