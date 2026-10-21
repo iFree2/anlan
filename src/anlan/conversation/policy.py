@@ -1,6 +1,7 @@
 """Pure deterministic conversation routing; business writes are explicit."""
 
 from enum import StrEnum
+from typing import Literal
 
 from pydantic import Field
 
@@ -28,6 +29,8 @@ class RouteDecision(StrictModel):
     fields: dict[FieldName, Text] = Field(default_factory=dict, max_length=4)
     active_task_id: NonEmpty | None = None
     business_write: bool = False
+    task_revision: int | None = Field(default=None, strict=True, ge=1)
+    task_status: Literal["analyzing", "waiting_input", "awaiting_review"] | None = None
 
 
 def decide(state: ConversationState, proposal: IntentProposal) -> RouteDecision:

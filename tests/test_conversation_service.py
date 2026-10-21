@@ -413,3 +413,71 @@ def test_model_failures_are_sanitized_durable_and_make_zero_business_writes(
         assert "secret" not in str(result)
 
     run(scenario())
+
+
+def test_policy_conflict_is_durable_and_releases_pending_slot(dsn):  # noqa: F811
+    async def scenario():
+        model = ProposedModel([("confirm_pending_intent",), ("casual_chat",)])
+        subject = ConversationService(
+            ConversationStore(dsn), CountingFactory(model), FakeWorkflow()
+        )
+        conversation = await subject.create(OWNER, request_id=unique("policy"))
+        invalid = dict(
+            identity=OWNER,
+            conversation_id=conversation["conversation_id"],
+            request_id="invalid",
+            expected_revision=1,
+            text="确认",
+        )
+        with pytest.raises(InvalidTransition):
+            await subject.message(**invalid)
+        with pytest.raises(InvalidTransition):
+            await subject.message(**invalid)
+        recovered = await subject.message(
+            OWNER,
+            conversation["conversation_id"],
+            request_id="next",
+            expected_revision=2,
+            text="你好",
+        )
+        assert recovered["messages"][-1]["role"] == "assistant"
+
+    run(scenario())
+
+
+def test_workflow_conflict_replay_preserves_exception_semantics(dsn):  # noqa: F811
+    async def scenario():
+        class ConflictWorkflow(FakeWorkflow):
+            async def start(self, *args, **kwargs):
+                raise InvalidTransition("task conflict")
+
+        model = ProposedModel(
+            [
+                ("hot_work_candidate", {"work_object_description": "V101"}, True),
+                ("confirm_pending_intent",),
+            ]
+        )
+        subject = ConversationService(
+            ConversationStore(dsn), CountingFactory(model), ConflictWorkflow()
+        )
+        state = await subject.create(OWNER, request_id=unique("workflow-conflict"))
+        state = await subject.message(
+            OWNER,
+            state["conversation_id"],
+            request_id="candidate",
+            expected_revision=1,
+            text="申请",
+        )
+        arguments = dict(
+            identity=OWNER,
+            conversation_id=state["conversation_id"],
+            request_id="confirm",
+            expected_revision=state["revision"],
+            text="确认",
+        )
+        with pytest.raises(InvalidTransition):
+            await subject.message(**arguments)
+        with pytest.raises(InvalidTransition):
+            await subject.message(**arguments)
+
+    run(scenario())

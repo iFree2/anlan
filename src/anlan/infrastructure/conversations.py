@@ -183,6 +183,17 @@ class ConversationStore:
                 await self._row(conn, identity, conversation_id, lock=True)
                 await self._owned_message(conn, conversation_id, message_id)
                 cursor = await conn.execute(
+                    "SELECT * FROM anlan_v2.pending_intents "
+                    "WHERE conversation_id=%s AND source_message_id=%s "
+                    "ORDER BY revision DESC",
+                    (conversation_id, message_id),
+                )
+                previous = await cursor.fetchone()
+                if previous is not None:
+                    if previous["candidate"] != candidate or previous["status"] != "pending":
+                        raise InvalidTransition("相同消息的待确认意图不可覆盖")
+                    return self._pending(previous)
+                cursor = await conn.execute(
                     "SELECT COALESCE(MAX(revision),0)+1 AS revision "
                     "FROM anlan_v2.pending_intents WHERE conversation_id=%s",
                     (conversation_id,),
@@ -259,23 +270,33 @@ class ConversationStore:
                 )
                 return self._message(await cursor.fetchone())
 
-    async def reject_pending_intent(self, identity, conversation_id) -> dict:
+    async def reject_pending_intent(
+        self, identity, conversation_id, source_message_id=None
+    ) -> dict:
         return await self._resolve_pending_intent(
-            identity, conversation_id, intent_status="rejected"
+            identity, conversation_id, intent_status="rejected",
+            source_message_id=source_message_id, action="reject_pending_intent"
         )
 
-    async def confirm_pending_intent(self, identity, conversation_id) -> dict:
+    async def confirm_pending_intent(
+        self, identity, conversation_id, source_message_id=None
+    ) -> dict:
         return await self._resolve_pending_intent(
-            identity, conversation_id, intent_status="confirmed"
+            identity, conversation_id, intent_status="confirmed",
+            source_message_id=source_message_id, action="submit_task_input"
         )
 
     async def _resolve_pending_intent(
-        self, identity, conversation_id, *, intent_status
+        self, identity, conversation_id, *, intent_status, source_message_id, action
     ) -> dict:
         async with await self.connect() as conn:
             async with conn.transaction():
                 row = await self._row(conn, identity, conversation_id, lock=True)
                 if row["pending_intent_id"] is None:
+                    if source_message_id and await self._route_applied(
+                        conn, conversation_id, source_message_id, action
+                    ):
+                        return await self.get(identity, conversation_id, conn=conn)
                     raise InvalidTransition("没有可处理的待确认意图")
                 await conn.execute(
                     "UPDATE anlan_v2.pending_intents SET status=%s "
@@ -290,23 +311,27 @@ class ConversationStore:
                 )
                 return await self.get(identity, conversation_id, conn=conn)
 
-    async def pause_task(self, identity, conversation_id) -> dict:
+    async def pause_task(self, identity, conversation_id, source_message_id=None) -> dict:
         return await self._change_task_binding(
-            identity, conversation_id, expected_status="active_hot_work", status="paused"
+            identity, conversation_id, expected_status="active_hot_work", status="paused",
+            source_message_id=source_message_id, action="pause_task"
         )
 
-    async def activate_task(self, identity, conversation_id) -> dict:
+    async def activate_task(self, identity, conversation_id, source_message_id=None) -> dict:
         return await self._change_task_binding(
-            identity, conversation_id, expected_status="paused", status="active_hot_work"
+            identity, conversation_id, expected_status="paused", status="active_hot_work",
+            source_message_id=source_message_id, action="recover_task"
         )
 
-    async def detach_task(self, identity, conversation_id) -> dict:
+    async def detach_task(self, identity, conversation_id, source_message_id=None) -> dict:
         return await self._change_task_binding(
             identity,
             conversation_id,
             expected_status=("active_hot_work", "paused"),
             status="idle",
             detach=True,
+            source_message_id=source_message_id,
+            action="detach_task",
         )
 
     async def finish_message(
@@ -381,6 +406,8 @@ class ConversationStore:
         expected_status,
         status,
         detach=False,
+        source_message_id=None,
+        action=None,
     ):
         expected = (
             (expected_status,) if isinstance(expected_status, str) else tuple(expected_status)
@@ -389,6 +416,13 @@ class ConversationStore:
             async with conn.transaction():
                 row = await self._row(conn, identity, conversation_id, lock=True)
                 if row["status"] not in expected or row["active_task_id"] is None:
+                    target_reached = row["status"] == status and (
+                        not detach or row["active_task_id"] is None
+                    )
+                    if target_reached and source_message_id and await self._route_applied(
+                        conn, conversation_id, source_message_id, action
+                    ):
+                        return await self.get(identity, conversation_id, conn=conn)
                     raise InvalidTransition("当前会话任务状态不允许该操作")
                 await conn.execute(
                     "UPDATE anlan_v2.conversations SET status=%s,active_task_id=%s,"
@@ -397,6 +431,17 @@ class ConversationStore:
                     (status, None if detach else row["active_task_id"], conversation_id),
                 )
                 return await self.get(identity, conversation_id, conn=conn)
+
+    @staticmethod
+    async def _route_applied(conn, conversation_id, message_id, action):
+        cursor = await conn.execute(
+            "SELECT 1 FROM anlan_v2.conversation_routes r "
+            "JOIN anlan_v2.conversation_messages m ON m.message_id=r.message_id "
+            "WHERE r.message_id=%s AND m.conversation_id=%s "
+            "AND r.decision->>'action'=%s",
+            (message_id, conversation_id, action),
+        )
+        return await cursor.fetchone() is not None
 
     @staticmethod
     async def _row(conn, identity, conversation_id, *, lock=False):

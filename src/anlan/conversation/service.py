@@ -41,7 +41,7 @@ class ConversationService:
             identity, conversation_id, request_id, expected_revision, text
         )
         if reservation.get("result") is not None:
-            return reservation["result"]
+            return self._replay_result(reservation["result"])
         async with self.store.operation_lock(
             identity, conversation_id, reservation["message_id"]
         ):
@@ -70,7 +70,27 @@ class ConversationService:
                         reservation["message_id"],
                         "classifier_failure",
                     )
-                decision = decide(state, proposal)
+                try:
+                    decision = decide(state, proposal)
+                except InvalidTransition:
+                    await self.store.fail_message(
+                        identity,
+                        conversation_id,
+                        reservation["message_id"],
+                        "policy_conflict",
+                    )
+                    raise
+                if (
+                    decision.action is RouteAction.SUBMIT_TASK_INPUT
+                    and projection is not None
+                    and projection.get("status") != "unavailable"
+                ):
+                    decision = decision.model_copy(
+                        update={
+                            "task_revision": projection["revision"],
+                            "task_status": projection["status"],
+                        }
+                    )
                 await self.store.save_route(
                     identity,
                     conversation_id,
@@ -130,7 +150,7 @@ class ConversationService:
             )
             assistant = "请确认是否按以上信息继续；确认前不会创建或修改动火任务。"
         elif action is RouteAction.REJECT_PENDING_INTENT:
-            await self.store.reject_pending_intent(identity, conversation_id)
+            await self.store.reject_pending_intent(identity, conversation_id, message_id)
             assistant = "已放弃这次待确认内容，没有修改动火任务。"
         elif action is RouteAction.START_HOT_WORK:
             workflow = await self.workflow.start(
@@ -142,31 +162,39 @@ class ConversationService:
             projection = workflow.projection.model_dump(mode="json")
             assistant = "已按你的确认创建动火材料任务；后续状态以侧栏为准。"
         elif action is RouteAction.SUBMIT_TASK_INPUT:
-            if projection is None or decision.active_task_id is None:
+            if decision.active_task_id is None:
                 raise InvalidTransition("活动任务投影不可用")
+            task_revision = decision.task_revision
+            task_status = decision.task_status
+            if task_revision is None or task_status is None:
+                if projection is None or projection.get("status") == "unavailable":
+                    raise InvalidTransition("活动任务投影不可用")
+                task_revision, task_status = projection["revision"], projection["status"]
             workflow = await self.workflow.submit(
                 identity,
                 conversation_id,
                 message_id,
                 decision.active_task_id,
-                projection["revision"],
+                task_revision,
                 decision.fields,
-                projection["status"],
+                task_status,
             )
             if raw["pending_intent"] is not None:
-                await self.store.confirm_pending_intent(identity, conversation_id)
+                await self.store.confirm_pending_intent(
+                    identity, conversation_id, message_id
+                )
             projection = workflow.projection.model_dump(mode="json")
             assistant = "已提交补充材料；任务最新状态以侧栏为准。"
         elif action is RouteAction.PAUSE_TASK:
-            await self.store.pause_task(identity, conversation_id)
+            await self.store.pause_task(identity, conversation_id, message_id)
             assistant = "已暂停当前会话中的任务引导，业务任务本身未被取消。"
         elif action is RouteAction.RECOVER_TASK:
             workflow = await self.workflow.recover(identity, decision.active_task_id)
-            await self.store.activate_task(identity, conversation_id)
+            await self.store.activate_task(identity, conversation_id, message_id)
             projection = workflow.projection.model_dump(mode="json")
             assistant = "已恢复当前任务引导；任务最新状态以侧栏为准。"
         elif action is RouteAction.DETACH_TASK:
-            await self.store.detach_task(identity, conversation_id)
+            await self.store.detach_task(identity, conversation_id, message_id)
             projection = None
             assistant = "已结束当前会话的任务引导，业务任务本身没有被修改。"
         elif action is RouteAction.ASK_TASK_SWITCH:
@@ -278,3 +306,9 @@ class ConversationService:
             pending_intent=state.pending_intent,
             task_projection=projection,
         )
+
+    @staticmethod
+    def _replay_result(result):
+        if result.get("error_category") in {"policy_conflict", "workflow_conflict"}:
+            raise InvalidTransition("消息处理冲突；请读取最新会话状态")
+        return result
