@@ -15,4 +15,6 @@
 - 用户改动：16路径32行译文、.idea和learning-log整文件保持unstaged；不恢复或整体stage工作树。旧项目只读。AI编写/运行不升级本人掌握：[能力矩阵](capability-matrix.md)、[学习记录](learning-log.md)、[P8学习五题](phases/phase-08-console/wp01-learning.md)。
 - 用户已要求把企业级评测优化方向写入仓库；新增[P9评测强化计划](phases/phase-09-enterprise-evaluation/plan.md)与[验收条件](phases/phase-09-enterprise-evaluation/acceptance.md)。2026-10-14另完成一个真实DeepSeek单案例评测，用于讲解数据→调用→自动评分→人工复核，不计作P9工作包或模型可靠性证明；新数据集、人工金标和统一评分器仍未实施。推荐首包为P9-WP01评测合同与统一报告。原自动化2-0已删除，长期授权不等于无限扩栈或无限付费。
 
+- 2026-10-21 P11对话入口已完成本地 scripted 有限工程验收：对话 + 任务侧栏、二次确认、受控补充/新建/切换、PG幂等/恢复及事件/核查可达已验。49个SYNTHETIC路由案例全部已见，修复前38/49、修复后40/49，不声称未见泛化或live质量。wheel离源码启动、重启后同会话/任务恢复已验；本地冻结学习账本前后46/100且P11-WP01零记录，不代表云端余额。本次0真实模型请求、未SSH/未部署，原DeepSeek线上版未发布本改造。见[P11验收](phases/phase-11-conversation/acceptance.md)与[Gate](phases/phase-11-conversation/evidence/gate-report.md)。
+
 冷启动：适用AGENTS → 本状态 → P8交接/部署与ADR014 → Git/index及最小必要smoke。云端服务保持运行；本地PG17/55432仅供offline学习和独立测试授权，系统PG10未动。管理凭据只在连接进程中使用，不打印、不提交；不要重复bootstrap/activate，不为证明完成重复付费实验。

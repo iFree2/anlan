@@ -852,7 +852,7 @@ git commit -m "feat: replace console form with conversation ui"
 - Create: `scripts/smoke_conversation.py`
 - Test: `tests/test_phase_gate.py`
 
-- [ ] **Step 1: Write the failing evaluator tests**
+- [x] **Step 1: Write the failing evaluator tests**
 
 The scorer must separate routing quality from control-flow safety:
 
@@ -870,7 +870,7 @@ def test_score_reports_false_activation_and_confirmation_separately():
 
 Also test per-slice counts, malformed results, duplicate IDs, empty slices, field-extraction exact match, and deterministic JSON ordering.
 
-- [ ] **Step 2: Run evaluator tests and verify they fail**
+- [x] **Step 2: Run evaluator tests and verify they fail**
 
 Run:
 
@@ -880,7 +880,7 @@ Run:
 
 Expected: import fails because the evaluator does not exist.
 
-- [ ] **Step 3: Create a versioned initial dataset**
+- [x] **Step 3: Create a versioned initial dataset**
 
 Start with at least 40 reviewed SYNTHETIC cases split across:
 
@@ -894,15 +894,15 @@ Start with at least 40 reviewed SYNTHETIC cases split across:
 
 Each case includes `case_id`, `slice`, `conversation_state`, visible history, input, expected intent, expected fields, whether confirmation is required, and maximum allowed business writes. Freeze case IDs and document that the set is a development baseline, not production accuracy proof.
 
-- [ ] **Step 4: Implement the offline evaluator and smoke script**
+- [x] **Step 4: Implement the offline evaluator and smoke script**
 
 The evaluator consumes saved proposals/results and never calls the provider by default. Report intent confusion counts, hot-work recall, chat false positives, confirmation coverage, field exact match, and unconfirmed business writes. `scripts/smoke_conversation.py` runs the scripted API sequence across process boundaries and writes to a new output path only.
 
-- [ ] **Step 5: Add safety gates to the phase regression**
+- [x] **Step 5: Add safety gates to the phase regression**
 
 Extend `tests/test_phase_gate.py` so a release fails when scripted scenarios create a task before confirmation, mutate a task during chat, lose the active task after refresh, or produce any unconfirmed business write. Do not set an arbitrary live-model quality threshold from the initial 40 development cases.
 
-- [ ] **Step 6: Run the evaluation and smoke tests**
+- [x] **Step 6: Run the evaluation and smoke tests**
 
 Run:
 
@@ -914,7 +914,7 @@ Run:
 
 Expected: tests pass; both commands create new reports; scripted safety count `unconfirmed_business_writes` is zero. The report must label scripted routing separately from any live model result.
 
-- [ ] **Step 7: Commit evaluation assets**
+- [x] **Step 7: Commit evaluation assets**
 
 ```powershell
 git add evals/conversation-routing-v1 evals/evaluate_conversation_routing.py scripts/smoke_conversation.py tests/test_conversation_evaluation.py tests/test_phase_gate.py
@@ -932,7 +932,7 @@ git commit -m "test: add conversation routing safety gate"
 - Create: `docs/phases/phase-11-conversation/handoff.md`
 - Create: `docs/phases/phase-11-conversation/evidence/gate-report.md`
 
-- [ ] **Step 1: Update documentation from actual behavior only**
+- [x] **Step 1: Update documentation from actual behavior only**
 
 Document the conversation start command, scripted demonstration, chat/task boundary, second confirmation, persistence, task sidebar, SSE semantics, model-budget package, and known limitations. State explicitly that:
 
@@ -942,7 +942,7 @@ Document the conversation start command, scripted demonstration, chat/task bound
 - the live conversation package has not been exercised unless a separately authorized report exists;
 - existing P9 and P10 plans remain independent and incomplete.
 
-- [ ] **Step 2: Run focused tests with real PostgreSQL**
+- [x] **Step 2: Run focused tests with real PostgreSQL**
 
 Run:
 
@@ -954,7 +954,7 @@ scripts/dev-postgres.ps1 -Action Env
 
 Expected: all selected tests pass, PostgreSQL-marked tests execute, and no network model call occurs.
 
-- [ ] **Step 3: Run the full application gate**
+- [x] **Step 3: Run the full application gate**
 
 Run:
 
@@ -965,11 +965,11 @@ Run:
 
 Expected: all executed tests pass and Ruff reports no diagnostics. Report any environmental skips separately; do not count them as passing.
 
-- [ ] **Step 4: Run package and clean-start checks**
+- [x] **Step 4: Run package and clean-start checks**
 
 Build a wheel, inspect that SQL013/SQL014 and console assets are included, install it into an isolated environment, start the scripted service against the test database, and run `scripts/smoke_conversation.py` outside the source tree. Confirm process restart recovery and that the budget snapshot is unchanged by scripted validation.
 
-- [ ] **Step 5: Perform the browser acceptance path**
+- [x] **Step 5: Perform the browser acceptance path**
 
 In the actual browser, execute:
 
@@ -977,15 +977,17 @@ In the actual browser, execute:
 
 Also verify rejection, pause/resume, stale revision, mobile layout, and event/review details. Record screenshots and a sanitized report. Never include the bearer token, model key, DSN, raw private configuration, or hidden model output.
 
-- [ ] **Step 6: Stop before any live provider request and obtain the required budget decision**
+- [ ] **Step 6: Deferred live-provider budget decision**
 
 Read the cloud ledger snapshot and report the shared remaining total plus `P8-WP04` remaining count. Request explicit user confirmation for using the new `P11-WP01` package and state the proposed maximum number of calls for a minimal validation. Without that confirmation, finish the engineering gate as scripted-only and mark live intent/chat quality unverified.
+
+Actual: deferred as a whole. No cloud credential access or cloud-ledger read was performed in these implementation batches. Local scripted engineering verification is complete independently; the frozen local 46/100 count must not be used as cloud remaining-budget evidence.
 
 - [ ] **Step 7: If separately authorized, run a minimal live evaluation**
 
 Use reviewed SYNTHETIC cases only. Reserve each call before HTTP, perform no automatic retries, preserve failures, and compare the live proposals against the frozen dataset. A valid minimum is one explicit hot-work candidate, one ordinary chat case, one ambiguous/non-application case, plus any required chat-response calls within the user-approved maximum. Do not claim production accuracy from this sample.
 
-- [ ] **Step 8: Record final evidence and commit only feature-owned paths**
+- [x] **Step 8: Record final evidence and commit only feature-owned paths**
 
 ```powershell
 git add README.md docs/architecture.md docs/capability-matrix.md docs/phases/phase-11-conversation

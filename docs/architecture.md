@@ -1,5 +1,13 @@
 # 架构：当前基线与已确定的演进边界
 
+## P11 受控对话入口（本地 scripted 已验）
+
+`ConversationService` 位于 HTTP/控制台与原 `MaterialService` 之间。模型适配器只产生严格 `IntentProposal`，不拥有工作流工具；确定性 policy 根据受信会话状态决定回复、待确认、补充、暂停、恢复或切换。`WorkflowAdapter` 是对话层唯一可调用 `start/resume/revise/recover` 的边界；任务投影仅从原服务读取。
+
+SQL013 将 conversation/message/route/pending intent 与材料 checkpoint 分存，会话 revision、request_id、事务锁与幂等回执保证重放不重复创建。SQL014 只将 `P11-WP01` 加入原共享预占账本合法包名，不重置原尝试或上限。活动任务中的新申请强制持久化为 `switch_or_create_task`；宿主只接受明确“新建”选择，`switch_task.target_task_id` 还须经任务归属读取校验。所有待确认类型共用宿主明确肯定短语门；模型即使将“不确认/还没确认/解释确认流程”误报为确认也不会 `START/SUBMIT`。活动任务的显式否定字段在宿主层转为只回复，不依赖 scripted 分类正确。
+
+SSE 传输带摘要游标的最新语义快照，断开后通过 GET 重读，不追求逐 token exactly-once。闲聊失败只将该消息标为失败，不改任务；模型输出无效时也不产生业务写入。当前运行验收只覆盖 scripted_double 控制流，live 意图/闲聊质量、云端发布与真实身份仍未验证。
+
 ## P8轻量操作台与云端学习部署（已实现）
 
 FastAPI同源页面由interfaces/console独立包提供。HTML/CSS/ES模块不引入前端构建服务。页面只存当前选择与输入，真实任务/事件/核查/反馈从PG读取；列表按tenant/user过滤，最近50事件/20核查采用独立bigserial入库顺序，不使用固定合成业务时间排序。
