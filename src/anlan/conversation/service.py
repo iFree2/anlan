@@ -71,6 +71,7 @@ class ConversationService:
                         reservation["message_id"],
                         "classifier_failure",
                     )
+                proposal = self._constrain_task_choice(state, text, proposal)
                 try:
                     decision = decide(state, proposal)
                 except InvalidTransition:
@@ -158,6 +159,8 @@ class ConversationService:
             if raw["pending_intent"] is not None:
                 fields = raw["pending_intent"]["candidate"].get("fields", {}) | fields
             candidate = proposal.model_dump(mode="json") | {"fields": fields}
+            if action is RouteAction.ASK_TASK_SWITCH:
+                candidate["intent"] = "switch_or_create_task"
             await self.store.set_pending_intent(
                 identity, conversation_id, message_id, candidate
             )
@@ -360,6 +363,35 @@ class ConversationService:
             ],
             pending_intent=state.pending_intent,
             task_projection=projection,
+        )
+
+    @staticmethod
+    def _constrain_task_choice(state, text, proposal):
+        """Require an explicit new-task selection before advancing a switch prompt."""
+        pending = state.pending_intent
+        if (
+            pending is None
+            or pending.kind != "switch_or_create_task"
+            or proposal.intent != "confirm_pending_intent"
+        ):
+            return proposal
+        normalized = text.strip().rstrip("。！! ")
+        explicit_new_choices = {
+            "新建",
+            "新建任务",
+            "创建新任务",
+            "新建另一项任务",
+            "明确新建另一项任务",
+        }
+        if normalized in explicit_new_choices:
+            return proposal
+        return proposal.model_copy(
+            update={
+                "intent": "casual_chat",
+                "fields": {},
+                "requires_confirmation": False,
+                "target_task_id": None,
+            }
         )
 
     @staticmethod

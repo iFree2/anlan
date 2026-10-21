@@ -45,6 +45,7 @@ class _ProviderIntentProposal(StrictModel):
     intent: IntentKind
     fields: dict[FieldName, Text] = Field(default_factory=dict, max_length=4)
     requires_confirmation: bool = False
+    target_task_id: NonEmpty | None = None
     user_explanation: NonEmpty
     classifier_version: str | None = None
 
@@ -157,6 +158,7 @@ class DeepSeekIntentClassifier:
                 intent=candidate.intent,
                 fields=candidate.fields,
                 requires_confirmation=candidate.requires_confirmation,
+                target_task_id=candidate.target_task_id,
                 user_explanation=candidate.user_explanation,
                 classifier_version=INTENT_PROMPT_VERSION,
             )
@@ -185,6 +187,8 @@ class DeepSeekIntentClassifier:
                                 "work_object_description、work_method_description、"
                                 "attachment_description；不得加入其他字段。switch_task 仅在用户"
                                 "明确说切换到某任务时设置 target_task_id，宿主仍会校验归属。"
+                                "当待处理意图是 switch_or_create_task 时，只有用户明确选择新建"
+                                "才返回 confirm_pending_intent；单独说确认不得推进。"
                                 "否定、尚未确认、疑问、引用他人话语、假设和知识咨询不得分类为确认"
                                 "或材料写入；确认必须是针对当前候选的整句明确肯定。活动任务中的"
                                 "明确字段补充才是 task_input_candidate，普通焊接知识问题仍是"
@@ -258,7 +262,16 @@ class ScriptedConversationModel:
         normalized = text.rstrip("。！! ")
         negative = any(
             phrase in text
-            for phrase in ("不确认", "不要确认", "还没确认", "尚未确认", "不是申请", "并非申请")
+            for phrase in (
+                "不确认",
+                "不要确认",
+                "还没确认",
+                "尚未确认",
+                "不是申请",
+                "并非申请",
+                "不想新建",
+                "不要新建",
+            )
         )
         question = any(mark in text for mark in ("?", "？")) or any(
             word in text for word in ("什么", "为什么", "怎么", "如何", "区别", "解释", "流程")
@@ -272,15 +285,28 @@ class ScriptedConversationModel:
             intent = "confirm_pending_intent"
             fields = {}
             confirmation = False
-        elif context.pending_intent and normalized in {
+        elif (
+            context.pending_intent
+            and context.pending_intent.kind != "switch_or_create_task"
+            and normalized in {
             "确认", "确认申请", "同意", "是的", "确认继续"
-        }:
+            }
+        ):
             intent = "confirm_pending_intent"
             fields = {}
             confirmation = False
         elif context.pending_intent and any(
             word in text
-            for word in ("不是", "取消", "取消申请", "否认", "不确认", "不要确认")
+            for word in (
+                "不是",
+                "取消",
+                "取消申请",
+                "否认",
+                "不确认",
+                "不要确认",
+                "不想新建",
+                "不要新建",
+            )
         ):
             intent = "reject_pending_intent"
             fields = {}

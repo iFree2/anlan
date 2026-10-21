@@ -191,6 +191,59 @@ async def test_live_classifier_owns_version_when_provider_omits_or_blanks_it(pro
     assert proposal.classifier_version == "conversation-intent-v2"
 
 
+@pytest.mark.parametrize(
+    ("provider_target", "expected_target"),
+    [(None, None), ("task-owned", "task-owned"), ("omitted", None)],
+)
+@pytest.mark.asyncio
+async def test_live_classifier_preserves_optional_target_task_id(
+    provider_target, expected_target
+):
+    candidate = {
+        "intent": "switch_task" if expected_target else "casual_chat",
+        "fields": {},
+        "requires_confirmation": False,
+        "user_explanation": "bounded proposal",
+    }
+    if provider_target != "omitted":
+        candidate["target_task_id"] = provider_target
+
+    async with httpx.AsyncClient(
+        transport=httpx.MockTransport(lambda request: model_response(candidate))
+    ) as client:
+        proposal = await DeepSeekIntentClassifier(
+            ModelConfig(api_key="test"), client, FakeLedger()
+        ).classify(context("switch request"), run_id="message-target")
+
+    assert proposal.target_task_id == expected_target
+
+
+@pytest.mark.asyncio
+async def test_live_switch_prompt_keeps_task_ownership_with_the_host():
+    requests = []
+
+    def handler(request):
+        requests.append(json.loads(request.content))
+        return model_response(
+            {
+                "intent": "switch_task",
+                "fields": {},
+                "requires_confirmation": False,
+                "target_task_id": "task-owned",
+                "user_explanation": "explicit task selection",
+            }
+        )
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        await DeepSeekIntentClassifier(
+            ModelConfig(api_key="test"), client, FakeLedger()
+        ).classify(context("切换到 task-owned"), run_id="message-owned")
+
+    prompt = requests[0]["messages"][0]["content"]
+    assert "target_task_id" in prompt
+    assert "宿主仍会校验归属" in prompt
+
+
 @pytest.mark.asyncio
 async def test_context_is_bounded_to_twelve_visible_messages_and_sixteen_kib():
     requests = []

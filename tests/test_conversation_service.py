@@ -314,6 +314,75 @@ def test_new_task_choice_requires_confirmation_and_switch_checks_owned_task(dsn)
     run(scenario())
 
 
+def test_active_hot_candidate_requires_explicit_new_task_choice(dsn):  # noqa: F811
+    async def scenario():
+        model = ProposedModel(
+            [
+                ("hot_work_candidate", {"work_object_description": "V101 管线补焊"}, True),
+                ("confirm_pending_intent",),
+                ("hot_work_candidate", {"work_object_description": "V202 管线补焊"}, True),
+                ("confirm_pending_intent",),
+                ("reject_pending_intent",),
+            ]
+        )
+        workflow = FakeWorkflow()
+        subject = ConversationService(
+            ConversationStore(dsn), CountingFactory(model), workflow
+        )
+        state = await subject.create(OWNER, request_id=unique("active-candidate"))
+        state = await subject.message(
+            OWNER,
+            state["conversation_id"],
+            request_id="first",
+            expected_revision=state["revision"],
+            text="V101 管线补焊",
+        )
+        state = await subject.message(
+            OWNER,
+            state["conversation_id"],
+            request_id="confirm-first",
+            expected_revision=state["revision"],
+            text="确认申请",
+        )
+        first_task = state["active_task_id"]
+        calls_before_choice = workflow.calls.copy()
+
+        state = await subject.message(
+            OWNER,
+            state["conversation_id"],
+            request_id="candidate-second",
+            expected_revision=state["revision"],
+            text="另一项 V202 管线补焊",
+        )
+        assert state["pending_intent"]["kind"] == "switch_or_create_task"
+        assert state["active_task_id"] == first_task
+        assert workflow.calls == calls_before_choice
+
+        unchanged = await subject.message(
+            OWNER,
+            state["conversation_id"],
+            request_id="generic-confirm",
+            expected_revision=state["revision"],
+            text="确认",
+        )
+        assert unchanged["pending_intent"]["kind"] == "switch_or_create_task"
+        assert unchanged["active_task_id"] == first_task
+        assert workflow.calls == calls_before_choice
+
+        rejected = await subject.message(
+            OWNER,
+            unchanged["conversation_id"],
+            request_id="reject-new",
+            expected_revision=unchanged["revision"],
+            text="我不想新建",
+        )
+        assert rejected["pending_intent"] is None
+        assert rejected["active_task_id"] == first_task
+        assert workflow.calls == calls_before_choice
+
+    run(scenario())
+
+
 def test_switch_can_only_bind_a_task_verified_for_the_current_identity(dsn):  # noqa: F811
     async def scenario():
         model = ProposedModel(
