@@ -127,6 +127,8 @@ def test_candidate_then_confirmation_creates_exactly_one_task(dsn):  # noqa: F81
         )
         assert candidate["status"] == "pending_confirmation"
         assert candidate["task_projection"] is None
+        assert candidate["messages"][0]["status"] == "completed"
+        assert await subject.snapshot(OWNER, conversation["conversation_id"]) == candidate
         assert workflow.calls == []
 
         started = await subject.message(

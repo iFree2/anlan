@@ -14,12 +14,15 @@ from pydantic import Field, ValidationError
 
 from anlan.common.errors import AccessDenied, InvalidTransition, TaskBusy
 from anlan.common.models import Identity, StrictModel
+from anlan.conversation.service import ConversationService
 from anlan.infrastructure.conversations import ConversationStore
 from anlan.infrastructure.events import EventStore
 from anlan.infrastructure.perception import PerceptionStore
 from anlan.infrastructure.postgres import initialize_database
 from anlan.interfaces.console.routes import install_console
 from anlan.interfaces.console.service import ConsoleService
+from anlan.interfaces.conversation_routes import install_conversation_routes
+from anlan.interfaces.conversation_runtime import WorkflowAdapter
 from anlan.interfaces.event_runtime import process_event
 from anlan.interfaces.perception_runtime import Feedback, PerceptionRuntime
 from anlan.interfaces.service_models import ServiceModels
@@ -124,6 +127,9 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
         raise HTTPException(401, detail="authentication_required")
 
     Actor = Annotated[Identity, Depends(who)]
+    conversation_service = ConversationService(
+        conversations, models.conversation, WorkflowAdapter(models.material_service)
+    )
 
     async def safe_error(request, exc):
         if isinstance(exc, AccessDenied):
@@ -158,6 +164,8 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
     async def task_read(identity, task):
         async with models.material_service() as service:
             return await service.get(identity, task)
+
+    install_conversation_routes(app, conversation_service, Actor)
 
     @app.get("/healthz")
     async def health():

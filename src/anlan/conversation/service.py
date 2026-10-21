@@ -183,9 +183,12 @@ class ConversationService:
         await self.store.append_assistant_message(
             identity, conversation_id, message_id, assistant
         )
-        return await self.snapshot(identity, conversation_id)
+        latest = await self.store.get(identity, conversation_id)
+        return await self.snapshot_from_store(
+            identity, latest, completing_message_id=message_id
+        )
 
-    async def snapshot_from_store(self, identity, raw):
+    async def snapshot_from_store(self, identity, raw, *, completing_message_id=None):
         projection = await self._task_projection(identity, raw)
         visible = [
             {
@@ -193,7 +196,11 @@ class ConversationService:
                 "ordinal": item["ordinal"],
                 "role": item["role"],
                 "text": item["text"],
-                "status": item["status"],
+                "status": (
+                    "completed"
+                    if item["message_id"] == completing_message_id
+                    else item["status"]
+                ),
             }
             for item in raw["messages"]
         ]

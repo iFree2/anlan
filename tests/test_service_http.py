@@ -151,6 +151,53 @@ def test_real_http_sse_disconnect_reconnect_and_server_restart(dsn, tmp_path):  
         server.stop()
 
 
+def test_conversation_sse_disconnect_and_confirmation_survive_restart(dsn, tmp_path):  # noqa: F811
+    server = Server(dsn, tmp_path)
+    try:
+        server.start()
+        with server.client() as client:
+            created = client.post(
+                "/conversations", json={"request_id": "restart-" + uuid4().hex}
+            )
+            assert created.status_code == 200
+            conversation_id = created.json()["conversation_id"]
+            candidate = client.post(
+                f"/conversations/{conversation_id}/messages",
+                json={
+                    "request_id": "candidate",
+                    "expected_revision": 1,
+                    "text": "明天在一号罐区 V101 管线上补焊",
+                },
+            )
+            assert candidate.status_code == 200
+            assert candidate.json()["status"] == "pending_confirmation"
+            with client.stream("GET", f"/conversations/{conversation_id}/stream") as response:
+                assert response.status_code == 200
+                event_id, snapshot = read_snapshot(response)
+            assert event_id and snapshot == candidate.json()
+
+            server.stop()
+            server.start()
+            restored = client.get(f"/conversations/{conversation_id}")
+            assert restored.status_code == 200
+            assert restored.json() == snapshot
+            confirmed = client.post(
+                f"/conversations/{conversation_id}/messages",
+                json={
+                    "request_id": "confirmation",
+                    "expected_revision": restored.json()["revision"],
+                    "text": "确认申请",
+                },
+            )
+            assert confirmed.status_code == 200
+            task_id = confirmed.json()["active_task_id"]
+            assert task_id == confirmed.json()["task_projection"]["task_id"]
+            assert client.get(f"/tasks/{task_id}").status_code == 200
+            assert client.get(f"/conversations/{conversation_id}").json() == confirmed.json()
+    finally:
+        server.stop()
+
+
 @pytest.mark.parametrize("stop", ["cancel", "restart"])
 def test_review_disconnect_persistent_cancel_or_restart_recovery(dsn, tmp_path, stop):  # noqa: F811
     server = Server(dsn, tmp_path)
