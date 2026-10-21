@@ -76,7 +76,7 @@ async def test_live_mode_and_partial_usage_are_reported_with_http_double(tmp_pat
     report = json.loads(output.read_text(encoding="utf-8"))
     assert all(row["state"]["analysis_mode"] == "deepseek" for row in report["results"])
     assert report["configuration"]["requested_model"] == "deepseek-flash"
-    assert report["configuration"]["prompt_version"] == "materials-v1"
+    assert report["configuration"]["prompt_version"] == "materials-v2"
     assert len(report["configuration"]["prompt_sha256"]) == 64
     assert len(requests) == report["summary"]["request_attempts"] == 3
     assert report["summary"]["semantic_failures"] == 1
