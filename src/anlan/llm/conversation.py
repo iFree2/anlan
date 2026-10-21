@@ -7,10 +7,16 @@ from typing import Literal, Protocol
 from pydantic import Field, ValidationError
 
 from anlan.common.models import NonEmpty, StrictModel
-from anlan.conversation.contracts import ConversationStatus, IntentProposal, PendingIntent
+from anlan.conversation.contracts import (
+    ConversationStatus,
+    IntentKind,
+    IntentProposal,
+    PendingIntent,
+)
 from anlan.infrastructure.budget import CONVERSATION_WORK_PACKAGE
 from anlan.llm.contracts import AnalysisFailure
 from anlan.llm.gateway import ModelGateway
+from anlan.workflows.material_contracts import FieldName, Text
 
 INTENT_PROMPT_VERSION = "conversation-intent-v1"
 CHAT_PROMPT_VERSION = "conversation-chat-v1"
@@ -32,6 +38,14 @@ class ConversationContext(StrictModel):
 
 class AssistantReply(StrictModel):
     text: NonEmpty
+
+
+class _ProviderIntentProposal(StrictModel):
+    intent: IntentKind
+    fields: dict[FieldName, Text] = Field(default_factory=dict, max_length=4)
+    requires_confirmation: bool = False
+    user_explanation: NonEmpty
+    classifier_version: str | None = None
 
 
 class IntentClassifier(Protocol):
@@ -135,10 +149,16 @@ class DeepSeekIntentClassifier:
     ) -> IntentProposal:
         def parse(envelope):
             try:
-                proposal = IntentProposal.model_validate_json(_parse_message(envelope))
+                candidate = _ProviderIntentProposal.model_validate_json(_parse_message(envelope))
             except (ValidationError, ValueError, TypeError, KeyError, IndexError, AttributeError):
                 raise ValueError("Invalid intent proposal") from None
-            return proposal.model_copy(update={"classifier_version": INTENT_PROMPT_VERSION})
+            return IntentProposal(
+                intent=candidate.intent,
+                fields=candidate.fields,
+                requires_confirmation=candidate.requires_confirmation,
+                user_explanation=candidate.user_explanation,
+                classifier_version=INTENT_PROMPT_VERSION,
+            )
 
         try:
             proposal, _, _ = await self.gateway.call(
@@ -154,7 +174,7 @@ class DeepSeekIntentClassifier:
                             "content": (
                                 "你是受限意图分类器。只返回一个符合 IntentProposal 的 JSON 对象；"
                                 "不得执行工具、业务写入或输出隐藏推理。"
-                                "classifier_version 可留空占位。"
+                                "classifier_version 由宿主写入，响应中不需要提供。"
                             ),
                         },
                         {"role": "user", "content": serialize_context(context)},
@@ -228,6 +248,11 @@ class ScriptedConversationModel:
             intent = "reject_pending_intent"
             fields = {}
             confirmation = False
+        elif (
+            context.status == "active_hot_work"
+            and any(word in text for word in ("取消当前任务", "取消引导", "结束引导"))
+        ):
+            intent, fields, confirmation = "cancel_task", {}, False
         elif (
             any(word in text for word in ("暂停", "等一下"))
             and context.status == "active_hot_work"

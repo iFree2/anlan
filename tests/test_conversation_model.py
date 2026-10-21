@@ -118,6 +118,28 @@ async def test_live_classifier_rejects_unknown_intent_and_never_sends_identity()
     assert "tools" not in request
 
 
+@pytest.mark.parametrize("provider_version", [None, ""])
+@pytest.mark.asyncio
+async def test_live_classifier_owns_version_when_provider_omits_or_blanks_it(provider_version):
+    candidate = {
+        "intent": "casual_chat",
+        "fields": {},
+        "requires_confirmation": False,
+        "user_explanation": "普通对话",
+    }
+    if provider_version is not None:
+        candidate["classifier_version"] = provider_version
+
+    async with httpx.AsyncClient(
+        transport=httpx.MockTransport(lambda request: model_response(candidate))
+    ) as client:
+        proposal = await DeepSeekIntentClassifier(
+            ModelConfig(api_key="test"), client, FakeLedger()
+        ).classify(context("你好"), run_id="message-version")
+
+    assert proposal.classifier_version == "conversation-intent-v1"
+
+
 @pytest.mark.asyncio
 async def test_context_is_bounded_to_twelve_visible_messages_and_sixteen_kib():
     requests = []
@@ -238,3 +260,18 @@ def test_service_models_creates_fresh_conversation_pair_per_operation():
         import asyncio
 
         asyncio.run(client.aclose())
+
+
+@pytest.mark.asyncio
+async def test_scripted_cancel_rejects_pending_but_detaches_active_task():
+    model = ScriptedConversationModel()
+    pending = await model.classify(context("取消当前任务", pending=True))
+    active = await model.classify(
+        ConversationContext(
+            status="active_hot_work",
+            messages=[VisibleMessage(role="user", text="取消当前任务")],
+            task_projection={"task_id": "task-1", "status": "waiting_input"},
+        )
+    )
+    assert pending.intent == "reject_pending_intent"
+    assert active.intent == "cancel_task"
