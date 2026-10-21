@@ -40,9 +40,25 @@ def test_console_static_and_auth_boundary(dsn):  # noqa: F811
         ) as client:
             shell = await client.get("/console")
             assert shell.status_code == 200 and "安澜" in shell.text
+            assert 'id="conversation-list"' in shell.text
+            assert 'id="message-list"' in shell.text
+            assert 'id="message-composer"' in shell.text
+            assert 'id="task-sidebar"' in shell.text
+            assert 'id="material-form"' not in shell.text
+            assert 'aria-live="polite"' in shell.text
+            assert 'id="message-input"' in shell.text and 'maxlength="8192"' in shell.text
             assert "script-src 'self'" in shell.headers["content-security-policy"]
             assert TOKEN not in shell.text
-            assert (await client.get("/console/assets/app.js")).status_code == 200
+            app_js = await client.get("/console/assets/app.js")
+            api_js = await client.get("/console/assets/api.js")
+            assert app_js.status_code == api_js.status_code == 200
+            assert "result.error_category" in app_js.text
+            assert "await refreshConversation({quiet:true})" in app_js.text
+            assert "input.value = draft" in app_js.text
+            assert "subscribeSnapshot" in app_js.text
+            assert "EventSource" not in api_js.text
+            assert 'Authorization: "Bearer " + token' in api_js.text
+            assert "Last-Event-ID" in api_js.text
             assert (await client.get("/console/assets/secret.txt")).status_code == 404
             assert (await client.get("/console/api/tasks")).status_code == 401
             headers = {"Authorization": "Bearer " + TOKEN}
@@ -50,6 +66,63 @@ def test_console_static_and_auth_boundary(dsn):  # noqa: F811
             assert info["model_mode"] == "scripted_double"
             assert info["identity"] == OWNER.model_dump()
             assert TOKEN not in str(info)
+    run(scenario())
+
+
+@pytest.mark.postgres
+def test_console_conversation_path_projects_task_and_keeps_review_routes(dsn):  # noqa: F811
+    async def scenario():
+        app = create_app(dsn, config(), knowledge=UnavailableKnowledgeStore(lambda: NOW))
+        async with app.router.lifespan_context(app), httpx.AsyncClient(
+            transport=httpx.ASGITransport(app=app), base_url="http://test",
+            headers={"Authorization": "Bearer " + TOKEN},
+        ) as client:
+            state = (await client.post("/conversations", json={
+                "request_id": uuid4().hex,
+            })).json()
+            path = f"/conversations/{state['conversation_id']}/messages"
+
+            async def send(text):
+                nonlocal state
+                response = await client.post(path, json={
+                    "request_id": uuid4().hex,
+                    "expected_revision": state["revision"],
+                    "text": text,
+                })
+                assert response.status_code == 200
+                state = response.json()
+
+            await send("明天去罐区补焊")
+            assert state["status"] == "pending_confirmation"
+            assert state["task_projection"] is None
+            await send("确认申请")
+            task_id = state["active_task_id"]
+            assert task_id and "下一步" in state["messages"][-1]["text"]
+            await send("位置在一号罐区东侧")
+            assert state["task_projection"]["fields"]["work_location_description"] == (
+                "一号罐区东侧"
+            )
+            refreshed = (await client.get(
+                f"/conversations/{state['conversation_id']}"
+            )).json()
+            assert refreshed["active_task_id"] == task_id
+
+            event = (await client.post(
+                f"/console/api/tasks/{task_id}/events",
+                json={
+                    "request_id": uuid4().hex,
+                    "expected_revision": refreshed["task_projection"]["revision"],
+                    "kind": "helmet_missing",
+                },
+            )).json()
+            review = await client.post(
+                f"/console/api/events/{event['receipt_id']}/reviews",
+                json={"request_id": uuid4().hex},
+            )
+            assert review.status_code == 200
+            assert review.json()["result"]["status"] == "completed"
+            assert event["raw"]["alarm_state"] == "active"
+
     run(scenario())
 
 

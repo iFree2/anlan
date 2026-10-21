@@ -54,3 +54,39 @@ export async function mutate(path, fields = {}) {
     throw error;
   }
 }
+
+export async function subscribeSnapshot(path, {onSnapshot, onError, signal, lastEventId} = {}) {
+  if (!token) throw new ApiError("请先连接本地服务。", 401);
+  const headers = {Authorization: "Bearer " + token, Accept: "text/event-stream"};
+  if (lastEventId) headers["Last-Event-ID"] = lastEventId;
+  try {
+    const response = await fetch(apiPrefix + path, {
+      method: "GET", credentials: "omit", cache: "no-store", headers, signal,
+    });
+    if (!response.ok || !response.body) throw new ApiError("会话更新流暂时不可用。", response.status);
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    while (true) {
+      const {value, done} = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, {stream: true}).replace(/\r\n/g, "\n");
+      let boundary;
+      while ((boundary = buffer.indexOf("\n\n")) >= 0) {
+        const block = buffer.slice(0, boundary); buffer = buffer.slice(boundary + 2);
+        if (!block || block.startsWith(":")) continue;
+        let event = "message", id = ""; const data = [];
+        for (const line of block.split("\n")) {
+          if (line.startsWith("event:")) event = line.slice(6).trim();
+          else if (line.startsWith("id:")) id = line.slice(3).trim();
+          else if (line.startsWith("data:")) data.push(line.slice(5).trimStart());
+        }
+        if (event === "snapshot") onSnapshot?.(JSON.parse(data.join("\n")), id);
+        else if (event === "error") onError?.(new ApiError("会话快照暂时不可用，请手动刷新。", 503));
+      }
+    }
+  } catch (error) {
+    if (error?.name === "AbortError") return;
+    onError?.(error instanceof ApiError ? error : new ApiError("会话更新连接已中断，请手动刷新。", 0));
+  }
+}
