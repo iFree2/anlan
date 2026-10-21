@@ -5,7 +5,7 @@ import pytest
 from test_events import OWNER
 from test_events_postgres import dsn, run  # noqa: F401
 
-from anlan.common.errors import InvalidTransition, TaskBusy
+from anlan.common.errors import AccessDenied, InvalidTransition, TaskBusy
 from anlan.conversation.contracts import IntentProposal
 from anlan.conversation.service import ConversationService
 from anlan.infrastructure.conversations import ConversationStore
@@ -478,6 +478,44 @@ def test_workflow_conflict_replay_preserves_exception_semantics(dsn):  # noqa: F
         with pytest.raises(InvalidTransition):
             await subject.message(**arguments)
         with pytest.raises(InvalidTransition):
+            await subject.message(**arguments)
+
+    run(scenario())
+
+
+def test_workflow_not_found_replay_preserves_exception_semantics(dsn):  # noqa: F811
+    async def scenario():
+        class MissingWorkflow(FakeWorkflow):
+            async def start(self, *args, **kwargs):
+                raise AccessDenied("missing task")
+
+        model = ProposedModel(
+            [
+                ("hot_work_candidate", {"work_object_description": "V101"}, True),
+                ("confirm_pending_intent",),
+            ]
+        )
+        subject = ConversationService(
+            ConversationStore(dsn), CountingFactory(model), MissingWorkflow()
+        )
+        state = await subject.create(OWNER, request_id=unique("workflow-not-found"))
+        state = await subject.message(
+            OWNER,
+            state["conversation_id"],
+            request_id="candidate",
+            expected_revision=1,
+            text="申请",
+        )
+        arguments = dict(
+            identity=OWNER,
+            conversation_id=state["conversation_id"],
+            request_id="confirm",
+            expected_revision=state["revision"],
+            text="确认",
+        )
+        with pytest.raises(AccessDenied):
+            await subject.message(**arguments)
+        with pytest.raises(AccessDenied):
             await subject.message(**arguments)
 
     run(scenario())

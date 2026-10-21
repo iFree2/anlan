@@ -111,7 +111,15 @@ class ConversationService:
                     models,
                     projection,
                 )
-            except (InvalidTransition, TaskBusy, AccessDenied):
+            except AccessDenied:
+                await self.store.fail_message(
+                    identity,
+                    conversation_id,
+                    reservation["message_id"],
+                    "workflow_not_found",
+                )
+                raise
+            except (InvalidTransition, TaskBusy):
                 await self.store.fail_message(
                     identity,
                     conversation_id,
@@ -309,6 +317,8 @@ class ConversationService:
 
     @staticmethod
     def _replay_result(result):
+        if result.get("error_category") == "workflow_not_found":
+            raise AccessDenied("消息关联的任务不存在或当前身份无权访问")
         if result.get("error_category") in {"policy_conflict", "workflow_conflict"}:
             raise InvalidTransition("消息处理冲突；请读取最新会话状态")
         return result
