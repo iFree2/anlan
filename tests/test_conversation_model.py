@@ -334,6 +334,7 @@ async def test_chat_responder_is_tool_free_and_forbidden_from_claiming_business_
     assert body["response_format"] == {"type": "json_object"}
     assert "tools" not in body
     system_prompt = body["messages"][0]["content"]
+    assert "json" in system_prompt.lower()
     assert "不得声称" in system_prompt
     assert "创建" in system_prompt and "批准" in system_prompt
 

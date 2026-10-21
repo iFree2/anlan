@@ -20,7 +20,7 @@ from anlan.llm.gateway import ModelGateway
 from anlan.workflows.material_contracts import FieldName, Text
 
 INTENT_PROMPT_VERSION = "conversation-intent-v2"
-CHAT_PROMPT_VERSION = "conversation-chat-v1"
+CHAT_PROMPT_VERSION = "conversation-chat-v2"
 _MAX_CONTEXT_BYTES = 16 * 1024
 _MAX_VISIBLE_MESSAGES = 12
 
@@ -234,7 +234,8 @@ class DeepSeekChatResponder:
                     {
                         "role": "system",
                         "content": (
-                            f"你是安澜的受限闲聊响应器（{CHAT_PROMPT_VERSION}）。只返回"
+                            f"你是安澜的受限闲聊响应器（{CHAT_PROMPT_VERSION}）。"
+                            "只返回 JSON 对象，格式为"
                             '{"text":"..."}。不得声称任务已创建、更新、批准或恢复；'
                             "不得执行工具或业务写入，任务状态仅以服务端侧栏为准。"
                         ),
