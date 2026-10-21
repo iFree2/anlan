@@ -232,6 +232,83 @@ class ConversationStore:
                 )
                 return await self.get(identity, conversation_id, conn=conn)
 
+    async def append_assistant_message(
+        self, identity, conversation_id, source_message_id, text
+    ) -> dict:
+        text = _text(text)
+        request_id = f"assistant:{_identifier.validate_python(source_message_id)}"
+        async with await self.connect() as conn:
+            async with conn.transaction():
+                await self._row(conn, identity, conversation_id, lock=True)
+                await self._owned_message(conn, conversation_id, source_message_id)
+                cursor = await conn.execute(
+                    "SELECT * FROM anlan_v2.conversation_messages "
+                    "WHERE conversation_id=%s AND request_id=%s",
+                    (conversation_id, request_id),
+                )
+                previous = await cursor.fetchone()
+                if previous is not None:
+                    if previous["role"] != "assistant" or previous["text"] != text:
+                        raise InvalidTransition("助手消息结果不可覆盖")
+                    return self._message(previous)
+                cursor = await conn.execute(
+                    "INSERT INTO anlan_v2.conversation_messages "
+                    "(message_id,conversation_id,request_id,role,text,status,completed_at) "
+                    "VALUES (%s,%s,%s,'assistant',%s,'completed',clock_timestamp()) RETURNING *",
+                    (str(uuid4()), conversation_id, request_id, text),
+                )
+                return self._message(await cursor.fetchone())
+
+    async def reject_pending_intent(self, identity, conversation_id) -> dict:
+        return await self._resolve_pending_intent(
+            identity, conversation_id, intent_status="rejected"
+        )
+
+    async def confirm_pending_intent(self, identity, conversation_id) -> dict:
+        return await self._resolve_pending_intent(
+            identity, conversation_id, intent_status="confirmed"
+        )
+
+    async def _resolve_pending_intent(
+        self, identity, conversation_id, *, intent_status
+    ) -> dict:
+        async with await self.connect() as conn:
+            async with conn.transaction():
+                row = await self._row(conn, identity, conversation_id, lock=True)
+                if row["pending_intent_id"] is None:
+                    raise InvalidTransition("没有可处理的待确认意图")
+                await conn.execute(
+                    "UPDATE anlan_v2.pending_intents SET status=%s "
+                    "WHERE intent_id=%s AND conversation_id=%s AND status='pending'",
+                    (intent_status, row["pending_intent_id"], conversation_id),
+                )
+                status = "active_hot_work" if row["active_task_id"] else "idle"
+                await conn.execute(
+                    "UPDATE anlan_v2.conversations SET status=%s,pending_intent_id=NULL,"
+                    "updated_at=clock_timestamp() WHERE conversation_id=%s",
+                    (status, conversation_id),
+                )
+                return await self.get(identity, conversation_id, conn=conn)
+
+    async def pause_task(self, identity, conversation_id) -> dict:
+        return await self._change_task_binding(
+            identity, conversation_id, expected_status="active_hot_work", status="paused"
+        )
+
+    async def activate_task(self, identity, conversation_id) -> dict:
+        return await self._change_task_binding(
+            identity, conversation_id, expected_status="paused", status="active_hot_work"
+        )
+
+    async def detach_task(self, identity, conversation_id) -> dict:
+        return await self._change_task_binding(
+            identity,
+            conversation_id,
+            expected_status=("active_hot_work", "paused"),
+            status="idle",
+            detach=True,
+        )
+
     async def finish_message(
         self, identity, conversation_id, message_id, result
     ) -> dict:
@@ -295,6 +372,31 @@ class ConversationStore:
                     (conversation_id,),
                 )
                 return (await cursor.fetchone())["result"]
+
+    async def _change_task_binding(
+        self,
+        identity,
+        conversation_id,
+        *,
+        expected_status,
+        status,
+        detach=False,
+    ):
+        expected = (
+            (expected_status,) if isinstance(expected_status, str) else tuple(expected_status)
+        )
+        async with await self.connect() as conn:
+            async with conn.transaction():
+                row = await self._row(conn, identity, conversation_id, lock=True)
+                if row["status"] not in expected or row["active_task_id"] is None:
+                    raise InvalidTransition("当前会话任务状态不允许该操作")
+                await conn.execute(
+                    "UPDATE anlan_v2.conversations SET status=%s,active_task_id=%s,"
+                    "pending_intent_id=NULL,updated_at=clock_timestamp() "
+                    "WHERE conversation_id=%s",
+                    (status, None if detach else row["active_task_id"], conversation_id),
+                )
+                return await self.get(identity, conversation_id, conn=conn)
 
     @staticmethod
     async def _row(conn, identity, conversation_id, *, lock=False):

@@ -265,3 +265,81 @@ def test_concurrent_reservations_leave_exactly_one_pending_message(dsn):  # noqa
         assert sum(isinstance(item, (InvalidTransition, TaskBusy)) for item in outcomes) == 1
 
     run(scenario())
+
+
+def test_assistant_messages_are_visible_idempotent_and_do_not_advance_revision(dsn):  # noqa: F811
+    async def scenario():
+        store = ConversationStore(dsn)
+        conversation = await store.create(OWNER, request_id=request_id("assistant"))
+        message = await store.reserve_message(
+            OWNER, conversation["conversation_id"], "user", 1, "你好"
+        )
+        first = await store.append_assistant_message(
+            OWNER, conversation["conversation_id"], message["message_id"], "你好，我是安澜"
+        )
+        replay = await store.append_assistant_message(
+            OWNER, conversation["conversation_id"], message["message_id"], "你好，我是安澜"
+        )
+        assert replay == first
+        snapshot = await store.get(OWNER, conversation["conversation_id"])
+        assert snapshot["revision"] == 2
+        assert [(item["role"], item["text"]) for item in snapshot["messages"]] == [
+            ("user", "你好"),
+            ("assistant", "你好，我是安澜"),
+        ]
+
+    run(scenario())
+
+
+def test_server_owned_non_business_transitions_preserve_or_detach_task(dsn):  # noqa: F811
+    async def scenario():
+        store = ConversationStore(dsn)
+        conversation = await store.create(OWNER, request_id=request_id("transitions"))
+        message = await store.reserve_message(
+            OWNER, conversation["conversation_id"], "candidate", 1, "V101 补焊"
+        )
+        await store.set_pending_intent(
+            OWNER,
+            conversation["conversation_id"],
+            message["message_id"],
+            {"intent": "hot_work_candidate", "fields": {"work_object_description": "V101"}},
+        )
+        rejected = await store.reject_pending_intent(OWNER, conversation["conversation_id"])
+        assert rejected["status"] == "idle" and rejected["pending_intent"] is None
+        bound = await store.bind_task(
+            OWNER, conversation["conversation_id"], rejected["revision"], "task-1"
+        )
+        paused = await store.pause_task(OWNER, conversation["conversation_id"])
+        assert paused["status"] == "paused" and paused["active_task_id"] == "task-1"
+        resumed = await store.activate_task(OWNER, conversation["conversation_id"])
+        assert resumed["status"] == "active_hot_work"
+        detached = await store.detach_task(OWNER, conversation["conversation_id"])
+        assert detached["status"] == "idle" and detached["active_task_id"] is None
+        assert detached["revision"] == bound["revision"]
+
+    run(scenario())
+
+
+def test_confirmed_task_input_clears_pending_intent_and_restores_active_status(dsn):  # noqa: F811
+    async def scenario():
+        store = ConversationStore(dsn)
+        conversation = await store.create(OWNER, request_id=request_id("task-input"))
+        bound = await store.bind_task(OWNER, conversation["conversation_id"], 1, "task-1")
+        message = await store.reserve_message(
+            OWNER, conversation["conversation_id"], "input", bound["revision"], "在一号罐区"
+        )
+        await store.set_pending_intent(
+            OWNER,
+            conversation["conversation_id"],
+            message["message_id"],
+            {
+                "intent": "task_input_candidate",
+                "fields": {"work_location_description": "一号罐区"},
+            },
+        )
+        restored = await store.confirm_pending_intent(OWNER, conversation["conversation_id"])
+        assert restored["status"] == "active_hot_work"
+        assert restored["active_task_id"] == "task-1"
+        assert restored["pending_intent"] is None
+
+    run(scenario())
