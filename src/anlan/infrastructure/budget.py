@@ -106,6 +106,9 @@ class BudgetLedger:
                 (self.authorization_id, self.total_limit, self.package_limit),
             )
             await self._authorization(conn)
+            await conn.execute(files("anlan").joinpath(
+                "sql/016_conversation_budget_authorization.sql").read_text(encoding="utf-8"),
+                prepare=False)
 
     @_hide_database_errors
     async def reserve(self, work_package: str, run_id: str) -> str:
@@ -119,6 +122,13 @@ class BudgetLedger:
         attempt_id = str(uuid4())
         async with await self._connect() as conn:
             limits = await self._authorization(conn)
+            cursor = await conn.execute(
+                "SELECT package_limit FROM anlan_v2.model_budget_package_limits "
+                "WHERE authorization_id=%s AND work_package=%s",
+                (self.authorization_id, work_package),
+            )
+            override = await cursor.fetchone()
+            package_limit = override["package_limit"] if override else limits["package_limit"]
             # All writers hold the authorization row lock through the insertion
             # and commit. Counts include failed and unresolved reservations.
             cursor = await conn.execute(
@@ -129,7 +139,7 @@ class BudgetLedger:
             counts = await cursor.fetchone()
             if counts["total"] >= limits["total_limit"]:
                 raise BudgetExceeded("模型调用累计预占额度已用尽")
-            if counts["package"] >= limits["package_limit"]:
+            if counts["package"] >= package_limit:
                 raise BudgetExceeded("当前工作包模型调用预占额度已用尽")
             await conn.execute(
                 "INSERT INTO anlan_v2.model_budget_attempts "
@@ -187,6 +197,11 @@ class BudgetLedger:
                 (self.authorization_id,),
             )
             attempts = await cursor.fetchall()
+            cursor = await conn.execute(
+                "SELECT work_package,package_limit FROM anlan_v2.model_budget_package_limits "
+                "WHERE authorization_id=%s", (self.authorization_id,))
+            package_limits = {row["work_package"]: row["package_limit"]
+                              for row in await cursor.fetchall()}
         packages = {}
         statuses = {"reserved": 0, "succeeded": 0, "failed": 0}
         for attempt in attempts:
@@ -199,4 +214,5 @@ class BudgetLedger:
             statuses[attempt["status"]] += 1
         return {"authorization_id": self.authorization_id, **limits,
                 "total_reserved": len(attempts), "packages": packages,
-                "status_counts": statuses, "attempts": attempts}
+                "status_counts": statuses, "attempts": attempts,
+                "package_limits": package_limits}

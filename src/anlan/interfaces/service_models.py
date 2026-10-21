@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 
 import httpx
 
-from anlan.infrastructure.budget import BudgetLedger
+from anlan.infrastructure.budget import CONVERSATION_WORK_PACKAGE, BudgetLedger
 from anlan.interfaces.runtime import postgres_service
 from anlan.llm.config import ModelConfig
 from anlan.llm.conversation import (
@@ -82,6 +82,15 @@ class ServiceModels:
                     "total_used": budget["total_reserved"], "total_limit": budget["total_limit"],
                     "package_used": used, "package_limit": budget["package_limit"],
                     "package_remaining": min(budget["package_limit"] - used,
+                                             budget["total_limit"] - budget["total_reserved"]),
+                }
+                conversation_limit = budget.get("package_limits", {}).get(
+                    CONVERSATION_WORK_PACKAGE, budget["package_limit"])
+                conversation_used = budget["packages"].get(CONVERSATION_WORK_PACKAGE, 0)
+                value["conversation_budget"] = {
+                    "work_package": CONVERSATION_WORK_PACKAGE,
+                    "package_used": conversation_used, "package_limit": conversation_limit,
+                    "package_remaining": min(conversation_limit - conversation_used,
                                              budget["total_limit"] - budget["total_reserved"]),
                 }
             except Exception:

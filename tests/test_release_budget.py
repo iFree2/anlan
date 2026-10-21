@@ -51,3 +51,29 @@ def test_release_migration_preserves_existing_attempts_and_limits(dsn):  # noqa:
         assert after["package_limit"] == before["package_limit"] == 10
         assert after["packages"] == {"P8-WP04": 1, "P11-WP02": 1}
     run(scenario())
+
+
+@pytest.mark.postgres
+def test_explicit_conversation_override_does_not_raise_other_packages(dsn):  # noqa: F811
+    async def scenario():
+        from anlan.infrastructure.budget import BudgetExceeded
+
+        ledger = BudgetLedger(dsn, "test-chat-cap-" + uuid4().hex, total_limit=20,
+                              package_limit=1)
+        await ledger.initialize()
+        async with await ledger._connect() as conn:
+            await conn.execute(
+                "INSERT INTO anlan_v2.model_budget_package_limits "
+                "(authorization_id,work_package,package_limit) VALUES (%s,'P11-WP01',30)",
+                (ledger.authorization_id,),
+            )
+        await ledger.reserve("P11-WP01", "chat-one")
+        await ledger.reserve("P11-WP01", "chat-two")
+        await ledger.reserve("P8-WP04", "legacy-one")
+        with pytest.raises(BudgetExceeded):
+            await ledger.reserve("P8-WP04", "legacy-two")
+        snapshot = await ledger.snapshot()
+        assert snapshot["package_limits"] == {"P11-WP01": 30}
+        assert snapshot["total_limit"] == 20 and snapshot["package_limit"] == 1
+        assert snapshot["total_reserved"] == 3
+    run(scenario())
