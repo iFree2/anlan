@@ -115,6 +115,20 @@ async def test_scripted_model_extracts_material_supplements_without_misrouting_c
     assert (await ScriptedConversationModel().classify(idle)).intent == "casual_chat"
 
 
+@pytest.mark.asyncio
+async def test_scripted_active_task_negation_never_becomes_material_input():
+    active = ConversationContext(
+        status="active_hot_work",
+        messages=[VisibleMessage(role="user", text="不要把位置改成二号罐区")],
+        task_projection={"task_id": "task-1", "status": "waiting_input"},
+    )
+
+    proposal = await ScriptedConversationModel().classify(active)
+
+    assert proposal.intent == "casual_chat"
+    assert proposal.fields == {}
+
+
 def test_visible_message_accepts_the_http_utf8_byte_limit_for_ascii():
     message = VisibleMessage(role="user", text="x" * 8192)
     assert len(message.text.encode("utf-8")) == 8192

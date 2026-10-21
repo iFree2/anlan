@@ -1,8 +1,12 @@
 import importlib.util
 import json
 from pathlib import Path
+from uuid import uuid4
 
+import httpx
 import pytest
+from test_events_postgres import dsn, run  # noqa: F401
+from test_service_api import TOKEN, configured
 
 
 def runner():
@@ -94,3 +98,92 @@ async def test_graph_initialization_failure_is_saved_for_every_case(tmp_path, mo
     assert all(row["checks"][-1]["error"] == "RuntimeError"
                for row in report["workflow"]["results"])
     assert json.loads(output.read_text(encoding="utf-8"))["status"] == "failed"
+
+
+def test_conversation_frozen_gate_keeps_predictions_and_safety_separate():
+    spec = importlib.util.spec_from_file_location(
+        "conversation_evaluator", Path("evals/evaluate_conversation_routing.py")
+    )
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    payload = json.loads(
+        Path("evals/conversation-routing-v1/scripted-results.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    report = module.score(payload["outcomes"])
+    assert payload["result_kind"] == "scripted_double"
+    assert payload["live_provider_requests"] == 0
+    assert report["routing"]["cases"] >= 40
+    assert report["safety"]["unconfirmed_business_writes"] == 0
+    by_id = {row["case_id"]: row for row in payload["outcomes"]}
+    assert by_id["dev-neg-002"]["predicted_intent"] == "casual_chat"
+    assert by_id["dev-choice-002"]["predicted_intent"] == "reject_pending_intent"
+
+
+@pytest.mark.postgres
+def test_conversation_release_gate_blocks_early_write_and_chat_mutation(dsn):  # noqa: F811
+    async def scenario():
+        app, _, _ = await configured(dsn)
+        headers = {"Authorization": "Bearer " + TOKEN}
+        async with (
+            app.router.lifespan_context(app),
+            httpx.AsyncClient(
+                transport=httpx.ASGITransport(app=app),
+                base_url="http://test",
+                headers=headers,
+            ) as client,
+        ):
+            state = (
+                await client.post(
+                    "/conversations", json={"request_id": uuid4().hex}
+                )
+            ).json()
+            path = f"/conversations/{state['conversation_id']}/messages"
+
+            state = (
+                await client.post(
+                    path,
+                    json={
+                        "request_id": uuid4().hex,
+                        "expected_revision": state["revision"],
+                        "text": "明天去罐区补焊",
+                    },
+                )
+            ).json()
+            assert state["status"] == "pending_confirmation"
+            assert state["active_task_id"] is None and state["task_projection"] is None
+
+            state = (
+                await client.post(
+                    path,
+                    json={
+                        "request_id": uuid4().hex,
+                        "expected_revision": state["revision"],
+                        "text": "确认申请",
+                    },
+                )
+            ).json()
+            task_id = state["active_task_id"]
+            task_revision = state["task_projection"]["revision"]
+
+            state = (
+                await client.post(
+                    path,
+                    json={
+                        "request_id": uuid4().hex,
+                        "expected_revision": state["revision"],
+                        "text": "不要把位置改成二号罐区",
+                    },
+                )
+            ).json()
+            assert state["active_task_id"] == task_id
+            assert state["task_projection"]["revision"] == task_revision
+
+            refreshed = (
+                await client.get(f"/conversations/{state['conversation_id']}")
+            ).json()
+            assert refreshed["active_task_id"] == task_id
+            assert refreshed["revision"] == state["revision"]
+
+    run(scenario())

@@ -197,6 +197,39 @@ def test_chat_during_active_task_never_calls_workflow(dsn):  # noqa: F811
     run(scenario())
 
 
+def test_negated_active_field_never_calls_workflow(dsn):  # noqa: F811
+    async def scenario():
+        subject, workflow, _ = service(dsn)
+        conversation = await subject.create(OWNER, request_id=unique("negative-field"))
+        candidate = await subject.message(
+            OWNER,
+            conversation["conversation_id"],
+            request_id="candidate",
+            expected_revision=1,
+            text="V101 管线补焊",
+        )
+        active = await subject.message(
+            OWNER,
+            conversation["conversation_id"],
+            request_id="confirm",
+            expected_revision=candidate["revision"],
+            text="确认申请",
+        )
+        before = workflow.calls.copy()
+        result = await subject.message(
+            OWNER,
+            conversation["conversation_id"],
+            request_id="negated-field",
+            expected_revision=active["revision"],
+            text="不要把位置改成二号罐区",
+        )
+        assert workflow.calls == before
+        assert result["active_task_id"] == active["active_task_id"]
+        assert result["task_projection"]["revision"] == active["task_projection"]["revision"]
+
+    run(scenario())
+
+
 def test_rejection_pause_resume_and_detach_are_server_owned_transitions(dsn):  # noqa: F811
     async def scenario():
         subject, workflow, _ = service(dsn)

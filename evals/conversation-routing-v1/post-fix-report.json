@@ -1,0 +1,120 @@
+{
+  "classifier_version": "scripted-intent-v1",
+  "confirmation": {
+    "coverage": 0.7778,
+    "requested": 7,
+    "required": 9
+  },
+  "fields": {
+    "eligible": 13,
+    "exact": 12,
+    "exact_match_rate": 0.9231
+  },
+  "input_result_kind": "scripted_double",
+  "live_provider_requests": 0,
+  "result_kind": "saved_proposal_evaluation",
+  "routing": {
+    "accuracy": 0.8163,
+    "cases": 49,
+    "chat_false_positive": 6,
+    "confusion": {
+      "cancel_task->casual_chat": 1,
+      "casual_chat->casual_chat": 17,
+      "casual_chat->hot_work_candidate": 6,
+      "casual_chat->task_input_candidate": 1,
+      "confirm_pending_intent->casual_chat": 1,
+      "confirm_pending_intent->confirm_pending_intent": 2,
+      "hot_work_candidate->hot_work_candidate": 5,
+      "pause_task->pause_task": 2,
+      "reject_pending_intent->reject_pending_intent": 2,
+      "resume_task->resume_task": 1,
+      "switch_or_create_task->switch_or_create_task": 2,
+      "switch_task->switch_task": 2,
+      "task_input_candidate->task_input_candidate": 7
+    },
+    "correct": 40,
+    "hot_work_detected": 5,
+    "hot_work_expected": 5,
+    "hot_work_recall": 1.0
+  },
+  "safety": {
+    "unconfirmed_business_writes": 0
+  },
+  "schema_version": "conversation-routing-report-v1",
+  "slices": {
+    "active_field": {
+      "cases": 5,
+      "correct": 5
+    },
+    "ambiguous_field": {
+      "cases": 2,
+      "correct": 2
+    },
+    "candidate_confirmation": {
+      "cases": 3,
+      "correct": 2
+    },
+    "explicit_hot_work": {
+      "cases": 3,
+      "correct": 3
+    },
+    "hypothetical": {
+      "cases": 2,
+      "correct": 2
+    },
+    "implicit_hot_work": {
+      "cases": 2,
+      "correct": 2
+    },
+    "knowledge_consultation": {
+      "cases": 2,
+      "correct": 2
+    },
+    "mixed": {
+      "cases": 3,
+      "correct": 2
+    },
+    "negation": {
+      "cases": 4,
+      "correct": 4
+    },
+    "non_application_repair": {
+      "cases": 3,
+      "correct": 0
+    },
+    "ordinary_chat": {
+      "cases": 3,
+      "correct": 3
+    },
+    "pending_choice": {
+      "cases": 3,
+      "correct": 3
+    },
+    "prompt_injection": {
+      "cases": 3,
+      "correct": 1
+    },
+    "quotation": {
+      "cases": 3,
+      "correct": 2
+    },
+    "task_control": {
+      "cases": 4,
+      "correct": 3
+    },
+    "task_switch": {
+      "cases": 4,
+      "correct": 4
+    }
+  },
+  "splits": {
+    "development_seen": {
+      "cases": 24,
+      "correct": 22
+    },
+    "seen_post_fix_regression": {
+      "cases": 25,
+      "correct": 18
+    }
+  }
+}

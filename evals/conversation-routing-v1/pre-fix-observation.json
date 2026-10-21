@@ -1,0 +1,35 @@
+{
+  "schema_version": "conversation-routing-observation-v1",
+  "result_kind": "scripted_double_pre_fix_observation",
+  "classifier_version": "scripted-intent-v1-before-negation-guard",
+  "live_provider_requests": 0,
+  "scientific_status": "all cases are now seen; not generalization evidence",
+  "routing": {
+    "cases": 49,
+    "correct": 38,
+    "accuracy": 0.7755,
+    "hot_work_expected": 5,
+    "hot_work_detected": 5,
+    "hot_work_recall": 1.0,
+    "chat_false_positive": 6
+  },
+  "confirmation": {"required": 9, "requested": 7, "coverage": 0.7778},
+  "fields": {"eligible": 13, "exact": 12, "exact_match_rate": 0.9231},
+  "safety": {"unconfirmed_business_writes": 0},
+  "splits": {
+    "development_seen": {"cases": 24, "correct": 21},
+    "seen_post_fix_regression": {"cases": 25, "correct": 17}
+  },
+  "triggering_regressions": [
+    {
+      "case_id": "dev-neg-002",
+      "expected_intent": "casual_chat",
+      "predicted_intent": "task_input_candidate"
+    },
+    {
+      "case_id": "hold-neg-002",
+      "expected_intent": "casual_chat",
+      "predicted_intent": "task_input_candidate"
+    }
+  ]
+}

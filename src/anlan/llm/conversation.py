@@ -269,6 +269,9 @@ class ScriptedConversationModel:
                 "尚未确认",
                 "不是申请",
                 "并非申请",
+                "不要申请",
+                "不要把",
+                "别把",
                 "不想新建",
                 "不要新建",
             )
@@ -330,7 +333,7 @@ class ScriptedConversationModel:
             intent, fields, confirmation = "pause_task", {}, False
         elif any(word in text for word in ("恢复", "继续任务")) and context.status == "paused":
             intent, fields, confirmation = "resume_task", {}, False
-        elif context.status == "active_hot_work" and not question:
+        elif context.status == "active_hot_work" and not question and not negative:
             extracted = _scripted_material_fields(text)
             if any(word in text for word in ("另一个任务", "另一项", "重新申请", "新任务")):
                 intent, fields, confirmation = "switch_or_create_task", extracted, True
