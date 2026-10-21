@@ -1,5 +1,7 @@
 """One-message conversation orchestration with durable recovery boundaries."""
 
+import re
+
 from anlan.common.errors import AccessDenied, InvalidTransition, TaskBusy
 from anlan.conversation.contracts import ConversationState, IntentProposal, PendingIntent
 from anlan.conversation.policy import RouteAction, RouteDecision, decide
@@ -71,7 +73,7 @@ class ConversationService:
                         reservation["message_id"],
                         "classifier_failure",
                     )
-                proposal = self._constrain_task_choice(state, text, proposal)
+                proposal = self._constrain_proposal(state, text, proposal)
                 try:
                     decision = decide(state, proposal)
                 except InvalidTransition:
@@ -366,16 +368,33 @@ class ConversationService:
         )
 
     @staticmethod
-    def _constrain_task_choice(state, text, proposal):
-        """Require an explicit new-task selection before advancing a switch prompt."""
-        pending = state.pending_intent
-        if (
-            pending is None
-            or pending.kind != "switch_or_create_task"
-            or proposal.intent != "confirm_pending_intent"
-        ):
-            return proposal
+    def _constrain_proposal(state, text, proposal):
+        """Apply deterministic text safety gates before trusting a model proposal."""
         normalized = text.strip().rstrip("。！! ")
+        negative_material_markers = (
+            "不要把",
+            "别把",
+            "不要改",
+            "别改",
+            "不想补充",
+            "不要补充",
+        )
+        if (
+            state.status == "active_hot_work"
+            and any(marker in normalized for marker in negative_material_markers)
+            and proposal.intent
+            in {"task_input_candidate", "hot_work_candidate", "switch_or_create_task"}
+        ):
+            return ConversationService._reply_only(proposal)
+        if proposal.intent == "switch_task":
+            match = re.fullmatch(r"切换到\s*([A-Za-z0-9._:-]{1,100})", normalized)
+            if match is None or match.group(1) != proposal.target_task_id:
+                return ConversationService._reply_only(proposal)
+
+        pending = state.pending_intent
+        if pending is None:
+            return proposal
+        affirmative_choices = {"确认", "确认申请", "同意", "是的", "确认继续"}
         explicit_new_choices = {
             "新建",
             "新建任务",
@@ -383,8 +402,28 @@ class ConversationService:
             "新建另一项任务",
             "明确新建另一项任务",
         }
-        if normalized in explicit_new_choices:
+        if proposal.intent == "confirm_pending_intent":
+            allowed = (
+                normalized in explicit_new_choices
+                if pending.kind == "switch_or_create_task"
+                else normalized in affirmative_choices
+            )
+            return proposal if allowed else ConversationService._reply_only(proposal)
+        if (
+            pending.kind == "task_input_candidate"
+            and state.active_task_id
+            and proposal.intent
+            not in {"casual_chat", "reject_pending_intent", "task_input_candidate", "switch_task"}
+        ):
+            return ConversationService._reply_only(proposal)
+        if pending.kind != "switch_or_create_task":
             return proposal
+        if proposal.intent in {"casual_chat", "reject_pending_intent", "switch_task"}:
+            return proposal
+        return ConversationService._reply_only(proposal)
+
+    @staticmethod
+    def _reply_only(proposal):
         return proposal.model_copy(
             update={
                 "intent": "casual_chat",

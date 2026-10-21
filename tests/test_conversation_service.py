@@ -149,6 +149,44 @@ def test_candidate_then_confirmation_creates_exactly_one_task(dsn):  # noqa: F81
     run(scenario())
 
 
+@pytest.mark.parametrize("text", ["不确认", "还没确认", "解释一下确认流程"])
+def test_host_requires_explicit_affirmative_for_hot_work_pending(dsn, text):  # noqa: F811
+    async def scenario():
+        model = ProposedModel(
+            [
+                ("hot_work_candidate", {"work_object_description": "V101 补焊"}, True),
+                ("confirm_pending_intent",),
+            ]
+        )
+        workflow = FakeWorkflow()
+        subject = ConversationService(
+            ConversationStore(dsn), CountingFactory(model), workflow
+        )
+        state = await subject.create(OWNER, request_id=unique("host-confirm-hot"))
+        state = await subject.message(
+            OWNER,
+            state["conversation_id"],
+            request_id="candidate",
+            expected_revision=state["revision"],
+            text="申请",
+        )
+        pending = state["pending_intent"]
+
+        result = await subject.message(
+            OWNER,
+            state["conversation_id"],
+            request_id="misreported-confirm",
+            expected_revision=state["revision"],
+            text=text,
+        )
+
+        assert result["pending_intent"] == pending
+        assert result["active_task_id"] is None
+        assert workflow.calls == []
+
+    run(scenario())
+
+
 def test_context_trims_store_history_before_constructing_the_model_contract():
     raw = {
         "messages": [
@@ -226,6 +264,52 @@ def test_negated_active_field_never_calls_workflow(dsn):  # noqa: F811
         assert workflow.calls == before
         assert result["active_task_id"] == active["active_task_id"]
         assert result["task_projection"]["revision"] == active["task_projection"]["revision"]
+
+    run(scenario())
+
+
+def test_host_blocks_misclassified_negated_active_field(dsn):  # noqa: F811
+    async def scenario():
+        model = ProposedModel(
+            [
+                ("hot_work_candidate", {"work_object_description": "V101 补焊"}, True),
+                ("confirm_pending_intent",),
+                (
+                    "task_input_candidate",
+                    {"work_location_description": "二号罐区"},
+                    False,
+                ),
+            ]
+        )
+        workflow = FakeWorkflow()
+        subject = ConversationService(
+            ConversationStore(dsn), CountingFactory(model), workflow
+        )
+        state = await subject.create(OWNER, request_id=unique("host-negative"))
+        for request_id, text in (
+            ("candidate", "申请"),
+            ("confirm", "确认申请"),
+        ):
+            state = await subject.message(
+                OWNER,
+                state["conversation_id"],
+                request_id=request_id,
+                expected_revision=state["revision"],
+                text=text,
+            )
+        before = workflow.calls.copy()
+        task_revision = state["task_projection"]["revision"]
+
+        result = await subject.message(
+            OWNER,
+            state["conversation_id"],
+            request_id="negated",
+            expected_revision=state["revision"],
+            text="不要把位置改成二号罐区",
+        )
+
+        assert workflow.calls == before
+        assert result["task_projection"]["revision"] == task_revision
 
     run(scenario())
 
@@ -309,13 +393,17 @@ def test_new_task_choice_requires_confirmation_and_switch_checks_owned_task(dsn)
         workflow = FakeWorkflow()
         subject = ConversationService(ConversationStore(dsn), CountingFactory(model), workflow)
         state = await subject.create(OWNER, request_id=unique("new-choice"))
-        for request_id in ("first", "confirm-first", "another"):
+        for request_id, text in (
+            ("first", "first"),
+            ("confirm-first", "确认申请"),
+            ("another", "another"),
+        ):
             state = await subject.message(
                 OWNER,
                 state["conversation_id"],
                 request_id=request_id,
                 expected_revision=state["revision"],
-                text=request_id,
+                text=text,
             )
         first_task = state["active_task_id"]
         assert state["pending_intent"]["kind"] == "switch_or_create_task"
@@ -416,6 +504,52 @@ def test_active_hot_candidate_requires_explicit_new_task_choice(dsn):  # noqa: F
     run(scenario())
 
 
+def test_host_preserves_switch_choice_when_classifier_misroutes_rejection(dsn):  # noqa: F811
+    async def scenario():
+        model = ProposedModel(
+            [
+                ("hot_work_candidate", {"work_object_description": "V101 补焊"}, True),
+                ("confirm_pending_intent",),
+                ("hot_work_candidate", {"work_object_description": "V202 补焊"}, True),
+                ("hot_work_candidate", {"work_object_description": "错误覆盖"}, True),
+            ]
+        )
+        workflow = FakeWorkflow()
+        subject = ConversationService(
+            ConversationStore(dsn), CountingFactory(model), workflow
+        )
+        state = await subject.create(OWNER, request_id=unique("host-choice"))
+        for request_id, text in (
+            ("candidate", "申请"),
+            ("confirm", "确认申请"),
+            ("another", "另一项申请"),
+        ):
+            state = await subject.message(
+                OWNER,
+                state["conversation_id"],
+                request_id=request_id,
+                expected_revision=state["revision"],
+                text=text,
+            )
+        first_task = state["active_task_id"]
+        pending = state["pending_intent"]
+        before = workflow.calls.copy()
+
+        result = await subject.message(
+            OWNER,
+            state["conversation_id"],
+            request_id="misrouted-rejection",
+            expected_revision=state["revision"],
+            text="我不想新建",
+        )
+
+        assert result["pending_intent"] == pending
+        assert result["active_task_id"] == first_task
+        assert workflow.calls == before
+
+    run(scenario())
+
+
 def test_switch_can_only_bind_a_task_verified_for_the_current_identity(dsn):  # noqa: F811
     async def scenario():
         model = ProposedModel(
@@ -430,13 +564,17 @@ def test_switch_can_only_bind_a_task_verified_for_the_current_identity(dsn):  # 
         workflow.tasks["task-owned"] = projection("task-owned")
         subject = ConversationService(ConversationStore(dsn), CountingFactory(model), workflow)
         state = await subject.create(OWNER, request_id=unique("switch-owned"))
-        for request_id in ("candidate", "confirm", "switch"):
+        for request_id, text in (
+            ("candidate", "candidate"),
+            ("confirm", "确认申请"),
+            ("switch", "切换到 task-owned"),
+        ):
             state = await subject.message(
                 OWNER,
                 state["conversation_id"],
                 request_id=request_id,
                 expected_revision=state["revision"],
-                text=request_id,
+                text=text,
             )
         assert state["active_task_id"] == "task-owned"
         assert state["task_projection"]["task_id"] == "task-owned"
@@ -451,6 +589,51 @@ def test_switch_can_only_bind_a_task_verified_for_the_current_identity(dsn):  # 
             )
         snapshot = await subject.snapshot(OWNER, state["conversation_id"])
         assert snapshot["active_task_id"] == "task-owned"
+
+    run(scenario())
+
+
+def test_host_rejects_misclassified_switch_without_matching_explicit_target(dsn):  # noqa: F811
+    async def scenario():
+        model = ProposedModel(
+            [
+                ("hot_work_candidate", {"work_object_description": "V101 补焊"}, True),
+                ("confirm_pending_intent",),
+                ("hot_work_candidate", {"work_object_description": "V202 补焊"}, True),
+                ("switch_task", {}, False, "task-owned"),
+            ]
+        )
+        workflow = FakeWorkflow()
+        workflow.tasks["task-owned"] = projection("task-owned")
+        subject = ConversationService(
+            ConversationStore(dsn), CountingFactory(model), workflow
+        )
+        state = await subject.create(OWNER, request_id=unique("host-switch-text"))
+        for request_id, text in (
+            ("candidate", "申请"),
+            ("confirm", "确认申请"),
+            ("another", "另一项申请"),
+        ):
+            state = await subject.message(
+                OWNER,
+                state["conversation_id"],
+                request_id=request_id,
+                expected_revision=state["revision"],
+                text=text,
+            )
+        original_task = state["active_task_id"]
+        pending = state["pending_intent"]
+
+        result = await subject.message(
+            OWNER,
+            state["conversation_id"],
+            request_id="misreported-switch",
+            expected_revision=state["revision"],
+            text="随便聊聊",
+        )
+
+        assert result["active_task_id"] == original_task
+        assert result["pending_intent"] == pending
 
     run(scenario())
 
@@ -561,13 +744,17 @@ def test_unambiguous_and_ambiguous_task_input_obey_write_boundary(dsn):  # noqa:
             ConversationStore(dsn), CountingFactory(model), workflow
         )
         state = await subject.create(OWNER, request_id=unique("input"))
-        for request_id in ("candidate", "confirm", "certain"):
+        for request_id, text in (
+            ("candidate", "candidate"),
+            ("confirm", "确认申请"),
+            ("certain", "certain"),
+        ):
             state = await subject.message(
                 OWNER,
                 state["conversation_id"],
                 request_id=request_id,
                 expected_revision=state["revision"],
-                text=request_id,
+                text=text,
             )
         assert [call[0] for call in workflow.calls] == ["start", "submit"]
         state = await subject.message(
@@ -588,6 +775,104 @@ def test_unambiguous_and_ambiguous_task_input_obey_write_boundary(dsn):  # noqa:
         )
         assert [call[0] for call in workflow.calls] == ["start", "submit", "submit"]
         assert state["status"] == "active_hot_work"
+
+    run(scenario())
+
+
+def test_host_requires_explicit_affirmative_for_task_input_pending(dsn):  # noqa: F811
+    async def scenario():
+        model = ProposedModel(
+            [
+                ("hot_work_candidate", {"work_object_description": "V101 补焊"}, True),
+                ("confirm_pending_intent",),
+                (
+                    "task_input_candidate",
+                    {"work_location_description": "可能在二号罐区"},
+                    True,
+                ),
+                ("confirm_pending_intent",),
+            ]
+        )
+        workflow = FakeWorkflow()
+        subject = ConversationService(
+            ConversationStore(dsn), CountingFactory(model), workflow
+        )
+        state = await subject.create(OWNER, request_id=unique("host-confirm-input"))
+        for request_id, text in (
+            ("candidate", "申请"),
+            ("confirm", "确认申请"),
+            ("ambiguous", "位置可能在二号罐区"),
+        ):
+            state = await subject.message(
+                OWNER,
+                state["conversation_id"],
+                request_id=request_id,
+                expected_revision=state["revision"],
+                text=text,
+            )
+        pending = state["pending_intent"]
+        before = workflow.calls.copy()
+
+        result = await subject.message(
+            OWNER,
+            state["conversation_id"],
+            request_id="misreported-confirm",
+            expected_revision=state["revision"],
+            text="解释一下确认流程",
+        )
+
+        assert result["pending_intent"] == pending
+        assert workflow.calls == before
+
+    run(scenario())
+
+
+def test_host_preserves_task_input_pending_when_classifier_misroutes_new_task(dsn):  # noqa: F811
+    async def scenario():
+        model = ProposedModel(
+            [
+                ("hot_work_candidate", {"work_object_description": "V101 补焊"}, True),
+                ("confirm_pending_intent",),
+                (
+                    "task_input_candidate",
+                    {"work_location_description": "可能在二号罐区"},
+                    True,
+                ),
+                ("hot_work_candidate", {"work_object_description": "错误新任务"}, True),
+            ]
+        )
+        workflow = FakeWorkflow()
+        subject = ConversationService(
+            ConversationStore(dsn), CountingFactory(model), workflow
+        )
+        state = await subject.create(OWNER, request_id=unique("host-input-pending"))
+        for request_id, text in (
+            ("candidate", "申请"),
+            ("confirm", "确认申请"),
+            ("ambiguous", "位置可能在二号罐区"),
+        ):
+            state = await subject.message(
+                OWNER,
+                state["conversation_id"],
+                request_id=request_id,
+                expected_revision=state["revision"],
+                text=text,
+            )
+        pending = state["pending_intent"]
+        task_id = state["active_task_id"]
+        before = workflow.calls.copy()
+
+        result = await subject.message(
+            OWNER,
+            state["conversation_id"],
+            request_id="misreported-new-task",
+            expected_revision=state["revision"],
+            text="解释一下这个位置",
+        )
+
+        assert result["pending_intent"] == pending
+        assert result["active_task_id"] == task_id
+        assert workflow.calls == before
 
     run(scenario())
 

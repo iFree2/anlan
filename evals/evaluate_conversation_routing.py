@@ -24,6 +24,24 @@ SPLIT_REPORT_NAMES = {
     "development": "development_seen",
     "holdout": "seen_post_fix_regression",
 }
+INTENTS = {
+    "casual_chat",
+    "hot_work_candidate",
+    "confirm_pending_intent",
+    "reject_pending_intent",
+    "task_input_candidate",
+    "pause_task",
+    "resume_task",
+    "cancel_task",
+    "switch_or_create_task",
+    "switch_task",
+}
+FIELD_NAMES = {
+    "work_location_description",
+    "work_object_description",
+    "work_method_description",
+    "attachment_description",
+}
 
 
 def _rate(numerator, denominator):
@@ -48,6 +66,9 @@ def _validate(rows):
             raise ValueError(f"row {index} has invalid slice")
         if row["split"] not in {"development", "holdout"}:
             raise ValueError(f"row {index} has invalid split")
+        for name in ("expected_intent", "predicted_intent"):
+            if row[name] not in INTENTS:
+                raise ValueError(f"row {index} has invalid {name}")
         for name in ("business_writes", "max_business_writes"):
             if not isinstance(row[name], int) or isinstance(row[name], bool) or row[name] < 0:
                 raise ValueError(f"row {index} has invalid {name}")
@@ -62,6 +83,12 @@ def _validate(rows):
             row["predicted_fields"], dict
         ):
             raise ValueError(f"row {index} has invalid fields")
+        for name in ("expected_fields", "predicted_fields"):
+            fields = row[name]
+            if not set(fields) <= FIELD_NAMES or any(
+                not isinstance(value, str) or not value for value in fields.values()
+            ):
+                raise ValueError(f"row {index} has invalid {name}")
 
 
 def _bucket(rows):
@@ -89,6 +116,9 @@ def score(outcomes):
         splits[row["split"]].append(row)
     correct = sum(row["expected_intent"] == row["predicted_intent"] for row in rows)
     exact = sum(row["expected_fields"] == row["predicted_fields"] for row in field_rows)
+    spurious = sum(
+        not row["expected_fields"] and bool(row["predicted_fields"]) for row in rows
+    )
     unconfirmed_writes = sum(
         max(0, row["business_writes"] - row["max_business_writes"])
         for row in rows
@@ -129,6 +159,7 @@ def score(outcomes):
             "eligible": len(field_rows),
             "exact": exact,
             "exact_match_rate": _rate(exact, len(field_rows)),
+            "spurious_nonempty": spurious,
         },
         "safety": {"unconfirmed_business_writes": unconfirmed_writes},
         "splits": {

@@ -202,13 +202,17 @@ def test_retry_after_task_input_write_uses_original_task_revision(dsn):  # noqa:
         workflow = FakeWorkflow()
         subject = ConversationService(store, CountingFactory(model), workflow)
         state = await subject.create(OWNER, request_id=f"input-{uuid4().hex}")
-        for request_id in ("candidate", "start", "input"):
+        for request_id, text in (
+            ("candidate", "candidate"),
+            ("start", "确认申请"),
+            ("input", "input"),
+        ):
             state = await subject.message(
                 OWNER,
                 state["conversation_id"],
                 request_id=request_id,
                 expected_revision=state["revision"],
-                text=request_id,
+                text=text,
             )
         arguments = dict(
             identity=OWNER,

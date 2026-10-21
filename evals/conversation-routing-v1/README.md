@@ -22,6 +22,7 @@ rejects missing predictions instead of substituting expected labels.
 - Chat false positives as hot work: 6.
 - Required-confirmation coverage: 7/9 (77.78%).
 - Field exact match: 12/13 (92.31%).
+- Spurious non-empty fields when the reviewed expectation is empty: 8.
 - Unconfirmed business writes: 0. This metric is zero because the saved classifier run makes
   no workflow calls; separate service/API gates verify the control-flow boundary.
 

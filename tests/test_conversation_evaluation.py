@@ -61,6 +61,8 @@ def test_score_rejects_duplicate_ids_and_empty_or_malformed_slices():
         module.score([row | {"case_id": "blank", "slice": ""}])
     with pytest.raises(ValueError, match="at least one"):
         module.score([])
+    with pytest.raises(ValueError, match="predicted_intent"):
+        module.score([row | {"case_id": "bad-intent", "predicted_intent": "invented"}])
 
 
 def test_score_reports_splits_slices_fields_and_unconfirmed_writes():
@@ -75,8 +77,26 @@ def test_score_reports_splits_slices_fields_and_unconfirmed_writes():
     assert report["splits"]["development_seen"]["cases"] == 1
     assert report["splits"]["seen_post_fix_regression"]["cases"] == 1
     assert report["slices"]["active_field"]["correct"] == 1
-    assert report["fields"] == {"eligible": 1, "exact": 1, "exact_match_rate": 1.0}
+    assert report["fields"] == {
+        "eligible": 1,
+        "exact": 1,
+        "exact_match_rate": 1.0,
+        "spurious_nonempty": 0,
+    }
     assert report["safety"]["unconfirmed_business_writes"] == 1
+
+
+def test_score_counts_spurious_fields_when_gold_fields_are_empty():
+    report = evaluator().score([
+        outcome(
+            "spurious",
+            expected="casual_chat",
+            predicted="task_input_candidate",
+            predicted_fields={"work_location_description": "二号罐区"},
+        )
+    ])
+
+    assert report["fields"]["spurious_nonempty"] == 1
 
 
 def test_report_json_is_deterministic(tmp_path):

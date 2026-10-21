@@ -8,7 +8,8 @@
   "fields": {
     "eligible": 13,
     "exact": 12,
-    "exact_match_rate": 0.9231
+    "exact_match_rate": 0.9231,
+    "spurious_nonempty": 8
   },
   "input_result_kind": "scripted_double",
   "live_provider_requests": 0,
