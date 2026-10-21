@@ -326,3 +326,44 @@ async def test_scripted_cancel_rejects_pending_but_detaches_active_task():
     )
     assert pending.intent == "reject_pending_intent"
     assert active.intent == "cancel_task"
+
+
+@pytest.mark.asyncio
+async def test_scripted_switch_choice_carries_only_the_explicit_task_identifier():
+    switch_pending = PendingIntent(
+        intent_id="intent-switch",
+        kind="switch_or_create_task",
+        fields={"work_object_description": "V202 补焊"},
+        revision=1,
+    )
+    proposal = await ScriptedConversationModel().classify(
+        ConversationContext(
+            status="pending_confirmation",
+            messages=[VisibleMessage(role="user", text="切换到 task-owned")],
+            pending_intent=switch_pending,
+            task_projection={"task_id": "task-current", "status": "waiting_input"},
+        )
+    )
+    assert proposal.intent == "switch_task"
+    assert proposal.target_task_id == "task-owned"
+    assert proposal.fields == {}
+
+
+@pytest.mark.asyncio
+async def test_scripted_new_request_during_active_task_never_updates_the_old_task():
+    proposal = await ScriptedConversationModel().classify(
+        ConversationContext(
+            status="active_hot_work",
+            messages=[VisibleMessage(
+                role="user",
+                text="我要发起另一项动火任务，作业对象是V202管线，作业位置在三号罐区",
+            )],
+            task_projection={"task_id": "task-current", "status": "waiting_input"},
+        )
+    )
+    assert proposal.intent == "switch_or_create_task"
+    assert proposal.fields == {
+        "work_object_description": "V202管线",
+        "work_location_description": "三号罐区",
+    }
+    assert proposal.requires_confirmation is True

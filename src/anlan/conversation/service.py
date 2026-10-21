@@ -241,8 +241,6 @@ class ConversationService:
             await self.store.detach_task(identity, conversation_id, message_id)
             projection = None
             assistant = "已结束当前会话的任务引导，业务任务本身没有被修改。"
-        elif action is RouteAction.ASK_TASK_SWITCH:
-            raise InvalidTransition("任务选择应先保存待确认意图")
         elif action is RouteAction.SWITCH_TASK:
             if decision.target_task_id is None:
                 raise InvalidTransition("切换任务需要明确的任务标识")

@@ -173,6 +173,22 @@ def test_new_request_during_active_task_requires_switch_choice(intent):
     assert route.business_write is False
 
 
+def test_explicit_switch_is_allowed_from_the_choice_state_but_keeps_host_validation():
+    state = pending_state().model_copy(update={"active_task_id": "task-current"})
+    route = decide(
+        state,
+        IntentProposal(
+            intent="switch_task",
+            target_task_id="task-owned",
+            user_explanation="explicit user choice",
+            classifier_version="scripted-intent-v1",
+        ),
+    )
+    assert route.action == RouteAction.SWITCH_TASK
+    assert route.target_task_id == "task-owned"
+    assert route.business_write is False
+
+
 @pytest.mark.parametrize(
     ("state", "intent"),
     [

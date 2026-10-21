@@ -285,7 +285,7 @@ class ScriptedConversationModel:
             intent = "reject_pending_intent"
             fields = {}
             confirmation = False
-        elif context.status == "active_hot_work" and (
+        elif context.status in {"active_hot_work", "pending_confirmation"} and (
             switch_match := re.fullmatch(
                 r"切换到\s*([A-Za-z0-9._:-]{1,100})", normalized
             )
@@ -306,10 +306,10 @@ class ScriptedConversationModel:
             intent, fields, confirmation = "resume_task", {}, False
         elif context.status == "active_hot_work" and not question:
             extracted = _scripted_material_fields(text)
-            if extracted:
+            if any(word in text for word in ("另一个任务", "另一项", "重新申请", "新任务")):
+                intent, fields, confirmation = "switch_or_create_task", extracted, True
+            elif extracted:
                 intent, fields, confirmation = "task_input_candidate", extracted, False
-            elif any(word in text for word in ("另一个任务", "另一项", "重新申请", "新任务")):
-                intent, fields, confirmation = "switch_or_create_task", {}, True
             else:
                 intent, fields, confirmation = "casual_chat", {}, False
         elif (

@@ -58,7 +58,10 @@ def decide(state: ConversationState, proposal: IntentProposal) -> RouteDecision:
         raise InvalidTransition("当前会话状态不能切换或新建任务")
 
     if intent == "switch_task":
-        if state.status != "active_hot_work" or not state.active_task_id:
+        if (
+            state.status not in {"active_hot_work", "pending_confirmation"}
+            or not state.active_task_id
+        ):
             raise InvalidTransition("当前没有可切换的活动任务")
         if not proposal.target_task_id:
             raise InvalidTransition("切换任务需要明确的任务标识")
