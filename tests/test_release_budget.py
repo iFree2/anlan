@@ -36,6 +36,22 @@ def test_material_and_event_models_use_configured_release_package():
     assert models.perception().gateway.work_package == "P11-WP02"
 
 
+async def test_perception_synthesis_accepts_the_release_gateway_package():
+    from types import SimpleNamespace
+
+    from test_events import payload
+    from test_perception import bundle
+
+    from anlan.llm.perception import ScriptedPerceptionModel
+    from anlan.workflows.perception import synthesize_perception
+
+    model = ScriptedPerceptionModel()
+    model.gateway = SimpleNamespace(work_package="P11-WP02")
+    result = await synthesize_perception(payload(), bundle(), model, "release-check")
+    assert result["stop_reason"] == "completed"
+    assert result["work_package"] == "P11-WP02"
+
+
 @pytest.mark.postgres
 def test_release_migration_preserves_existing_attempts_and_limits(dsn):  # noqa: F811
     async def scenario():

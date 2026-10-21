@@ -16,6 +16,7 @@ AUTHORIZATION_ID = "20260920-long-term-v1"
 CONSOLE_WORK_PACKAGE = "P8-WP04"
 CONVERSATION_WORK_PACKAGE = "P11-WP01"
 CONVERSATION_RELEASE_WORK_PACKAGE = "P11-WP02"
+CONSOLE_MODEL_WORK_PACKAGES = frozenset({CONSOLE_WORK_PACKAGE, CONVERSATION_RELEASE_WORK_PACKAGE})
 _ERROR_CATEGORIES = frozenset({
     "http_error", "transport_error", "timeout", "invalid_response", "cancelled", "unknown_error",
     "model_timeout", "model_unavailable", "model_rate_limited", "model_unauthorized",

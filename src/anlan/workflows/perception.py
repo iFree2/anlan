@@ -33,10 +33,10 @@ async def synthesize_perception(
     if not 0 < timeout_seconds <= 20:
         raise ValueError("Perception model deadline must be within 20 seconds")
     started = perf_counter()
-    from anlan.infrastructure.budget import CONSOLE_WORK_PACKAGE
+    from anlan.infrastructure.budget import CONSOLE_MODEL_WORK_PACKAGES
     gateway = getattr(model, "gateway", None)
     package = gateway.work_package if gateway else WORK_PACKAGE
-    if package not in {WORK_PACKAGE, CONSOLE_WORK_PACKAGE}:
+    if package not in {WORK_PACKAGE, *CONSOLE_MODEL_WORK_PACKAGES}:
         raise ValueError("Perception model gateway must use an authorized host package")
     result = {
         "schema_version": "perception-review-v1",

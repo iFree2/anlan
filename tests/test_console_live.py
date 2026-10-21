@@ -17,8 +17,10 @@ from anlan.llm.config import ModelConfig
 from anlan.llm.perception import ScriptedPerceptionModel
 
 
-def live_config():
-    return ServiceConfig.model_validate(config().model_dump() | {"model_mode": "deepseek_live"})
+def live_config(package=CONSOLE_WORK_PACKAGE):
+    return ServiceConfig.model_validate(config().model_dump() | {
+        "model_mode": "deepseek_live", "console_work_package": package,
+    })
 
 
 def test_live_mode_requires_server_key(monkeypatch):
@@ -28,7 +30,8 @@ def test_live_mode_requires_server_key(monkeypatch):
 
 
 @pytest.mark.postgres
-def test_live_material_and_event_share_budget_and_keep_history(dsn):  # noqa: F811
+@pytest.mark.parametrize("package", ["P8-WP04", "P11-WP02"])
+def test_live_material_and_event_share_budget_and_keep_history(dsn, package):  # noqa: F811
     async def scenario():
         ledger = BudgetLedger(dsn, "test-" + uuid4().hex)
         await ledger.initialize()
@@ -38,7 +41,7 @@ def test_live_material_and_event_share_budget_and_keep_history(dsn):  # noqa: F8
             payload = json.loads(request.content)
             budget = await ledger.snapshot()
             assert budget["total_reserved"] == len(sent) + 1
-            assert budget["attempts"][-1]["work_package"] == CONSOLE_WORK_PACKAGE
+            assert budget["attempts"][-1]["work_package"] == package
             assert request.url.host == "api.deepseek.com"
             sent.append(payload)
             if "event" in json.loads(payload["messages"][1]["content"]):
@@ -64,7 +67,7 @@ def test_live_material_and_event_share_budget_and_keep_history(dsn):  # noqa: F8
                 "/console/api/tasks/" + old["task_id"] + "/events", json={
                     "request_id": uuid4().hex, "expected_revision": 1,
                     "kind": "helmet_missing"})).json()
-        app = create_app(dsn, live_config(), knowledge=knowledge,
+        app = create_app(dsn, live_config(package), knowledge=knowledge,
                          model_config=ModelConfig(api_key="provider-secret"),
                          model_transport=httpx.MockTransport(provider), budget_ledger=ledger)
         async with app.router.lifespan_context(app), httpx.AsyncClient(
@@ -111,14 +114,14 @@ def test_live_material_and_event_share_budget_and_keep_history(dsn):  # noqa: F8
             assert review.status_code == 200
             report = review.json()["result"]["report"]
             assert report["mode"] == "deepseek_live"
-            assert report["work_package"] == CONSOLE_WORK_PACKAGE
+            assert report["work_package"] == package
             assert report["stop_reason"] == "completed"
             assert report["attempt_id"] and report["usage"]["total_tokens"] == 20
             replay = (await client.post(url, json=request)).json()
             assert replay["review_id"] == review.json()["review_id"]
             assert len(sent) == 2
             budget = await ledger.snapshot()
-            assert budget["packages"] == {CONSOLE_WORK_PACKAGE: 2}
+            assert budget["packages"] == {package: 2}
             assert budget["status_counts"] == {"reserved": 0, "succeeded": 2, "failed": 0}
     run(scenario())
 
