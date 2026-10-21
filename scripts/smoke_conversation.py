@@ -14,6 +14,13 @@ def require(condition, message):
         raise AssertionError(message)
 
 
+def local_client(base_url, headers):
+    """Create a loopback client that cannot route local smoke traffic through a proxy."""
+    return httpx.Client(
+        base_url=base_url, headers=headers, timeout=45, trust_env=False
+    )
+
+
 def run_smoke(client):
     """Exercise the HTTP boundary after proving the target is a scripted service."""
     require(client.get("/healthz").status_code == 200, "health check failed")
@@ -72,7 +79,28 @@ def run_smoke(client):
     require(refreshed["active_task_id"] == task_id, "refresh lost task binding")
     require(refreshed["revision"] == chat["revision"], "refresh changed revision")
     checks["cross_process_refresh"] = True
-    return checks
+    return {
+        "checks": checks,
+        "recovery_probe": {
+            "conversation_id": conversation_id,
+            "task_id": task_id,
+            "revision": chat["revision"],
+        },
+    }
+
+
+def verify_recovery(client, probe):
+    """Read a prior smoke record after a server restart; never submit a message."""
+    require(client.get("/healthz").status_code == 200, "health check failed")
+    info = client.get("/console/api/info").raise_for_status().json()
+    if info.get("model_mode") != "scripted_double":
+        raise ValueError("conversation smoke requires model_mode=scripted_double")
+    state = client.get(
+        f"/conversations/{probe['conversation_id']}"
+    ).raise_for_status().json()
+    require(state["active_task_id"] == probe["task_id"], "restart lost task binding")
+    require(state["revision"] == probe["revision"], "restart changed conversation revision")
+    return {"process_restart_recovery": True}
 
 
 def main():
@@ -80,6 +108,7 @@ def main():
     parser.add_argument("--base-url", default="http://127.0.0.1:8000")
     parser.add_argument("--token", default=os.environ.get("ANLAN_SMOKE_TOKEN"))
     parser.add_argument("--output", required=True, type=Path)
+    parser.add_argument("--recovery-from", type=Path)
     args = parser.parse_args()
     if args.output.exists():
         raise FileExistsError(f"refusing to overwrite {args.output}")
@@ -96,8 +125,13 @@ def main():
     }
     try:
         headers = {"Authorization": f"Bearer {args.token}"}
-        with httpx.Client(base_url=args.base_url, headers=headers, timeout=45) as client:
-            report["checks"] = run_smoke(client)
+        with local_client(args.base_url, headers) as client:
+            if args.recovery_from:
+                previous = json.loads(args.recovery_from.read_text(encoding="utf-8"))
+                report["checks"] = verify_recovery(client, previous["recovery_probe"])
+            else:
+                result = run_smoke(client)
+                report.update(result)
             report["status"] = "passed"
     except Exception as error:
         report["failure_type"] = type(error).__name__
