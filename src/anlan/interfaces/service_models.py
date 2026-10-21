@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 
 import httpx
 
-from anlan.infrastructure.budget import CONSOLE_WORK_PACKAGE, BudgetLedger
+from anlan.infrastructure.budget import BudgetLedger
 from anlan.interfaces.runtime import postgres_service
 from anlan.llm.config import ModelConfig
 from anlan.llm.conversation import (
@@ -24,6 +24,7 @@ class ServiceModels:
         self.live = config.model_mode == "deepseek_live"
         self.material_mode = "deepseek_live" if self.live else "offline"
         self.model_mode = config.model_mode
+        self.console_work_package = config.console_work_package
         self.config = (model_config or ModelConfig.from_env()) if self.live else None
         if self.live and self.config.model != "deepseek-flash":
             raise ValueError("Online console requires the authorized DeepSeek model")
@@ -45,14 +46,14 @@ class ServiceModels:
 
     def material_service(self):
         analyzer = (DeepSeekAnalyzer(self.config, self.client, ledger=self.ledger,
-                                    work_package=CONSOLE_WORK_PACKAGE)
+                                    work_package=self.console_work_package)
                     if self.live else OfflineAnalyzer())
         return postgres_service(self.dsn, analyzer, mode=self.material_mode)
 
     def perception(self):
         if self.live:
             return DeepSeekPerceptionModel(self.config, self.client, self.ledger,
-                                           work_package=CONSOLE_WORK_PACKAGE)
+                                           work_package=self.console_work_package)
         return self.model_factory()
 
     def conversation(self):
@@ -75,9 +76,9 @@ class ServiceModels:
         if self.live:
             try:
                 budget = await self.ledger.snapshot()
-                used = budget["packages"].get(CONSOLE_WORK_PACKAGE, 0)
+                used = budget["packages"].get(self.console_work_package, 0)
                 value["budget"] = {
-                    "status": "available", "work_package": CONSOLE_WORK_PACKAGE,
+                    "status": "available", "work_package": self.console_work_package,
                     "total_used": budget["total_reserved"], "total_limit": budget["total_limit"],
                     "package_used": used, "package_limit": budget["package_limit"],
                     "package_remaining": min(budget["package_limit"] - used,

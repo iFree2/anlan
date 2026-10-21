@@ -50,6 +50,7 @@ class ServiceConfig(StrictModel):
     as_of: AwareDatetime | None = None
     console_profiles: list[ConsoleProfile] = Field(default_factory=list, max_length=20)
     model_mode: Literal["scripted_double", "deepseek_live"] = "scripted_double"
+    console_work_package: Literal["P8-WP04", "P11-WP02"] = "P8-WP04"
 
     @model_validator(mode="after")
     def unique_scopes(self):
