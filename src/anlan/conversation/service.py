@@ -4,6 +4,7 @@ from anlan.common.errors import AccessDenied, InvalidTransition, TaskBusy
 from anlan.conversation.contracts import ConversationState, IntentProposal, PendingIntent
 from anlan.conversation.policy import RouteAction, RouteDecision, decide
 from anlan.llm.conversation import ConversationContext, VisibleMessage
+from anlan.workflows.material_contracts import LABELS, QUESTIONS
 
 
 class ConversationService:
@@ -148,7 +149,11 @@ class ConversationService:
         action = decision.action
         assistant = None
 
-        if action in {RouteAction.ASK_CONFIRMATION, RouteAction.ASK_TASK_INPUT_CONFIRMATION}:
+        if action in {
+            RouteAction.ASK_CONFIRMATION,
+            RouteAction.ASK_TASK_INPUT_CONFIRMATION,
+            RouteAction.ASK_TASK_SWITCH,
+        }:
             fields = dict(decision.fields)
             if raw["pending_intent"] is not None:
                 fields = raw["pending_intent"]["candidate"].get("fields", {}) | fields
@@ -156,7 +161,30 @@ class ConversationService:
             await self.store.set_pending_intent(
                 identity, conversation_id, message_id, candidate
             )
-            assistant = "请确认是否按以上信息继续；确认前不会创建或修改动火任务。"
+            if action is RouteAction.ASK_TASK_SWITCH:
+                assistant = (
+                    "当前任务会保留。请明确选择“新建另一项任务”，"
+                    "或输入“切换到 <任务标识>”；未经归属校验不会切换。"
+                )
+            else:
+                summary = "；".join(
+                    f"{LABELS[name]}：{value}" for name, value in fields.items()
+                )
+                assistant = (
+                    f"请确认是否按以上信息继续（{summary or '尚未提取到明确字段'}）；"
+                    "确认前不会创建或修改动火任务。"
+                )
+        elif action is RouteAction.PREPARE_NEW_TASK:
+            candidate = proposal.model_dump(mode="json") | {
+                "intent": "hot_work_candidate",
+                "fields": dict(decision.fields),
+                "requires_confirmation": True,
+                "target_task_id": None,
+            }
+            await self.store.set_pending_intent(
+                identity, conversation_id, message_id, candidate
+            )
+            assistant = "旧任务已保留。请再次确认是否创建这项新的动火任务。"
         elif action is RouteAction.REJECT_PENDING_INTENT:
             await self.store.reject_pending_intent(identity, conversation_id, message_id)
             assistant = "已放弃这次待确认内容，没有修改动火任务。"
@@ -168,7 +196,15 @@ class ConversationService:
                 identity, conversation_id, raw["revision"], workflow.projection.task_id
             )
             projection = workflow.projection.model_dump(mode="json")
-            assistant = "已按你的确认创建动火材料任务；后续状态以侧栏为准。"
+            question = next(iter(projection.get("issue_questions", [])), None)
+            if question is None:
+                missing = projection.get("missing_fields", [])
+                question = QUESTIONS[missing[0]] if missing else None
+            assistant = "已按你的确认创建动火材料任务。"
+            if question:
+                assistant += " 下一步：" + question
+            else:
+                assistant += " 当前材料已进入人工复核，详情见侧栏。"
         elif action is RouteAction.SUBMIT_TASK_INPUT:
             if decision.active_task_id is None:
                 raise InvalidTransition("活动任务投影不可用")
@@ -206,7 +242,16 @@ class ConversationService:
             projection = None
             assistant = "已结束当前会话的任务引导，业务任务本身没有被修改。"
         elif action is RouteAction.ASK_TASK_SWITCH:
-            assistant = "当前已有动火任务；请先结束当前引导，再发起新的任务申请。"
+            raise InvalidTransition("任务选择应先保存待确认意图")
+        elif action is RouteAction.SWITCH_TASK:
+            if decision.target_task_id is None:
+                raise InvalidTransition("切换任务需要明确的任务标识")
+            workflow = await self.workflow.read(identity, decision.target_task_id)
+            await self.store.bind_task(
+                identity, conversation_id, raw["revision"], decision.target_task_id
+            )
+            projection = workflow.projection.model_dump(mode="json")
+            assistant = "已切换到你有权访问的已有任务，原任务仍保留。"
         elif action is RouteAction.REPLY_ONLY:
             reply = await models.responder.respond(
                 self._context(raw, self._state(raw), projection),
@@ -304,12 +349,16 @@ class ConversationService:
 
     @staticmethod
     def _context(raw, state, projection):
+        visible = [
+            item
+            for item in raw["messages"]
+            if item["role"] in {"user", "assistant", "system_event"}
+        ][-12:]
         return ConversationContext(
             status=state.status,
             messages=[
                 VisibleMessage(role=item["role"], text=item["text"])
-                for item in raw["messages"]
-                if item["role"] in {"user", "assistant", "system_event"}
+                for item in visible
             ],
             pending_intent=state.pending_intent,
             task_projection=projection,

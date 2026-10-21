@@ -22,6 +22,8 @@ class RouteAction(StrEnum):
     RECOVER_TASK = "recover_task"
     DETACH_TASK = "detach_task"
     ASK_TASK_SWITCH = "ask_task_switch"
+    PREPARE_NEW_TASK = "prepare_new_task"
+    SWITCH_TASK = "switch_task"
 
 
 class RouteDecision(StrictModel):
@@ -31,6 +33,7 @@ class RouteDecision(StrictModel):
     business_write: bool = False
     task_revision: int | None = Field(default=None, strict=True, ge=1)
     task_status: Literal["analyzing", "waiting_input", "awaiting_review"] | None = None
+    target_task_id: NonEmpty | None = None
 
 
 def decide(state: ConversationState, proposal: IntentProposal) -> RouteDecision:
@@ -54,6 +57,17 @@ def decide(state: ConversationState, proposal: IntentProposal) -> RouteDecision:
             return _decision(RouteAction.ASK_CONFIRMATION, state, proposal.fields)
         raise InvalidTransition("当前会话状态不能切换或新建任务")
 
+    if intent == "switch_task":
+        if state.status != "active_hot_work" or not state.active_task_id:
+            raise InvalidTransition("当前没有可切换的活动任务")
+        if not proposal.target_task_id:
+            raise InvalidTransition("切换任务需要明确的任务标识")
+        return RouteDecision(
+            action=RouteAction.SWITCH_TASK,
+            active_task_id=state.active_task_id,
+            target_task_id=proposal.target_task_id,
+        )
+
     if intent == "confirm_pending_intent":
         pending = state.pending_intent
         if state.status != "pending_confirmation" or pending is None:
@@ -62,6 +76,8 @@ def decide(state: ConversationState, proposal: IntentProposal) -> RouteDecision:
             return _decision(RouteAction.START_HOT_WORK, state, pending.fields, write=True)
         if pending.kind == "task_input_candidate" and state.active_task_id:
             return _decision(RouteAction.SUBMIT_TASK_INPUT, state, pending.fields, write=True)
+        if pending.kind == "switch_or_create_task" and state.active_task_id:
+            return _decision(RouteAction.PREPARE_NEW_TASK, state, pending.fields)
         raise InvalidTransition("待处理意图不能在当前状态确认")
 
     if intent == "reject_pending_intent":

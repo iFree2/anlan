@@ -17,6 +17,7 @@ IntentKind = Literal[
     "resume_task",
     "cancel_task",
     "switch_or_create_task",
+    "switch_task",
 ]
 ConversationStatus = Literal["idle", "pending_confirmation", "active_hot_work", "paused"]
 
@@ -40,5 +41,6 @@ class IntentProposal(StrictModel):
     intent: IntentKind
     fields: dict[FieldName, Text] = Field(default_factory=dict, max_length=4)
     requires_confirmation: bool = False
+    target_task_id: NonEmpty | None = None
     user_explanation: NonEmpty
     classifier_version: NonEmpty

@@ -1,6 +1,7 @@
 """Bounded, tool-free conversation classifier and chat responder adapters."""
 
 import json
+import re
 from dataclasses import dataclass
 from typing import Literal, Protocol
 
@@ -18,7 +19,7 @@ from anlan.llm.contracts import AnalysisFailure
 from anlan.llm.gateway import ModelGateway
 from anlan.workflows.material_contracts import FieldName, Text
 
-INTENT_PROMPT_VERSION = "conversation-intent-v1"
+INTENT_PROMPT_VERSION = "conversation-intent-v2"
 CHAT_PROMPT_VERSION = "conversation-chat-v1"
 _MAX_CONTEXT_BYTES = 16 * 1024
 _MAX_VISIBLE_MESSAGES = 12
@@ -26,7 +27,7 @@ _MAX_VISIBLE_MESSAGES = 12
 
 class VisibleMessage(StrictModel):
     role: Literal["user", "assistant", "system_event"]
-    text: str = Field(strict=True, min_length=1, max_length=8000)
+    text: str = Field(strict=True, min_length=1, max_length=8192)
 
 
 class ConversationContext(StrictModel):
@@ -172,9 +173,22 @@ class DeepSeekIntentClassifier:
                         {
                             "role": "system",
                             "content": (
-                                "你是受限意图分类器。只返回一个符合 IntentProposal 的 JSON 对象；"
-                                "不得执行工具、业务写入或输出隐藏推理。"
-                                "classifier_version 由宿主写入，响应中不需要提供。"
+                                "你是受限意图分类器，只返回一个 JSON 对象，不得执行工具、"
+                                "业务写入或输出隐藏推理。JSON schema："
+                                '{"intent":"下列枚举之一","fields":{"字段名":"字符串"},'
+                                '"requires_confirmation":false,"target_task_id":null,'
+                                '"user_explanation":"简短说明"}。intent 枚举：casual_chat、'
+                                "hot_work_candidate、confirm_pending_intent、"
+                                "reject_pending_intent、task_input_candidate、pause_task、"
+                                "resume_task、cancel_task、switch_or_create_task、switch_task。"
+                                "fields 只允许 work_location_description、"
+                                "work_object_description、work_method_description、"
+                                "attachment_description；不得加入其他字段。switch_task 仅在用户"
+                                "明确说切换到某任务时设置 target_task_id，宿主仍会校验归属。"
+                                "否定、尚未确认、疑问、引用他人话语、假设和知识咨询不得分类为确认"
+                                "或材料写入；确认必须是针对当前候选的整句明确肯定。活动任务中的"
+                                "明确字段补充才是 task_input_candidate，普通焊接知识问题仍是"
+                                "casual_chat。classifier_version 由宿主最终写入，响应中无需提供。"
                             ),
                         },
                         {"role": "user", "content": serialize_context(context)},
@@ -240,14 +254,44 @@ class ScriptedConversationModel:
     ) -> IntentProposal:
         del run_id
         text = context.messages[-1].text.strip() if context.messages else ""
-        if context.pending_intent and any(word in text for word in ("确认", "同意", "是的")):
+        target_task_id = None
+        normalized = text.rstrip("。！! ")
+        negative = any(
+            phrase in text
+            for phrase in ("不确认", "不要确认", "还没确认", "尚未确认", "不是申请", "并非申请")
+        )
+        question = any(mark in text for mark in ("?", "？")) or any(
+            word in text for word in ("什么", "为什么", "怎么", "如何", "区别", "解释", "流程")
+        )
+        if (
+            context.pending_intent
+            and context.pending_intent.kind == "switch_or_create_task"
+            and "新建" in text
+            and not negative
+        ):
             intent = "confirm_pending_intent"
             fields = {}
             confirmation = False
-        elif context.pending_intent and any(word in text for word in ("不是", "取消", "否认")):
+        elif context.pending_intent and normalized in {
+            "确认", "确认申请", "同意", "是的", "确认继续"
+        }:
+            intent = "confirm_pending_intent"
+            fields = {}
+            confirmation = False
+        elif context.pending_intent and any(
+            word in text
+            for word in ("不是", "取消", "取消申请", "否认", "不确认", "不要确认")
+        ):
             intent = "reject_pending_intent"
             fields = {}
             confirmation = False
+        elif context.status == "active_hot_work" and (
+            switch_match := re.fullmatch(
+                r"切换到\s*([A-Za-z0-9._:-]{1,100})", normalized
+            )
+        ):
+            intent, fields, confirmation = "switch_task", {}, False
+            target_task_id = switch_match.group(1)
         elif (
             context.status == "active_hot_work"
             and any(word in text for word in ("取消当前任务", "取消引导", "结束引导"))
@@ -260,9 +304,22 @@ class ScriptedConversationModel:
             intent, fields, confirmation = "pause_task", {}, False
         elif any(word in text for word in ("恢复", "继续任务")) and context.status == "paused":
             intent, fields, confirmation = "resume_task", {}, False
-        elif any(word in text for word in ("动火", "补焊", "焊接", "切割")):
+        elif context.status == "active_hot_work" and not question:
+            extracted = _scripted_material_fields(text)
+            if extracted:
+                intent, fields, confirmation = "task_input_candidate", extracted, False
+            elif any(word in text for word in ("另一个任务", "另一项", "重新申请", "新任务")):
+                intent, fields, confirmation = "switch_or_create_task", {}, True
+            else:
+                intent, fields, confirmation = "casual_chat", {}, False
+        elif (
+            any(word in text for word in ("动火", "补焊", "焊接", "切割"))
+            and not negative
+            and not question
+            and not any(word in text for word in ("只是讨论", "举例", "假如", "如果", "引用"))
+        ):
             intent = "hot_work_candidate"
-            fields = {"work_object_description": text}
+            fields = _scripted_material_fields(text) or {"work_object_description": text}
             confirmation = True
         else:
             intent, fields, confirmation = "casual_chat", {}, False
@@ -270,6 +327,7 @@ class ScriptedConversationModel:
             intent=intent,
             fields=fields,
             requires_confirmation=confirmation,
+            target_task_id=target_task_id,
             user_explanation="SYNTHETIC 规则替身的有界分类",
             classifier_version="scripted-intent-v1",
         )
@@ -279,3 +337,19 @@ class ScriptedConversationModel:
     ) -> AssistantReply:
         del context, run_id
         return AssistantReply(text="SYNTHETIC：我可以继续对话；业务任务状态以侧栏为准。")
+
+
+def _scripted_material_fields(text: str) -> dict[FieldName, Text]:
+    """Small deterministic demo grammar; never evidence of model quality."""
+    patterns = {
+        "work_location_description": r"(?:作业)?位置(?:在|是|为)?\s*([^，。；;!?？]+)",
+        "work_object_description": r"(?:作业)?对象(?:是|为)?\s*([^，。；;!?？]+)",
+        "work_method_description": r"(?:作业)?方式(?:是|为)?\s*([^，。；;!?？]+)",
+        "attachment_description": r"附件(?:说明)?(?:是|为)?\s*([^，。；;!?？]+)",
+    }
+    result = {}
+    for name, pattern in patterns.items():
+        match = re.search(pattern, text)
+        if match and match.group(1).strip():
+            result[name] = match.group(1).strip()
+    return result

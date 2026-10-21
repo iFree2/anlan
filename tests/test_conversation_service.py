@@ -6,7 +6,7 @@ from test_events import OWNER
 from test_events_postgres import dsn, run  # noqa: F401
 
 from anlan.common.errors import AccessDenied, InvalidTransition, TaskBusy
-from anlan.conversation.contracts import IntentProposal
+from anlan.conversation.contracts import ConversationState, IntentProposal
 from anlan.conversation.service import ConversationService
 from anlan.infrastructure.conversations import ConversationStore
 from anlan.interfaces.conversation_runtime import TaskProjection, WorkflowResult
@@ -66,6 +66,8 @@ class FakeWorkflow:
 
     async def read(self, identity, task_id):
         del identity
+        if task_id not in self.tasks:
+            raise AccessDenied("task is not owned by this identity")
         return WorkflowResult(projection=self.tasks[task_id])
 
 
@@ -103,6 +105,7 @@ class ProposedModel:
             intent=value[0],
             fields=value[1] if len(value) > 1 else {},
             requires_confirmation=value[2] if len(value) > 2 else False,
+            target_task_id=value[3] if len(value) > 3 else None,
             user_explanation="test proposal",
             classifier_version="scripted-intent-v1",
         )
@@ -144,6 +147,21 @@ def test_candidate_then_confirmation_creates_exactly_one_task(dsn):  # noqa: F81
         assert factory.calls == 2
 
     run(scenario())
+
+
+def test_context_trims_store_history_before_constructing_the_model_contract():
+    raw = {
+        "messages": [
+            {"role": "user", "text": f"message-{index}"} for index in range(101)
+        ]
+    }
+    state = ConversationState(conversation_id="conv-1", revision=1)
+
+    bounded = ConversationService._context(raw, state, None)
+
+    assert [message.text for message in bounded.messages] == [
+        f"message-{index}" for index in range(89, 101)
+    ]
 
 
 def test_chat_during_active_task_never_calls_workflow(dsn):  # noqa: F811
@@ -240,6 +258,97 @@ def test_rejection_pause_resume_and_detach_are_server_owned_transitions(dsn):  #
         assert detached["status"] == "idle"
         assert detached["active_task_id"] is None
         assert [call[0] for call in workflow.calls] == ["start", "recover"]
+
+    run(scenario())
+
+
+def test_new_task_choice_requires_confirmation_and_switch_checks_owned_task(dsn):  # noqa: F811
+    async def scenario():
+        model = ProposedModel(
+            [
+                ("hot_work_candidate", {"work_object_description": "V101 补焊"}, True),
+                ("confirm_pending_intent",),
+                ("switch_or_create_task", {"work_object_description": "V202 补焊"}, True),
+                ("confirm_pending_intent",),
+                ("confirm_pending_intent",),
+            ]
+        )
+        workflow = FakeWorkflow()
+        subject = ConversationService(ConversationStore(dsn), CountingFactory(model), workflow)
+        state = await subject.create(OWNER, request_id=unique("new-choice"))
+        for request_id in ("first", "confirm-first", "another"):
+            state = await subject.message(
+                OWNER,
+                state["conversation_id"],
+                request_id=request_id,
+                expected_revision=state["revision"],
+                text=request_id,
+            )
+        first_task = state["active_task_id"]
+        assert state["pending_intent"]["kind"] == "switch_or_create_task"
+        assert len(workflow.tasks) == 1
+
+        state = await subject.message(
+            OWNER,
+            state["conversation_id"],
+            request_id="choose-new",
+            expected_revision=state["revision"],
+            text="明确新建另一项任务",
+        )
+        assert state["status"] == "pending_confirmation"
+        assert state["active_task_id"] == first_task
+        assert state["pending_intent"]["kind"] == "hot_work_candidate"
+        assert len(workflow.tasks) == 1
+
+        state = await subject.message(
+            OWNER,
+            state["conversation_id"],
+            request_id="confirm-new",
+            expected_revision=state["revision"],
+            text="确认申请",
+        )
+        assert state["active_task_id"] != first_task
+        assert first_task in workflow.tasks
+        assert len(workflow.tasks) == 2
+
+    run(scenario())
+
+
+def test_switch_can_only_bind_a_task_verified_for_the_current_identity(dsn):  # noqa: F811
+    async def scenario():
+        model = ProposedModel(
+            [
+                ("hot_work_candidate", {"work_object_description": "V101 补焊"}, True),
+                ("confirm_pending_intent",),
+                ("switch_task", {}, False, "task-owned"),
+                ("switch_task", {}, False, "task-not-owned"),
+            ]
+        )
+        workflow = FakeWorkflow()
+        workflow.tasks["task-owned"] = projection("task-owned")
+        subject = ConversationService(ConversationStore(dsn), CountingFactory(model), workflow)
+        state = await subject.create(OWNER, request_id=unique("switch-owned"))
+        for request_id in ("candidate", "confirm", "switch"):
+            state = await subject.message(
+                OWNER,
+                state["conversation_id"],
+                request_id=request_id,
+                expected_revision=state["revision"],
+                text=request_id,
+            )
+        assert state["active_task_id"] == "task-owned"
+        assert state["task_projection"]["task_id"] == "task-owned"
+
+        with pytest.raises(AccessDenied):
+            await subject.message(
+                OWNER,
+                state["conversation_id"],
+                request_id="switch-denied",
+                expected_revision=state["revision"],
+                text="切换到 task-not-owned",
+            )
+        snapshot = await subject.snapshot(OWNER, state["conversation_id"])
+        assert snapshot["active_task_id"] == "task-owned"
 
     run(scenario())
 

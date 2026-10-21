@@ -84,6 +84,43 @@ async def test_scripted_classifier_separates_chat_candidate_and_confirmation():
 
 
 @pytest.mark.asyncio
+@pytest.mark.parametrize("text", ["不确认", "还没确认", "不要确认", "解释一下确认流程"])
+async def test_scripted_pending_intent_requires_an_explicit_affirmative_sentence(text):
+    proposal = await ScriptedConversationModel().classify(context(text, pending=True))
+    assert proposal.intent != "confirm_pending_intent"
+
+
+@pytest.mark.asyncio
+async def test_scripted_model_extracts_material_supplements_without_misrouting_chat():
+    active = ConversationContext(
+        status="active_hot_work",
+        messages=[VisibleMessage(role="user", text="位置在一号罐区东侧")],
+        task_projection={
+            "task_id": "task-1",
+            "status": "waiting_input",
+            "missing_fields": ["work_location_description"],
+        },
+    )
+    supplement = await ScriptedConversationModel().classify(active)
+    assert supplement.intent == "task_input_candidate"
+    assert supplement.fields == {"work_location_description": "一号罐区东侧"}
+    assert supplement.requires_confirmation is False
+
+    active.messages = [VisibleMessage(role="user", text="电焊和气焊有什么区别？")]
+    question = await ScriptedConversationModel().classify(active)
+    assert question.intent == "casual_chat"
+    assert question.fields == {}
+
+    idle = context("这里只是讨论焊接知识，不是申请")
+    assert (await ScriptedConversationModel().classify(idle)).intent == "casual_chat"
+
+
+def test_visible_message_accepts_the_http_utf8_byte_limit_for_ascii():
+    message = VisibleMessage(role="user", text="x" * 8192)
+    assert len(message.text.encode("utf-8")) == 8192
+
+
+@pytest.mark.asyncio
 async def test_live_classifier_rejects_unknown_intent_and_never_sends_identity():
     requests = []
 
@@ -116,6 +153,20 @@ async def test_live_classifier_rejects_unknown_intent_and_never_sends_identity()
     assert request["response_format"] == {"type": "json_object"}
     assert request["max_tokens"] == 1024
     assert "tools" not in request
+    system_prompt = request["messages"][0]["content"]
+    for required in (
+        "casual_chat",
+        "hot_work_candidate",
+        "confirm_pending_intent",
+        "switch_or_create_task",
+        "work_location_description",
+        "work_object_description",
+        "否定",
+        "疑问",
+        "引用",
+        "JSON",
+    ):
+        assert required in system_prompt
 
 
 @pytest.mark.parametrize("provider_version", [None, ""])
@@ -137,7 +188,7 @@ async def test_live_classifier_owns_version_when_provider_omits_or_blanks_it(pro
             ModelConfig(api_key="test"), client, FakeLedger()
         ).classify(context("你好"), run_id="message-version")
 
-    assert proposal.classifier_version == "conversation-intent-v1"
+    assert proposal.classifier_version == "conversation-intent-v2"
 
 
 @pytest.mark.asyncio
@@ -166,7 +217,7 @@ async def test_context_is_bounded_to_twelve_visible_messages_and_sixteen_kib():
             ModelConfig(api_key="test"), client, FakeLedger()
         ).classify(bounded, run_id="message-bounded")
 
-    assert proposal.classifier_version == "conversation-intent-v1"
+    assert proposal.classifier_version == "conversation-intent-v2"
     prompt_context = json.loads(requests[0]["messages"][1]["content"])
     assert len(prompt_context["messages"]) <= 12
     assert len(requests[0]["messages"][1]["content"].encode()) <= 16 * 1024
