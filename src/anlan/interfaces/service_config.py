@@ -6,6 +6,7 @@ from typing import Literal
 
 from pydantic import AwareDatetime, Field, SecretStr, field_validator, model_validator
 
+from anlan.collaboration.contracts import Role
 from anlan.common.models import Identity, StrictModel
 from anlan.tools.contracts import FactReferences
 from anlan.workflows.event_contracts import SourceBinding
@@ -14,6 +15,7 @@ from anlan.workflows.event_contracts import SourceBinding
 class TokenGrant(StrictModel):
     token: SecretStr
     identity: Identity
+    collaboration_role: Role | None = None
 
     @field_validator("token")
     @classmethod
@@ -57,6 +59,12 @@ class ServiceConfig(StrictModel):
         if len({g.token.get_secret_value() for g in self.tokens}) != len(self.tokens):
             raise ValueError("Tokens must be unique")
         identities = {(g.identity.tenant_id, g.identity.user_id) for g in self.tokens}
+        roles = {}
+        for grant in self.tokens:
+            key = (grant.identity.tenant_id, grant.identity.user_id)
+            if key in roles and roles[key] != grant.collaboration_role:
+                raise ValueError("Conflicting collaboration roles for the same identity")
+            roles[key] = grant.collaboration_role
         keys = []
         for source in self.sources:
             binding = source.binding
@@ -90,3 +98,18 @@ class ServiceConfig(StrictModel):
 
     def console_profile(self, identity):
         return next((p for p in self.console_profiles if p.identity == identity), None)
+
+    def collaboration_role(self, identity: Identity) -> Role | None:
+        return next((g.collaboration_role for g in self.tokens if g.identity == identity), None)
+
+    def collaboration_reviewers(self, identity: Identity) -> list[Identity]:
+        """Host-configured same-tenant reviewers, deduplicated without exposing credentials."""
+        return sorted(
+            {
+                g.identity for g in self.tokens
+                if g.collaboration_role == "safety_manager"
+                and g.identity.tenant_id == identity.tenant_id
+                and g.identity.user_id != identity.user_id
+            },
+            key=lambda reviewer: reviewer.user_id,
+        )

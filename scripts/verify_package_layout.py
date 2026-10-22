@@ -13,6 +13,19 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def verify_resources(archive, root):
+    """Verify every source resource, including each old migration, without a fixed count."""
+    resources = []
+    for path in [*(root / "src/anlan/sql").glob("*.sql"),
+                 *(root / "src/anlan/assets").glob("*")]:
+        name = path.relative_to(root / "src").as_posix()
+        content = archive.read(name)
+        if content != path.read_bytes():
+            raise ValueError("Wheel resource differs from source")
+        resources.append({"path": name, "sha256": hashlib.sha256(content).hexdigest()})
+    return resources
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--wheel", type=Path, required=True)
@@ -25,13 +38,7 @@ def main():
     with args.output.open("x", encoding="utf-8") as output:
         try:
             with zipfile.ZipFile(wheel) as archive:
-                for path in [*(ROOT / "src/anlan/sql").glob("*.sql"),
-                             *(ROOT / "src/anlan/assets").glob("*")]:
-                    name = path.relative_to(ROOT / "src").as_posix()
-                    if archive.read(name) != path.read_bytes():
-                        raise ValueError("Wheel resource differs from source")
-                    report["resources"].append({"path": name, "sha256": hashlib.sha256(
-                        archive.read(name)).hexdigest()})
+                report["resources"] = verify_resources(archive, ROOT)
                 entries = archive.read("anlan-0.1.0.dist-info/entry_points.txt").decode()
                 if "anlan = anlan.interfaces.cli:main" not in entries:
                     raise ValueError("Console entry not updated")
@@ -68,8 +75,6 @@ print(json.dumps({'modules':modules,'resource_bytes':len(files('anlan').joinpath
                     report["commands"].append({"module": module, "returncode": result.returncode})
                     if result.returncode != 0:
                         raise ValueError("Compatibility CLI failed")
-            if len(report["resources"]) != 9:
-                raise ValueError("Expected eight migrations and one guidance resource")
             report["status"] = "completed"
         except Exception as exc:
             report.update(status="failed", error_category=type(exc).__name__)
