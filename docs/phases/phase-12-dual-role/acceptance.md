@@ -4,11 +4,11 @@
 
 ## G1 身份、合同与持久化
 
-- [ ] 服务端配置角色；客户端伪造身份/角色无效，同用户矛盾角色配置被拒绝。
-- [ ] 原Identity及legacy配置兼容，不自动给旧身份或旧任务扩权。
-- [ ] draft/under_review/changes_requested/review_completed与材料分析状态独立。
-- [ ] SQL017增量、幂等、wheel含迁移，未修改SQL012或预算记录。
-- [ ] PG重连保留共享申请、事件和通知；旧记录逐字段不变。
+- [ ] 服务端配置角色；客户端伪造身份/角色无效，同用户矛盾角色配置被拒绝。（B1已验配置与Identity严格字段，HTTP集成待B2）
+- [x] 原Identity及legacy配置兼容，不自动给旧身份或旧任务扩权。（B1）
+- [x] draft/under_review/changes_requested/review_completed与材料分析状态独立。（B1合同与约束）
+- [x] SQL017增量、幂等、wheel含迁移，未修改SQL012或预算记录。（B1）
+- [x] 本地独立PG重连保留共享申请、事件和通知；原任务及私有会话记录不变。（B1；云端旧数据保留另由G5验）
 
 ## G2 后端协作闭环
 
