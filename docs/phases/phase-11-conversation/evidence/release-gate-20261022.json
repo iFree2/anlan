@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-22",
+  "source_commit": "59093b8",
+  "full_test_result": "586 passed in 452.84s",
+  "ruff_result": "All checks passed!",
+  "test_database": "Isolated local PostgreSQL",
+  "cloud_evidence": "ecs-20261022.json",
+  "video": {
+    "relative_local_path": ".runtime/anlan-demo-20261022/Anlan-Product-Demo-ZH.mp4",
+    "sha256": "63165ba0b7117b5a26590fe5ce8a369d7bbdef9b025a14883b3f74465552fdf1",
+    "size_bytes": 8788240,
+    "resolution": "1920x1080",
+    "fps": 30,
+    "decoded_frames": 6637,
+    "decoded_duration_seconds": 221.26,
+    "full_decode_exit_code": 0,
+    "video_codec": "H.264",
+    "audio": "AAC, 48000 Hz, stereo",
+    "voice": "zh-CN-YunxiNeural",
+    "source": "Actual ECS browser recordings; synthetic business data",
+    "editing": "Visually checked media-time cuts and final-frame holds; no fabricated application responses",
+    "checks": ["Readable subtitles", "Task confirmation", "Successful chat with unchanged material revision", "Completed event review and saved feedback", "Non-silent narration in every chapter"]
+  }
+}

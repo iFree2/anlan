@@ -1,10 +1,13 @@
 # 当前状态（唯一入口）
 
+- 2026-10-22 P11 对话版已替换 ECS 原安澜，当前发布 `/opt/anlan2/releases/p11-conversation-verified-20261022`。意图识别、二次确认、材料分析/同任务补充、闲聊隔离、暂停/恢复、新任务选择与拒绝、事件核查/人工反馈均经真实 DeepSeek 浏览器联调；刷新与进程重启后状态恢复，所有旧行指纹与原站点保持。最终本地完整回归 586 passed，Ruff 通过；不据此宣称生产能力或模型泛化。见[P11部署、回滚与演示](phases/phase-11-conversation/deployment.md)及[云端证据](phases/phase-11-conversation/evidence/ecs-20261022.json)。
+- 当前预算快照：79/100，成功75、失败4；用户明确授权仅 P11-WP01 从10提高到30，现12/30；材料/事件 P11-WP02 为3/10。累计剩余21，旧包限额/旧账不变；云端仍为唯一真实预算写入方。下列 P8 发布与用量为历史记录，不是当前余额。成片 `.runtime/anlan-demo-20261022/Anlan-Product-Demo-ZH.mp4`，约3分41秒、1080p、中文合成旁白/字幕，真实云端画面、合成业务数据。
+
 - 项目：安澜2.0。P1—P7原有限工程Gate已交接；用户10月7日追加P8操作台、云端部署及真实DeepSeek接入，WP01—WP03均已完成有限运行验收。工程完成不等于生产能力、模型泛化或本人掌握。
 - 当前入口：[安澜操作台](http://47.93.218.52/anlan/console)。刷新后选择本机ignored `.runtime/aliyun-console-access.json`；也可用原演示访问令牌。新建任务即使用DeepSeek，旧offline材料保留历史。详见[P8交接](phases/phase-08-console/handoff.md)、[访问/运维](phases/phase-08-console/deployment.md)。
 - 线上实际模式：材料和事件核查均为deepseek_live / deepseek-flash，服务端使用真实DeepSeek API；密钥只在服务器私密环境，不进入页面/仓库/报告。事实、知识、人员、区域及事件仍是SYNTHETIC合成示例；不能批准作业或控制报警，不具备图片/视频直接输入入口。
 - 最新证据：P8-WP03的材料1次和两事件各1次真实调用均成功；P8-WP04随后针对“去哪里操练”完成一次真实材料回归，语义checked并返回地点追问。旧CI467、wheel98份源码/资源及部署故障模拟作为历史证据保留；新回归见[证据](phases/phase-08-console/evidence/materials-v2-release.json)。
-- 当前发布：/opt/anlan2/releases/p8-materials-v2-budget-20261008，current已切换；复用已验证venv依赖，systemd仍为非root anlan2/127.0.0.1:8018。原PG13/现有库、原Nginx站点保持；本次未重置数据库、安装依赖或重载Nginx。
+- P8历史发布：/opt/anlan2/releases/p8-materials-v2-budget-20261008；复用已验证venv依赖，systemd仍为非root anlan2/127.0.0.1:8018。原PG13/现有库、原Nginx站点保持；该次未重置数据库、安装依赖或重载Nginx。
 - P8-WP04地点语义回归：已发布 `/opt/anlan2/releases/p8-materials-v2-budget-20261008`。`materials-v2` 明确“去哪里操练”这类无区域/作业点的动作或疑问语句应被追问；隔离wheel仅含材料提示词、预算包与SQL011（SHA-256 `cd19ed1ac3c6adc2d8501e4751ed979cb59cb2015a1d02d52cdddcdb4c29876c`）。P8-WP03后来达到10/10，未重置或借用旧包；SQL011新增P8-WP04并保持总100/单包10上限。一次真实合成回归返回 `semantic_status=checked`、`materials-v2`、精确引用“去哪里操练”及地点含糊追问，消耗467 token；预算现为57/100、P8-WP04为1/10。定向18项测试及Ruff通过；本机无专用PG导致两项真实PG集成测试未运行，云端实际迁移、健康及一条请求已验证。详见[发布计划](superpowers/plans/2026-10-08-material-location-prompt-release.md)及[证据](phases/phase-08-console/evidence/materials-v2-release.json)。
 - 模型预算：20260920-long-term-v1。2026-10-14单案例DeepSeek评测后，云端只读快照为64/100，P8-WP04为8/10、剩2次；本轮明确新增1次成功请求、478 token，57/100以后其余新增尝试未在本实验中归因。失败与预占计数，不隐式重试或借用旧包；累计token与金额未完整重算，P1历史3次1184token另列。[本次评测证据](phases/phase-09-enterprise-evaluation/evidence/p9-live-material-single-20261014.md)。
 - 云端PG是唯一真实调用预算写入方，本地相同authorization仍冻结。原46条attempt_id、状态、用量、错误、预占/完成时间已与首次迁移文件逐字段规范化比对，发布前后相同：[预算证据](phases/phase-08-console/evidence/live-cloud-budget-after.json)。SQL010与SQL011只增加P8-WP03/P8-WP04合法包名，不重置任何次数。退回本地live须显式单一账本交接，不能让两份账本独立花费。

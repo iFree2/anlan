@@ -4,9 +4,9 @@
 
 P1—P7有限工程Gate已通过，最终本地CI456项通过、0跳过。当前包括可恢复材料工作流、事实/知识/偏好、模拟事件/重核/反馈、本地HTTP/SSE、质量回放和有限合成图对照。Mem0仅静态比较，Judge误分类与同任务并发409保留；工程结果不代表本人掌握、真实现场或生产能力。先看[项目说明](docs/phases/phase-07-takeover-career/project-brief.md)、[如实求职素材](docs/phases/phase-07-takeover-career/career-materials.md)和[当前状态](docs/status.md)。
 
-## 对话入口（P11有限工程验收）
+## 对话入口（P11已部署）
 
-本地 scripted 操作台现以“对话 + 任务侧栏”为主入口：普通闲聊不修改任务，疑似动火先生成待确认意图，只有明确确认后才调用既有材料工作流。活动任务上提出新作业时，必须先明确选择新建或切换；普通“确认”不会跳过选择。会话、消息、待确认意图、活动任务和路由均由 PostgreSQL 持久化；SSE推送服务端快照，不声称逐 token 输出。
+操作台现以“对话 + 任务侧栏”为主入口：普通闲聊不修改任务，疑似动火先生成待确认意图，只有明确确认后才调用既有材料工作流。活动任务上提出新作业时，必须先明确选择新建或切换；普通“确认”不会跳过选择。会话、消息、待确认意图、活动任务和路由均由 PostgreSQL 持久化；SSE推送服务端快照，不声称逐 token 输出。2026-10-22 已替换[阿里云原版](http://47.93.218.52/anlan/console)，真实 DeepSeek 主链、事件核查及刷新/重启恢复已验证；沿用原访问配置，旧记录保留。详见[P11部署与演示](docs/phases/phase-11-conversation/deployment.md)。下方为不消耗真实模型额度的本地演示。
 
 ```powershell
 scripts/dev-postgres.ps1 -Action Start
@@ -15,7 +15,7 @@ scripts/dev-postgres.ps1 -Action Env
 .venv/Scripts/python.exe -m anlan.interfaces.serve --config .runtime/conversation-demo.json --port 8000
 ```
 
-打开 http://127.0.0.1:8000/console，选择新配置文件，可用“明天去罐区补焊”→“确认申请”演示。页面与输出均标记 SYNTHETIC/scripted_double，不批准作业。P11-WP01 真实分类/闲聊尚未授权调用，原 DeepSeek 线上版也没有发布本次对话改造。详见[P11验收](docs/phases/phase-11-conversation/acceptance.md)、[交接](docs/phases/phase-11-conversation/handoff.md)和[路由基线](evals/conversation-routing-v1/README.md)。
+打开 http://127.0.0.1:8000/console，选择新配置文件，可用“明天去罐区补焊”→“确认申请”演示。此本地配置标记 SYNTHETIC/scripted_double，不批准作业。云端为 deepseek_live；用户仅将 P11-WP01 单包限额提高至 30，累计 100 和其他旧包不变。最终验证快照为 79/100，后续使用继续计数。原本地验收范围见[P11验收](docs/phases/phase-11-conversation/acceptance.md)、[交接](docs/phases/phase-11-conversation/handoff.md)和[路由基线](evals/conversation-routing-v1/README.md)。
 
 ## 轻量操作台（P8）
 

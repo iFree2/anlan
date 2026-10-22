@@ -1,0 +1,53 @@
+{
+  "status": "passed",
+  "release": "/opt/anlan2/releases/p11-conversation-verified-20261022",
+  "url": "http://47.93.218.52/anlan/console",
+  "service_active": "active",
+  "process_restart_snapshot_equal": true,
+  "historical_rows_preserved": true,
+  "root_site_sha256": "b5a7f25ac949b5f26ded8692c39c42f64f85cb919736f5db68bc776987515b12",
+  "counts": {
+    "anlan_tasks": 12,
+    "anlan_operations": 37,
+    "perception_events": 10,
+    "perception_reviews": 11,
+    "model_budget_attempts": 79
+  },
+  "budget_packages": {
+    "P3-WP03": 9,
+    "P11-WP02": 3,
+    "P8-WP04": 8,
+    "P4-WP02": 9,
+    "P7-WP03": 4,
+    "P5-WP02": 4,
+    "P6-WP03": 8,
+    "P2-WP02": 6,
+    "P8-WP03": 10,
+    "P11-WP01": 12,
+    "P2-WP04": 6
+  },
+  "budget_states": {
+    "succeeded": 75,
+    "failed": 4
+  },
+  "explicit_package_limits": {
+    "P11-WP01": 30
+  },
+  "material_budget": {
+    "status": "available",
+    "work_package": "P11-WP02",
+    "total_used": 79,
+    "total_limit": 100,
+    "package_used": 3,
+    "package_limit": 10,
+    "package_remaining": 7
+  },
+  "conversation_budget": {
+    "work_package": "P11-WP01",
+    "package_used": 12,
+    "package_limit": 30,
+    "package_remaining": 18
+  },
+  "new_attempts_since_release": 15,
+  "credentials_recorded": false
+}
