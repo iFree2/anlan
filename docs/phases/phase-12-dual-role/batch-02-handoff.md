@@ -83,3 +83,27 @@ B3 必须接入：
 5. 双角色UI、浏览器与进程重启验收，以及后续发布/视频均未开展。本批没有进行独立审查者复核；遵守本批禁止派发子代理/发送其他会话消息的要求，由协调另行验收。
 
 没有已知 B2 阻塞项，待协调独立验收后进入B3。本批保留当前分支和local检出，未合并或推送远端。终点仍是**材料核查完成**，不代表正式批准或开工授权。
+
+## 2026-10-23 协调审查修复：通知游标与提交逆序
+
+协调已独立实跑原16文件268 passed、0 skipped及Ruff，但随后只读审查发现一项Important：原通知identity ordinal在事务提交前分配，不保证不同task的提交顺序。T1分配n后暂停，T2分配n+1并先提交；读取方保存n+1游标后，T1才提交的n会被 `ordinal > after` 永久过滤。原任务锁和请求幂等锁无法覆盖同收件人的跨任务并发。这一审查结论经下面真实PG RED确认，先前本页的“没有已知阻塞项”结论由本节补正。
+
+本次只修改 `src/anlan/infrastructure/collaboration.py`、`tests/test_collaboration_service.py`，并追加本文。修复提交为 **`44652f8be52b4b2e026b6005418d01b3195f2a63`**（`fix: serialize inbox ordinals until collaboration commit`），本交接另行提交。没有修改SQL017、公开HTTP/游标合同、角色权限、真实actor、预算或总README/验收，没有进入B3、SSH、部署或调用真实模型；用户dirty路径保持原样。
+
+在 `append_event` 解析收件人后、INSERT notification分配ordinal前，按 `json.dumps(["collaboration-notification-v1", tenant_id, recipient_user_id])` 取得 `pg_advisory_xact_lock(hashtextextended(key,2))`，持有至调用方整个短事务commit/rollback。相同tenant/recipient的后续事务只有等前一个提交或回滚后才能分配序号；此时原 `ordinal > after` 增量合同不会越过同收件箱的尚未提交序号。不同收件人使用不同锁键，不引入全局锁。回滚可留下identity间隙，但没有可晚到的已回滚通知。
+
+更新锁顺序为：`_serial` → 权限预检 → 原task session锁(seed=0) → 锁内授权 → 短事务 → tenant/actor/request事务锁(seed=1) → application行锁 → checkpoint/pending/双版本校验 → application更新/event插入 → **tenant/recipient事务锁(seed=2)** → notification插入 → 最终receipt → commit/rollback → 释放task锁。每条当前命令只有一个收件人，没有多收件箱反向拿锁的环；未来若需单事务多收件人，须统一排序获取收件箱锁并复用此插入边界。模型调用仍不在该短事务内。
+
+新增 `test_notification_cursor_handles_controlled_cross_task_commits` 的三个真实PG参数场景：
+
+- `commit`：T1在save_receipt前由 `asyncio.Event` 暂停，T2尝试向同收件人提交；测试读取一页、放行T1、按第一页面游标读取第二页，核对两条event_id均到达且无重复。原实现明确只收到一条。
+- `rollback`：同一暂停位置抛出受控异常，观察T2曾在PG advisory锁等待；放行回滚后T2在有界时间内提交。断言T1申请仍为draft，只有T2的事件、通知、receipt，重放不重复通知。
+- `different_recipient`：T1仍暂停时，T2向另一安全人员提交并实际完成，证明不同收件人没有被全局串行；各自收件箱只收到对应事件。
+
+调度由Event控制，测试通过 `pg_locks` 检查第二PG会话的未获授advisory锁，或等待第二命令实际完成；**没有靠sleep猜测提交顺序**。10秒timeout只用于失败界限和清理，不参与决定事务顺序。
+
+RED：`pytest -q tests/test_collaboration_service.py -k notification_cursor_handles` → **2 failed, 1 passed, 17 deselected in 7.15s**。失败分别是确定性漏通知和缺少等待至回滚结束的收件箱锁，不是环境错误。最小修复后同命令 GREEN：**3 passed, 17 deselected in 7.48s**。证据分别为ignored的 `.runtime/p12-b2-evidence/notification-order-red.xml`、`notification-order-green.xml`。
+
+最终回归使用同一个本地独立PG库 `anlan_p12_b2_20261022`，在单个pytest调用中串行运行原计划九文件及相邻七文件，JUnit为 `.runtime/p12-b2-evidence/notification-order-regression.xml`。结果：**271 passed in 211.15s，0 failed / 0 errors / 0 skipped**，其中新增三个并发场景。JUnit计数已再次读取核对；`.venv/Scripts/python.exe -m ruff check src tests scripts deploy/aliyun` 为 `All checks passed!`，`git diff --check`、本次暂存后的 `git diff --cached --check` 均无错误。这仍不是全仓Gate。
+
+本项Important已按可控RED/GREEN及16文件回归修复，待协调再次独立验收；没有自行更新总批次状态。
