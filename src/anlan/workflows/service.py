@@ -7,6 +7,7 @@ from uuid import NAMESPACE_URL, uuid4, uuid5
 
 from langgraph.types import Command
 
+from anlan.collaboration.access import GuardedMaterialGraph, project_materials
 from anlan.common.errors import AccessDenied, InvalidTransition
 from anlan.common.models import Identity
 from anlan.infrastructure.trace import JsonlTrace
@@ -37,6 +38,8 @@ class WorkflowService:
         self.trace = trace or JsonlTrace()
         self._graph = build_graph(analyzer, self.trace, checkpointer)
         self._registry = registry if registry is not None else MemoryRegistry()
+        if hasattr(self._registry, "material_context"):
+            self._graph = GuardedMaterialGraph(self._graph, self._registry)
         self.mode = mode
 
     @staticmethod
@@ -70,7 +73,7 @@ class WorkflowService:
             await self._registry.create(record, idempotent=True)
         if on_created is not None:
             on_created(task_id)
-        async with self._registry.locked(identity, task_id) as record:
+        async with self._registry.locked(identity, task_id, action="edit_materials") as record:
             self._config(record)
             self._check_mode(record)
             if record.initial_state["fields"] != state["fields"]:
@@ -89,11 +92,12 @@ class WorkflowService:
         return await self._graph.aget_state(self._config(record))
 
     async def get(self, identity: Identity, task_id: str) -> dict:
-        async with self._registry.locked(identity, task_id) as record:
+        async with self._registry.locked(identity, task_id, action="read") as record:
             snapshot = await self._snapshot(record)
             if not snapshot.values:
                 raise InvalidTransition("任务尚未写入 checkpoint；请执行 recover")
-            return deepcopy(snapshot.values)
+            state = deepcopy(snapshot.values)
+            return project_materials(state) if identity != record.identity else state
 
     async def resume(self, identity: Identity, task_id: str, expected_revision: int,
                      fields: dict, *, request_id: str | None = None) -> dict:
@@ -107,7 +111,7 @@ class WorkflowService:
                                   request_id=request_id, kind="revise")
 
     async def _submit(self, identity, task_id, expected_revision, fields, *, request_id, kind):
-        async with self._registry.locked(identity, task_id) as record:
+        async with self._registry.locked(identity, task_id, action="edit_materials") as record:
             self._check_mode(record)
             self._config(record)  # 在返回缓存结果之前，先校验状态契约版本。
             supplement = Supplement.model_validate({"fields": fields})
@@ -179,7 +183,7 @@ class WorkflowService:
         return result
 
     async def recover(self, identity: Identity, task_id: str) -> dict:
-        async with self._registry.locked(identity, task_id) as record:
+        async with self._registry.locked(identity, task_id, action="edit_materials") as record:
             self._check_mode(record)
             operation = await self._registry.pending(task_id)
             if operation is None:

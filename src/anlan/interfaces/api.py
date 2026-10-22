@@ -12,13 +12,16 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import Field, ValidationError
 
+from anlan.collaboration.service import CollaborationService
 from anlan.common.errors import AccessDenied, InvalidTransition, TaskBusy
 from anlan.common.models import Identity, StrictModel
 from anlan.conversation.service import ConversationService
+from anlan.infrastructure.collaboration import CollaborationStore
 from anlan.infrastructure.conversations import ConversationStore
 from anlan.infrastructure.events import EventStore
 from anlan.infrastructure.perception import PerceptionStore
 from anlan.infrastructure.postgres import initialize_database
+from anlan.interfaces.collaboration_routes import install_collaboration_routes
 from anlan.interfaces.console.routes import install_console
 from anlan.interfaces.console.service import ConsoleService
 from anlan.interfaces.conversation_routes import install_conversation_routes
@@ -95,6 +98,7 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
     @asynccontextmanager
     async def lifespan(app):
         await initialize_database(dsn)
+        await CollaborationStore(dsn).initialize()
         await events.initialize()
         await PerceptionStore(dsn).initialize()
         await ConsoleService(dsn, config, clock=clock).initialize()
@@ -127,6 +131,14 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
         raise HTTPException(401, detail="authentication_required")
 
     Actor = Annotated[Identity, Depends(who)]
+
+    async def legacy_actor(identity: Actor):
+        # B3 must implement real shared event authorization/audit before opening this.
+        if config.collaboration_role(identity) is not None:
+            raise AccessDenied("当前角色事件能力尚未接入")
+        return identity
+
+    LegacyActor = Annotated[Identity, Depends(legacy_actor)]
     conversation_service = ConversationService(
         conversations, models.conversation, WorkflowAdapter(models.material_service)
     )
@@ -166,6 +178,8 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
             return await service.get(identity, task)
 
     install_conversation_routes(app, conversation_service, Actor)
+    install_collaboration_routes(app, CollaborationService(
+        dsn, config, models.material_service), Actor)
 
     @app.get("/healthz")
     async def health():
@@ -227,22 +241,22 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
             )
 
     @app.post("/sources/{source_id}/events")
-    async def receive_event(source_id: str, payload: dict, identity: Actor):
+    async def receive_event(source_id: str, payload: dict, identity: LegacyActor):
         source = sources.source(identity, source_id)
         return await events.receive(
             identity, source_id, payload, source.binding if source else None
         )
 
     @app.get("/events/{receipt}")
-    async def show_event(receipt: str, identity: Actor):
+    async def show_event(receipt: str, identity: LegacyActor):
         return await events.get(identity, receipt)
 
     @app.post("/events/{receipt}/process")
-    async def associate(receipt: str, identity: Actor):
+    async def associate(receipt: str, identity: LegacyActor):
         return await process_event(dsn, identity, receipt, clock=clock)
 
     @app.post("/events/{receipt}/reviews")
-    async def review(receipt: str, payload: ReviewRequest, identity: Actor):
+    async def review(receipt: str, payload: ReviewRequest, identity: LegacyActor):
         event = await events.get(identity, receipt)
         source = sources.source(identity, event["source_id"])
         if source is None:
@@ -252,11 +266,11 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
         )
 
     @app.get("/reviews/{review_id}")
-    async def show_review(review_id: str, identity: Actor):
+    async def show_review(review_id: str, identity: LegacyActor):
         return await perception().get(identity, review_id)
 
     @app.post("/reviews/{review_id}/feedback")
-    async def feedback(review_id: str, payload: Feedback, identity: Actor):
+    async def feedback(review_id: str, payload: Feedback, identity: LegacyActor):
         return await perception().feedback(
             identity,
             review_id,
@@ -266,7 +280,7 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
         )
 
     @app.post("/reviews/{review_id}/{action}")
-    async def control(review_id: str, action: Literal["recover", "cancel"], identity: Actor):
+    async def control(review_id: str, action: Literal["recover", "cancel"], identity: LegacyActor):
         method = perception().recover if action == "recover" else perception().cancel
         return await method(identity, review_id)
 
@@ -284,6 +298,7 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
         async def read():
             if resource == "tasks":
                 return await task_read(identity, key)
+            await legacy_actor(identity)
             if resource == "events":
                 return await events.get(identity, key)
             return await perception().get(identity, key)

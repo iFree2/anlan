@@ -14,12 +14,13 @@ from anlan.workflows.service import WorkflowService
 
 @asynccontextmanager
 async def postgres_service(dsn: str, analyzer: Analyzer, trace: JsonlTrace | None = None, *,
-                           mode: str = "offline"):
+                           mode: str = "offline", access_config=None):
     async with await AsyncConnection.connect(
         conninfo(dsn), autocommit=True, row_factory=dict_row, prepare_threshold=0,
     ) as connection:
         # 任务锁与 checkpoint 写入共用同一个数据库会话。锁连接断开后，
         # 也必须阻止旧的执行者通过另一条存活连接继续写入。
         saver = AsyncPostgresSaver(connection, serde=checkpoint_serde())
-        yield WorkflowService(analyzer, trace, registry=PostgresRegistry(connection),
+        yield WorkflowService(analyzer, trace, registry=PostgresRegistry(
+            connection, access_config=access_config),
                               checkpointer=saver, mode=mode)

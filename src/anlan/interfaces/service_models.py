@@ -21,6 +21,7 @@ class ServiceModels:
     def __init__(self, dsn, config, model_factory, *, model_config=None,
                  transport=None, ledger=None):
         self.dsn = dsn
+        self.access_config = config
         self.live = config.model_mode == "deepseek_live"
         self.material_mode = "deepseek_live" if self.live else "offline"
         self.model_mode = config.model_mode
@@ -48,7 +49,8 @@ class ServiceModels:
         analyzer = (DeepSeekAnalyzer(self.config, self.client, ledger=self.ledger,
                                     work_package=self.console_work_package)
                     if self.live else OfflineAnalyzer())
-        return postgres_service(self.dsn, analyzer, mode=self.material_mode)
+        return postgres_service(self.dsn, analyzer, mode=self.material_mode,
+                                access_config=self.access_config)
 
     def perception(self):
         if self.live:

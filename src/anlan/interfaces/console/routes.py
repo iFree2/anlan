@@ -56,10 +56,18 @@ def install_console(app, dsn, config, who, clock, runtime_factory, model_info):
     @app.get("/console/api/info")
     async def info(identity: Actor):
         profile = config.console_profile(identity)
+        role = config.collaboration_role(identity)
         return {"identity": identity.model_dump(), "data_origin": "SYNTHETIC",
                 **await model_info(),
-                "simulation_enabled": profile is not None,
-                "references": profile.references.model_dump() if profile else None,
+                "collaboration_role": role,
+                "capabilities": {"create_application": role == "applicant",
+                                 "collaboration": role is not None,
+                                 "run_event_review": False,
+                                 "record_event_feedback": False},
+                "collaboration_reviewers": [r.user_id for r in
+                    config.collaboration_reviewers(identity)] if role == "applicant" else [],
+                "simulation_enabled": profile is not None and role is None,
+                "references": profile.references.model_dump() if profile and role is None else None,
                 "as_of": clock().isoformat()}
 
     @app.get("/console/api/tasks")

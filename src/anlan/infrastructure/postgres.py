@@ -10,6 +10,7 @@ from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
 from psycopg import AsyncConnection
 from psycopg.types.json import Jsonb
 
+from anlan.collaboration.access import TaskAccess
 from anlan.common.errors import AccessDenied, TaskBusy
 from anlan.common.models import Identity
 from anlan.infrastructure.db import conninfo
@@ -38,40 +39,59 @@ async def initialize_database(dsn: str) -> None:
 
 
 class PostgresRegistry:
-    def __init__(self, conn: AsyncConnection):
+    def __init__(self, conn: AsyncConnection, *, access_config=None):
         self.conn = conn
         self._serial = asyncio.Lock()
+        self.access = TaskAccess(access_config)
+        self.material_context = None
 
     async def create(self, record: TaskRecord, *, idempotent: bool = False) -> None:
+        self.access.check_start(record.identity)
         async with self._serial:
-            await self.conn.execute(
-                "INSERT INTO anlan_tasks "
-                "(task_id, thread_id, tenant_id, user_id, mode, contract_version, initial_state) "
-                "VALUES (%s, %s, %s, %s, %s, %s, %s)" +
-                (" ON CONFLICT (task_id) DO NOTHING" if idempotent else ""),
-                (record.task_id, record.thread_id, record.identity.tenant_id,
-                 record.identity.user_id, record.mode, record.contract_version,
-                 Jsonb(record.initial_state)),
-            )
+            async with self.conn.transaction():
+                await self._create(record, idempotent=idempotent)
+                if self.access.role(record.identity) == "applicant":
+                    from anlan.infrastructure.collaboration import CollaborationStore
+
+                    await CollaborationStore("").ensure_draft(
+                        record.identity, "applicant", record.task_id, conn=self.conn)
+
+    async def _create(self, record, *, idempotent):
+        await self.conn.execute(
+            "INSERT INTO anlan_tasks "
+            "(task_id, thread_id, tenant_id, user_id, mode, contract_version, initial_state) "
+            "VALUES (%s, %s, %s, %s, %s, %s, %s)" +
+            (" ON CONFLICT (task_id) DO NOTHING" if idempotent else ""),
+            (record.task_id, record.thread_id, record.identity.tenant_id,
+             record.identity.user_id, record.mode, record.contract_version,
+             Jsonb(record.initial_state)),
+        )
 
     @asynccontextmanager
-    async def locked(self, identity: Identity, task_id: str):
+    async def locked(self, identity: Identity, task_id: str, *, action="owner_read"):
         async with self._serial:
             cursor = await self.conn.execute(
-                "SELECT * FROM anlan_tasks WHERE task_id=%s AND tenant_id=%s AND user_id=%s",
-                (task_id, identity.tenant_id, identity.user_id),
+                "SELECT * FROM anlan_tasks WHERE task_id=%s AND tenant_id=%s",
+                (task_id, identity.tenant_id),
             )
             row = await cursor.fetchone()
             if row is None:
                 raise AccessDenied("任务不存在或当前测试身份无权访问")
+            storage_scope = Identity(tenant_id=row["tenant_id"], user_id=row["user_id"])
+            # Hide resource existence even while a legitimate participant holds its lock.
+            await self.access.check(self.conn, identity, storage_scope, task_id, action)
             cursor = await self.conn.execute(
                 "SELECT pg_try_advisory_lock(hashtextextended(%s, 0)) AS acquired", (task_id,))
             if not (await cursor.fetchone())["acquired"]:
                 raise TaskBusy("任务正在其他进程执行，请稍后读取状态")
             try:
-                yield TaskRecord(row["task_id"], row["thread_id"], identity, row["mode"],
-                                 row["initial_state"], row["contract_version"])
+                await self.access.check(self.conn, identity, storage_scope, task_id, action)
+                record = TaskRecord(row["task_id"], row["thread_id"], storage_scope, row["mode"],
+                                    row["initial_state"], row["contract_version"])
+                self.material_context = (asyncio.current_task(), identity, record, action)
+                yield record
             finally:
+                self.material_context = None
                 if not self.conn.closed:
                     await self.conn.execute(
                         "SELECT pg_advisory_unlock(hashtextextended(%s, 0))", (task_id,))

@@ -22,10 +22,15 @@ class ConsoleService:
         self.material_mode = "deepseek_live" if config.model_mode == "deepseek_live" else "offline"
 
     def profile(self, identity):
+        self.require_legacy_events(identity)
         profile = self.config.console_profile(identity)
         if profile is None:
             raise AccessDenied("当前身份未配置合成事件模拟权限")
         return profile
+
+    def require_legacy_events(self, identity):
+        if self.config.collaboration_role(identity) is not None:
+            raise AccessDenied("当前角色事件能力尚未接入")
 
     async def initialize(self):
         async with await self.events.connect() as conn:
@@ -34,6 +39,8 @@ class ConsoleService:
                 encoding="utf-8"), prepare=False)
 
     async def tasks(self, identity):
+        if self.config.collaboration_role(identity) == "safety_manager":
+            return {"items": [], "limit": 50}
         async with await self.events.connect() as conn:
             cursor = await conn.execute(
                 "SELECT task_id,created_at,mode,initial_state->'fields' AS initial_fields "
@@ -45,6 +52,7 @@ class ConsoleService:
             return {"items": await cursor.fetchall(), "limit": 50}
 
     async def list_events(self, identity, task_id):
+        self.require_legacy_events(identity)
         # Check ownership even when no event exists; empty result does not bypass authorization.
         async with postgres_service(self.dsn, OfflineAnalyzer()) as workflow:
             async with workflow._registry.locked(identity, task_id):
@@ -58,6 +66,7 @@ class ConsoleService:
                         "limit": 50}
 
     async def reviews(self, identity, receipt):
+        self.require_legacy_events(identity)
         await self.events.get(identity, receipt)
         async with await self.events.connect() as conn:
             cursor = await conn.execute(
