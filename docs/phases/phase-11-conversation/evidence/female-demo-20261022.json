@@ -1,0 +1,31 @@
+{
+  "status": "passed",
+  "movie": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-demo-20261022-female\\Anlan-Product-Demo-ZH-Female.mp4",
+  "sha256": "041b007b0f8872cd878e0dbbac7221ba1429027d865abac3709e73b3df1cd554",
+  "size_bytes": 10114141,
+  "duration_seconds": 257.95,
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "rate": "-10%",
+  "pitch": "-4Hz",
+  "resolution": "1920x1080",
+  "fps": 30,
+  "full_decode_exit_code": 0,
+  "audio_codec": "AAC",
+  "audio_sample_rate_hz": 48000,
+  "non_silent_chapters": [
+    "intro",
+    "intent",
+    "confirm",
+    "supplement",
+    "chat",
+    "pause-resume",
+    "task-choice",
+    "events",
+    "refresh",
+    "outro"
+  ],
+  "subtitle_text_matches_all_chapters": true,
+  "subtitle_timing_inside_audio": true,
+  "original_movie_sha256_unchanged": "63165ba0b7117b5a26590fe5ce8a369d7bbdef9b025a14883b3f74465552fdf1",
+  "business_model_calls": 0
+}
