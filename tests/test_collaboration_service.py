@@ -277,3 +277,103 @@ def test_reviewer_identifier_cannot_normalize_to_a_different_storage_recipient(d
             await send(sessions[0], task, "submit", command(reviewer_user_id="reviewer "), 404)
             assert await counts(dsn, actors[0].tenant_id) == [1, 0, 0, 0]
     run(scenario())
+
+
+async def wait_for_commit_or_advisory_wait(store, pid, operation):
+    """Observe PG lock state, never infer ordering from a timed sleep."""
+    async with asyncio.timeout(10), store.connection() as conn:
+        while not operation.done():
+            cursor = await conn.execute(
+                "SELECT 1 FROM pg_locks WHERE pid=%s AND locktype='advisory' AND NOT granted",
+                (pid,))
+            if await cursor.fetchone():
+                return True
+        await operation  # Surface unexpected request failures before making assertions.
+        return False
+
+
+@pytest.mark.parametrize("outcome", ["commit", "rollback", "different_recipient"])
+def test_notification_cursor_handles_controlled_cross_task_commits(
+        dsn, monkeypatch, outcome):  # noqa: F811
+    async def scenario():
+        async with clients(dsn) as (sessions, actors, _):
+            first_task, second_task = [(await start(sessions[0]))["task_id"] for _ in range(2)]
+            store = CollaborationStore(dsn)
+            first_inserted, release_first, second_entered = (
+                asyncio.Event(), asyncio.Event(), asyncio.Event())
+            second_pid = None
+            original_receipt = CollaborationStore.save_receipt
+            original_append = CollaborationStore.append_event
+
+            async def pause_before_receipt(conn, actor, role, task, action, body, result):
+                if task == first_task:
+                    # The ordinal exists but is not yet committed or visible to the inbox.
+                    first_inserted.set()
+                    await release_first.wait()
+                    if outcome == "rollback":
+                        raise RuntimeError("controlled notification rollback")
+                await original_receipt(conn, actor, role, task, action, body, result)
+
+            async def observe_second(conn, actor, role, application, *args):
+                nonlocal second_pid
+                if application.task_id == second_task:
+                    second_pid = conn.info.backend_pid
+                    second_entered.set()
+                await original_append(conn, actor, role, application, *args)
+
+            with monkeypatch.context() as context:
+                context.setattr(CollaborationStore, "save_receipt", staticmethod(
+                    pause_before_receipt))
+                context.setattr(CollaborationStore, "append_event", staticmethod(observe_second))
+                first = asyncio.create_task(send(sessions[0], first_task, "submit", command(
+                    reviewer_user_id="reviewer")))
+                second = None
+                try:
+                    async with asyncio.timeout(10):
+                        await first_inserted.wait()
+                    second_recipient = "unassigned" if outcome == "different_recipient" else (
+                        "reviewer")
+                    second_body = command(reviewer_user_id=second_recipient)
+                    second = asyncio.create_task(send(
+                        sessions[0], second_task, "submit", second_body))
+                    async with asyncio.timeout(10):
+                        await second_entered.wait()
+                    blocked = await wait_for_commit_or_advisory_wait(store, second_pid, second)
+                    before = (await sessions[1].get("/collaboration/notifications")).json()
+                finally:
+                    release_first.set()
+                    operations = [first] + ([second] if second else [])
+                    async with asyncio.timeout(10):
+                        results = await asyncio.gather(*operations, return_exceptions=True)
+
+            if outcome == "rollback":
+                assert isinstance(results[0], RuntimeError)
+                assert str(results[0]) == "controlled notification rollback"
+                assert blocked, "same-recipient writer must wait for rollback to release its lock"
+                expected = {results[1]["event_id"]}
+                assert await counts(dsn, actors[0].tenant_id) == [2, 1, 1, 1]
+                path = f"/collaboration/applications/{first_task}"
+                assert (await sessions[0].get(path)).json()["application"]["status"] == "draft"
+            elif outcome == "different_recipient":
+                assert not blocked, "different inboxes must commit independently"
+                assert isinstance(results[0], dict) and isinstance(results[1], dict)
+                assert before["items"] == []
+                other_inbox = (await sessions[2].get("/collaboration/notifications")).json()
+                assert [n["event"]["event_id"] for n in other_inbox["items"]] == [
+                    results[1]["event_id"]]
+                expected = {results[0]["event_id"]}
+            else:
+                assert all(isinstance(result, dict) for result in results)
+                expected = {result["event_id"] for result in results}
+
+            after = (await sessions[1].get("/collaboration/notifications", params={
+                "after": before["next_cursor"]})).json()
+            delivered = [n["event"]["event_id"] for page in (before, after) for n in page["items"]]
+            assert set(delivered) == expected, "advancing the inbox cursor lost a late commit"
+            assert len(delivered) == len(expected)
+            if outcome != "different_recipient":
+                # Replaying the committed command must not create another notification.
+                assert await send(sessions[0], second_task, "submit", second_body) == results[1]
+                assert (await sessions[1].get("/collaboration/notifications", params={
+                    "after": after["next_cursor"]})).json()["items"] == []
+    run(scenario())

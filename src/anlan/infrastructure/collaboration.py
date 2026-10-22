@@ -1,5 +1,6 @@
 """Collaboration persistence; mutations reuse the caller's locked transaction connection."""
 
+import json
 from contextlib import asynccontextmanager
 from importlib.resources import files
 
@@ -154,6 +155,12 @@ class CollaborationStore:
              revision, application.version, Jsonb(payload)))
         recipient = (application.reviewer_user_id if role == "applicant"
                      else application.applicant_user_id)
+        # Identity ordinals are allocated before commit. Serialize each inbox until
+        # this caller-owned transaction ends, so a later visible cursor cannot skip
+        # a lower ordinal that is still uncommitted on another task.
+        inbox_key = json.dumps(["collaboration-notification-v1", actor.tenant_id, recipient])
+        await conn.execute(
+            "SELECT pg_advisory_xact_lock(hashtextextended(%s, 2))", (inbox_key,))
         await conn.execute(
             "INSERT INTO anlan_v2.collaboration_notifications "
             "(tenant_id,recipient_user_id,event_id) VALUES (%s,%s,%s)",
