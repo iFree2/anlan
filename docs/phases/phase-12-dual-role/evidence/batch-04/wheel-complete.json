@@ -1,0 +1,119 @@
+{
+  "status": "passed",
+  "model_mode": "scripted_double",
+  "wheel_sha256": "6024af9350d518e29eb0610bbfeedbbee2567669d13a70f62641fca2c68b1bb6",
+  "resources": [
+    {
+      "path": "anlan/sql/001_registry.sql",
+      "sha256": "c9b72ff36dca5bef28a7ce23b68714dff79aa266cacfc7cbfedf28aa6b9dc2ea"
+    },
+    {
+      "path": "anlan/sql/002_model_budget.sql",
+      "sha256": "740e2d081b7432f078f2cf30656edbaf4d1feaabfffd399cbc2ac734ae71b464"
+    },
+    {
+      "path": "anlan/sql/003_knowledge.sql",
+      "sha256": "3bf72e703f77f42eead9492fa6c35882ef0864b3a00335988f7a7ec6cbdabc4e"
+    },
+    {
+      "path": "anlan/sql/004_memory.sql",
+      "sha256": "0aeeaeb0ca26e501141ba1f4c08b27925833606eb54e76f946cd677f98ef36af"
+    },
+    {
+      "path": "anlan/sql/005_events.sql",
+      "sha256": "2ef6d5d6ab3e37c0966e1372557fa514acf466eabee6c8c7ce635a8ab1871c0b"
+    },
+    {
+      "path": "anlan/sql/006_material_revisions.sql",
+      "sha256": "11f1717b4003649dbddc124b5047d76c05ba0b0424a6e536ba29310bd3e531f9"
+    },
+    {
+      "path": "anlan/sql/007_perception_reviews.sql",
+      "sha256": "1d2aeb034adde61615b5d973c606502c6066fd89906dd30d040a1209c04e4515"
+    },
+    {
+      "path": "anlan/sql/008_perception_cancel.sql",
+      "sha256": "f5628e06261f53acd73d556704e3993d41d5ba9e123571d0a384aab2b7319afc"
+    },
+    {
+      "path": "anlan/sql/009_console_order.sql",
+      "sha256": "ff181a073cb989bcadd33bdfa35d7a14effc83d8edf9e007a2cb98abe931e892"
+    },
+    {
+      "path": "anlan/sql/010_console_live_budget.sql",
+      "sha256": "d657dff93e66ddfbe1d9217f982a673aabcc4350b5dff907812c62276fd34832"
+    },
+    {
+      "path": "anlan/sql/011_console_materials_v2_budget.sql",
+      "sha256": "10fad70b5dc5f846c24e6b15c0765a62c51eb64b1e5903d98cad5e2f10f259af"
+    },
+    {
+      "path": "anlan/sql/013_conversations.sql",
+      "sha256": "23c7f6168ae28288b5e33c518061030a8ae316aea127207cfafd8de7f9e121d9"
+    },
+    {
+      "path": "anlan/sql/014_conversation_budget.sql",
+      "sha256": "bf2deec83b27c3961475a05671c418ddd1b8ebd4cd3cabde11716a51479a7ee4"
+    },
+    {
+      "path": "anlan/sql/015_conversation_release_budget.sql",
+      "sha256": "6da002b7ba4b347a8e890a8bd989b34ddfefd8df1f4e55e910a0887c8f26a9b9"
+    },
+    {
+      "path": "anlan/sql/016_conversation_budget_authorization.sql",
+      "sha256": "b4cea5716da67b79e6ce1a22b02ec26fce294ca847a9be1783f0598508cfc0fb"
+    },
+    {
+      "path": "anlan/sql/017_collaboration.sql",
+      "sha256": "31b16448d34caf0137e7a8a1873e75f4f3e4bba5d618fee6176baa4d09f9daa9"
+    },
+    {
+      "path": "anlan/assets/hot-work-review-v1.md",
+      "sha256": "c402197dc335f2a963fb7f8e85d1117fb3dd80a109e6a4ce499d9308525d941b"
+    },
+    {
+      "path": "anlan/interfaces/console/assets/api.js",
+      "sha256": "6b3526cb1f00f002c47735d951d15f66696fd61562a0e5f70abcc4c66f01ff8e"
+    },
+    {
+      "path": "anlan/interfaces/console/assets/app.js",
+      "sha256": "1a3d5b8e723157ed5ca5c9ec7cd3a8582accc3eaccdafcd3dfba86950dfb8edd"
+    },
+    {
+      "path": "anlan/interfaces/console/assets/index.html",
+      "sha256": "32cc299ca88820cbcec43dca085358a5d52695a6cd7dce61849857544669f11c"
+    },
+    {
+      "path": "anlan/interfaces/console/assets/styles.css",
+      "sha256": "18f2e3f463455f8124d50602fefeb420aa619e1ade32ffecfd84bc7811e48ece"
+    }
+  ],
+  "credentials_recorded": false,
+  "cwd_outside_source": true,
+  "crash_exit_code": 91,
+  "submit_event_count": 1,
+  "submit_notification_count": 1,
+  "task_id": "2d8d85e0-3982-519d-bc74-1f961f542d45",
+  "application_version": 5,
+  "completed_material_revision": 2,
+  "applicant_conversation": "88b3dee8-414f-4b95-ba66-fae12aac0540",
+  "reviewer_conversation": "707ea2a9-d458-4cdb-a3e2-fb2aaa86ec1f",
+  "process_ids": [
+    30172,
+    15832,
+    15808,
+    21400
+  ],
+  "module_files": [
+    "D:\\src\\agent学习\\安澜2.0\\.runtime\\p12-b4-dist\\anlan-0.1.0-py3-none-any.whl\\anlan\\__init__.py",
+    "D:\\src\\agent学习\\安澜2.0\\.runtime\\p12-b4-dist\\anlan-0.1.0-py3-none-any.whl\\anlan\\__init__.py",
+    "D:\\src\\agent学习\\安澜2.0\\.runtime\\p12-b4-dist\\anlan-0.1.0-py3-none-any.whl\\anlan\\__init__.py",
+    "D:\\src\\agent学习\\安澜2.0\\.runtime\\p12-b4-dist\\anlan-0.1.0-py3-none-any.whl\\anlan\\__init__.py"
+  ],
+  "knowledge_compositions": [
+    "KnowledgeStore",
+    "KnowledgeStore",
+    "KnowledgeStore",
+    "KnowledgeStore"
+  ]
+}

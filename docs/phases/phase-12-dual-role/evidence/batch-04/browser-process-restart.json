@@ -1,0 +1,8 @@
+{
+  "before_serving_pid": 17784,
+  "after_serving_pid": 28060,
+  "after_launcher_pid": 16920,
+  "task_id": "44dced2e-2db7-5667-b06d-960a7b36bdd3",
+  "per_task_public_snapshot_equal": true,
+  "credentials_recorded": false
+}

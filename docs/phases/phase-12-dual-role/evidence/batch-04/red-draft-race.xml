@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="8.964" timestamp="2026-10-24T22:08:52.351310+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_collaboration_recovery" name="test_concurrent_draft_registration_handles_all_unique_indexes" time="7.000"><failure message="psycopg.errors.UniqueViolation: duplicate key value violates unique constraint &quot;collaboration_applications_tenant_id_task_id_key&quot;&#10;DETAIL:  Key (tenant_id, task_id)=(collab-8647faf5c790458985cc78ee8038b429, d2524fd7-e3be-4acf-bcb2-3cf4720f91ca) already exists.">tests\test_collaboration_recovery.py:74: in test_concurrent_draft_registration_handles_all_unique_indexes
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_collaboration_recovery.py:70: in scenario
+    applications = await asyncio.gather(*[
+src\anlan\infrastructure\collaboration.py:60: in ensure_draft
+    await conn.execute(
+.venv\Lib\site-packages\psycopg\connection_async.py:333: in execute
+    raise ex.with_traceback(None)
+E   psycopg.errors.UniqueViolation: duplicate key value violates unique constraint "collaboration_applications_tenant_id_task_id_key"
+E   DETAIL:  Key (tenant_id, task_id)=(collab-8647faf5c790458985cc78ee8038b429, d2524fd7-e3be-4acf-bcb2-3cf4720f91ca) already exists.</failure></testcase></testsuite></testsuites>

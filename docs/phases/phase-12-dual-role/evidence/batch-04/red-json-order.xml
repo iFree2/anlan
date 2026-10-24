@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="1.755" timestamp="2026-10-24T22:15:59.615288+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_collaboration_release" name="test_poll_json_key_order_does_not_rebuild_frozen_card" time="0.165"><failure message="AssertionError: AssertionError [ERR_ASSERTION]: JSON object order rebuilt the frozen confirmation card&#10;  &#10;  1 !== 0&#10;  &#10;      at C:\Users\msm84\AppData\Local\Temp\pytest-of-msm84\pytest-402\test_poll_json_key_order_does_0\snapshot-order.cjs:32:10 {&#10;    generatedMessage: false,&#10;    code: 'ERR_ASSERTION',&#10;    actual: 1,&#10;    expected: 0,&#10;    operator: 'strictEqual',&#10;    diff: 'simple'&#10;  }&#10;  &#10;assert 1 == 0&#10; +  where 1 = CompletedProcess(args=['D:\\nodejs_v24\\node.EXE', 'C:\\Users\\msm84\\AppData\\Local\\Temp\\pytest-of-msm84\\pytest-40...ge: false,\n  code: 'ERR_ASSERTION',\n  actual: 1,\n  expected: 0,\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n&quot;).returncode">tests\test_collaboration_release.py:107: in test_poll_json_key_order_does_not_rebuild_frozen_card
+    assert result.returncode == 0, result.stderr
+E   AssertionError: AssertionError [ERR_ASSERTION]: JSON object order rebuilt the frozen confirmation card
+E
+E     1 !== 0
+E
+E         at C:\Users\msm84\AppData\Local\Temp\pytest-of-msm84\pytest-402\test_poll_json_key_order_does_0\snapshot-order.cjs:32:10 {
+E       generatedMessage: false,
+E       code: 'ERR_ASSERTION',
+E       actual: 1,
+E       expected: 0,
+E       operator: 'strictEqual',
+E       diff: 'simple'
+E     }
+E
+E   assert 1 == 0
+E    +  where 1 = CompletedProcess(args=['D:\\nodejs_v24\\node.EXE', 'C:\\Users\\msm84\\AppData\\Local\\Temp\\pytest-of-msm84\\pytest-40...ge: false,\n  code: 'ERR_ASSERTION',\n  actual: 1,\n  expected: 0,\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n").returncode</failure></testcase></testsuite></testsuites>

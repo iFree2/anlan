@@ -1,0 +1,99 @@
+{
+  "data_origin": "SYNTHETIC",
+  "model_mode": "scripted_double",
+  "credentials_recorded": false,
+  "outsiders": [
+    {
+      "actor": "unassigned_manager",
+      "actions": [
+        "submit",
+        "request_changes",
+        "resubmit",
+        "complete_review"
+      ],
+      "statuses": [
+        404,
+        404,
+        404,
+        404
+      ]
+    },
+    {
+      "actor": "another_applicant",
+      "actions": [
+        "submit",
+        "request_changes",
+        "resubmit",
+        "complete_review"
+      ],
+      "statuses": [
+        404,
+        404,
+        404,
+        404
+      ]
+    },
+    {
+      "actor": "legacy",
+      "actions": [
+        "submit",
+        "request_changes",
+        "resubmit",
+        "complete_review"
+      ],
+      "statuses": [
+        404,
+        404,
+        404,
+        404
+      ]
+    },
+    {
+      "actor": "cross_tenant_manager",
+      "actions": [
+        "submit",
+        "request_changes",
+        "resubmit",
+        "complete_review"
+      ],
+      "statuses": [
+        404,
+        404,
+        404,
+        404
+      ]
+    }
+  ],
+  "anonymous": [
+    {
+      "action": "submit",
+      "status": 401
+    },
+    {
+      "action": "request_changes",
+      "status": 401
+    },
+    {
+      "action": "resubmit",
+      "status": 401
+    },
+    {
+      "action": "complete_review",
+      "status": 401
+    }
+  ],
+  "unavailable_knowledge": {
+    "explicit_fault_composition": "UnavailableKnowledgeStore",
+    "outcome": "error",
+    "reason": "knowledge_unavailable",
+    "candidate_unknown_observation_ids": [
+      "o1",
+      "o2",
+      "o3"
+    ],
+    "evidence_gap_preserved": true,
+    "alarm_state": "active"
+  },
+  "application_version_unchanged_by_forbidden_commands": 2,
+  "status": "passed"
+}

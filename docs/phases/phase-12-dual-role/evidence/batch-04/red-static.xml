@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="1.818" timestamp="2026-10-24T21:59:56.678414+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_collaboration_release" name="test_release_resources_include_and_validate_console_static_bytes" time="0.065"><failure message="AssertionError: assert {'anlan/inter...s/styles.css'} &lt;= {'anlan/asset...nts.sql', ...}&#10;  &#10;  Extra items in the left set:&#10;  'anlan/interfaces/console/assets/index.html'&#10;  'anlan/interfaces/console/assets/app.js'&#10;  'anlan/interfaces/console/assets/styles.css'&#10;  'anlan/interfaces/console/assets/api.js'">tests\test_collaboration_release.py:55: in test_release_resources_include_and_validate_console_static_bytes
+    assert {p.relative_to(root / 'src').as_posix() for p in assets if p.is_file()} &lt;= {
+E   AssertionError: assert {'anlan/inter...s/styles.css'} &lt;= {'anlan/asset...nts.sql', ...}
+E
+E     Extra items in the left set:
+E     'anlan/interfaces/console/assets/index.html'
+E     'anlan/interfaces/console/assets/app.js'
+E     'anlan/interfaces/console/assets/styles.css'
+E     'anlan/interfaces/console/assets/api.js'</failure></testcase></testsuite></testsuites>
