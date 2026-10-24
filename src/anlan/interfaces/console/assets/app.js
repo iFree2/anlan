@@ -164,12 +164,21 @@ function renderSnapshot() {
   renderMessages(); renderTaskProjection(); renderConversationList();
 }
 
+function snapshotKey(snapshot) {
+  return JSON.stringify(snapshot, (_key, value) => {
+    if (value && typeof value === "object" && !Array.isArray(value)) {
+      return Object.fromEntries(Object.keys(value).sort().map(key => [key, value[key]]));
+    }
+    return value;
+  });
+}
+
 async function refreshConversation({quiet=false}={}) {
   if (!state.snapshot) return;
   const selected = state.snapshot;
   const latest = await request(`/conversations/${selected.conversation_id}`);
   if (state.snapshot !== selected) return;
-  if (JSON.stringify(latest) !== JSON.stringify(state.snapshot)) { state.snapshot = latest; renderSnapshot(); }
+  if (snapshotKey(latest) !== snapshotKey(state.snapshot)) { state.snapshot = latest; renderSnapshot(); }
   await loadEvents();
   if (!quiet) showNotice("已读取服务端最新会话和任务快照。");
 }
@@ -185,7 +194,7 @@ function startStream(conversationId) {
     onSnapshot(snapshot, id) {
       if (snapshot.conversation_id !== state.snapshot?.conversation_id) return;
       state.streamId = id;
-      if (JSON.stringify(snapshot) !== JSON.stringify(state.snapshot)) { state.snapshot = snapshot; renderSnapshot(); }
+      if (snapshotKey(snapshot) !== snapshotKey(state.snapshot)) { state.snapshot = snapshot; renderSnapshot(); }
     },
     onError(error) { if (!controller.signal.aborted) showNotice(error.message, true); },
   });

@@ -34,6 +34,8 @@ class CollaborationConversationAdapter:
                 conn = workflow._registry.conn
                 app = await self.service.store.get(actor, self.role(actor), task_id, conn=conn)
                 material = (await workflow._snapshot(record)).values
+                if not material:
+                    raise InvalidTransition('任务尚未写入 checkpoint；请执行 recover')
                 events = await self.service.store.events(conn, app)
                 if self.role(actor) == 'applicant' and actor == record.identity:
                     projection = _project(material)

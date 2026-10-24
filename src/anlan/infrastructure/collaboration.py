@@ -60,7 +60,7 @@ class CollaborationStore:
                 await conn.execute(
                     "INSERT INTO anlan_v2.collaboration_applications "
                     "(task_id,tenant_id,applicant_user_id) VALUES (%s,%s,%s) "
-                    "ON CONFLICT (task_id) DO NOTHING",
+                    "ON CONFLICT DO NOTHING",
                     (task_id, actor.tenant_id, actor.user_id),
                 )
                 return await self._get(conn, actor, role, task_id)

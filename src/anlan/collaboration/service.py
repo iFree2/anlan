@@ -67,6 +67,8 @@ class CollaborationService:
                 conn = workflow._registry.conn
                 application = await self.store.get(actor, role, task_id, conn=conn)
                 state = (await workflow._snapshot(record)).values
+                if not state:
+                    raise InvalidTransition('任务尚未写入 checkpoint；请执行 recover')
                 return {"application": application, "materials": project_materials(state),
                         "events": await self.store.events(conn, application),
                         "notice": "材料核查完成不代表作业批准或开工授权"}
