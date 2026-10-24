@@ -26,3 +26,14 @@ Important一项：`verify_collaboration_release.py` 的loopback检查仅在main�
 协调检查当前PGHOST、PGHOSTADDR、PGPORT、PGSERVICE、PGSERVICEFILE、PGDATABASE、PGOPTIONS均未设置，因此不将已完成本地验证说成曾连接远端。已有本地证据仍有效；缺口是harness未来可能误连的防护合同。
 
 已向原B4会话发出范围内收尾：先用stub阻止Popen/connect的离线RED，复现直接入口、hostaddr/环境/服务覆盖等拒绝缺口；统一在verify/进程边界校验实际目标，清理或拒绝PG覆盖，保持错误不泄密，再复验真实loopback路径和准确回归。禁止远端探测/云端或模型调用，不修改应用功能或预算。修复通过、证据更新并复核后再放行B5。
+
+## 防护修复中的独立定向验证
+
+实施会话修复harness与测试后、最终非live全仓仍运行时，协调只读核对入口及子环境边界，并独立执行纯离线定向：
+
+```powershell
+.venv/Scripts/python.exe -m pytest -q tests/test_collaboration_release.py -k 'target_rejected or explicit_loopback or rechecks_environment'
+.venv/Scripts/python.exe -m ruff check scripts/verify_collaboration_release.py tests/test_collaboration_release.py
+```
+
+实跑 **70 passed, 7 deselected in16.25s**，Ruff通过。此处7项是-k过滤的非本次目标用例，不是付费调用或PG跳过。拒绝路径由stub阻止Popen、sync/async connect、socket与DNS；没有远端探测。原代码应用wheel不变；协调等待最终修复提交、完整回归/证据与只读复核，**此记录还不将B4标记通过**。
