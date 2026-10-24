@@ -9,6 +9,7 @@ from psycopg.rows import dict_row
 from psycopg.types.json import Jsonb
 from pydantic import TypeAdapter
 
+from anlan.collaboration.event_access import EventAccess
 from anlan.common.errors import AccessDenied
 from anlan.infrastructure.db import conninfo
 from anlan.workflows.event_contracts import (
@@ -22,9 +23,10 @@ from anlan.workflows.events import admission
 
 
 class EventStore:
-    def __init__(self, dsn, *, clock=None):
+    def __init__(self, dsn, *, clock=None, access_config=None):
         self.dsn = dsn
         self.clock = clock or (lambda: datetime.now(UTC))
+        self.access = EventAccess(access_config)
 
     def now(self):
         value = self.clock()
@@ -51,11 +53,12 @@ class EventStore:
         return row["document"] | {"result": row["result"]}
 
     async def _get(self, conn, identity, receipt_id, *, lock=False):
+        storage_scope = await self.access.resource(conn, identity, receipt_id)
         cursor = await conn.execute(
             "SELECT document,result FROM anlan_v2.perception_events "
             "WHERE receipt_id=%s AND tenant_id=%s AND user_id=%s" +
             (" FOR UPDATE" if lock else ""),
-            (receipt_id, identity.tenant_id, identity.user_id))
+            (receipt_id, storage_scope.tenant_id, storage_scope.user_id))
         row = await cursor.fetchone()
         if row is None:
             raise AccessDenied("事件不存在或当前测试身份无权访问")
@@ -73,11 +76,19 @@ class EventStore:
             (identity.tenant_id, identity.user_id, source_id))
         return await cursor.fetchone()
 
-    async def receive(self, identity, source_id, payload, source=None, *, conn=None):
+    async def receive(self, identity, source_id, payload, source=None, *, conn=None,
+                      storage_scope=None):
+        if storage_scope is not None:
+            if conn is None or source is None:
+                raise AccessDenied('共享接入必须复用授权任务连接')
+            resolved = await self.access.scope(conn, identity, source.task_id, 'run_event_review')
+            if resolved != storage_scope:
+                raise AccessDenied('资源范围不一致')
+        scope = storage_scope or identity
         source_id = TypeAdapter(Identifier).validate_python(source_id)
         if source is not None:
             source = SourceBinding.model_validate(source)
-            if source.identity != identity or source.source_id != source_id:
+            if source.identity != scope or source.source_id != source_id:
                 raise AccessDenied("来源不属于当前可信接入身份")
         event = parse_event(payload)
         # Store validated original JSON values, not a model rewrite of the raw alarm.
@@ -88,9 +99,11 @@ class EventStore:
             async with await self.connect() as own_conn:
                 return await self._receive(own_conn, identity, source_id, event, raw,
                                            body_hash, source, now)
-        return await self._receive(conn, identity, source_id, event, raw, body_hash, source, now)
+        return await self._receive(conn, scope, source_id, event, raw, body_hash, source, now,
+                                   actor=identity)
 
-    async def _receive(self, conn, identity, source_id, event, raw, body_hash, source, now):
+    async def _receive(self, conn, identity, source_id, event, raw, body_hash, source, now,
+                       *, actor=None):
         async with conn.transaction():
             await self._stream_lock(conn, identity, source_id)
             cursor = await conn.execute(
@@ -116,6 +129,7 @@ class EventStore:
                         "identity": identity.model_dump(), "raw": raw, "body_hash": body_hash,
                         "binding": binding, "binding_hash": digest(binding) if binding else None,
                         "received_at": now.isoformat(), "admission": reason}
+            document['actor'] = (actor or identity).model_dump()
             result = None if reason == "pending" else {
                 "status": reason, "processed_at": now.isoformat()}
             await conn.execute(
@@ -138,15 +152,17 @@ class EventStore:
     async def finish(self, conn, identity, receipt_id, status):
         """Caller holds the task lock on THIS connection; never opens a write connection."""
         async with conn.transaction():
+            scope = await self.access.resource(conn, identity, receipt_id,
+                                               action='run_event_review')
             row = await self._get(conn, identity, receipt_id)
-            await self._stream_lock(conn, identity, row["source_id"])
+            await self._stream_lock(conn, scope, row["source_id"])
             row = await self._get(conn, identity, receipt_id, lock=True)
             if row["result"] is not None:
                 return row
             event = parse_event(row["raw"])
             source = SourceBinding.model_validate(row["binding"])
             now = self.now()
-            head = await self._head(conn, identity, row["source_id"])
+            head = await self._head(conn, scope, row["source_id"])
             current = admission(event, source, now)
             if current != "pending":
                 status = current
@@ -159,5 +175,5 @@ class EventStore:
             await conn.execute(
                 "UPDATE anlan_v2.perception_events SET result=%s "
                 "WHERE receipt_id=%s AND tenant_id=%s AND user_id=%s AND result IS NULL",
-                (Jsonb(result), receipt_id, identity.tenant_id, identity.user_id))
+                (Jsonb(result), receipt_id, scope.tenant_id, scope.user_id))
             return row | {"result": result}

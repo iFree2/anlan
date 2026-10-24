@@ -2,8 +2,9 @@
 
 from typing import Literal
 
-from pydantic import Field
+from pydantic import Field, model_validator
 
+from anlan.collaboration.service import COMMANDS, CommandText
 from anlan.common.models import NonEmpty, StrictModel
 from anlan.workflows.material_contracts import FieldName, Text
 
@@ -18,15 +19,44 @@ IntentKind = Literal[
     "cancel_task",
     "switch_or_create_task",
     "switch_task",
+    "submit_application",
+    "request_changes",
+    "resubmit_application",
+    "complete_material_review",
 ]
+COLLABORATION_INTENTS = {
+    'submit_application': 'submit', 'request_changes': 'request_changes',
+    'resubmit_application': 'resubmit', 'complete_material_review': 'complete_review',
+}
+
+
+class CollaborationInput(StrictModel):
+    reviewer_user_id: CommandText | None = None
+    questions: list[CommandText] = Field(default_factory=list, max_length=20)
+    reply: CommandText | None = None
+    conclusion: CommandText | None = None
+
+
+class FrozenCollaborationCommand(StrictModel):
+    task_id: NonEmpty
+    action: Literal['submit', 'request_changes', 'resubmit', 'complete_review']
+    payload: dict
+
+    @model_validator(mode='after')
+    def strict_command(self):
+        COMMANDS[self.action].model_validate(self.payload)
+        return self
 ConversationStatus = Literal["idle", "pending_confirmation", "active_hot_work", "paused"]
 
 
 class PendingIntent(StrictModel):
     intent_id: NonEmpty
-    kind: Literal["hot_work_candidate", "task_input_candidate", "switch_or_create_task"]
+    kind: Literal["hot_work_candidate", "task_input_candidate", "switch_or_create_task",
+                  'submit_application', 'request_changes', 'resubmit_application',
+                  'complete_material_review']
     fields: dict[FieldName, Text] = Field(default_factory=dict, max_length=4)
     revision: int = Field(strict=True, ge=1)
+    collaboration: FrozenCollaborationCommand | None = None
 
 
 class ConversationState(StrictModel):
@@ -44,3 +74,4 @@ class IntentProposal(StrictModel):
     target_task_id: NonEmpty | None = None
     user_explanation: NonEmpty
     classifier_version: NonEmpty
+    collaboration: CollaborationInput | None = None

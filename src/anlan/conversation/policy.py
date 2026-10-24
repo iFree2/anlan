@@ -7,7 +7,12 @@ from pydantic import Field
 
 from anlan.common.errors import InvalidTransition
 from anlan.common.models import NonEmpty, StrictModel
-from anlan.conversation.contracts import ConversationState, IntentProposal
+from anlan.conversation.contracts import (
+    COLLABORATION_INTENTS,
+    ConversationState,
+    FrozenCollaborationCommand,
+    IntentProposal,
+)
 from anlan.workflows.material_contracts import FieldName, Text
 
 
@@ -24,6 +29,8 @@ class RouteAction(StrEnum):
     ASK_TASK_SWITCH = "ask_task_switch"
     PREPARE_NEW_TASK = "prepare_new_task"
     SWITCH_TASK = "switch_task"
+    ASK_COLLABORATION_CONFIRMATION = 'ask_collaboration_confirmation'
+    EXECUTE_COLLABORATION = 'execute_collaboration'
 
 
 class RouteDecision(StrictModel):
@@ -34,11 +41,18 @@ class RouteDecision(StrictModel):
     task_revision: int | None = Field(default=None, strict=True, ge=1)
     task_status: Literal["analyzing", "waiting_input", "awaiting_review"] | None = None
     target_task_id: NonEmpty | None = None
+    collaboration: FrozenCollaborationCommand | None = None
 
 
 def decide(state: ConversationState, proposal: IntentProposal) -> RouteDecision:
     """Resolve a bounded proposal against trusted conversation state."""
     intent = proposal.intent
+
+    if intent in COLLABORATION_INTENTS:
+        if not state.active_task_id or state.status not in {
+            'active_hot_work', 'pending_confirmation'}:
+            raise InvalidTransition('请先选择有权访问的申请')
+        return _decision(RouteAction.ASK_COLLABORATION_CONFIRMATION, state)
 
     if intent == "casual_chat":
         return _decision(RouteAction.REPLY_ONLY, state)
@@ -75,6 +89,12 @@ def decide(state: ConversationState, proposal: IntentProposal) -> RouteDecision:
         pending = state.pending_intent
         if state.status != "pending_confirmation" or pending is None:
             raise InvalidTransition("没有可确认的待处理意图")
+        if pending.kind in COLLABORATION_INTENTS:
+            if not pending.collaboration or pending.collaboration.task_id != state.active_task_id:
+                raise InvalidTransition('协作卡片与当前申请不一致')
+            return RouteDecision(action=RouteAction.EXECUTE_COLLABORATION,
+                                 active_task_id=state.active_task_id, business_write=True,
+                                 collaboration=pending.collaboration)
         if pending.kind == "hot_work_candidate":
             return _decision(RouteAction.START_HOT_WORK, state, pending.fields, write=True)
         if pending.kind == "task_input_candidate" and state.active_task_id:

@@ -4,7 +4,9 @@ const $ = id => document.getElementById(id);
 const labels = {work_location_description:"作业位置", work_object_description:"作业对象", work_method_description:"作业方式", attachment_description:"附件说明"};
 const statuses = {idle:"空闲", pending_confirmation:"等待确认", active_hot_work:"任务进行中", paused:"已暂停", waiting_input:"待补充材料", awaiting_review:"待人工复核", analyzing:"分析中", completed:"核查完成", failed:"核查失败", current:"当前有效", stale_material:"材料已变化"};
 const kinds = {helmet_missing:"未戴安全帽", gas_abnormal:"气体浓度异常"};
-const state = {info:null, conversations:[], snapshot:null, busy:false, stream:null, streamId:null, events:[], event:null, reviews:[], review:null};
+const state = {info:null, conversations:[], snapshot:null, busy:false, stream:null, streamId:null, events:[], event:null, reviews:[], review:null, applications:[], notifications:new Map(), notificationCursor:0, pollTimer:null, epoch:0, businessDrafts:new Map()};
+const businessLabels = {submit:"提交申请", request_changes:"要求补充", resubmit:"重新提交", complete_review:"材料核查完成", run_event_review:"发起事件核查", record_event_feedback:"保存人工反馈"};
+const applicationStatuses = {draft:"草稿", under_review:"待安全人员核查", changes_requested:"待申请人补充", review_completed:"材料核查完成"};
 
 const text = (id, value) => { $(id).textContent = value ?? ""; };
 function node(tag, value, className) { const element = document.createElement(tag); if (value !== undefined) element.textContent = value; if (className) element.className = className; return element; }
@@ -18,9 +20,15 @@ function updateButtons() {
   $("connect").disabled = state.busy; $("config-file").disabled = state.busy;
   $("send-message").disabled = state.busy || !state.snapshot;
   const canSimulate = projection() && projection().status !== "unavailable" && state.info?.simulation_enabled;
-  $("helmet-event").disabled = $("gas-event").disabled = state.busy || !canSimulate;
-  $("run-review").disabled = state.busy || !state.event || !state.info?.simulation_enabled;
-  $("send-feedback").disabled = state.busy || !state.review;
+  const allowed = projection()?.collaboration?.allowed_actions || [];
+  const canReview = canSimulate && (!state.info?.collaboration_role || allowed.includes("run_event_review"));
+  $("helmet-event").disabled = $("gas-event").disabled = state.busy || !canReview;
+  $("helmet-event").hidden = $("gas-event").hidden = $("run-review").hidden = !!state.info?.collaboration_role && !canReview;
+  $("run-review").disabled = state.busy || !state.event || !canReview;
+  const canFeedback = !state.info?.collaboration_role || allowed.includes("record_event_feedback");
+  $("send-feedback").hidden = !canFeedback; $("feedback-panel").hidden = !state.review || !canFeedback;
+  $("send-feedback").disabled = state.busy || !state.review || !canFeedback;
+  document.querySelectorAll(".collaboration-actions button, .application-list button").forEach(button => button.disabled = state.busy);
 }
 
 async function action(work) {
@@ -28,6 +36,7 @@ async function action(work) {
   state.busy = true; clearNotices(); updateButtons();
   try { await work(); }
   catch (error) {
+    if (error.stale) return;
     showNotice(error instanceof ApiError ? error.message : "操作未完成，请刷新核对服务端状态。", true);
     if (error.status === 401) disconnect();
   } finally { state.busy = false; updateButtons(); }
@@ -72,14 +81,21 @@ function renderConfirmation(target) {
   const card = node("div", undefined, "confirmation-card");
   card.append(node("strong", pending.kind === "switch_or_create_task" ? "选择任务去向" : "请确认安澜的理解"));
   const fields = Object.entries(pending.fields || {});
+  if (pending.collaboration) {
+    const frozen = pending.collaboration, body = frozen.payload;
+    card.append(node("p", `${businessLabels[frozen.action]} · ${frozen.task_id}`));
+    card.append(node("p", `申请版本 ${body.expected_application_version} / 材料版本 ${body.expected_material_revision}`));
+    for (const key of ["reviewer_user_id", "questions", "reply", "conclusion"]) if (body[key]) card.append(node("p", Array.isArray(body[key]) ? body[key].join("；") : body[key]));
+  }
   if (fields.length) {
     const list = node("dl");
     for (const [name, value] of fields) { list.append(node("dt", labels[name] || name), node("dd", value)); }
     card.append(list);
-  } else card.append(node("p", "当前候选没有可展示的结构化字段，请核对对话内容。", "muted"));
+  } else if (!pending.collaboration) card.append(node("p", "当前候选没有可展示的结构化字段，请核对对话内容。", "muted"));
   const actions = node("div", undefined, "card-actions");
   const confirm = node("button", pending.kind === "switch_or_create_task" ? "新建另一项任务" : "确认申请", "primary"); confirm.type = "button";
   const reject = node("button", "不是，继续聊", "quiet"); reject.type = "button";
+  if (pending.collaboration) confirm.textContent = "确认";
   confirm.addEventListener("click", () => action(() => sendText(confirm.textContent)));
   reject.addEventListener("click", () => action(() => sendText(reject.textContent)));
   actions.append(confirm, reject); card.append(actions); item.append(card); target.append(item);
@@ -90,9 +106,14 @@ function renderMessages() {
   const messages = state.snapshot?.messages || [];
   if (!messages.length) {
     const empty = node("li", undefined, "welcome");
-    empty.append(node("strong", "从一句自然语言开始"), node("p", "我会区分普通对话与动火申请；创建任务前一定请你确认。"));
+    const manager = state.info?.collaboration_role === "safety_manager";
+    empty.append(node("strong", manager ? "从分配待办开始" : "从一句自然语言开始"), node("p", manager ? "选择分配给本人的申请，核对共享材料并提出补充要求或完成人工材料核查。这里的私聊仅本人可见。" : "我会区分普通对话与动火申请；创建任务前一定请你确认。"));
     target.append(empty);
   } else messages.forEach(message => target.append(messageBubble(message)));
+  for (const event of state.snapshot?.business_messages || []) {
+    const item = node("li", undefined, "message-row system_event");
+    item.dataset.eventId = event.event_id; item.append(businessCard(event)); target.append(item);
+  }
   renderConfirmation(target);
   requestAnimationFrame(() => { target.scrollTop = target.scrollHeight; });
 }
@@ -105,6 +126,7 @@ function taskAction(label, value, variant="quiet") {
 function renderTaskProjection() {
   const target = $("task-projection"), actions = $("task-actions"), task = projection();
   target.replaceChildren(); actions.replaceChildren();
+  $("collaboration-actions").replaceChildren(); $("business-timeline").replaceChildren();
   if (!task) {
     setPill("task-summary", state.snapshot?.status === "pending_confirmation" ? "等待确认" : "未绑定", state.snapshot?.status === "pending_confirmation" ? "warn" : "");
     target.append(node("p", "对话确认后，任务状态会显示在这里。", "empty"));
@@ -115,7 +137,7 @@ function renderTaskProjection() {
     target.append(node("p", "任务快照暂不可用；任务标识和对话消息已保留，请刷新恢复。", "warning"));
     target.append(node("code", task.task_id)); renderEvents(); return;
   }
-  setPill("task-summary", statuses[task.status] || task.status, task.status === "waiting_input" ? "warn" : "good");
+  setPill("task-summary", applicationStatuses[task.collaboration?.application?.status] || statuses[task.status] || task.status, task.status === "waiting_input" ? "warn" : "good");
   const heading = node("div", undefined, "task-heading"); heading.append(node("strong", "动火材料任务"), node("span", `v${task.revision}`, "pill")); target.append(heading);
   target.append(node("code", task.task_id));
   const fieldList = node("dl", undefined, "field-list");
@@ -124,10 +146,15 @@ function renderTaskProjection() {
   if (task.missing_fields?.length) target.append(node("p", "待补充：" + task.missing_fields.map(name => labels[name] || name).join("、"), "warning"));
   for (const question of task.issue_questions || []) target.append(node("p", question, "question"));
   const meta = node("div", undefined, "task-meta");
-  meta.append(node("span", `分析：${task.analysis_mode}`), node("span", `语义：${task.semantic_status}`), node("span", `事件 ${task.event_count || 0}`), node("span", `核查 ${task.review_count || 0}`)); target.append(meta);
+  if (task.collaboration) {
+    const analysisLabel = task.semantic_status === "failed" ? "材料分析未完成，请核对后重试" : task.semantic_status === "shared_materials" ? "共享材料供人工核对，分析详情由申请人本人查看" : task.semantic_status === "offline_not_checked" ? "离线示例：未做模型语义核查" : task.issue_questions?.length ? "材料仍需澄清，请补充具体信息" : "材料语义核查已完成，仍需人工核对";
+    meta.append(node("span", analysisLabel), node("span", "事件与核查结果见下方详情"));
+  }
+  else meta.append(node("span", `分析：${task.analysis_mode}`), node("span", `语义：${task.semantic_status}`), node("span", `事件 ${task.event_count || 0}`), node("span", `核查 ${task.review_count || 0}`)); target.append(meta);
   if (state.snapshot.status === "active_hot_work") actions.append(taskAction("暂停引导", "暂停当前任务"), taskAction("取消引导", "取消当前任务"));
   if (state.snapshot.status === "paused") actions.append(taskAction("恢复引导", "继续任务", "primary"), taskAction("取消引导", "取消当前任务"));
-  actions.append(taskAction("发起另一项", "我要发起另一项动火任务"));
+  if (state.info?.collaboration_role !== "safety_manager") actions.append(taskAction("发起另一项", "我要发起另一项动火任务"));
+  renderCollaboration(task);
   updateButtons();
 }
 
@@ -139,18 +166,26 @@ function renderSnapshot() {
 
 async function refreshConversation({quiet=false}={}) {
   if (!state.snapshot) return;
-  state.snapshot = await request(`/conversations/${state.snapshot.conversation_id}`);
-  renderSnapshot(); await loadEvents();
+  const selected = state.snapshot;
+  const latest = await request(`/conversations/${selected.conversation_id}`);
+  if (state.snapshot !== selected) return;
+  if (JSON.stringify(latest) !== JSON.stringify(state.snapshot)) { state.snapshot = latest; renderSnapshot(); }
+  await loadEvents();
   if (!quiet) showNotice("已读取服务端最新会话和任务快照。");
 }
 
 function startStream(conversationId) {
-  state.stream?.abort(); const controller = new AbortController(); state.stream = controller;
+  state.stream?.abort(); state.stream = null; state.streamId = null;
+  // Collaboration already polls authenticated snapshots/inbox every three seconds.
+  // A second fast reader competes for the same task lock and causes transient card churn.
+  if (state.info?.collaboration_role) return;
+  const controller = new AbortController(); state.stream = controller;
   subscribeSnapshot(`/conversations/${conversationId}/stream`, {
     signal: controller.signal,
     onSnapshot(snapshot, id) {
       if (snapshot.conversation_id !== state.snapshot?.conversation_id) return;
-      state.streamId = id; state.snapshot = snapshot; renderSnapshot();
+      state.streamId = id;
+      if (JSON.stringify(snapshot) !== JSON.stringify(state.snapshot)) { state.snapshot = snapshot; renderSnapshot(); }
     },
     onError(error) { if (!controller.signal.aborted) showNotice(error.message, true); },
   });
@@ -191,9 +226,21 @@ async function sendText(value) {
 }
 
 async function loadEvents() {
-  state.events = projection()?.task_id ? (await request(`/console/api/tasks/${projection().task_id}/events`)).items : [];
+  const taskId = projection()?.task_id;
+  const events = taskId ? (await request(`/console/api/tasks/${taskId}/events`)).items : [];
+  if (projection()?.task_id !== taskId) return;
+  state.events = events;
   if (state.event) state.event = state.events.find(item => item.receipt_id === state.event.receipt_id) || null;
   if (!state.event) { state.review = null; state.reviews = []; }
+  else {
+    const receiptId = state.event.receipt_id, previousReviewId = state.review?.review_id;
+    const reviews = (await request(`/console/api/events/${receiptId}/reviews`)).items;
+    if (projection()?.task_id !== taskId || state.event?.receipt_id !== receiptId || state.review?.review_id !== previousReviewId) return;
+    const selected = reviews.find(item => item.review_id === previousReviewId) || reviews[0];
+    const review = selected ? await request(`/reviews/${selected.review_id}`) : null;
+    if (projection()?.task_id !== taskId || state.event?.receipt_id !== receiptId || state.review?.review_id !== previousReviewId) return;
+    state.reviews = reviews; state.review = review;
+  }
   renderEvents(); renderReview();
 }
 
@@ -231,18 +278,97 @@ function renderReview() {
 }
 
 function disconnect() {
-  state.stream?.abort(); state.stream = null; state.info = state.snapshot = null; state.conversations = []; state.events = []; state.event = state.review = null; state.reviews = [];
+  resetIdentityState();
   disconnectToken(); $("token").value = ""; $("config-file").value = ""; $("connect-panel").hidden = false; $("workbench").hidden = true; $("disconnect").hidden = true;
   setPill("connection-status", "未连接"); text("identity", ""); $("conversation-list").replaceChildren(node("p", "连接后加载会话", "muted")); renderMode();
 }
 
 async function connect(value) {
   if (!value || !/^[A-Za-z0-9._~-]{32,256}$/.test(value)) throw new ApiError("请选择有效演示配置或输入测试令牌。", 422);
-  connectToken(value);
+  resetIdentityState(); connectToken(value);
   try { state.info = await request("/console/api/info"); } catch (error) { disconnectToken(); state.info = null; throw error; }
   $("token").value = ""; $("connect-panel").hidden = true; $("workbench").hidden = false; $("disconnect").hidden = false;
   setPill("connection-status", "已连接", "good"); text("identity", `${state.info.identity.tenant_id} / ${state.info.identity.user_id}`); renderMode();
+  text("trusted-role", {applicant:"申请人（演示身份）", safety_manager:"安全人员（演示身份）"}[state.info.collaboration_role] || "原私有身份");
+  $("message-input").placeholder = state.info.collaboration_role === "safety_manager" ? "选择本人待办后，可以讨论材料或提出补充要求" : "例如：明天去罐区补焊";
+  text("application-heading", state.info.collaboration_role === "safety_manager" ? "分配给我的待办" : "我的申请");
   await loadConversations(); if (!state.conversations.length) await createConversation();
+  await refreshBusiness(); scheduleBusinessPoll();
+}
+
+function resetIdentityState() {
+  state.epoch++; state.stream?.abort(); clearTimeout(state.pollTimer);
+  state.stream = state.streamId = state.pollTimer = null;
+  state.info = state.snapshot = state.event = state.review = null;
+  state.conversations = []; state.events = []; state.reviews = []; state.applications = [];
+  state.notifications.clear(); state.notificationCursor = 0; state.businessDrafts.clear();
+  for (const id of ["application-list", "business-inbox", "business-timeline", "message-list", "collaboration-actions", "task-projection", "task-actions", "event-list", "review-result", "conversation-list"]) $(id).replaceChildren();
+  $("message-input").value = ""; text("trusted-role", ""); clearNotices();
+}
+
+function businessCard(event) {
+  const card = node("div", undefined, "business-card"); card.dataset.eventId = event.event_id;
+  card.append(node("strong", businessLabels[event.action] || event.action), node("small", ` · ${event.actor_user_id} · 材料 v${event.material_revision}`));
+  for (const value of Object.values(event.payload || {})) card.append(node("p", Array.isArray(value) ? value.join("；") : String(value)));
+  return card;
+}
+
+function renderCollaboration(task) {
+  const shared = task.collaboration; if (!shared) return;
+  const app = shared.application;
+  $("task-projection").append(node("p", `${applicationStatuses[app.status]} · 申请版本 ${app.version} · 核查人 ${app.reviewer_user_id || "待选择"}`));
+  for (const event of shared.events || []) $("business-timeline").append(businessCard(event));
+  const candidates = {submit:["submit_application", "提交给安全人员"], request_changes:["request_changes", "提出补充要求"], resubmit:["resubmit_application", "重新提交申请"], complete_review:["complete_material_review", "完成人工材料核查"]};
+  for (const name of shared.allowed_actions || []) {
+    if (!candidates[name]) continue;
+    const [intent, label] = candidates[name], form = node("form");
+    const input = node(name === "submit" ? "select" : "textarea"); input.required = true;
+    input.setAttribute("aria-label", label); input.maxLength = 500;
+    if (name === "submit") for (const user of state.info.collaboration_reviewers || []) { const option = node("option", user); option.value = user; input.append(option); }
+    else input.placeholder = name === "request_changes" ? "填写具体补充要求，每行一条" : "填写本轮说明";
+    const draftKey = `${task.task_id}:${name}`;
+    if (state.businessDrafts.has(draftKey)) input.value = state.businessDrafts.get(draftKey);
+    input.addEventListener("input", () => state.businessDrafts.set(draftKey, input.value));
+    const button = node("button", label + "（先确认）", "secondary"); button.type = "submit";
+    form.append(input, button); form.addEventListener("submit", event => { event.preventDefault(); action(async () => {
+      const detail = name === "submit" ? {reviewer_user_id:input.value} : name === "request_changes" ? {questions:input.value.split(/\n/).filter(s => s.trim())} : name === "resubmit" ? {reply:input.value} : {conclusion:input.value};
+      state.snapshot = await mutate(`/conversations/${state.snapshot.conversation_id}/collaboration-candidates`, {expected_revision:state.snapshot.revision, intent, collaboration:detail}); state.businessDrafts.delete(draftKey); renderSnapshot();
+    }); }); $("collaboration-actions").append(form);
+  }
+}
+
+async function refreshBusiness() {
+  if (!state.info?.collaboration_role) return;
+  const epoch = state.epoch;
+  const [applications, inbox] = await Promise.all([request("/collaboration/applications"), request(`/collaboration/notifications?after=${state.notificationCursor}&limit=100`)]);
+  if (epoch !== state.epoch) return;
+  const applicationsChanged = JSON.stringify(state.applications) !== JSON.stringify(applications.items);
+  state.applications = applications.items; state.notificationCursor = inbox.next_cursor;
+  const visible = new Set(state.applications.map(app => app.task_id));
+  for (const [key, event] of state.notifications) if (!visible.has(event.task_id)) state.notifications.delete(key);
+  for (const item of inbox.items) state.notifications.set(item.event.event_id, item.event);
+  while (state.notifications.size > 200) state.notifications.delete(state.notifications.keys().next().value);
+  $("business-inbox").replaceChildren(...Array.from(state.notifications.values(), businessCard));
+  if (applicationsChanged) $("application-list").replaceChildren();
+  for (const app of applicationsChanged ? state.applications : []) {
+    const button = node("button", undefined, "conversation-item"); button.type = "button";
+    button.append(node("span", app.task_id), node("small", `${applicationStatuses[app.status]} · v${app.version}`));
+    button.addEventListener("click", () => action(async () => {
+      state.snapshot = await request(`/conversations/${state.snapshot.conversation_id}/task`, {method:"POST", body:{task_id:app.task_id, expected_revision:state.snapshot.revision}});
+      state.events = []; state.event = state.review = null; state.reviews = []; renderSnapshot(); await loadEvents();
+    })); $("application-list").append(button);
+  }
+  updateButtons();
+}
+
+function scheduleBusinessPoll() {
+  const epoch = state.epoch; clearTimeout(state.pollTimer);
+  state.pollTimer = setTimeout(async () => {
+    if (epoch !== state.epoch || !state.info) return;
+    try { if (!state.busy) { await refreshBusiness(); if (state.snapshot && state.info.collaboration_role) await refreshConversation({quiet:true}); } }
+    catch (error) { if (!error.stale && epoch === state.epoch) showNotice(error.message, true); }
+    if (epoch === state.epoch) scheduleBusinessPoll();
+  }, 3000);
 }
 
 $("connect").addEventListener("click", () => action(() => connect($("token").value.trim())));

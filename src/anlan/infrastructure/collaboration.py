@@ -171,6 +171,7 @@ class CollaborationStore:
         cursor = await conn.execute(
             "SELECT event_id,task_id,actor_user_id,actor_role,action,material_revision,"
             "application_version,payload,created_at FROM anlan_v2.collaboration_events "
-            "WHERE tenant_id=%s AND task_id=%s ORDER BY application_version,event_id LIMIT 100",
+            "WHERE tenant_id=%s AND task_id=%s "
+            "ORDER BY application_version,created_at,event_id LIMIT 100",
             (application.tenant_id, application.task_id))
         return await cursor.fetchall()

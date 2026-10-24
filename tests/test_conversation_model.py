@@ -155,13 +155,20 @@ async def test_live_classifier_rejects_unknown_intent_and_never_sends_identity()
             ModelConfig(api_key="secret-sentinel"), client, FakeLedger()
         )
         with pytest.raises(AnalysisFailure) as error:
-            await model.classify(context("hello"), run_id="message-1")
+            await model.classify(context("hello", task_projection={
+                'identity': {'tenant_id': 'PRIVATE-TENANT', 'user_id': 'PRIVATE-ACTOR'},
+                'tenant_id': 'PRIVATE-TENANT', 'user_id': 'PRIVATE-ACTOR',
+            }), run_id="message-1")
 
     assert error.value.category == "invalid_output"
     assert len(requests) == 1
     request = json.loads(requests[0].content)
     serialized = json.dumps(request, ensure_ascii=False)
-    assert "tenant_id" not in serialized and "user_id" not in serialized
+    # reviewer_user_id is a business command field, not the authenticated actor identity.
+    assert 'tenant_id' not in serialized
+    visible = json.loads(request['messages'][1]['content'])
+    assert '"user_id"' not in json.dumps(visible)
+    assert 'PRIVATE-TENANT' not in serialized and 'PRIVATE-ACTOR' not in serialized
     assert "secret-sentinel" not in serialized
     assert request["temperature"] == 0
     assert request["response_format"] == {"type": "json_object"}

@@ -12,6 +12,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import Field, ValidationError
 
+from anlan.collaboration.event_access import public_event, public_review
 from anlan.collaboration.service import CollaborationService
 from anlan.common.errors import AccessDenied, InvalidTransition, TaskBusy
 from anlan.common.models import Identity, StrictModel
@@ -21,6 +22,7 @@ from anlan.infrastructure.conversations import ConversationStore
 from anlan.infrastructure.events import EventStore
 from anlan.infrastructure.perception import PerceptionStore
 from anlan.infrastructure.postgres import initialize_database
+from anlan.interfaces.collaboration_conversation import CollaborationConversationAdapter
 from anlan.interfaces.collaboration_routes import install_collaboration_routes
 from anlan.interfaces.console.routes import install_console
 from anlan.interfaces.console.service import ConsoleService
@@ -91,7 +93,8 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
     if root_path and not re.fullmatch(r"(?:/[A-Za-z0-9_-]+)+", root_path):
         raise ValueError("Invalid trusted reverse proxy prefix")
     clock = lambda: config.as_of or datetime.now(UTC)  # noqa: E731
-    events, memory = EventStore(dsn, clock=clock), MemoryStore(dsn, clock=clock)
+    events = EventStore(dsn, clock=clock, access_config=config)
+    memory = MemoryStore(dsn, clock=clock)
     conversations = ConversationStore(dsn)
     sources = config
 
@@ -133,15 +136,29 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
     Actor = Annotated[Identity, Depends(who)]
 
     async def legacy_actor(identity: Actor):
-        # B3 must implement real shared event authorization/audit before opening this.
+        # Raw source ingestion stays legacy-only; collaboration uses trusted console bindings.
         if config.collaboration_role(identity) is not None:
             raise AccessDenied("当前角色事件能力尚未接入")
         return identity
 
     LegacyActor = Annotated[Identity, Depends(legacy_actor)]
-    conversation_service = ConversationService(
-        conversations, models.conversation, WorkflowAdapter(models.material_service)
-    )
+
+    async def event_actor(identity: Actor):
+        role = config.collaboration_role(identity)
+        if role is not None and (role != 'safety_manager' or not config.console_profile(identity)):
+            raise AccessDenied('当前身份未配置事件操作权限')
+        return identity
+
+    EventActor = Annotated[Identity, Depends(event_actor)]
+
+    def event_view(identity, value):
+        return public_event(value) if config.collaboration_role(identity) else value
+
+    def review_view(identity, value):
+        return public_review(value) if config.collaboration_role(identity) else value
+    collaboration = CollaborationService(dsn, config, models.material_service)
+    conversation_service = ConversationService(conversations, models.conversation,
+        CollaborationConversationAdapter(collaboration, WorkflowAdapter(models.material_service)))
 
     async def safe_error(request, exc):
         if isinstance(exc, AccessDenied):
@@ -171,6 +188,7 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
             memory,
             factory() if factory else models.perception(),
             clock=clock,
+            access_config=config,
         )
 
     async def task_read(identity, task):
@@ -248,15 +266,20 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
         )
 
     @app.get("/events/{receipt}")
-    async def show_event(receipt: str, identity: LegacyActor):
-        return await events.get(identity, receipt)
+    async def show_event(receipt: str, identity: Actor):
+        return event_view(identity, await events.get(identity, receipt))
 
     @app.post("/events/{receipt}/process")
-    async def associate(receipt: str, identity: LegacyActor):
-        return await process_event(dsn, identity, receipt, clock=clock)
+    async def associate(receipt: str, identity: EventActor):
+        return event_view(identity, await process_event(dsn, identity, receipt, clock=clock,
+                                                        access_config=config))
 
     @app.post("/events/{receipt}/reviews")
-    async def review(receipt: str, payload: ReviewRequest, identity: LegacyActor):
+    async def review(receipt: str, payload: ReviewRequest, identity: EventActor):
+        if config.collaboration_role(identity):
+            value = await ConsoleService(dsn, config, clock=clock).review(
+                identity, receipt, payload.request_id, perception())
+            return review_view(identity, value)
         event = await events.get(identity, receipt)
         source = sources.source(identity, event["source_id"])
         if source is None:
@@ -266,23 +289,23 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
         )
 
     @app.get("/reviews/{review_id}")
-    async def show_review(review_id: str, identity: LegacyActor):
-        return await perception().get(identity, review_id)
+    async def show_review(review_id: str, identity: Actor):
+        return review_view(identity, await perception().get(identity, review_id))
 
     @app.post("/reviews/{review_id}/feedback")
-    async def feedback(review_id: str, payload: Feedback, identity: LegacyActor):
-        return await perception().feedback(
+    async def feedback(review_id: str, payload: Feedback, identity: EventActor):
+        return review_view(identity, await perception().feedback(
             identity,
             review_id,
             payload.expected_revision,
             payload.decision,
             request_id=payload.request_id,
-        )
+        ))
 
     @app.post("/reviews/{review_id}/{action}")
-    async def control(review_id: str, action: Literal["recover", "cancel"], identity: LegacyActor):
+    async def control(review_id: str, action: Literal["recover", "cancel"], identity: EventActor):
         method = perception().recover if action == "recover" else perception().cancel
-        return await method(identity, review_id)
+        return review_view(identity, await method(identity, review_id))
 
     @app.get("/{resource}/{key}/stream")
     async def stream(
@@ -298,10 +321,9 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
         async def read():
             if resource == "tasks":
                 return await task_read(identity, key)
-            await legacy_actor(identity)
             if resource == "events":
-                return await events.get(identity, key)
-            return await perception().get(identity, key)
+                return event_view(identity, await events.get(identity, key))
+            return review_view(identity, await perception().get(identity, key))
 
         initial = await read()  # Authorize and validate before sending response headers.
         return StreamingResponse(

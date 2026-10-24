@@ -1,5 +1,13 @@
 :root { color-scheme: light; --ink:#18231f; --muted:#66736d; --paper:#f4f6f1; --card:#fff; --line:#dce3dd; --green:#176b4a; --green-soft:#e8f4ed; --amber:#9a5b00; --amber-soft:#fff4dd; --red:#a13a36; --red-soft:#fff0ef; --shadow:0 16px 40px rgba(32,53,44,.08); font-family:Inter,"Microsoft YaHei",system-ui,sans-serif; }
 * { box-sizing:border-box; }
+.application-list { flex:0 1 30%; min-height:70px; }
+.collaboration-actions { display:grid; gap:10px; margin:12px 0; }
+.collaboration-actions form { display:grid; gap:8px; }
+.collaboration-actions input, .collaboration-actions textarea,
+.collaboration-actions select { width:100%; min-width:0; }
+.business-card { border-left:3px solid var(--green); padding:10px; margin:10px 0; background:var(--green-soft); overflow-wrap:anywhere; white-space:pre-wrap; }
+.inbox-panel { padding:14px; margin-top:16px; }
+.mode-banner { flex-wrap:wrap; }
 html, body { margin:0; min-height:100%; background:var(--paper); color:var(--ink); }
 body { display:grid; grid-template-columns:260px minmax(0,1fr); min-height:100vh; }
 button, input, textarea, select { font:inherit; }

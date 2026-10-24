@@ -7,16 +7,19 @@ from anlan.workflows.events import material_status
 from anlan.workflows.material_analysis import OfflineAnalyzer
 
 
-async def process_event(dsn, identity, receipt_id, *, clock=None):
-    store = EventStore(dsn, clock=clock)
+async def process_event(dsn, identity, receipt_id, *, clock=None, access_config=None):
+    store = EventStore(dsn, clock=clock, access_config=access_config)
     row = await store.get(identity, receipt_id)  # Event ownership before task/checkpoint access.
+    async with await store.connect() as conn:
+        await store.access.resource(conn, identity, receipt_id, action='run_event_review')
     if row["result"] is not None:
         return row
     source = SourceBinding.model_validate(row["binding"])
-    async with postgres_service(dsn, OfflineAnalyzer()) as service:
+    async with postgres_service(dsn, OfflineAnalyzer(), access_config=access_config) as service:
         registry = service._registry
         try:
-            async with registry.locked(identity, source.task_id) as record:
+            async with registry.locked(identity, source.task_id,
+                                       action='run_event_review') as record:
                 try:
                     snapshot = await service._snapshot(record)
                 except InvalidTransition:

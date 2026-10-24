@@ -9,6 +9,7 @@ from pydantic import Field, ValidationError
 
 from anlan.common.models import NonEmpty, StrictModel
 from anlan.conversation.contracts import (
+    CollaborationInput,
     ConversationStatus,
     IntentKind,
     IntentProposal,
@@ -35,6 +36,7 @@ class ConversationContext(StrictModel):
     messages: list[VisibleMessage] = Field(default_factory=list, max_length=100)
     pending_intent: PendingIntent | None = None
     task_projection: dict | None = None
+    collaboration_role: Literal['applicant', 'safety_manager'] | None = None
 
 
 class AssistantReply(StrictModel):
@@ -48,6 +50,7 @@ class _ProviderIntentProposal(StrictModel):
     target_task_id: NonEmpty | None = None
     user_explanation: NonEmpty
     classifier_version: str | None = None
+    collaboration: CollaborationInput | None = None
 
 
 class IntentClassifier(Protocol):
@@ -84,14 +87,34 @@ def _safe_task_projection(value: dict | None) -> dict | None:
         "event_count",
         "review_count",
         "stale_review_warning",
+        'collaboration',
+        'collaboration_role',
     }
-    return {key: value[key] for key in allowed if key in value}
+    result = {key: value[key] for key in allowed if key in value}
+    if isinstance(result.get('collaboration'), dict):
+        shared = result['collaboration']
+        app_keys = {'task_id', 'status', 'version', 'applicant_user_id', 'reviewer_user_id',
+                    'submitted_material_revision', 'completed_material_revision'}
+        event_keys = {'event_id', 'task_id', 'actor_user_id', 'actor_role', 'action',
+                      'material_revision', 'application_version'}
+        payload_keys = {'reviewer_user_id', 'questions', 'reply', 'conclusion',
+                        'receipt_id', 'review_id', 'decision'}
+        result['collaboration'] = {
+            'application': {k: v for k, v in shared.get('application', {}).items()
+                            if k in app_keys},
+            'allowed_actions': shared.get('allowed_actions', []),
+            'events': [{k: v for k, v in event.items() if k in event_keys} | {
+                'payload': {k: v for k, v in event.get('payload', {}).items() if k in payload_keys}}
+                for event in shared.get('events', [])[-20:]],
+        }
+    return result
 
 
 def serialize_context(context: ConversationContext) -> str:
     """Serialize only bounded visible context, trimming oldest/longest text first."""
     value = {
         "status": context.status,
+        'collaboration_role': context.collaboration_role,
         "messages": [message.model_dump() for message in context.messages[-_MAX_VISIBLE_MESSAGES:]],
         "pending_intent": (
             context.pending_intent.model_dump(mode="json") if context.pending_intent else None
@@ -113,6 +136,10 @@ def serialize_context(context: ConversationContext) -> str:
             value["task_projection"] = None
             continue
         pending = value["pending_intent"]
+        if isinstance(pending, dict) and pending.get('collaboration'):
+            # Provider context can omit a large card; the persisted command is never trimmed.
+            pending['collaboration'] = None
+            continue
         fields = pending.get("fields", {}) if isinstance(pending, dict) else {}
         candidates = [(len(text.encode()), name, text) for name, text in fields.items()]
         if candidates:
@@ -161,6 +188,7 @@ class DeepSeekIntentClassifier:
                 target_task_id=candidate.target_task_id,
                 user_explanation=candidate.user_explanation,
                 classifier_version=INTENT_PROMPT_VERSION,
+                collaboration=candidate.collaboration,
             )
 
         try:
@@ -182,7 +210,17 @@ class DeepSeekIntentClassifier:
                                 '"user_explanation":"简短说明"}。intent 枚举：casual_chat、'
                                 "hot_work_candidate、confirm_pending_intent、"
                                 "reject_pending_intent、task_input_candidate、pause_task、"
-                                "resume_task、cancel_task、switch_or_create_task、switch_task。"
+                                "resume_task、cancel_task、switch_or_create_task、switch_task、"
+                                "submit_application、request_changes、resubmit_application、"
+                                "complete_material_review。协作候选另用 collaboration 对象："
+                                "submit_application 只带 reviewer_user_id；request_changes 只带"
+                                "questions 字符串数组；resubmit_application 只带 reply；"
+                                "complete_material_review 只带 conclusion。"
+                                "每个说明非空且至多500字，"
+                                "questions至多20条。不输出版本、request_id或身份；宿主冻结。"
+                                "依 collaboration_role 和 "
+                                "task_projection.collaboration.allowed_actions"
+                                "提议，安全人员不得创建或修改材料；提交申请与补充材料是不同动作。"
                                 "fields 只允许 work_location_description、"
                                 "work_object_description、work_method_description、"
                                 "attachment_description；不得加入其他字段。switch_task 仅在用户"
@@ -260,6 +298,7 @@ class ScriptedConversationModel:
         del run_id
         text = context.messages[-1].text.strip() if context.messages else ""
         target_task_id = None
+        collaboration = None
         normalized = text.rstrip("。！! ")
         negative = any(
             phrase in text
@@ -315,6 +354,20 @@ class ScriptedConversationModel:
             intent = "reject_pending_intent"
             fields = {}
             confirmation = False
+        elif not negative and not question and (match := re.fullmatch(
+            r'提交申请给\s+([A-Za-z0-9._:-]{1,100})', normalized)):
+            intent, fields, confirmation = 'submit_application', {}, True
+            collaboration = CollaborationInput(reviewer_user_id=match.group(1))
+        elif not negative and not question and (match := re.fullmatch(
+            r'(要求补充|重新提交申请|完成材料核查)[：:]\s*(.+)', normalized)):
+            intent, fields, confirmation = {
+                '要求补充': 'request_changes', '重新提交申请': 'resubmit_application',
+                '完成材料核查': 'complete_material_review',
+            }[match.group(1)], {}, True
+            collaboration = CollaborationInput.model_validate({
+                {'要求补充': 'questions', '重新提交申请': 'reply',
+                 '完成材料核查': 'conclusion'}[match.group(1)]:
+                [match.group(2)] if match.group(1) == '要求补充' else match.group(2)})
         elif context.status in {"active_hot_work", "pending_confirmation"} and (
             switch_match := re.fullmatch(
                 r"切换到\s*([A-Za-z0-9._:-]{1,100})", normalized
@@ -360,6 +413,7 @@ class ScriptedConversationModel:
             target_task_id=target_task_id,
             user_explanation="SYNTHETIC 规则替身的有界分类",
             classifier_version="scripted-intent-v1",
+            collaboration=collaboration,
         )
 
     async def respond(

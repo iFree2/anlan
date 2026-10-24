@@ -6,6 +6,7 @@ from typing import Literal
 
 from pydantic import Field, TypeAdapter
 
+from anlan.collaboration.event_access import SharedCollectionReader
 from anlan.common.errors import AccessDenied, InvalidTransition, TaskBusy
 from anlan.common.models import StrictModel
 from anlan.infrastructure.budget import AUTHORIZATION_ID
@@ -28,7 +29,8 @@ class Feedback(StrictModel):
 
 
 class PerceptionRuntime:
-    def __init__(self, dsn, tools=None, knowledge=None, memory=None, model=None, *, clock=None):
+    def __init__(self, dsn, tools=None, knowledge=None, memory=None, model=None, *, clock=None,
+                 access_config=None):
         self.dsn, self.tools, self.knowledge, self.memory, self.model = (
             dsn,
             tools,
@@ -37,13 +39,21 @@ class PerceptionRuntime:
             model,
         )
         self.clock = clock or (lambda: datetime.now(UTC))
-        self.events = EventStore(dsn, clock=lambda: self.clock())
-        self.store = PerceptionStore(dsn, clock=lambda: self.clock())
+        self.access_config = access_config
+        self.events = EventStore(dsn, clock=lambda: self.clock(), access_config=access_config)
+        self.store = PerceptionStore(dsn, clock=lambda: self.clock(), access_config=access_config)
+
+    def workflow(self):
+        return postgres_service(self.dsn, OfflineAnalyzer(), access_config=self.access_config)
+
+    async def authorize_review(self, identity, review_id, action):
+        async with await self.events.connect() as conn:
+            await self.events.access.resource(conn, identity, review_id, review=True, action=action)
 
     async def _current(self, service, identity, event, record):
         conn = service._registry.conn
-        await self.events._stream_lock(conn, identity, event["source_id"])
         source = SourceBinding.model_validate(event["binding"])
+        await self.events._stream_lock(conn, source.identity, event["source_id"])
         try:
             state = (await service._snapshot(record)).values
         except InvalidTransition:
@@ -56,7 +66,7 @@ class PerceptionRuntime:
         temporal = admission(parse_event(event["raw"]), source, self.events.now())
         if temporal != "pending":
             return temporal
-        head = await self.events._head(conn, identity, event["source_id"])
+        head = await self.events._head(conn, source.identity, event["source_id"])
         if not head or head["receipt_id"] != event["receipt_id"]:
             return "superseded_event"
         return "current"
@@ -64,9 +74,10 @@ class PerceptionRuntime:
     async def get(self, identity, review_id):
         row = await self.store.get(identity, review_id)
         event = await self.events.get(identity, row["receipt_id"])
-        async with postgres_service(self.dsn, OfflineAnalyzer()) as service:
+        async with self.workflow() as service:
             try:
-                async with service._registry.locked(identity, row["task_id"]) as record:
+                async with service._registry.locked(identity, row["task_id"],
+                                                    action='read_events') as record:
                     async with service._registry.conn.transaction():
                         current = await self._current(service, identity, event, record)
             except (AccessDenied, TaskBusy):
@@ -76,7 +87,8 @@ class PerceptionRuntime:
     async def _finish(self, service, identity, row, event, report, *, cancel_event=None):
         registry = service._registry
         try:
-            async with registry.locked(identity, row["task_id"]) as record:
+            async with registry.locked(identity, row["task_id"],
+                                       action='run_event_review') as record:
                 async with registry.conn.transaction():
                     current = await self._current(service, identity, event, record)
                     value = await self.store.finish(
@@ -87,7 +99,7 @@ class PerceptionRuntime:
                         current,
                         cancel_event=cancel_event,
                     )
-        except (TaskBusy, AccessDenied):
+        except TaskBusy:
             current = "task_unavailable"
             value = await self.store.finish(
                 registry.conn,
@@ -101,18 +113,22 @@ class PerceptionRuntime:
 
     async def review(self, identity, receipt_id, references, *, request_id, cancel_event=None):
         event = await self.events.get(identity, receipt_id)
+        async with await self.events.connect() as conn:
+            await self.events.access.resource(conn, identity, receipt_id, action='run_event_review')
         request_id = TypeAdapter(Identifier).validate_python(request_id)
         refs = FactReferences.model_validate(references).model_dump()
         source = SourceBinding.model_validate(event["binding"])
         if refs["area_id"] != source.object_ref:
             raise InvalidTransition("事实对象与可信事件绑定不同")
         if event["result"] is None:
-            event = await process_event(self.dsn, identity, receipt_id, clock=self.clock)
+            event = await process_event(self.dsn, identity, receipt_id, clock=self.clock,
+                                         access_config=self.access_config)
         if event["result"]["status"] != "linked":
             raise InvalidTransition("只有已关联事件能进入重核")
-        async with postgres_service(self.dsn, OfflineAnalyzer()) as service:
+        async with self.workflow() as service:
             registry = service._registry
-            async with registry.locked(identity, source.task_id) as record:
+            async with registry.locked(identity, source.task_id,
+                                       action='run_event_review') as record:
                 async with registry.conn.transaction():
                     current = await self._current(service, identity, event, record)
                     previous = await self.store.previous(
@@ -142,7 +158,8 @@ class PerceptionRuntime:
                     )
                     collection = asyncio.create_task(
                         collect_parallel(
-                            service,
+                            (SharedCollectionReader(service) if self.events.access.tasks.role(
+                                identity) is not None else service),
                             identity,
                             source.task_id,
                             refs,
@@ -208,17 +225,20 @@ class PerceptionRuntime:
             signal.set()
 
     async def cancel(self, identity, review_id):
+        await self.authorize_review(identity, review_id, 'run_event_review')
         await self.store.request_cancel(identity, review_id)
         return await self.get(identity, review_id)
 
     async def feedback(self, identity, review_id, expected_revision, decision, *, request_id):
+        await self.authorize_review(identity, review_id, 'record_event_feedback')
         row = await self.store.get(identity, review_id)
         payload = Feedback(
             expected_revision=expected_revision, request_id=request_id, decision=decision
         ).model_dump()
         event = await self.events.get(identity, row["receipt_id"])
-        async with postgres_service(self.dsn, OfflineAnalyzer()) as service:
-            async with service._registry.locked(identity, row["task_id"]) as record:
+        async with self.workflow() as service:
+            async with service._registry.locked(identity, row["task_id"],
+                                                action='record_event_feedback') as record:
                 async with service._registry.conn.transaction():
                     current = await self._current(service, identity, event, record)
                     result = await self.store.feedback(
@@ -227,6 +247,7 @@ class PerceptionRuntime:
         return result | {"currentness": current}
 
     async def recover(self, identity, review_id):
+        await self.authorize_review(identity, review_id, 'run_event_review')
         row = await self.store.get(identity, review_id)
         async with await self.events.connect() as conn:
             await self.store.acquire(conn, review_id)

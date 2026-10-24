@@ -1,16 +1,30 @@
 """Controlled adapter from conversation decisions to the material workflow."""
 
+import asyncio
 import hashlib
 from typing import Literal
 
 from pydantic import Field
 
-from anlan.common.errors import InvalidTransition
+from anlan.common.errors import InvalidTransition, TaskBusy
 from anlan.common.models import NonEmpty, StrictModel
 from anlan.workflows.material_contracts import Application, FieldName, Supplement, Text
 
 TaskStatus = Literal["analyzing", "waiting_input", "awaiting_review"]
-SemanticStatus = Literal["offline_not_checked", "checked", "failed"]
+SemanticStatus = Literal["offline_not_checked", "checked", "failed", 'shared_materials']
+
+
+async def bounded_read(read):
+    """Wait only for short read-side task contention; never retry a mutation or model."""
+    try:
+        async with asyncio.timeout(2):
+            while True:
+                try:
+                    return await read()
+                except TaskBusy:
+                    await asyncio.sleep(0.025)
+    except TimeoutError:
+        raise TaskBusy('读取等待已达上限，请稍后刷新') from None
 
 
 class TaskProjection(StrictModel):
@@ -26,6 +40,7 @@ class TaskProjection(StrictModel):
     event_count: int = Field(default=0, strict=True, ge=0, le=10000)
     review_count: int = Field(default=0, strict=True, ge=0, le=10000)
     stale_review_warning: bool = False
+    collaboration: dict | None = None
 
 
 class WorkflowResult(StrictModel):

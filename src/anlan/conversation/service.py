@@ -3,7 +3,13 @@
 import re
 
 from anlan.common.errors import AccessDenied, InvalidTransition, TaskBusy
-from anlan.conversation.contracts import ConversationState, IntentProposal, PendingIntent
+from anlan.conversation.contracts import (
+    COLLABORATION_INTENTS,
+    ConversationState,
+    FrozenCollaborationCommand,
+    IntentProposal,
+    PendingIntent,
+)
 from anlan.conversation.policy import RouteAction, RouteDecision, decide
 from anlan.llm.conversation import ConversationContext, VisibleMessage
 from anlan.workflows.material_contracts import LABELS, QUESTIONS
@@ -39,11 +45,15 @@ class ConversationService:
         request_id,
         expected_revision,
         text,
+        proposal_override=None,
     ):
         reservation = await self.store.reserve_message(
-            identity, conversation_id, request_id, expected_revision, text
+            identity, conversation_id, request_id, expected_revision, text,
+            **({'request_metadata': proposal_override} if proposal_override else {}),
         )
         if reservation.get("result") is not None:
+            if hasattr(self.workflow, 'validate_cached'):
+                await self.workflow.validate_cached(identity, reservation['result'])
             return self._replay_result(reservation["result"])
         async with self.store.operation_lock(
             identity, conversation_id, reservation["message_id"]
@@ -60,10 +70,11 @@ class ConversationService:
             models = self._model_factory()
             projection = await self._task_projection(identity, raw)
             state = self._state(raw)
-            context = self._context(raw, state, projection)
+            role = self.workflow.role(identity) if hasattr(self.workflow, 'role') else None
+            context = self._context(raw, state, projection, collaboration_role=role)
             if route is None:
                 try:
-                    proposal = await models.classifier.classify(
+                    proposal = proposal_override or await models.classifier.classify(
                         context, run_id=f"conversation:{reservation['message_id']}:classify"
                     )
                 except Exception:
@@ -74,9 +85,16 @@ class ConversationService:
                         "classifier_failure",
                     )
                 proposal = self._constrain_proposal(state, text, proposal)
+                if hasattr(self.workflow, 'constrain'):
+                    proposal = self.workflow.constrain(identity, proposal)
                 try:
                     decision = decide(state, proposal)
-                except InvalidTransition:
+                    if decision.action is RouteAction.ASK_COLLABORATION_CONFIRMATION:
+                        frozen = await self.workflow.freeze(
+                            identity, conversation_id, reservation['message_id'],
+                            state.active_task_id, proposal)
+                        decision = decision.model_copy(update={'collaboration': frozen})
+                except (InvalidTransition, AccessDenied, ValueError):
                     await self.store.fail_message(
                         identity,
                         conversation_id,
@@ -152,7 +170,17 @@ class ConversationService:
         action = decision.action
         assistant = None
 
-        if action in {
+        if action is RouteAction.ASK_COLLABORATION_CONFIRMATION:
+            candidate = proposal.model_dump(mode='json')
+            candidate['collaboration'] = decision.collaboration.model_dump(mode='json')
+            await self.store.set_pending_intent(identity, conversation_id, message_id, candidate)
+            assistant = '请核对协作动作、申请编号、双版本与完整说明；确认后才会提交。'
+        elif action is RouteAction.EXECUTE_COLLABORATION:
+            await self.workflow.execute(identity, decision.collaboration)
+            await self.store.confirm_pending_intent(
+                identity, conversation_id, message_id, action='execute_collaboration')
+            assistant = '已执行确认的协作动作。材料核查完成不代表作业批准或开工授权。'
+        elif action in {
             RouteAction.ASK_CONFIRMATION,
             RouteAction.ASK_TASK_INPUT_CONFIRMATION,
             RouteAction.ASK_TASK_SWITCH,
@@ -208,6 +236,14 @@ class ConversationService:
             assistant = "已按你的确认创建动火材料任务。"
             if question:
                 assistant += " 下一步：" + question
+            elif hasattr(self.workflow, 'role') and self.workflow.role(identity) == 'applicant':
+                if projection['semantic_status'] == 'failed':
+                    assistant += ' 材料分析未完成，申请仍为草稿；请核对后重试材料流程。'
+                else:
+                    assistant += (' 材料规则检查已结束，语义未核查。' if
+                                  projection['semantic_status'] == 'offline_not_checked' else
+                                  ' 材料分析已完成。')
+                    assistant += '申请仍为草稿待提交；请选择安全人员并确认提交。'
             else:
                 assistant += " 当前材料已进入人工复核，详情见侧栏。"
         elif action is RouteAction.SUBMIT_TASK_INPUT:
@@ -234,11 +270,17 @@ class ConversationService:
                 )
             projection = workflow.projection.model_dump(mode="json")
             assistant = "已提交补充材料；任务最新状态以侧栏为准。"
+            if projection.get('issue_questions'):
+                assistant += ' 下一步：' + projection['issue_questions'][0]
+            elif projection['semantic_status'] == 'failed':
+                assistant += ' 本轮材料分析未完成，请核对后重试材料流程。'
         elif action is RouteAction.PAUSE_TASK:
             await self.store.pause_task(identity, conversation_id, message_id)
             assistant = "已暂停当前会话中的任务引导，业务任务本身未被取消。"
         elif action is RouteAction.RECOVER_TASK:
-            workflow = await self.workflow.recover(identity, decision.active_task_id)
+            shared = hasattr(self.workflow, 'role') and self.workflow.role(identity) is not None
+            method = self.workflow.read if shared else self.workflow.recover
+            workflow = await method(identity, decision.active_task_id)
             await self.store.activate_task(identity, conversation_id, message_id)
             projection = workflow.projection.model_dump(mode="json")
             assistant = "已恢复当前任务引导；任务最新状态以侧栏为准。"
@@ -257,7 +299,9 @@ class ConversationService:
             assistant = "已切换到你有权访问的已有任务，原任务仍保留。"
         elif action is RouteAction.REPLY_ONLY:
             reply = await models.responder.respond(
-                self._context(raw, self._state(raw), projection),
+                self._context(raw, self._state(raw), projection,
+                              collaboration_role=(self.workflow.role(identity)
+                                  if hasattr(self.workflow, 'role') else None)),
                 run_id=f"conversation:{message_id}:chat",
             )
             assistant = reply.text
@@ -297,6 +341,8 @@ class ConversationService:
                 "kind": source_pending["candidate"]["intent"],
                 "fields": source_pending["candidate"].get("fields", {}),
             }
+            if source_pending['candidate']['intent'] in COLLABORATION_INTENTS:
+                pending['collaboration'] = source_pending['candidate']['collaboration']
         actions = ["send_message"]
         if pending is not None:
             actions.extend(["confirm_pending_intent", "reject_pending_intent"])
@@ -304,6 +350,10 @@ class ConversationService:
             actions.extend(["pause_task", "cancel_task"])
         if raw["status"] == "paused":
             actions.extend(["resume_task", "cancel_task"])
+        role = self.workflow.role(identity) if hasattr(self.workflow, 'role') else None
+        business_messages = []
+        if role is not None and projection and projection.get('collaboration'):
+            business_messages = projection['collaboration']['events']
         return {
             "conversation_id": raw["conversation_id"],
             "status": raw["status"],
@@ -313,6 +363,8 @@ class ConversationService:
             "messages": visible,
             "task_projection": projection,
             "allowed_actions": actions,
+            'collaboration_role': role,
+            'business_messages': business_messages,
         }
 
     async def _task_projection(self, identity, raw):
@@ -328,7 +380,10 @@ class ConversationService:
                 "recoverable": True,
                 "error": "task_projection_unavailable",
             }
-        return result.projection.model_dump(mode="json")
+        value = result.projection.model_dump(mode='json')
+        if hasattr(self.workflow, 'role'):
+            value['collaboration_role'] = self.workflow.role(identity)
+        return value
 
     @staticmethod
     def _state(raw):
@@ -341,6 +396,9 @@ class ConversationService:
                 kind=candidate["intent"],
                 fields=candidate.get("fields", {}),
                 revision=value["revision"],
+                collaboration=(FrozenCollaborationCommand.model_validate(
+                    candidate['collaboration']) if candidate['intent'] in
+                    COLLABORATION_INTENTS else None),
             )
         return ConversationState(
             conversation_id=raw["conversation_id"],
@@ -351,7 +409,7 @@ class ConversationService:
         )
 
     @staticmethod
-    def _context(raw, state, projection):
+    def _context(raw, state, projection, *, collaboration_role=None):
         visible = [
             item
             for item in raw["messages"]
@@ -365,6 +423,7 @@ class ConversationService:
             ],
             pending_intent=state.pending_intent,
             task_projection=projection,
+            collaboration_role=collaboration_role or (projection or {}).get('collaboration_role'),
         )
 
     @staticmethod
@@ -440,3 +499,13 @@ class ConversationService:
         if result.get("error_category") in {"policy_conflict", "workflow_conflict"}:
             raise InvalidTransition("消息处理冲突；请读取最新会话状态")
         return result
+
+    async def bind(self, identity, conversation_id, *, expected_revision, task_id):
+        # Both resources are authorized before any private conversation binding changes.
+        await self.store.get(identity, conversation_id)
+        await self.workflow.read(identity, task_id)
+        async with self.store.binding_lock(identity, conversation_id):
+            await self.workflow.read(identity, task_id)
+            await self.store.bind_task(identity, conversation_id, expected_revision, task_id,
+                                       external=True)
+        return await self.snapshot(identity, conversation_id)

@@ -1,19 +1,33 @@
 """Authenticated HTTP and latest-snapshot SSE conversation adapters."""
 
 import re
-from typing import Annotated
+from typing import Annotated, Literal
 
 from fastapi import Header, Request
 from fastapi.responses import StreamingResponse
 from pydantic import Field, field_validator
 
 from anlan.common.models import StrictModel
+from anlan.conversation.contracts import CollaborationInput, IntentProposal
 from anlan.interfaces.streams import snapshot_stream
 from anlan.workflows.event_contracts import Identifier
 
 
 class CreateConversationRequest(StrictModel):
     request_id: Identifier
+
+
+class BindTaskRequest(StrictModel):
+    task_id: Identifier
+    expected_revision: int = Field(strict=True, ge=1)
+
+
+class CollaborationCandidateRequest(StrictModel):
+    request_id: Identifier
+    expected_revision: int = Field(strict=True, ge=1)
+    intent: Literal['submit_application', 'request_changes', 'resubmit_application',
+                    'complete_material_review']
+    collaboration: CollaborationInput
 
 
 class ConversationMessageRequest(StrictModel):
@@ -31,6 +45,23 @@ class ConversationMessageRequest(StrictModel):
 
 
 def install_conversation_routes(app, service, Actor):
+    @app.post('/conversations/{conversation_id}/task')
+    async def bind_task(conversation_id: str, payload: BindTaskRequest, identity: Actor):
+        return await service.bind(identity, conversation_id, **payload.model_dump())
+
+    @app.post('/conversations/{conversation_id}/collaboration-candidates')
+    async def candidate(conversation_id: str, payload: CollaborationCandidateRequest,
+                        identity: Actor):
+        proposal = IntentProposal(intent=payload.intent, collaboration=payload.collaboration,
+                                  requires_confirmation=True, user_explanation='本人结构化选择',
+                                  classifier_version='structured-collaboration-v1')
+        return await service.message(identity, conversation_id, request_id=payload.request_id,
+                                     expected_revision=payload.expected_revision,
+                                     text={'submit_application': '准备提交申请',
+                                           'request_changes': '准备提出补充要求',
+                                           'resubmit_application': '准备重新提交申请',
+                                           'complete_material_review': '准备完成人工材料核查'}[
+                                               payload.intent], proposal_override=proposal)
     @app.post("/conversations")
     async def create_conversation(payload: CreateConversationRequest, identity: Actor):
         return await service.create(identity, request_id=payload.request_id)

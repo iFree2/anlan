@@ -57,16 +57,17 @@ def install_console(app, dsn, config, who, clock, runtime_factory, model_info):
     async def info(identity: Actor):
         profile = config.console_profile(identity)
         role = config.collaboration_role(identity)
+        event_enabled = role == 'safety_manager' and profile is not None
         return {"identity": identity.model_dump(), "data_origin": "SYNTHETIC",
                 **await model_info(),
                 "collaboration_role": role,
                 "capabilities": {"create_application": role == "applicant",
                                  "collaboration": role is not None,
-                                 "run_event_review": False,
-                                 "record_event_feedback": False},
+                                 "run_event_review": event_enabled,
+                                 "record_event_feedback": event_enabled},
                 "collaboration_reviewers": [r.user_id for r in
                     config.collaboration_reviewers(identity)] if role == "applicant" else [],
-                "simulation_enabled": profile is not None and role is None,
+                "simulation_enabled": profile is not None and role != 'applicant',
                 "references": profile.references.model_dump() if profile and role is None else None,
                 "as_of": clock().isoformat()}
 
@@ -80,7 +81,7 @@ def install_console(app, dsn, config, who, clock, runtime_factory, model_info):
 
     @app.post("/console/api/tasks/{task}/events")
     async def simulate(task: str, payload: SimulateRequest, identity: Actor):
-        return await service.simulate(identity, task, payload)
+        return service.event_projection(identity, await service.simulate(identity, task, payload))
 
     @app.get("/console/api/events/{receipt}/reviews")
     async def reviews(receipt: str, identity: Actor):
@@ -88,4 +89,5 @@ def install_console(app, dsn, config, who, clock, runtime_factory, model_info):
 
     @app.post("/console/api/events/{receipt}/reviews")
     async def review(receipt: str, payload: ConsoleReviewRequest, identity: Actor):
-        return await service.review(identity, receipt, payload.request_id, runtime_factory())
+        return service.review_projection(identity, await service.review(
+            identity, receipt, payload.request_id, runtime_factory()))

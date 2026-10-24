@@ -101,6 +101,8 @@ class ConversationStore:
         request_id: str,
         expected_revision: int,
         text: str,
+        *,
+        request_metadata=None,
     ) -> dict:
         conversation_id = _identifier.validate_python(conversation_id)
         request_id = _identifier.validate_python(request_id)
@@ -108,6 +110,8 @@ class ConversationStore:
         if isinstance(expected_revision, bool) or not isinstance(expected_revision, int):
             raise TypeError("expected_revision must be an integer")
         payload = {"expected_revision": expected_revision, "text": text}
+        if request_metadata is not None:
+            payload['structured_candidate'] = _document(request_metadata)
         async with await self.connect() as conn:
             async with conn.transaction():
                 conversation = await self._row(conn, identity, conversation_id, lock=True)
@@ -221,7 +225,7 @@ class ConversationStore:
                 return pending
 
     async def bind_task(
-        self, identity, conversation_id, expected_revision, task_id
+        self, identity, conversation_id, expected_revision, task_id, *, external=False
     ) -> dict:
         task_id = _identifier.validate_python(task_id)
         async with await self.connect() as conn:
@@ -229,17 +233,25 @@ class ConversationStore:
                 conversation = await self._row(conn, identity, conversation_id, lock=True)
                 if conversation["revision"] != expected_revision:
                     raise InvalidTransition("conversation revision 已过时")
+                if external:
+                    cursor = await conn.execute(
+                        "SELECT 1 FROM anlan_v2.conversation_messages "
+                        "WHERE conversation_id=%s AND status='pending'", (conversation_id,))
+                    if await cursor.fetchone():
+                        raise TaskBusy('会话有尚未完成的消息')
                 if conversation["pending_intent_id"]:
                     await conn.execute(
-                        "UPDATE anlan_v2.pending_intents SET status='confirmed' "
+                        "UPDATE anlan_v2.pending_intents SET status=%s "
                         "WHERE intent_id=%s AND conversation_id=%s AND status='pending'",
-                        (conversation["pending_intent_id"], conversation_id),
+                        ('superseded' if external else 'confirmed',
+                         conversation["pending_intent_id"], conversation_id),
                     )
                 await conn.execute(
                     "UPDATE anlan_v2.conversations SET status='active_hot_work',"
-                    "active_task_id=%s,pending_intent_id=NULL,updated_at=clock_timestamp() "
+                    "active_task_id=%s,pending_intent_id=NULL,revision=revision+%s,"
+                    "updated_at=clock_timestamp() "
                     "WHERE conversation_id=%s",
-                    (task_id, conversation_id),
+                    (task_id, int(external), conversation_id),
                 )
                 return await self.get(identity, conversation_id, conn=conn)
 
@@ -279,11 +291,11 @@ class ConversationStore:
         )
 
     async def confirm_pending_intent(
-        self, identity, conversation_id, source_message_id=None
+        self, identity, conversation_id, source_message_id=None, *, action='submit_task_input'
     ) -> dict:
         return await self._resolve_pending_intent(
             identity, conversation_id, intent_status="confirmed",
-            source_message_id=source_message_id, action="submit_task_input"
+            source_message_id=source_message_id, action=action
         )
 
     async def _resolve_pending_intent(
@@ -352,6 +364,21 @@ class ConversationStore:
             "failed",
             {"error_category": category},
         )
+
+    @asynccontextmanager
+    async def binding_lock(self, identity, conversation_id):
+        async with await self.connect() as conn:
+            await self._row(conn, identity, conversation_id)
+            cursor = await conn.execute(
+                "SELECT pg_try_advisory_lock(hashtextextended(%s,0)) AS acquired",
+                ('conversation:' + conversation_id,))
+            if not (await cursor.fetchone())['acquired']:
+                raise TaskBusy('会话正在其他进程处理')
+            try:
+                yield
+            finally:
+                await conn.execute('SELECT pg_advisory_unlock(hashtextextended(%s,0))',
+                                   ('conversation:' + conversation_id,))
 
     @asynccontextmanager
     async def operation_lock(self, identity, conversation_id, message_id):

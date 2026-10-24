@@ -10,8 +10,8 @@ from anlan.infrastructure.events import EventStore
 
 
 class PerceptionStore:
-    def __init__(self, dsn, *, clock=None):
-        self.events = EventStore(dsn, clock=clock)
+    def __init__(self, dsn, *, clock=None, access_config=None):
+        self.events = EventStore(dsn, clock=clock, access_config=access_config)
 
     async def initialize(self):
         async with await self.events.connect() as conn:
@@ -39,11 +39,12 @@ class PerceptionStore:
         if conn is None:
             async with await self.events.connect() as conn:
                 return await self.get(identity, review_id, conn=conn)
+        scope = await self.events.access.resource(conn, identity, review_id, review=True)
         cursor = await conn.execute(
             "SELECT document,result,revision,feedback,cancel_requested "
             "FROM anlan_v2.perception_reviews "
             "WHERE review_id=%s AND tenant_id=%s AND user_id=%s" + (" FOR UPDATE" if lock else ""),
-            (review_id, identity.tenant_id, identity.user_id),
+            (review_id, scope.tenant_id, scope.user_id),
         )
         row = await cursor.fetchone()
         if row is None:
@@ -51,17 +52,21 @@ class PerceptionStore:
         return self.document(row)
 
     async def previous(self, conn, identity, receipt_id, request_id, references):
+        scope = await self.events.access.resource(conn, identity, receipt_id,
+                                                  action='run_event_review')
         cursor = await conn.execute(
             "SELECT document,result,revision,feedback,cancel_requested "
             "FROM anlan_v2.perception_reviews "
             "WHERE tenant_id=%s AND user_id=%s AND receipt_id=%s AND request_id=%s",
-            (identity.tenant_id, identity.user_id, receipt_id, request_id),
+            (scope.tenant_id, scope.user_id, receipt_id, request_id),
         )
         row = await cursor.fetchone()
         if row is not None:
             value = self.document(row)
             if value["references"] != references:
                 raise InvalidTransition("相同重核request_id的引用不同")
+            if value.get('actor', identity.model_dump()) != identity.model_dump():
+                raise InvalidTransition('重核请求操作者不同')
             return value
 
     @staticmethod
@@ -82,6 +87,8 @@ class PerceptionStore:
             )
 
     async def reserve(self, conn, identity, event, request_id, references):
+        scope = await self.events.access.resource(conn, identity, event['receipt_id'],
+                                                  action='run_event_review')
         review_id = str(uuid4())
         await self.acquire(conn, review_id)
         binding = event["binding"]
@@ -96,6 +103,7 @@ class PerceptionStore:
             "material_run_id": binding["run_id"],
             "references": references,
             "created_at": self.events.now().isoformat(),
+            'actor': identity.model_dump(),
         }
         await conn.execute(
             "INSERT INTO anlan_v2.perception_reviews "
@@ -103,17 +111,22 @@ class PerceptionStore:
             "VALUES (%s,%s,%s,%s,%s,%s)",
             (
                 review_id,
-                identity.tenant_id,
-                identity.user_id,
+                scope.tenant_id,
+                scope.user_id,
                 event["receipt_id"],
                 request_id,
                 Jsonb(value),
             ),
         )
+        await self.events.access.audit(conn, identity, binding['task_id'], 'run_event_review',
+                                       binding['revision'], {'receipt_id': event['receipt_id'],
+                                                             'review_id': review_id})
         return value | {"result": None, "revision": 1, "feedback": None, "cancel_requested": False}
 
     async def finish(self, conn, identity, review_id, report, currentness, *, cancel_event=None):
         async with conn.transaction():
+            await self.events.access.resource(conn, identity, review_id, review=True,
+                                               action='run_event_review')
             row = await self.get(identity, review_id, conn=conn, lock=True)
             if row["result"] is not None:
                 return row
@@ -148,6 +161,8 @@ class PerceptionStore:
 
     async def feedback(self, conn, identity, review_id, payload, currentness):
         async with conn.transaction():
+            await self.events.access.resource(conn, identity, review_id, review=True,
+                                               action='record_event_feedback')
             row = await self.get(identity, review_id, conn=conn, lock=True)
             cursor = await conn.execute(
                 "SELECT payload FROM anlan_v2.perception_feedback "
@@ -166,12 +181,17 @@ class PerceptionStore:
                 or row["revision"] != payload["expected_revision"]
             ):
                 raise InvalidTransition("重核已过时、未完成或反馈版本冲突")
-            feedback = {**payload, "recorded_at": self.events.now().isoformat()}
+            feedback = {**payload, "recorded_at": self.events.now().isoformat(),
+                        'actor': identity.model_dump()}
             await conn.execute(
                 "INSERT INTO anlan_v2.perception_feedback (review_id,request_id,payload) "
                 "VALUES (%s,%s,%s)",
                 (review_id, payload["request_id"], Jsonb(payload)),
             )
+            await self.events.access.audit(conn, identity, row['task_id'],
+                                           'record_event_feedback', row['material_revision'],
+                                           {'review_id': review_id,
+                                            'decision': payload['decision']})
             await conn.execute(
                 "UPDATE anlan_v2.perception_reviews SET revision=revision+1,feedback=%s "
                 "WHERE review_id=%s",
@@ -181,6 +201,8 @@ class PerceptionStore:
 
     async def request_cancel(self, identity, review_id):
         async with await self.events.connect() as conn:
+            await self.events.access.resource(conn, identity, review_id, review=True,
+                                               action='run_event_review')
             row = await self.get(identity, review_id, conn=conn, lock=True)
             if row["result"] is None:
                 await conn.execute(
