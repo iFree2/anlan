@@ -37,3 +37,9 @@ Important一项：`verify_collaboration_release.py` 的loopback检查仅在main�
 ```
 
 实跑 **70 passed, 7 deselected in16.25s**，Ruff通过。此处7项是-k过滤的非本次目标用例，不是付费调用或PG跳过。拒绝路径由stub阻止Popen、sync/async connect、socket与DNS；没有远端探测。原代码应用wheel不变；协调等待最终修复提交、完整回归/证据与只读复核，**此记录还不将B4标记通过**。
+
+## 2026-10-25 原会话恢复
+
+检查到B4收尾turn为interrupted/idle，未提交防护与新测试均保留，未把中断当作完成。已按用户“继续”在原会话恢复，不创建重复批次。其最新完整非live轮次为889 passed、1 failed、1 live deselected；实施记录指出四进程业务断言完成后Windows TemporaryDirectory清理出现WinError32，单项诊断通过不能代替完整Gate。
+
+协调要求先核对venv launcher与实际serving PID均已退出、端口关闭及临时目录句柄；不能未经证实就认定短暂文件释放，更不能用重试掩盖孤儿服务。若确证仅共享句柄释放，可对winerror32做短时有界等待，其他错误继续抛出；只清理本批实际创建且核对的进程/目录，不全杀Python/PG、不越界递归删除、不重发业务或模型。修复、准确回归与证据提交后再最终验收。
