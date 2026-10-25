@@ -4,7 +4,15 @@
 
 P1—P7有限工程Gate已通过，最终本地CI456项通过、0跳过。当前包括可恢复材料工作流、事实/知识/偏好、模拟事件/重核/反馈、本地HTTP/SSE、质量回放和有限合成图对照。Mem0仅静态比较，Judge误分类与同任务并发409保留；工程结果不代表本人掌握、真实现场或生产能力。先看[项目说明](docs/phases/phase-07-takeover-career/project-brief.md)、[如实求职素材](docs/phases/phase-07-takeover-career/career-materials.md)和[当前状态](docs/status.md)。
 
-## 对话入口（P11已部署）
+## 双角色协作入口（P12已部署）
+
+2026-10-25 云端已切换 P12：[安澜控制台](http://47.93.218.52/anlan/console)。申请人与安全人员使用不同身份、独立会话，共享同一申请，完成“提交→要求补充→更新/重提→人工材料核查完成”，重要操作先二次确认；私聊不共享。事件核查可读取人员/区域事实、检索知识并由模型综合，材料更新会把旧核查标为过时，原报警和人工反馈保留。本期不提供正式审批或开工授权。
+
+使用两个独立浏览器窗口/上下文，分别选择 ignored 私密配置 `.runtime/p12-b5-access/applicant.json`、`.runtime/p12-b5-access/safety-manager.json`；不要公开配置或令牌。原 legacy 配置及私有历史保留，但不能用来扮演新增两角色。访问、维护回滚和约4分54秒慢速女声双角色视频见[P12部署与演示](docs/phases/phase-12-dual-role/deployment.md)，分批证据见[P12](docs/phases/phase-12-dual-role/README.md)。
+
+最新核对账本为 **91/100**，对话 P11-WP01 为21/30，材料/事件 P11-WP02 为6/10；本批12次尝试含2次分类输出失败，均保留计数。用户仅另行授权本批对话尝试上限8→9，累计及包限额未变。此为合成学习环境和一次有限真实模型联调，不代表模型稳定性、生产认证或本人掌握。
+
+## 单角色对话入口（P11历史与本地演示）
 
 操作台现以“对话 + 任务侧栏”为主入口：普通闲聊不修改任务，疑似动火先生成待确认意图，只有明确确认后才调用既有材料工作流。活动任务上提出新作业时，必须先明确选择新建或切换；普通“确认”不会跳过选择。会话、消息、待确认意图、活动任务和路由均由 PostgreSQL 持久化；SSE推送服务端快照，不声称逐 token 输出。2026-10-22 已替换[阿里云原版](http://47.93.218.52/anlan/console)，真实 DeepSeek 主链、事件核查及刷新/重启恢复已验证；沿用原访问配置，旧记录保留。详见[P11部署与演示](docs/phases/phase-11-conversation/deployment.md)。下方为不消耗真实模型额度的本地演示。
 
@@ -15,7 +23,7 @@ scripts/dev-postgres.ps1 -Action Env
 .venv/Scripts/python.exe -m anlan.interfaces.serve --config .runtime/conversation-demo.json --port 8000
 ```
 
-打开 http://127.0.0.1:8000/console，选择新配置文件，可用“明天去罐区补焊”→“确认申请”演示。此本地配置标记 SYNTHETIC/scripted_double，不批准作业。云端为 deepseek_live；用户仅将 P11-WP01 单包限额提高至 30，累计 100 和其他旧包不变。最终验证快照为 79/100，后续使用继续计数。原本地验收范围见[P11验收](docs/phases/phase-11-conversation/acceptance.md)、[交接](docs/phases/phase-11-conversation/handoff.md)和[路由基线](evals/conversation-routing-v1/README.md)。
+打开 http://127.0.0.1:8000/console，选择新配置文件，可用“明天去罐区补焊”→“确认申请”演示。此本地配置标记 SYNTHETIC/scripted_double，不批准作业。云端为 deepseek_live；用户仅将 P11-WP01 单包限额提高至 30，累计 100 和其他旧包不变。P11历史验证快照为79/100，当前余额以上方P12及[状态](docs/status.md)为准。原本地验收范围见[P11验收](docs/phases/phase-11-conversation/acceptance.md)、[交接](docs/phases/phase-11-conversation/handoff.md)和[路由基线](evals/conversation-routing-v1/README.md)。
 
 ## 轻量操作台（P8）
 

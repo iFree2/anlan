@@ -1,0 +1,128 @@
+{
+  "status": "passed",
+  "movie": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\Anlan-Dual-Role-Demo-ZH-Female.mp4",
+  "sha256": "938031adc30ab32ea91ff7ccc64b0189b122fd7b187402623d11ef343845981e",
+  "size_bytes": 14602128,
+  "duration_seconds": 293.53,
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "rate": "-10%",
+  "pitch": "-4Hz",
+  "resolution": "1920x1080",
+  "fps": 30,
+  "video_codec": "H.264",
+  "audio_codec": "AAC",
+  "audio_sample_rate_hz": 48000,
+  "audio_channels": 2,
+  "full_decode_exit_code": 0,
+  "chapter_checks": [
+    {
+      "chapter": "intent",
+      "start_seconds": 0,
+      "duration_seconds": 22.77,
+      "decoded_movie_audio_rms": 2298.79,
+      "source_audio_rms": 2375.54,
+      "subtitle_matches_narration": true
+    },
+    {
+      "chapter": "create",
+      "start_seconds": 22.77,
+      "duration_seconds": 22.3,
+      "decoded_movie_audio_rms": 2284.08,
+      "source_audio_rms": 2371.44,
+      "subtitle_matches_narration": true
+    },
+    {
+      "chapter": "submit",
+      "start_seconds": 45.07,
+      "duration_seconds": 22.27,
+      "decoded_movie_audio_rms": 2233.77,
+      "source_audio_rms": 2311.14,
+      "subtitle_matches_narration": true
+    },
+    {
+      "chapter": "manager-task",
+      "start_seconds": 67.34,
+      "duration_seconds": 21.27,
+      "decoded_movie_audio_rms": 2278.79,
+      "source_audio_rms": 2359.09,
+      "subtitle_matches_narration": true
+    },
+    {
+      "chapter": "event",
+      "start_seconds": 88.61,
+      "duration_seconds": 25.3,
+      "decoded_movie_audio_rms": 2327.88,
+      "source_audio_rms": 2403.01,
+      "subtitle_matches_narration": true
+    },
+    {
+      "chapter": "request-changes",
+      "start_seconds": 113.91,
+      "duration_seconds": 28.07,
+      "decoded_movie_audio_rms": 2430.98,
+      "source_audio_rms": 2504.14,
+      "subtitle_matches_narration": true
+    },
+    {
+      "chapter": "received",
+      "start_seconds": 141.98,
+      "duration_seconds": 19.37,
+      "decoded_movie_audio_rms": 2374.09,
+      "source_audio_rms": 2467.21,
+      "subtitle_matches_narration": true
+    },
+    {
+      "chapter": "update",
+      "start_seconds": 161.35,
+      "duration_seconds": 20.74,
+      "decoded_movie_audio_rms": 2307.46,
+      "source_audio_rms": 2400.18,
+      "subtitle_matches_narration": true
+    },
+    {
+      "chapter": "resubmit",
+      "start_seconds": 182.09,
+      "duration_seconds": 19.2,
+      "decoded_movie_audio_rms": 2277.66,
+      "source_audio_rms": 2369.26,
+      "subtitle_matches_narration": true
+    },
+    {
+      "chapter": "stale",
+      "start_seconds": 201.29,
+      "duration_seconds": 21.05,
+      "decoded_movie_audio_rms": 2335.25,
+      "source_audio_rms": 2418.51,
+      "subtitle_matches_narration": true
+    },
+    {
+      "chapter": "complete",
+      "start_seconds": 222.34,
+      "duration_seconds": 23.21,
+      "decoded_movie_audio_rms": 2329.23,
+      "source_audio_rms": 2406.19,
+      "subtitle_matches_narration": true
+    },
+    {
+      "chapter": "applicant-complete",
+      "start_seconds": 245.55,
+      "duration_seconds": 21.82,
+      "decoded_movie_audio_rms": 2317.44,
+      "source_audio_rms": 2402.96,
+      "subtitle_matches_narration": true
+    },
+    {
+      "chapter": "restart",
+      "start_seconds": 267.37,
+      "duration_seconds": 26.16,
+      "decoded_movie_audio_rms": 2365.39,
+      "source_audio_rms": 2438.9,
+      "subtitle_matches_narration": true
+    }
+  ],
+  "previous_movies_unchanged": {
+    "anlan-demo-20261022/Anlan-Product-Demo-ZH.mp4": "63165ba0b7117b5a26590fe5ce8a369d7bbdef9b025a14883b3f74465552fdf1",
+    "anlan-demo-20261022-female/Anlan-Product-Demo-ZH-Female.mp4": "041b007b0f8872cd878e0dbbac7221ba1429027d865abac3709e73b3df1cd554"
+  },
+  "business_model_calls_during_media_work": 0
+}

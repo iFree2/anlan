@@ -1,0 +1,94 @@
+{
+  "status": "passed",
+  "current": "/opt/anlan2/releases/p12-collaboration-20261025",
+  "service": "MainPID=3424454\nUser=anlan2\nActiveState=active",
+  "database_migrations": [
+    1,
+    5,
+    6,
+    7,
+    8,
+    9,
+    13,
+    15,
+    16,
+    17
+  ],
+  "database_version": "13.23",
+  "old_rows_preserved": true,
+  "root_site_sha256": "b5a7f25ac949b5f26ded8692c39c42f64f85cb919736f5db68bc776987515b12",
+  "helper_sha256": "3ef15464f65296c2e53320fa3b6d04f6f7da060fc0c6e96d32cf9db8ee6b31c8",
+  "application_wheel_sha256": "6024af9350d518e29eb0610bbfeedbbee2567669d13a70f62641fca2c68b1bb6",
+  "installed_files_equal_pinned_wheel": true,
+  "verified_wheel_files": 125,
+  "actual_service_cwd": "/opt/anlan2/releases/p12-collaboration-20261025",
+  "actual_service_pythonpath": "/opt/anlan2/current/app",
+  "ledger": {
+    "total": 91,
+    "conversation": 21,
+    "materials_events": 6,
+    "total_limit": 100,
+    "materials_events_limit": 10,
+    "conversation_limit": 30
+  },
+  "statuses": {
+    "succeeded": 85,
+    "failed": 6
+  },
+  "pending": {
+    "pending_operations": 0,
+    "pending_messages": 0,
+    "pending_reviews": 0,
+    "reserved_attempts": 0
+  },
+  "authentication_checks": [
+    {
+      "identity": {
+        "tenant_id": "synthetic-p5-replay",
+        "user_id": "safety-manager-demo"
+      },
+      "role": null,
+      "model_mode": "deepseek_live"
+    },
+    {
+      "identity": {
+        "tenant_id": "synthetic-p12-ecs-09531dd70185",
+        "user_id": "applicant-demo"
+      },
+      "role": "applicant",
+      "model_mode": "deepseek_live"
+    },
+    {
+      "identity": {
+        "tenant_id": "synthetic-p12-ecs-09531dd70185",
+        "user_id": "safety-manager-demo"
+      },
+      "role": "safety_manager",
+      "model_mode": "deepseek_live"
+    }
+  ],
+  "access_checks": [
+    {
+      "role": "applicant",
+      "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+      "conversation_id": "1471099e-ce04-4537-817b-495a3c97f66e",
+      "status": "review_completed",
+      "application_version": 5,
+      "completed_material_revision": 2,
+      "other_private_conversation_http": 404,
+      "old_private_task_http": 404
+    },
+    {
+      "role": "safety_manager",
+      "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+      "conversation_id": "93940ed6-a4d4-404a-9f32-9eb8a56fa0ec",
+      "status": "review_completed",
+      "application_version": 5,
+      "completed_material_revision": 2,
+      "other_private_conversation_http": 404,
+      "old_private_task_http": 404
+    }
+  ],
+  "legacy_cannot_read_new_shared_application": true,
+  "anonymous_http_status": 401
+}

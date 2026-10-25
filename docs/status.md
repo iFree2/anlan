@@ -1,5 +1,8 @@
 # 当前状态（唯一入口）
 
+- 2026-10-25 当前云端为P12双角色版 `/opt/anlan2/releases/p12-collaboration-20261025`：两个不同身份/独立会话共享同申请，真实提交→补充要求→材料更新/重提→人工材料核查完成；合成事件事实/知识/模型核查、反馈与材料变化过时标记已联调。旧行、原站点和全部账本保留，维护回滚/前向恢复/重启已验；不能执行旧P11写应用回滚。见[P12部署与双角色女声视频](phases/phase-12-dual-role/deployment.md)、[分批状态](phases/phase-12-dual-role/README.md)。终点仅材料核查完成，不是正式审批或开工授权。
+- 最新只读复核账本：91/100，成功85、失败6；对话P11-WP01为21/30，材料/事件P11-WP02为6/10。本批9对话+2材料+1事件=12尝试，含2次invalid_output失败；用户明确授权仅本批对话上限8→9，原累计100/包30和10不变，没有新包、退款或重置。两份私密配置在ignored `.runtime/p12-b5-access/applicant.json`、`safety-manager.json`；分别用于独立浏览器上下文。新视频 `.runtime/anlan-dual-role-demo-20261025-film/Anlan-Dual-Role-Demo-ZH-Female.mp4`，293.53秒、1080p、慢速合成女声/中文字幕；旧两版保留。下列P11/P8发布与余额是历史快照，不是当前状态。
+
 - 2026-10-22 P11 对话版已替换 ECS 原安澜，当前发布 `/opt/anlan2/releases/p11-conversation-verified-20261022`。意图识别、二次确认、材料分析/同任务补充、闲聊隔离、暂停/恢复、新任务选择与拒绝、事件核查/人工反馈均经真实 DeepSeek 浏览器联调；刷新与进程重启后状态恢复，所有旧行指纹与原站点保持。最终本地完整回归 586 passed，Ruff 通过；不据此宣称生产能力或模型泛化。见[P11部署、回滚与演示](phases/phase-11-conversation/deployment.md)及[云端证据](phases/phase-11-conversation/evidence/ecs-20261022.json)。
 - 当前预算快照：79/100，成功75、失败4；用户明确授权仅 P11-WP01 从10提高到30，现12/30；材料/事件 P11-WP02 为3/10。累计剩余21，旧包限额/旧账不变；云端仍为唯一真实预算写入方。下列 P8 发布与用量为历史记录，不是当前余额。成片 `.runtime/anlan-demo-20261022/Anlan-Product-Demo-ZH.mp4`，约3分41秒、1080p、中文合成旁白/字幕，真实云端画面、合成业务数据。
 
