@@ -79,21 +79,27 @@ class ServiceModels:
             try:
                 budget = await self.ledger.snapshot()
                 used = budget["packages"].get(self.console_work_package, 0)
+                enforced = budget.get("limits_enforced", True)
                 value["budget"] = {
-                    "status": "available", "work_package": self.console_work_package,
-                    "total_used": budget["total_reserved"], "total_limit": budget["total_limit"],
-                    "package_used": used, "package_limit": budget["package_limit"],
+                    "status": "available" if enforced else "audit_only",
+                    "limits_enforced": enforced, "work_package": self.console_work_package,
+                    "total_used": budget["total_reserved"],
+                    "total_limit": budget["total_limit"] if enforced else None,
+                    "package_used": used,
+                    "package_limit": budget["package_limit"] if enforced else None,
                     "package_remaining": min(budget["package_limit"] - used,
-                                             budget["total_limit"] - budget["total_reserved"]),
+                        budget["total_limit"] - budget["total_reserved"]) if enforced else None,
                 }
                 conversation_limit = budget.get("package_limits", {}).get(
                     CONVERSATION_WORK_PACKAGE, budget["package_limit"])
                 conversation_used = budget["packages"].get(CONVERSATION_WORK_PACKAGE, 0)
                 value["conversation_budget"] = {
                     "work_package": CONVERSATION_WORK_PACKAGE,
-                    "package_used": conversation_used, "package_limit": conversation_limit,
+                    "limits_enforced": enforced,
+                    "package_used": conversation_used,
+                    "package_limit": conversation_limit if enforced else None,
                     "package_remaining": min(conversation_limit - conversation_used,
-                                             budget["total_limit"] - budget["total_reserved"]),
+                        budget["total_limit"] - budget["total_reserved"]) if enforced else None,
                 }
             except Exception:
                 value["budget"] = {"status": "unavailable", "package_remaining": 0}

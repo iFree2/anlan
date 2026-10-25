@@ -46,7 +46,8 @@ function renderMode() {
   if (!state.info) { text("model-mode", "连接后读取模型模式"); return; }
   const mode = state.info.model_mode === "deepseek_live" ? `DeepSeek · ${state.info.model}` : "脚本替身（仅验证控制流）";
   const credentialMode = state.info.demo_short_token ? " · 演示短口令（弱安全，勿用于真实数据）" : "";
-  text("model-mode", `${mode} · SYNTHETIC · 不提供作业批准${credentialMode}`);
+  const quotaMode = state.info.budget?.status === "audit_only" ? " · 项目调用次数不限（保留记录）" : "";
+  text("model-mode", `${mode} · SYNTHETIC · 不提供作业批准${credentialMode}${quotaMode}`);
 }
 
 function conversationTitle(snapshot) {

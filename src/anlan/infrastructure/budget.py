@@ -1,4 +1,4 @@
-"""Durable shared model-call reservations; every reserved attempt consumes its limit."""
+"""Durable model-call audit; an explicit administrative policy may disable quotas."""
 
 import re
 from functools import wraps
@@ -87,6 +87,12 @@ class BudgetLedger:
             raise BudgetConflict("模型调用预算授权尚未初始化")
         if row["total_limit"] != self.total_limit or row["package_limit"] != self.package_limit:
             raise BudgetConflict("已有模型调用预算授权的上限不可变更")
+        policy = await conn.execute(
+            "SELECT limits_enforced FROM anlan_v2.model_call_policies WHERE authorization_id=%s",
+            (self.authorization_id,),
+        )
+        policy = await policy.fetchone()
+        row["limits_enforced"] = policy["limits_enforced"] if policy else True
         return row
 
     @_hide_database_errors
@@ -106,6 +112,8 @@ class BudgetLedger:
                 "ON CONFLICT (authorization_id) DO NOTHING",
                 (self.authorization_id, self.total_limit, self.package_limit),
             )
+            await conn.execute(files("anlan").joinpath(
+                "sql/018_model_call_policy.sql").read_text(encoding="utf-8"), prepare=False)
             await self._authorization(conn)
             await conn.execute(files("anlan").joinpath(
                 "sql/016_conversation_budget_authorization.sql").read_text(encoding="utf-8"),
@@ -138,9 +146,9 @@ class BudgetLedger:
                 (work_package, self.authorization_id),
             )
             counts = await cursor.fetchone()
-            if counts["total"] >= limits["total_limit"]:
+            if limits["limits_enforced"] and counts["total"] >= limits["total_limit"]:
                 raise BudgetExceeded("模型调用累计预占额度已用尽")
-            if counts["package"] >= package_limit:
+            if limits["limits_enforced"] and counts["package"] >= package_limit:
                 raise BudgetExceeded("当前工作包模型调用预占额度已用尽")
             await conn.execute(
                 "INSERT INTO anlan_v2.model_budget_attempts "
