@@ -1,4 +1,4 @@
-# P12 B4 协调检查（尚未验收）
+# P12 B4 协调验收
 
 日期：2026-10-24（Asia/Shanghai）。初始实现 `c9a096e641c706588bdb884627518bf6b725f15e`，交接/证据 `5f8125a`；基线fd783e1。G4完成需关闭下面的harness安全边界，不能仅凭已有回归启动B5。
 
@@ -45,3 +45,15 @@ Important一项：`verify_collaboration_release.py` 的loopback检查仅在main�
 协调要求先核对venv launcher与实际serving PID均已退出、端口关闭及临时目录句柄；不能未经证实就认定短暂文件释放，更不能用重试掩盖孤儿服务。若确证仅共享句柄释放，可对winerror32做短时有界等待，其他错误继续抛出；只清理本批实际创建且核对的进程/目录，不全杀Python/PG、不越界递归删除、不重发业务或模型。修复、准确回归与证据提交后再最终验收。
 
 在退出/清理修复源码已冻结、实施最终完整回归仍运行时，协调独立执行 `pytest -q tests/test_collaboration_release.py -k 'not wheel_process_restarts'`，实跑 **91 passed, 1 deselected in10.51s**，随后对应script/test的Ruff通过。该运行包含目标拒绝、PID/nonce、受控退出、真实本机listener、清理路径/WinError32边界与资源/Node验证，不包含被-k排除的四进程用例；不把它称为完整Gate。四进程最终结果及完整回归仍待交接/提交核对，修复也已交只读审查者复核。
+
+## 最终验收与放行B5（2026-10-25）
+
+最终harness实现 `27325580c98c47d9067d28c8ab9c4c784e3edd36`，交接/证据 `45b253e`；应用源码仍为c9a096e对应版本，应用wheel未变。原PG目标Important和退出/清理问题已修复，审查者对最终源码/证据只读复核后无Critical/Important/Minor；未运行测试或连接。提交后harness SHA与被审查版本及lifecycle证据一致：`96d5052561cb981acab087f0ad40e2787414824dba55038e06e2725c03f76dc6`。
+
+协调额外在本地隔离PG实际执行 `pytest -q tests/test_collaboration_release.py -k wheel_process_restarts`：**1 passed, 91 deselected in39.94s**，完整经历四个实际服务进程、持久化确认、回执前中断与重放、端口关闭和受限目录清理；随后 `ruff check src tests evals scripts deploy` 通过。它与先前91项是两次运行，不冒充单次完整全仓测试。
+
+协调核对最终JUnit为905 tests、0 failures/errors/skipped；报告另明确1个用户未提交live用例被排除。实施报告73451.27s的异常长计时及既有单项重核均原样保留，原因尚未从证据确定，不将其作为性能通过或用较短单项替代905项结果。旧820、889/1失败与其他诊断分别保留。
+
+最新manifest的**56份证据SHA全部匹配**；wheel实际SHA与报告一致：`6024af9350d518e29eb0610bbfeedbbee2567669d13a70f62641fca2c68b1bb6`。默认KnowledgeStore、合法知识命中/不可用gap、双角色同task/不同会话、撤权与匿名HTTP矩阵、移动端和浏览器重启/过时核查均有对应证据。已核验处理中断残留只停止本批归属已确认的进程，未全杀Python/PG或删除旧目录。
+
+**结论：B4通过，G4已全部验收，可直接按用户授权新建B5独立会话。** 没有SSH、真实模型、预算变更或云端发布；G5和新双角色女声视频仍未完成。
