@@ -5,20 +5,26 @@ to the subprocess harness: exit immediately after the real PG command commits.
 """
 
 import argparse
+import errno
 import hashlib
 import importlib.util
 import json
 import os
+import shutil
 import socket
 import subprocess
 import sys
+import sysconfig
 import tempfile
 import time
 import zipfile
+from ipaddress import ip_address
 from pathlib import Path
 from uuid import uuid4
 
 import httpx
+from psycopg import Error as PsycopgError
+from psycopg.conninfo import conninfo_to_dict, make_conninfo
 
 ROOT = Path(__file__).resolve().parents[1]
 _spec = importlib.util.spec_from_file_location(
@@ -42,6 +48,7 @@ LAUNCH = '''
 import asyncio,json,os,sys
 from contextlib import asynccontextmanager
 from pathlib import Path
+sys.path.insert(0,sys.argv[6])
 sys.path.insert(0,sys.argv[1])
 import anlan,uvicorn
 from anlan.interfaces.api import create_app
@@ -54,12 +61,16 @@ if sys.argv[4] == 'crash_after_commit':
         os._exit(91)
     CollaborationService.execute = crash
 app=create_app(os.environ['ANLAN_DATABASE_URL'],ServiceConfig.from_file(Path(sys.argv[2])))
+@app.get('/_release_harness_ready')
+async def harness_ready():
+    return {'pid':os.getpid(),'generation':sys.argv[7]}
 original_lifespan=app.router.lifespan_context
 @asynccontextmanager
 async def lifespan(app):
     async with original_lifespan(app):
         Path(sys.argv[5]).write_text(json.dumps({'module_file':anlan.__file__,
-            'knowledge':type(app.state.knowledge).__name__,'pid':os.getpid()}))
+            'knowledge':type(app.state.knowledge).__name__,'pid':os.getpid(),
+            'generation':sys.argv[7]}))
         yield
 app.router.lifespan_context=lifespan
 server=uvicorn.Server(uvicorn.Config(app,host='127.0.0.1',port=int(sys.argv[3]),
@@ -86,6 +97,123 @@ def new_evidence_directory(path):
     return path
 
 
+TARGET_ERROR = ('Gate requires one explicit loopback PostgreSQL target '
+                'without service or inherited PG settings')
+
+
+def loopback_dsn(dsn, *, environment=None):
+    """Pure parsing only: reject implicit overrides and pin the actual libpq address.
+
+    This harness supports one TCP target, not service files, sockets or multihost.
+    Reject nonempty PG* settings rather than silently interpreting another target;
+    the launch boundary also removes every PG* variable from its environment.
+    """
+    environment = os.environ if environment is None else environment
+    if any(key.upper().startswith('PG') and value for key, value in environment.items()):
+        raise ValueError(TARGET_ERROR)
+    try:
+        if not isinstance(dsn, str) or not dsn.strip():
+            raise ValueError
+        params = conninfo_to_dict(dsn)
+        if 'service' in params:
+            raise ValueError
+        host = params.get('host', '')
+        if host.lower() == 'localhost':
+            host, address = 'localhost', '127.0.0.1'
+        else:
+            address = ip_address(host)
+            if not address.is_loopback or '%' in host:
+                raise ValueError
+            host, address = address.compressed, address.compressed
+        if 'hostaddr' in params:
+            target = ip_address(params['hostaddr'])
+            if not target.is_loopback or '%' in params['hostaddr']:
+                raise ValueError
+            address = target.compressed
+        port = params.get('port', '5432')
+        if not port.isascii() or not port.isdigit() or not 1 <= int(port) <= 65535:
+            raise ValueError
+        return make_conninfo(**(params | {'host': host, 'hostaddr': address, 'port': port}))
+    except (PsycopgError, TypeError, ValueError):
+        # libpq parser errors may contain the original DSN, so suppress their chain.
+        raise ValueError(TARGET_ERROR) from None
+
+
+def windows_listener_ports():
+    """Read both Windows TCP listener tables; no connection timeout inference."""
+    import ctypes
+    from ctypes import wintypes
+
+    query = ctypes.WinDLL('iphlpapi').GetExtendedTcpTable
+    query.argtypes = [ctypes.c_void_p, ctypes.POINTER(wintypes.ULONG), wintypes.BOOL,
+                      wintypes.ULONG, ctypes.c_int, wintypes.ULONG]
+    query.restype = wintypes.DWORD
+    ports = set()
+    # OWNER_PID_LISTENER rows: IPv4 is 24 bytes (port offset 8), IPv6 56 (offset 20).
+    for family, row_size, port_offset in ((2, 24, 8), (23, 56, 20)):
+        size = wintypes.ULONG()
+        if query(None, ctypes.byref(size), False, family, 3, 0) not in {0, 122}:
+            raise OSError('Cannot query local listener table size')
+        size.value += 4096
+        table = ctypes.create_string_buffer(size.value)
+        if query(table, ctypes.byref(size), False, family, 3, 0) != 0:
+            raise OSError('Cannot query local listener table')
+        count = int.from_bytes(table.raw[:4], 'little')
+        if 4 + count * row_size > len(table):
+            raise OSError('Invalid local listener table size')
+        for index in range(count):
+            offset = 4 + index * row_size + port_offset
+            value = int.from_bytes(table.raw[offset:offset + 4], 'little')
+            ports.add(socket.ntohs(value & 65535))
+    return ports
+
+
+def socket_listening(port):
+    with socket.socket() as connection:
+        connection.settimeout(.1)
+        result = connection.connect_ex(('127.0.0.1', port))
+    if result in {errno.ECONNREFUSED, 10061}:
+        return False
+    if result != 0:
+        raise OSError('Cannot determine local listener state')
+    return True
+
+
+def port_closed(port):
+    """Check the local control-plane port only; never retry a business/model request."""
+    deadline = time.monotonic() + 2
+    while True:
+        try:
+            listening = (port in windows_listener_ports() if os.name == 'nt'
+                         else socket_listening(port))
+            if not listening:
+                return True
+        except OSError:
+            return False
+        if time.monotonic() >= deadline:
+            return False
+        time.sleep(.05)
+
+
+def cleanup_directory(directory, *, processes_stopped=False):
+    """Only delete this harness's owned temp root, after verified process/port exit."""
+    if not processes_stopped:
+        raise RuntimeError('Cannot clean directory before tracked process exit')
+    directory = Path(directory)
+    if (directory.is_symlink() or directory.is_junction()
+            or directory.resolve().parent != Path(tempfile.gettempdir()).resolve()
+            or not directory.name.startswith('anlan-b4-wheel-')):
+        raise ValueError('Cleanup target is not an owned wheel temporary directory')
+    for attempt in range(40):
+        try:
+            shutil.rmtree(directory)
+            return attempt + 1
+        except PermissionError as exc:
+            if getattr(exc, 'winerror', None) != 32 or attempt == 39:
+                raise
+            time.sleep(.05)
+
+
 class WheelServer:
     def __init__(self, wheel, config, dsn, directory, port):
         self.wheel, self.config, self.dsn = wheel, config, dsn
@@ -94,27 +222,44 @@ class WheelServer:
         self.history = []
 
     def start(self, mode='normal'):
+        environment = dict(os.environ)
+        dsn = loopback_dsn(self.dsn, environment=environment)
+        if self.process is not None and not self.history[-1].get('exit_verified'):
+            raise RuntimeError('Stop the tracked process before starting another generation')
         index = len(self.history)
         marker = self.directory / f'provenance-{index}.json'
-        env = {k: v for k, v in os.environ.items() if k not in {
-            'PYTHONPATH', 'DEEPSEEK_API_KEY', 'OPENAI_API_KEY'}}
-        env.update(ANLAN_DATABASE_URL=self.dsn, PYTHONIOENCODING='utf-8')
+        generation = uuid4().hex
+        executable = getattr(sys, '_base_executable', None)
+        if not executable or not Path(executable).is_file():
+            raise RuntimeError('Cannot identify the direct Python runtime')
+        env = {k: v for k, v in environment.items() if not k.upper().startswith('PG')
+               and k.upper() not in {'PYTHONPATH', 'DEEPSEEK_API_KEY', 'OPENAI_API_KEY'}}
+        env.update(ANLAN_DATABASE_URL=dsn, ANLAN_TEST_DATABASE_URL=dsn,
+                   PYTHONIOENCODING='utf-8')
         self.process = subprocess.Popen(
-            [sys.executable, '-I', '-c', LAUNCH, str(self.wheel), str(self.config),
-             str(self.port), mode, str(marker)], cwd=self.directory, env=env,
+            [executable, '-I', '-c', LAUNCH, str(self.wheel), str(self.config),
+             str(self.port), mode, str(marker), sysconfig.get_path('purelib'), generation],
+            cwd=self.directory, env=env,
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
             creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0)
-        self.history.append({'pid': self.process.pid})
+        self.history.append({'pid': self.process.pid, 'launched_pid': self.process.pid,
+                             'port': self.port})
         deadline = time.monotonic() + 90
         while time.monotonic() < deadline:
             if self.process.poll() is not None:
                 raise RuntimeError('Wheel process exited before readiness')
             try:
-                if httpx.get(f'http://127.0.0.1:{self.port}/healthz',
-                             trust_env=False, timeout=1).status_code == 200:
+                ready = httpx.get(f'http://127.0.0.1:{self.port}/_release_harness_ready',
+                                  trust_env=False, timeout=1)
+                if ready.status_code == 200 and ready.json().get('generation') == generation:
                     provenance = json.loads(marker.read_text())
+                    if (ready.json().get('pid') != self.process.pid
+                            or provenance['pid'] != self.process.pid
+                            or provenance['generation'] != generation):
+                        raise RuntimeError('Serving PID does not match the launched Python process')
                     assert str(self.wheel) in provenance['module_file']
-                    self.history[-1].update(provenance)
+                    self.history[-1].update({k: v for k, v in provenance.items()
+                                             if k != 'generation'})
                     return
             except (httpx.HTTPError, OSError):
                 pass
@@ -122,16 +267,23 @@ class WheelServer:
         raise RuntimeError('Wheel readiness deadline exceeded')
 
     def stop(self):
-        if self.process is not None and self.process.poll() is None:
+        if self.process is None or self.history[-1].get('exit_verified'):
+            return
+        if self.process.poll() is None:
             self.process.terminate()
-            try:
-                self.process.wait(timeout=10)
-            except subprocess.TimeoutExpired:
-                self.process.kill()
-                self.process.wait(timeout=10)
+        try:
+            exit_code = self.process.wait(timeout=10)
+        except subprocess.TimeoutExpired:
+            self.process.kill()
+            exit_code = self.process.wait(timeout=10)
+        closed = port_closed(self.port)
+        self.history[-1].update(exit_code=exit_code, port_closed=closed, exit_verified=closed)
+        if not closed:
+            raise RuntimeError('Tracked process exited but its local port remains occupied')
 
 
 def verify(wheel, config_path, dsn):
+    dsn = loopback_dsn(dsn)
     wheel, config_path = wheel.resolve(), config_path.resolve()
     config = json.loads(config_path.read_text(encoding='utf-8-sig'))
     applicant, manager = validate_config(config)
@@ -141,10 +293,15 @@ def verify(wheel, config_path, dsn):
         listener.bind(('127.0.0.1', 0))
         port = listener.getsockname()[1]
     report = {'status': 'running', 'model_mode': 'scripted_double',
+              'harness_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+              'database_target': {'kind': 'single_explicit_loopback', 'address_pinned': True,
+                  'pg_environment': 'nonempty_rejected_all_removed',
+                  'validation_boundaries': ['verify', 'process_start']},
               'wheel_sha256': hashlib.sha256(wheel.read_bytes()).hexdigest(),
               'resources': resources, 'credentials_recorded': False}
-    with tempfile.TemporaryDirectory(prefix='anlan-b4-wheel-') as temporary:
-        directory = Path(temporary)
+    directory = Path(tempfile.mkdtemp(prefix='anlan-b4-wheel-')).resolve()
+    server = None
+    try:
         report['cwd_outside_source'] = not directory.is_relative_to(ROOT)
         server = WheelServer(wheel, config_path, dsn, directory, port)
         base = f'http://127.0.0.1:{port}'
@@ -203,6 +360,7 @@ def verify(wheel, config_path, dsn):
                     pass
                 report['crash_exit_code'] = server.process.wait(timeout=10)
                 assert report['crash_exit_code'] == 91
+                server.stop()
                 server.start()
                 ca = post(a, path, confirmation)
                 assert post(a, path, confirmation) == ca
@@ -250,6 +408,14 @@ def verify(wheel, config_path, dsn):
                     knowledge_compositions=[p['knowledge'] for p in server.history])
             finally:
                 server.stop()
+    finally:
+        stopped = server is None or all(row.get('exit_verified') for row in server.history)
+        report['directory_cleanup_attempts'] = cleanup_directory(
+            directory, processes_stopped=stopped)
+    report['process_lifecycle'] = server.history
+    report['temporary_directory_removed'] = not directory.exists()
+    if not report['temporary_directory_removed']:
+        raise RuntimeError('Owned wheel temporary directory was not removed')
     return report
 
 
@@ -262,11 +428,10 @@ def main():
     if args.output.exists():
         parser.error('Choose a new evidence file')
     dsn = os.environ['ANLAN_TEST_DATABASE_URL']
-    # Never allow this verification harness to connect to a remote database.
-    from psycopg.conninfo import conninfo_to_dict
-    if conninfo_to_dict(dsn).get('host') not in {'127.0.0.1', 'localhost', '::1'}:
-        parser.error('Gate requires explicit loopback PostgreSQL')
-    report = verify(args.wheel, args.config, dsn)
+    try:
+        report = verify(args.wheel, args.config, dsn)
+    except ValueError as exc:
+        parser.error(str(exc))
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open('x', encoding='utf-8') as output:
         json.dump(report, output, ensure_ascii=False, indent=2)
