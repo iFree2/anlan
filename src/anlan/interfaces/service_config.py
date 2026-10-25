@@ -4,7 +4,14 @@ import re
 from pathlib import Path
 from typing import Literal
 
-from pydantic import AwareDatetime, Field, SecretStr, field_validator, model_validator
+from pydantic import (
+    AwareDatetime,
+    Field,
+    SecretStr,
+    ValidationInfo,
+    field_validator,
+    model_validator,
+)
 
 from anlan.collaboration.contracts import Role
 from anlan.common.models import Identity, StrictModel
@@ -13,14 +20,17 @@ from anlan.workflows.event_contracts import SourceBinding
 
 
 class TokenGrant(StrictModel):
+    demo_short_token: bool = Field(default=False, strict=True)
     token: SecretStr
     identity: Identity
     collaboration_role: Role | None = None
 
     @field_validator("token")
     @classmethod
-    def valid_token(cls, value):
-        if not re.fullmatch(r"[A-Za-z0-9._~-]{32,256}", value.get_secret_value()):
+    def valid_token(cls, value, info: ValidationInfo):
+        minimum = 7 if info.data.get("demo_short_token", False) else 32
+        if not re.fullmatch(r"[A-Za-z0-9._~-]{" + str(minimum) + r",256}",
+                            value.get_secret_value()):
             raise ValueError("A bounded, strong local bearer token is required")
         return value
 
@@ -61,6 +71,12 @@ class ServiceConfig(StrictModel):
         identities = {(g.identity.tenant_id, g.identity.user_id) for g in self.tokens}
         roles = {}
         for grant in self.tokens:
+            if grant.demo_short_token and (
+                self.as_of is None
+                or not grant.identity.tenant_id.startswith("synthetic-")
+                or grant.collaboration_role not in ("applicant", "safety_manager")
+            ):
+                raise ValueError("Short tokens require synthetic role and fixed replay clock")
             key = (grant.identity.tenant_id, grant.identity.user_id)
             if key in roles and roles[key] != grant.collaboration_role:
                 raise ValueError("Conflicting collaboration roles for the same identity")

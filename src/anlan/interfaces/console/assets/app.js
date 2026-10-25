@@ -45,7 +45,8 @@ async function action(work) {
 function renderMode() {
   if (!state.info) { text("model-mode", "连接后读取模型模式"); return; }
   const mode = state.info.model_mode === "deepseek_live" ? `DeepSeek · ${state.info.model}` : "脚本替身（仅验证控制流）";
-  text("model-mode", `${mode} · SYNTHETIC · 不提供作业批准`);
+  const credentialMode = state.info.demo_short_token ? " · 演示短口令（弱安全，勿用于真实数据）" : "";
+  text("model-mode", `${mode} · SYNTHETIC · 不提供作业批准${credentialMode}`);
 }
 
 function conversationTitle(snapshot) {
@@ -293,7 +294,7 @@ function disconnect() {
 }
 
 async function connect(value) {
-  if (!value || !/^[A-Za-z0-9._~-]{32,256}$/.test(value)) throw new ApiError("请选择有效演示配置或输入测试令牌。", 422);
+  if (!value || !/^[A-Za-z0-9._~-]{7,256}$/.test(value)) throw new ApiError("请选择有效演示配置或输入测试令牌。短口令须由服务端显式启用。", 422);
   resetIdentityState(); connectToken(value);
   try { state.info = await request("/console/api/info"); } catch (error) { disconnectToken(); state.info = null; throw error; }
   $("token").value = ""; $("connect-panel").hidden = true; $("workbench").hidden = false; $("disconnect").hidden = false;

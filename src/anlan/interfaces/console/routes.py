@@ -61,6 +61,8 @@ def install_console(app, dsn, config, who, clock, runtime_factory, model_info):
         return {"identity": identity.model_dump(), "data_origin": "SYNTHETIC",
                 **await model_info(),
                 "collaboration_role": role,
+                "demo_short_token": any(g.demo_short_token for g in config.tokens
+                                        if g.identity == identity),
                 "capabilities": {"create_application": role == "applicant",
                                  "collaboration": role is not None,
                                  "run_event_review": event_enabled,
