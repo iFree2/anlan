@@ -2,6 +2,18 @@
 
 日期：2026-10-25（Asia/Shanghai）。本期只到材料核查完成；不提供正式审批、开工授权或真实设备监控。
 
+## 当日晚些时候：演示短令牌增量发布
+
+用户明确授权仅演示角色使用短令牌后，当前发布更新为 `/opt/anlan2/releases/p12-demo-tokens-20261025`。两角色访问令牌已分别轮换，旧两令牌401失效；身份、租户、任务、私聊与legacy令牌不变。实际值只在私密配置保存，不写本文或Git。原两本机访问配置路径保持，已同步新值；旧副本在同目录 `before-short-token-20261025/`。普通配置仍要求32—256位；只有显式 `demo_short_token: true`、synthetic-租户、两协作角色、固定回放时钟组合允许7—256位，页面显示弱安全提示。不得用于真实敏感数据。
+
+应用提交 `a8f8ab3`，新wheel SHA `b2e62fcb568d4cca61767eba8c78893de3bce91749f2969683d09b2cfcce8b5f`，125安装文件逐一匹配。52项相邻回归/真实PG通过；新wheel实际四进程恢复单项1通过/91排除；离源码导入、17资源及9CLI通过。运维审查发现停服务后首次快照未纳入恢复，先RED复现再修复为 `9484278`；含配置单元的12项非PG验证通过，Ruff通过。审查复核无剩余阻塞，不把此前905项当作新源完整回归。
+
+配置备份 `/opt/anlan2/shared/before-p12-demo-tokens-20261025/` 为0700，四份配置0600；本次没有数据库迁移或DB恢复。服务PID3434158，nonroot anlan2；公网实际浏览器手输申请人令牌及导入安全人员配置均成功，独立会话保留且显示弱口令提示，页面输入已清空、local/session storage为空。新旧认证、互读私聊404、原申请complete、原站点及所有业务行保持已另只读核对。本次0模型调用，账本仍91/100、21/30、6/10，无pending。
+
+**恢复必须使用新helper** `/opt/anlan2/release-short-token-20261025.py`（源码 `deploy/aliyun/release_demo_tokens.py`）：rollback仍进入既有维护应用，forward只到这个支持新配置的新版本。不能用旧P12 helper forward，因为旧代码不认识短令牌标记。激活失败只恢复原P12应用和四原配置，不恢复DB；新helper异常分支已有离线故障注入回归。下方B5初版制品和实切恢复记录属于历史验收。此次未重新实切维护，也未重录视频；原视频作为双角色业务演示保留。
+
+本次交接与安全边界见[短令牌验证](demo-short-token-check.md)。
+
 ## 入口与身份
 
 入口：[安澜控制台](http://47.93.218.52/anlan/console)。使用两个独立浏览器上下文，分别选择本机 ignored 私密文件：
@@ -34,9 +46,9 @@
 本批回滚始终切入 `/opt/anlan2/releases/p12-maintenance-20261025`：它不加载旧业务 API 或数据库，业务路径统一503。新协作记录存在时，不能执行 P11 文档里的旧界面回滚命令，否则旧写接口不具备本期冻结约束。需要通过已授权管理通道执行：
 
 ```bash
-/opt/anlan2/current/venv/bin/python /opt/anlan2/release-collaboration-20261025.py rollback
+/opt/anlan2/current/venv/bin/python /opt/anlan2/release-short-token-20261025.py rollback
 # 核对维护状态与记录后，前向恢复同一新版：
-/opt/anlan2/current/venv/bin/python /opt/anlan2/release-collaboration-20261025.py forward
+/opt/anlan2/current/venv/bin/python /opt/anlan2/release-short-token-20261025.py forward
 ```
 
 恢复过程不恢复旧 DB、不删除或退还调用次数、不把 current 切回 legacy 写应用。维护回滚是暂停业务，不提供旧界面继续写入。只维护安澜服务，未 reload Nginx 或变更无关网站。

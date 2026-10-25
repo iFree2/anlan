@@ -1,5 +1,7 @@
 # 当前状态（唯一入口）
 
+- 2026-10-25 用户授权演示短令牌增量后，当前发布为 `/opt/anlan2/releases/p12-demo-tokens-20261025`（应用a8f8ab3，wheel b2e62fcb568d4cca61767eba8c78893de3bce91749f2969683d09b2cfcce8b5f）。两角色已分别轮换，新值私密保存，旧两令牌401；两本机访问配置原路径已更新，旧副本保留。普通配置仍32位起，只有显式合成角色/固定时钟允许短值；页面提示弱安全。52相邻回归、wheel四进程单项、离源码包验证、故障恢复RED/GREEN、Ruff与两独立公网浏览器连接通过。无模型调用、无DB迁移/业务变更，预算仍91/21/6。后续维护恢复须用新helper `release-short-token-20261025.py`，不能旧helper前向恢复。见[部署说明](phases/phase-12-dual-role/deployment.md)及[短令牌验收](phases/phase-12-dual-role/demo-short-token-check.md)。下方初版P12/P11发布均为历史。
+
 - 2026-10-25 当前云端为P12双角色版 `/opt/anlan2/releases/p12-collaboration-20261025`：两个不同身份/独立会话共享同申请，真实提交→补充要求→材料更新/重提→人工材料核查完成；合成事件事实/知识/模型核查、反馈与材料变化过时标记已联调。旧行、原站点和全部账本保留，维护回滚/前向恢复/重启已验；不能执行旧P11写应用回滚。见[P12部署与双角色女声视频](phases/phase-12-dual-role/deployment.md)、[分批状态](phases/phase-12-dual-role/README.md)。终点仅材料核查完成，不是正式审批或开工授权。
 - 最新只读复核账本：91/100，成功85、失败6；对话P11-WP01为21/30，材料/事件P11-WP02为6/10。本批9对话+2材料+1事件=12尝试，含2次invalid_output失败；用户明确授权仅本批对话上限8→9，原累计100/包30和10不变，没有新包、退款或重置。两份私密配置在ignored `.runtime/p12-b5-access/applicant.json`、`safety-manager.json`；分别用于独立浏览器上下文。新视频 `.runtime/anlan-dual-role-demo-20261025-film/Anlan-Dual-Role-Demo-ZH-Female.mp4`，293.53秒、1080p、慢速合成女声/中文字幕；旧两版保留。下列P11/P8发布与余额是历史快照，不是当前状态。
 

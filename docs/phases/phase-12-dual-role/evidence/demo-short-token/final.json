@@ -1,0 +1,46 @@
+{
+  "status": "passed",
+  "current": "/opt/anlan2/releases/p12-demo-tokens-20261025",
+  "pid": 3434158,
+  "service": "User=anlan2\nActiveState=active",
+  "wheel_sha256": "b2e62fcb568d4cca61767eba8c78893de3bce91749f2969683d09b2cfcce8b5f",
+  "installed_files_match": 125,
+  "identity_and_roles_preserved": true,
+  "legacy_token_preserved": true,
+  "business_rows_unchanged": true,
+  "root_site_unchanged": true,
+  "roles": [
+    {
+      "role": "applicant",
+      "new_token_http": 200,
+      "old_token_http": 401,
+      "other_private_conversation_http": 404,
+      "demo_short_token": true
+    },
+    {
+      "role": "safety_manager",
+      "new_token_http": 200,
+      "old_token_http": 401,
+      "other_private_conversation_http": 404,
+      "demo_short_token": true
+    }
+  ],
+  "shared_task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+  "shared_application_status": "review_completed",
+  "anonymous_http": 401,
+  "ledger": {
+    "total": 91,
+    "conversation": 21,
+    "materials_events": 6,
+    "total_limit": 100,
+    "materials_events_limit": 10,
+    "conversation_limit": 30
+  },
+  "pending": {
+    "pending_operations": 0,
+    "pending_messages": 0,
+    "pending_reviews": 0,
+    "reserved_attempts": 0
+  },
+  "new_model_requests": 0
+}
