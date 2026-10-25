@@ -2,6 +2,18 @@
 
 日期：2026-10-25（Asia/Shanghai）。本期只到材料核查完成；不提供正式审批、开工授权或真实设备监控。
 
+## 当前：项目调用不限次数、保留审计
+
+用户随后明确要求“不设额度限制”，当前已更新到 `/opt/anlan2/releases/p12-audit-only-20261025`。现用授权新增 `limits_enforced=false` 策略：对话、材料、事件均不再受项目累计/分包次数限制；原100/30/10只保留为历史配置，不是有效上限。历史100次尝试完整保留，线上info返回 `audit_only`、有效上限和剩余为null。页面显示“项目调用次数不限（保留记录）”。这不取消DeepSeek余额/限流、网络故障、单次超时/循环及身份保护，也不授权代理无限付费测试。
+
+实现/部署提交 `98ce6b3`；wheel SHA `398635367cf5aed1a91153023a324f1b8b296c77124dbc2483abf832a5a0d572`。126安装文件匹配。真实PG/相邻回归75通过、wheel四实际进程恢复单项1通过/91排除、部署故障注入1通过，Ruff及离源码18资源/9CLI通过；两轮只读审查均无阻塞。此次0真实模型调用，未代用户重试未提交申请，不把旧905项当新源全仓结果。
+
+发布前DB/config备份在 `/opt/anlan2/shared/before-p12-audit-only-20261025/`（0700/敏感文件0600），DB dump SHA `bb3ccf792f06b64d3d1e46b2b3ab7c39ba9004ee33be24a4dbb277c0bb0958ec`。SQL018仅新增策略表和迁移记录；唯一现用AUTH策略在同一授权行锁保护下写入false，没有改旧授权/分包行、清账或重置历史。服务active、PID3440482；三原角色认证、匿名401、原业务/调用记录与根站点保持。用户申请仍draft/version1、原确认卡片保留。
+
+恢复应使用 `/opt/anlan2/release-audit-only-20261025.py rollback|forward`（源码 `deploy/aliyun/release_audit_only.py`）：rollback为原维护应用，forward固定到本新版。不要使用下方历史helper前向恢复，避免旧版重新按历史限额拦截；不要恢复旧DB/账本。本次没有再次实切维护，只保留既有维护实验证据和本次故障注入回归。两份角色令牌及访问配置不变，原视频保留。
+
+特别提醒：公网HTTP、易记短令牌与不设次数上限组合可能导致他人消耗模型费用，仅建议短期合成演示。详细验证见[audit-only-check.md](audit-only-check.md)。以下短令牌/B5记录均为历史制品与限额状态。
+
 ## 当日晚些时候：演示短令牌增量发布
 
 用户明确授权仅演示角色使用短令牌后，当前发布更新为 `/opt/anlan2/releases/p12-demo-tokens-20261025`。两角色访问令牌已分别轮换，旧两令牌401失效；身份、租户、任务、私聊与legacy令牌不变。实际值只在私密配置保存，不写本文或Git。原两本机访问配置路径保持，已同步新值；旧副本在同目录 `before-short-token-20261025/`。普通配置仍要求32—256位；只有显式 `demo_short_token: true`、synthetic-租户、两协作角色、固定回放时钟组合允许7—256位，页面显示弱安全提示。不得用于真实敏感数据。
@@ -46,9 +58,9 @@
 本批回滚始终切入 `/opt/anlan2/releases/p12-maintenance-20261025`：它不加载旧业务 API 或数据库，业务路径统一503。新协作记录存在时，不能执行 P11 文档里的旧界面回滚命令，否则旧写接口不具备本期冻结约束。需要通过已授权管理通道执行：
 
 ```bash
-/opt/anlan2/current/venv/bin/python /opt/anlan2/release-short-token-20261025.py rollback
+/opt/anlan2/current/venv/bin/python /opt/anlan2/release-audit-only-20261025.py rollback
 # 核对维护状态与记录后，前向恢复同一新版：
-/opt/anlan2/current/venv/bin/python /opt/anlan2/release-short-token-20261025.py forward
+/opt/anlan2/current/venv/bin/python /opt/anlan2/release-audit-only-20261025.py forward
 ```
 
 恢复过程不恢复旧 DB、不删除或退还调用次数、不把 current 切回 legacy 写应用。维护回滚是暂停业务，不提供旧界面继续写入。只维护安澜服务，未 reload Nginx 或变更无关网站。

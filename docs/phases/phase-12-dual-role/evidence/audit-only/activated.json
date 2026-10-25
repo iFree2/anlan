@@ -1,0 +1,80 @@
+{
+  "status": "activated",
+  "current": "/opt/anlan2/releases/p12-audit-only-20261025",
+  "backup": "/opt/anlan2/shared/before-p12-audit-only-20261025",
+  "wheel_sha256": "398635367cf5aed1a91153023a324f1b8b296c77124dbc2483abf832a5a0d572",
+  "limits_enforced": false,
+  "old_rows_preserved": true,
+  "attempt_history_unchanged": true,
+  "attempts": 100,
+  "package_usage": {
+    "P11-WP01": 29,
+    "P11-WP02": 7
+  },
+  "effective_total_limit": null,
+  "effective_package_limit": null,
+  "new_model_requests": 0,
+  "root_site_unchanged": true,
+  "roles": [
+    {
+      "role": null,
+      "budget": {
+        "status": "audit_only",
+        "limits_enforced": false,
+        "work_package": "P11-WP02",
+        "total_used": 100,
+        "total_limit": null,
+        "package_used": 7,
+        "package_limit": null,
+        "package_remaining": null
+      },
+      "conversation_budget": {
+        "work_package": "P11-WP01",
+        "limits_enforced": false,
+        "package_used": 29,
+        "package_limit": null,
+        "package_remaining": null
+      }
+    },
+    {
+      "role": "applicant",
+      "budget": {
+        "status": "audit_only",
+        "limits_enforced": false,
+        "work_package": "P11-WP02",
+        "total_used": 100,
+        "total_limit": null,
+        "package_used": 7,
+        "package_limit": null,
+        "package_remaining": null
+      },
+      "conversation_budget": {
+        "work_package": "P11-WP01",
+        "limits_enforced": false,
+        "package_used": 29,
+        "package_limit": null,
+        "package_remaining": null
+      }
+    },
+    {
+      "role": "safety_manager",
+      "budget": {
+        "status": "audit_only",
+        "limits_enforced": false,
+        "work_package": "P11-WP02",
+        "total_used": 100,
+        "total_limit": null,
+        "package_used": 7,
+        "package_limit": null,
+        "package_remaining": null
+      },
+      "conversation_budget": {
+        "work_package": "P11-WP01",
+        "limits_enforced": false,
+        "package_used": 29,
+        "package_limit": null,
+        "package_remaining": null
+      }
+    }
+  ]
+}
