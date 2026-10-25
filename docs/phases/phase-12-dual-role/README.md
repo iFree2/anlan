@@ -14,7 +14,7 @@
 | B2 | 后端共享任务授权、提交/退回/重提/完成、通知 | 已验收：最终271回归；协调独立268基线及3项修复复验，Ruff/审查通过 | 会话 `01a16446-0f18-76b1-abc4-38cd19560d66`；[协调检查](batch-02-coordinator-check.md)、[交接](batch-02-handoff.md) |
 | B3 | 两角色对话/任务侧栏、事件核查授权 | 已验收：协调独立59 passed/0 skipped，Ruff通过，审查无阻塞；恢复Minor已由B4关闭 | [交接](batch-03-handoff.md)、[协调验收](batch-03-coordinator-check.md)；会话 `01a1646b-502a-7c61-a297-fee9dd29785b` |
 | B4 | 全套与双浏览器、异常恢复、wheel验证 | 已验收：905非live通过/1 live排除，协调91项及实际四进程单项复验通过，审查无阻塞 | 会话 `01a16e2e-9a05-7032-ae3b-cbfca3faf300`；[协调验收](batch-04-coordinator-check.md)、[交接](batch-04-handoff.md) |
-| B5 | ECS发布、有限live联调、双角色视频 | 已满足前置，待启动 | 尚未创建 |
+| B5 | ECS发布、有限live联调、双角色视频 | 实施中，待验收 | 独立会话 `01a17345-84cd-79c2-8909-79939a8c62ae` |
 
 本页的“文档已完成”不等于功能完成，所有Gate以实际测试/录制证据为准。首次设计记录时未改业务代码、未SSH、未调用业务模型。
 
