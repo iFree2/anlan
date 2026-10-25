@@ -43,3 +43,5 @@ Important一项：`verify_collaboration_release.py` 的loopback检查仅在main�
 检查到B4收尾turn为interrupted/idle，未提交防护与新测试均保留，未把中断当作完成。已按用户“继续”在原会话恢复，不创建重复批次。其最新完整非live轮次为889 passed、1 failed、1 live deselected；实施记录指出四进程业务断言完成后Windows TemporaryDirectory清理出现WinError32，单项诊断通过不能代替完整Gate。
 
 协调要求先核对venv launcher与实际serving PID均已退出、端口关闭及临时目录句柄；不能未经证实就认定短暂文件释放，更不能用重试掩盖孤儿服务。若确证仅共享句柄释放，可对winerror32做短时有界等待，其他错误继续抛出；只清理本批实际创建且核对的进程/目录，不全杀Python/PG、不越界递归删除、不重发业务或模型。修复、准确回归与证据提交后再最终验收。
+
+在退出/清理修复源码已冻结、实施最终完整回归仍运行时，协调独立执行 `pytest -q tests/test_collaboration_release.py -k 'not wheel_process_restarts'`，实跑 **91 passed, 1 deselected in10.51s**，随后对应script/test的Ruff通过。该运行包含目标拒绝、PID/nonce、受控退出、真实本机listener、清理路径/WinError32边界与资源/Node验证，不包含被-k排除的四进程用例；不把它称为完整Gate。四进程最终结果及完整回归仍待交接/提交核对，修复也已交只读审查者复核。
