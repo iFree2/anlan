@@ -1,0 +1,14 @@
+{
+  "launcher_pid": 29508,
+  "serving_pid": 27936,
+  "different_pids": true,
+  "launcher_wait_returned": true,
+  "serving_exited_when_launcher_wait_returned": false,
+  "serving_exited_within_two_seconds": true,
+  "needed_tracked_child_termination": false,
+  "serving_exit_verified": true,
+  "port_closed": true,
+  "elapsed_after_launcher_wait": 0.21296470001107082,
+  "database_connections": 0,
+  "model_requests": 0
+}

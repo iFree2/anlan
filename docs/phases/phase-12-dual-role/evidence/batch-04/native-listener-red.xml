@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="4" time="3.770" timestamp="2026-10-25T00:53:39.707598+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_collaboration_release" name="test_release_port_probe_does_not_treat_timeout_or_denial_as_closed[10061-True]" time="0.006"><failure message="AttributeError: module 'collaboration_release' has no attribute 'socket_listening'">tests\test_collaboration_release.py:283: in test_release_port_probe_does_not_treat_timeout_or_denial_as_closed
+    assert module.socket_listening(1) is False
+           ^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'collaboration_release' has no attribute 'socket_listening'</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_port_probe_does_not_treat_timeout_or_denial_as_closed[10060-False]" time="0.005"><failure message="AttributeError: module 'collaboration_release' has no attribute 'socket_listening'">tests\test_collaboration_release.py:286: in test_release_port_probe_does_not_treat_timeout_or_denial_as_closed
+    module.socket_listening(1)
+    ^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'collaboration_release' has no attribute 'socket_listening'</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_port_probe_does_not_treat_timeout_or_denial_as_closed[10013-False]" time="0.005"><failure message="AttributeError: module 'collaboration_release' has no attribute 'socket_listening'">tests\test_collaboration_release.py:286: in test_release_port_probe_does_not_treat_timeout_or_denial_as_closed
+    module.socket_listening(1)
+    ^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'collaboration_release' has no attribute 'socket_listening'</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_port_check_matches_an_actual_owned_listener" time="2.144"><failure message="AssertionError: assert False is True&#10; +  where False = &lt;function port_closed at 0x00000243D2E9EB60&gt;(62494)&#10; +    where &lt;function port_closed at 0x00000243D2E9EB60&gt; = &lt;module 'collaboration_release' from 'D:\\src\\agent学习\\安澜2.0\\scripts/verify_collaboration_release.py'&gt;.port_closed">tests\test_collaboration_release.py:298: in test_release_port_check_matches_an_actual_owned_listener
+    assert module.port_closed(port) is True
+E   AssertionError: assert False is True
+E    +  where False = &lt;function port_closed at 0x00000243D2E9EB60&gt;(62494)
+E    +    where &lt;function port_closed at 0x00000243D2E9EB60&gt; = &lt;module 'collaboration_release' from 'D:\\src\\agent学习\\安澜2.0\\scripts/verify_collaboration_release.py'&gt;.port_closed</failure></testcase></testsuite></testsuites>

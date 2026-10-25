@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="3" time="1.444" timestamp="2026-10-24T23:11:52.561841+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_collaboration_release" name="test_release_cleanup_only_waits_boundedly_for_windows_directory_release[32-2-3]" time="0.005"><failure message="AttributeError: module 'collaboration_release' has no attribute 'cleanup_directory'">tests\test_collaboration_release.py:173: in test_release_cleanup_only_waits_boundedly_for_windows_directory_release
+    assert module.cleanup_directory(SimpleNamespace(cleanup=cleanup)) == expected_calls
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'collaboration_release' has no attribute 'cleanup_directory'</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_cleanup_only_waits_boundedly_for_windows_directory_release[32-100-40]" time="0.005"><failure message="AttributeError: module 'collaboration_release' has no attribute 'cleanup_directory'">tests\test_collaboration_release.py:176: in test_release_cleanup_only_waits_boundedly_for_windows_directory_release
+    module.cleanup_directory(SimpleNamespace(cleanup=cleanup))
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'collaboration_release' has no attribute 'cleanup_directory'</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_cleanup_only_waits_boundedly_for_windows_directory_release[5-1-1]" time="0.005"><failure message="AttributeError: module 'collaboration_release' has no attribute 'cleanup_directory'">tests\test_collaboration_release.py:176: in test_release_cleanup_only_waits_boundedly_for_windows_directory_release
+    module.cleanup_directory(SimpleNamespace(cleanup=cleanup))
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'collaboration_release' has no attribute 'cleanup_directory'</failure></testcase></testsuite></testsuites>

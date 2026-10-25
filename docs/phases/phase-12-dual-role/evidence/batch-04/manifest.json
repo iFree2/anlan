@@ -25,6 +25,11 @@
     "bytes": 432
   },
   {
+    "path": "cleanup-initial-red.xml",
+    "sha256": "e0de27b719ae0094fa15a6d1cfca2368dbaa88fb407222dba992a37b18c8891f",
+    "bytes": 2015
+  },
+  {
     "path": "final-applicant-desktop-complete.png",
     "sha256": "417066e6c969342d325c0bee465d170361a5b68937f771d284c0d08f3bb174bc",
     "bytes": 194067
@@ -65,9 +70,14 @@
     "bytes": 217409
   },
   {
-    "path": "gate-result.json",
+    "path": "gate-result-before-target-guard.json",
     "sha256": "78585513fd47be5fcd47ba651ffde8a60a14c88de13704fb83d00e6afbfdf92d",
     "bytes": 1750
+  },
+  {
+    "path": "gate-result.json",
+    "sha256": "6802439c8bf2569f41ff60a2c83ef43f0d78aecf1f97dd24a7e5d4ff5386cd5f",
+    "bytes": 8018
   },
   {
     "path": "green-empty-checkpoint.xml",
@@ -95,14 +105,54 @@
     "bytes": 1868
   },
   {
+    "path": "intermediate-port-probe-failed.xml",
+    "sha256": "677bdd8ff7e30fd963ba0e4dcb39e357406f84700bbffdda4754a0fc15c555f2",
+    "bytes": 19617
+  },
+  {
+    "path": "interrupted-run-process-cleanup.json",
+    "sha256": "81bccbeeb34e9618df76550401617293ff325ba162280c646a1cc8ea29f1da0e",
+    "bytes": 436
+  },
+  {
     "path": "knowledge-import-query.json",
     "sha256": "807f7759074f30d6ebbd22cfd2cb63575f32704f39b96da89cc478a48729e93a",
     "bytes": 3661
   },
   {
+    "path": "launcher-ownership-probe.json",
+    "sha256": "24c3d52b071ea74f6ddd41ef598102a4d577dcc6483eb378bcdb3be9534cc87a",
+    "bytes": 431
+  },
+  {
+    "path": "long-timing-recheck.xml",
+    "sha256": "a4845a14b50eb602e4c5ef3634ddb370812ff0e5cf580b91c074f8bcad511d64",
+    "bytes": 370
+  },
+  {
+    "path": "native-listener-red.xml",
+    "sha256": "2f7ffe0905b64c9b77b57c15216c16a7f8ef541ff927380e8cb6cd7eb54fdf25",
+    "bytes": 2841
+  },
+  {
     "path": "package-complete.json",
     "sha256": "44de54ebfb757f97575bce963cf901b669e44e12c908aec8077b6e52b6970401",
     "bytes": 6992
+  },
+  {
+    "path": "port-probe-red.xml",
+    "sha256": "88918ce8271f5616e17aae3b13157ff88458031400fa647fa83dfe2e30161fe6",
+    "bytes": 2366
+  },
+  {
+    "path": "process-lifecycle-green.xml",
+    "sha256": "30e071480c5511ef5413806e186d7c3500e606d3f227927bea645b7cefb81a9e",
+    "bytes": 14126
+  },
+  {
+    "path": "process-lifecycle-red.xml",
+    "sha256": "625e4de61e0c5b129d5ba8a531e3ba101d7c0d4df1288790c850ed17e7677b5e",
+    "bytes": 10426
   },
   {
     "path": "pytest-before-final-empty-guard.xml",
@@ -123,6 +173,31 @@
     "path": "pytest-full.xml",
     "sha256": "23089ceae66176923d87a3150b782abdcd99ae899cba1a0fe3f7d95157adaa0b",
     "bytes": 114269
+  },
+  {
+    "path": "pytest-target-guard-final.log",
+    "sha256": "e526be82a0bef15a14016aa7f109801ef093c9e497e43e8d8163f48fc3a8b2ad",
+    "bytes": 1103
+  },
+  {
+    "path": "pytest-target-guard-final.xml",
+    "sha256": "30277793c6188993c0c6394c7a4ae91d88f9d9d3a4d086a327bc679cc0c9bbaa",
+    "bytes": 128149
+  },
+  {
+    "path": "pytest-target-guard-first-failed.log",
+    "sha256": "9b990a955066e8dc9b6ef1776c272d3eb299ce326b4f6c2cfbea822c3bcdf32e",
+    "bytes": 4072
+  },
+  {
+    "path": "pytest-target-guard-first-failed.xml",
+    "sha256": "17a71cc40d99f93f822c180e4b891aabca3d801315d4bb8c0ffd015b6f408bb1",
+    "bytes": 128675
+  },
+  {
+    "path": "pytest-target-guard-full.xml",
+    "sha256": "17a71cc40d99f93f822c180e4b891aabca3d801315d4bb8c0ffd015b6f408bb1",
+    "bytes": 128675
   },
   {
     "path": "red-draft-race.xml",
@@ -150,6 +225,41 @@
     "bytes": 1295
   },
   {
+    "path": "target-guard-adjacent.xml",
+    "sha256": "0672cc701fb06bf02f61a11927570ec98ffa62aa9d36dd5f0d227fed84f42597",
+    "bytes": 16083
+  },
+  {
+    "path": "target-guard-green.xml",
+    "sha256": "3ab5de2ed74211ca08d7e41bf6c41585af35fe6f5ced1913a70241505d58252a",
+    "bytes": 11861
+  },
+  {
+    "path": "target-guard-red.xml",
+    "sha256": "a1886125d8c0ede228254b0731f2c1a90c5094d6b6ee6ee346d4226f9f35bba5",
+    "bytes": 52482
+  },
+  {
+    "path": "target-guard-resume-pg-unavailable.xml",
+    "sha256": "312ee06df80df8a8cae013162e680f824accf83aa7b0f0b78e4f8203007fe024",
+    "bytes": 15901
+  },
+  {
+    "path": "target-guard-review.json",
+    "sha256": "6728be04d6bb9bb40cbb230c653bb4219fea720c6d8321d880f63e5da9d80a4f",
+    "bytes": 5306
+  },
+  {
+    "path": "target-guard-wheel-diagnostic.xml",
+    "sha256": "11c47bb13cdea929d9dbd7dcfe6307b5fcf327fb966d5d5ce564842a70d0d1fa",
+    "bytes": 403
+  },
+  {
+    "path": "target-lifecycle-adjacent.xml",
+    "sha256": "7fd5a820ef4e3cbf71564a951f25b4e01655c9c042c87e895e7a7c7214d4d4cb",
+    "bytes": 18349
+  },
+  {
     "path": "targeted-final.xml",
     "sha256": "0c19ae54bf18af048f340d2e474245838302ccf7865ace4cfcffafa5eaf41179",
     "bytes": 2213
@@ -158,5 +268,15 @@
     "path": "wheel-complete.json",
     "sha256": "ae7aaa102546c0655cc076fc11dd03d15db10028c4fe3b52ba84011f89bbd552",
     "bytes": 4480
+  },
+  {
+    "path": "wheel-target-guard.json",
+    "sha256": "8ab8d1f185c0dcc341076fd2538a9fb09082294a9c5916286a9fdf5388c4a7c6",
+    "bytes": 4802
+  },
+  {
+    "path": "wheel-target-lifecycle.json",
+    "sha256": "4d2c78c250662a7f309827eb6d59dce750e9533de9297f04fc2f77e3951e3de5",
+    "bytes": 6250
   }
 ]

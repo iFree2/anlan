@@ -1,0 +1,12 @@
+{
+  "serving_pid": 30960,
+  "former_parent_pytest_pid": 10660,
+  "process_start": "2026-10-25T00:53:52.3594301+08:00",
+  "matched_owned_marker_and_ready_generation": true,
+  "actual_process_exit_waited": true,
+  "port": 62584,
+  "port_closed": true,
+  "directory_retained": true,
+  "reason": "Child started around intermediate pytest interruption; earlier process snapshot was not atomic",
+  "credentials_recorded": false
+}

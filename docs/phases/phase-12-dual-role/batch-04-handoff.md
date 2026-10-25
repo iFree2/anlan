@@ -2,6 +2,8 @@
 
 日期：2026-10-24（Asia/Shanghai）。基线 `fd783e1`（B3 实现 `4726f27`、交接 `cdf742d`、协调验收 `26774a9`）。本批实现 SHA：`c9a096e641c706588bdb884627518bf6b725f15e`。本文及证据以随后独立文档提交交付，可用 `git log -1 -- docs/phases/phase-12-dual-role/batch-04-handoff.md` 查询。
 
+**B4 独立审查收尾，2026-10-25恢复（审查基线 `51d088b`，恢复 HEAD `80ee20e`）：**有效 PG 目标防护、实际 serving PID/端口退出与安全清理已完成，实现提交 `27325580c98c47d9067d28c8ab9c4c784e3edd36`。最终新全套 **905 passed / 0 failures/errors/skipped / 1 live deselected**。本次不进入 B5，交协调验收。后文原820项与浏览器/wheel证据保留，不能视为新增防护断言已覆盖。
+
 沿当前 local 检出串行实施，没有 worktree、子代理、后续会话或跨会话消息。总 README 与 acceptance.md 由协调维护，本批只在本文逐项对照 G4。原用户 dirty 路径保持不动：roadmap/status 的 P10 内容、P10 目录、test_tool_loop_live.py、.superpowers。没有 SSH、云端部署、真实供应商请求、预算改动或录制。
 
 ## 实际修改
@@ -18,7 +20,7 @@
 
 证据目录：`evidence/batch-04/`。
 
-两份 RED JUnit 的 pytest 展示行仅移除行尾空白，以通过 Git diff 检查；测试数量、失败类型、断言和 traceback 未改，原始 XML 保留在 ignored `.runtime/p12-b4-*.xml`。最终清单 SHA 对应提交的规范化证据。
+提交的 RED JUnit 的 pytest 展示行仅移除行尾空白，以通过 Git diff 检查；测试数量、失败类型、断言和 traceback 未改，原始 XML 保留在 ignored `.runtime/p12-b4-*.xml`。最终清单 SHA 对应提交的规范化证据。
 
 本目录局部 `.gitattributes` 禁止 Git 再次转换证据行尾，保留其实际 bytes；manifest SHA 同时核对工作目录与暂存 blob，不影响其他目录的换行策略。
 
@@ -80,7 +82,7 @@ SHA256：`6024af9350d518e29eb0610bbfeedbbee2567669d13a70f62641fca2c68b1bb6`。
 
 | G4 条目 | 证据与状态 |
 |---|---|
-| 每批红绿、PG、Ruff、准确全仓数量 | 已满足；最终820 passed、0 failures/errors/skipped、1 live deselected；见 JUnit/gate-result |
+| 每批红绿、PG、Ruff、准确全仓数量 | 原820项保留；harness收尾后新增完整905 passed、0 failures/errors/skipped、1 live deselected；见追加记录及gate-result |
 | 独立双浏览器完整往返 | 最终 task/两个 conversation、browser-final-state、final 截图 |
 | 第三者/跨租户/匿名 HTTP、通知、SSE | recovery 直接 HTTP 矩阵；全仓 collaboration API/conversation/events 撤权与隐私测试 |
 | 旧卡片/并发/重放/重启 | PG 并发、旧版本、事务回滚/同收件人跨 task 顺序；真实四进程 wheel Gate；实际浏览器异常 |
@@ -102,3 +104,40 @@ uv build --wheel --out-dir .runtime/p12-b4-dist
 私密演示配置保留在 `.runtime/p12-b4-demo/`（service/applicant/safety-manager.json），不进 Git。本批服务/页面仅清理本人创建且核对 PID/context 的资源，保留 PG 与演示业务记录。
 
 本批 G4 工程与浏览器验收项已满足，没有剩余本批 Gate 项；交协调独立复核后可进入 B5。本会话按用户要求未派审查代理，已自查最小 diff 与权限/事务边界，未将自查冒称独立审查，也未自行创建 B5。云端替换、有限 live 和双角色女声视频尚未完成，不宣称生产安全、模型泛化或整个 P12 完成。
+
+## 独立审查 Important：发布 harness 的实际 PG 目标
+
+审查复现了旧 `main` 只看 host 的缺口：localhost 配远端 hostaddr、继承 PGHOSTADDR/PGSERVICE，以及直接调用 verify 绕过 main。已核对本机 psycopg 的 get_param/split_attempts/_resolve_hostnames 实现，hostaddr 与 PG 环境确实可决定实际目标。协调确认原实跑环境的相关 PG 设置未启用，本次启动前读取非空 PG* 名字列表也为空；**此前本地证据仍有效，没有证据显示曾连接远端**。
+
+本次只改 `scripts/verify_collaboration_release.py`、`tests/test_collaboration_release.py` 及本交接/证据，没有修改应用源码。因此应用 wheel SHA 仍为 `6024af9350d518e29eb0610bbfeedbbee2567669d13a70f62641fca2c68b1bb6`；harness 自身 SHA 单独记录于 `wheel-target-guard.json`。
+
+- 同一 `loopback_dsn` 在 verify 入口和每次 WheelServer.start 边界执行；后者在同一环境快照上验证后构造子进程环境，覆盖两份 ANLAN 数据库变量。
+- 只支持显式单一 TCP loopback；host 与任何显式 hostaddr 都必须合法 loopback，拒绝 service、多主机/多地址、多端口、缺省 host、空目标与非法端口。localhost 固定数值 hostaddr=127.0.0.1，显式 IPv6 loopback 保持 ::1；不做 DNS 查询。
+- 保守拒绝所有非空 PG* 环境设置，包括 PGHOSTADDR/PGSERVICE/PGSERVICEFILE/PGOPTIONS/PGPASSWORD，并从子进程环境移除全部 PG*（包括空值）。需要的认证/SSL等应放进明确的本地 DSN，不能通过继承环境暗中补足。
+- 非法连接串由固定错误替代并抑制 libpq 原异常链，不输出 DSN、密码或环境值。仍要求 scripted_double，仍用四个实际新进程和非覆盖证据文件。
+
+纯离线 RED：**70 failed / 0 errors / 0 skipped / 7 deselected，33.66s**，均由缺失防护或子环境未清理导致；Popen、psycopg sync/async connect、socket connect 与 DNS 均有 stub，实际子进程和连接为0。203.0.113.10、2001:db8::1、example.invalid 只出现在离线拒绝输入，未作远端探测。GREEN：**70 passed / 0 failures/errors/skipped / 7 deselected，6.26s**；包括合法显式 loopback 兼容和启动边界环境变化复核。之后只修正了测试参数名以通过 Ruff，未改变防护语义。
+
+目标防护阶段的 `wheel-target-guard.json` 已实际完成本地 PG 四进程恢复，记录 hostaddr 固定、PG 环境清除及该阶段 harness SHA；原 wheel/浏览器证据不覆盖。该阶段相邻四文件新回归 **97 passed in106.70s，0 skipped**。首次完整回归中的 wheel 恢复用例失败及随后单项 **1 passed in56.57s** 均保留；不能以单项通过替代全套。最终结果见下述恢复收尾，旧820计数未改写成新断言已覆盖。
+
+## 2026-10-25 恢复：实际进程退出与 Windows 清理
+
+上一轮完整结果为 **889 passed / 1 failed / 0 errors/skipped / 1 live deselected，731.73s**。失败在业务/恢复断言之后的 TemporaryDirectory 清理，WinError32；保留 `pytest-target-guard-first-failed.*`，不改写为通过。恢复初次组件运行时本地 PG 未启动，得到 **87 passed / 1 error，14.59s**；确认仅本机55432后通过现有 Start 脚本恢复 PG17.11，再运行，不将该环境错误计作产品修复结果。
+
+没有仅凭 WinError32 就加入等待。可控本机 launcher 探针（0 PG/模型请求）记录：launcher PID29508 与实际 PID27936 不同；launcher wait 返回时 serving 尚未退出，之后约0.21s才退出，无需另行终止。恢复初次进程快照未见残留，但后续确实发现了一个中间运行遗留的进程，见下述处置，不能把非原子快照当作无残留保证。旧失败的 marker 已被清理，不能由此反推该次失败时一定有/没有孤儿。探针原 `port_closed` 字段来自连接探测，不作为最终端口证据。
+
+最终修复仍只在 harness/test 内：
+
+- 直接启动 CPython 的 base interpreter，并显式提供本 venv 依赖目录；避开 venv redirector。每代 readiness nonce 与 marker 均要求 serving PID 严格等于 Popen PID，拒绝错代/错进程，不按任意 PID 终止进程。
+- `stop` 对持有的实际 Popen 句柄 terminate/wait，必要时 kill/wait；崩溃91也显式收割。Windows 读取 IPv4/IPv6 系统监听表确认端口关闭，不将连接超时/权限错误解释为关闭。不修改应用或额外重发业务、模型、工具。
+- 只有全部受控进程退出且端口关闭后，才清理本次创建的临时根目录。验证系统 temp 直属路径、专用前缀、非 symlink/junction；其他路径或未确认退出拒绝清理。仅 WinError32 最多等待1.95s，其他错误原样抛出；永久占用仍失败，不忽略 cleanup 错误。
+
+新增退出/清理 RED：**11 failed / 77 deselected，3.09s**。端口连接推断的补充 RED **2 failed / 1 passed / 88 deselected，1.31s**；真实自有 listener 的 RED 确认关闭后仍被旧探测误判，合并4项 RED 保留。中间端口探测版组件结果 **110 passed / 1 failed，74.17s**，以及随后停止的中间完整运行日志保留，不计最终通过。
+
+最终离线/控制验证 **85 passed / 7 deselected，8.36s**，相邻四文件 **112 passed / 0 failures/errors/skipped，96.33s**。`wheel-target-lifecycle.json` 真实四进程通过，PID348/12648/28752/18828 的 launched_pid=serving pid，端口63017在每次退出后关闭，退出码包括预期91，临时目录一次清理完成，四次默认 KnowledgeStore。应用 wheel SHA6024af…保持不变；本次 harness SHA为 `96d5052561cb981acab087f0ad40e2787414824dba55038e06e2725c03f76dc6`，与提交的脚本字节相同。
+
+最终新完整回归：**905 passed / 0 failures / 0 errors / 0 skipped / 1 live deselected，pytest报告73451.27s（20:24:11）**。JUnit suite时间73451.237s，其中既有 `test_hard_process_exit_after_material_merge_can_recover` 报告72813.765s；其后单项复核 **1 passed in3.72s**。长计时原因未从现有证据确定，原值完整保留，不将该总计时当作性能结论，也不以单项复核替代905项全套。`pytest-target-guard-final.*` 与 gate-result/manifest 记录当前结果；旧820、889/1失败、单项通过分别保留。
+
+最终进程扫尾还识别出此前被停止的中间 pytest PID10660 遗留的 serving PID30960（目录 `anlan-b4-wheel-cxv0qiql`、本机端口62584）。核对父PID、原测试wheel/config路径、marker和readiness代次一致后，只停止这个持有的进程对象并等待退出，系统监听表确认62584关闭，旧目录保留未递归删除。`interrupted-run-process-cleanup.json` 记录该事实；这说明此前“无子进程”的瞬时快照存在中断竞态。最终包括venv命令形式的精确B4 serving签名扫描为0。本次正常四进程 Gate 的退出证明与这一中断残留处置分别记录，未掩盖孤儿或全杀Python/PG。
+
+本次Ruff `src tests evals scripts deploy` 与diff检查通过，只提交所拥有的harness/test/交接/证据；应用源码和用户dirty均未改。本项Important及退出/清理收尾完成，交协调独立验收，未启动B5、部署、真实模型或录制。

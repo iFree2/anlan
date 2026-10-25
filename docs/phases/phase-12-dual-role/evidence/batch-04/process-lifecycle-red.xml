@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="11" skipped="0" tests="11" time="2.262" timestamp="2026-10-25T00:42:25.380060+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_collaboration_release" name="test_release_cleanup_only_waits_boundedly_for_windows_directory_release[32-2-3]" time="0.022"><failure message="AttributeError: module 'collaboration_release' has no attribute 'shutil'">tests\test_collaboration_release.py:174: in test_release_cleanup_only_waits_boundedly_for_windows_directory_release
+    monkeypatch.setattr(module.shutil, 'rmtree', cleanup)
+                        ^^^^^^^^^^^^^
+E   AttributeError: module 'collaboration_release' has no attribute 'shutil'</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_cleanup_only_waits_boundedly_for_windows_directory_release[32-100-40]" time="0.009"><failure message="AttributeError: module 'collaboration_release' has no attribute 'shutil'">tests\test_collaboration_release.py:174: in test_release_cleanup_only_waits_boundedly_for_windows_directory_release
+    monkeypatch.setattr(module.shutil, 'rmtree', cleanup)
+                        ^^^^^^^^^^^^^
+E   AttributeError: module 'collaboration_release' has no attribute 'shutil'</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_cleanup_only_waits_boundedly_for_windows_directory_release[5-1-1]" time="0.007"><failure message="AttributeError: module 'collaboration_release' has no attribute 'shutil'">tests\test_collaboration_release.py:174: in test_release_cleanup_only_waits_boundedly_for_windows_directory_release
+    monkeypatch.setattr(module.shutil, 'rmtree', cleanup)
+                        ^^^^^^^^^^^^^
+E   AttributeError: module 'collaboration_release' has no attribute 'shutil'</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_cleanup_refuses_unverified_exit_or_foreign_path[False-True]" time="0.006"><failure message="AttributeError: module 'collaboration_release' has no attribute 'shutil'">tests\test_collaboration_release.py:189: in test_release_cleanup_refuses_unverified_exit_or_foreign_path
+    monkeypatch.setattr(module.shutil, 'rmtree', lambda *_: pytest.fail('Unsafe cleanup'))
+                        ^^^^^^^^^^^^^
+E   AttributeError: module 'collaboration_release' has no attribute 'shutil'</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_cleanup_refuses_unverified_exit_or_foreign_path[True-False]" time="0.007"><failure message="AttributeError: module 'collaboration_release' has no attribute 'shutil'">tests\test_collaboration_release.py:189: in test_release_cleanup_refuses_unverified_exit_or_foreign_path
+    monkeypatch.setattr(module.shutil, 'rmtree', lambda *_: pytest.fail('Unsafe cleanup'))
+                        ^^^^^^^^^^^^^
+E   AttributeError: module 'collaboration_release' has no attribute 'shutil'</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_uses_direct_runtime_and_rejects_launcher_serving_pid_mismatch[42]" time="0.014"><failure message="AssertionError: assert WindowsPath('D:/src/agent学习/安澜2.0/.venv/Scripts/python.exe') == WindowsPath('C:/Users/msm84/AppData/Local/Programs/Python/Python313/python.exe')&#10; +  where WindowsPath('D:/src/agent学习/安澜2.0/.venv/Scripts/python.exe') = resolve()&#10; +    where resolve = WindowsPath('D:/src/agent学习/安澜2.0/.venv/Scripts/python.exe').resolve&#10; +      where WindowsPath('D:/src/agent学习/安澜2.0/.venv/Scripts/python.exe') = Path('D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe')&#10; +  and   WindowsPath('C:/Users/msm84/AppData/Local/Programs/Python/Python313/python.exe') = resolve()&#10; +    where resolve = WindowsPath('C:/Users/msm84/AppData/Local/Programs/Python/Python313/python.exe').resolve&#10; +      where WindowsPath('C:/Users/msm84/AppData/Local/Programs/Python/Python313/python.exe') = Path('C:\\Users\\msm84\\AppData\\Local\\Programs\\Python\\Python313\\python.exe')&#10; +        where 'C:\\Users\\msm84\\AppData\\Local\\Programs\\Python\\Python313\\python.exe' = &lt;module 'sys' (built-in)&gt;._base_executable">tests\test_collaboration_release.py:223: in test_release_uses_direct_runtime_and_rejects_launcher_serving_pid_mismatch
+    server.start()
+scripts\verify_collaboration_release.py:150: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:207: in launch
+    assert Path(args[0]).resolve() == Path(sys._base_executable).resolve()
+E   AssertionError: assert WindowsPath('D:/src/agent学习/安澜2.0/.venv/Scripts/python.exe') == WindowsPath('C:/Users/msm84/AppData/Local/Programs/Python/Python313/python.exe')
+E    +  where WindowsPath('D:/src/agent学习/安澜2.0/.venv/Scripts/python.exe') = resolve()
+E    +    where resolve = WindowsPath('D:/src/agent学习/安澜2.0/.venv/Scripts/python.exe').resolve
+E    +      where WindowsPath('D:/src/agent学习/安澜2.0/.venv/Scripts/python.exe') = Path('D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe')
+E    +  and   WindowsPath('C:/Users/msm84/AppData/Local/Programs/Python/Python313/python.exe') = resolve()
+E    +    where resolve = WindowsPath('C:/Users/msm84/AppData/Local/Programs/Python/Python313/python.exe').resolve
+E    +      where WindowsPath('C:/Users/msm84/AppData/Local/Programs/Python/Python313/python.exe') = Path('C:\\Users\\msm84\\AppData\\Local\\Programs\\Python\\Python313\\python.exe')
+E    +        where 'C:\\Users\\msm84\\AppData\\Local\\Programs\\Python\\Python313\\python.exe' = &lt;module 'sys' (built-in)&gt;._base_executable</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_uses_direct_runtime_and_rejects_launcher_serving_pid_mismatch[43]" time="0.010"><failure message="AssertionError: assert WindowsPath('D:/src/agent学习/安澜2.0/.venv/Scripts/python.exe') == WindowsPath('C:/Users/msm84/AppData/Local/Programs/Python/Python313/python.exe')&#10; +  where WindowsPath('D:/src/agent学习/安澜2.0/.venv/Scripts/python.exe') = resolve()&#10; +    where resolve = WindowsPath('D:/src/agent学习/安澜2.0/.venv/Scripts/python.exe').resolve&#10; +      where WindowsPath('D:/src/agent学习/安澜2.0/.venv/Scripts/python.exe') = Path('D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe')&#10; +  and   WindowsPath('C:/Users/msm84/AppData/Local/Programs/Python/Python313/python.exe') = resolve()&#10; +    where resolve = WindowsPath('C:/Users/msm84/AppData/Local/Programs/Python/Python313/python.exe').resolve&#10; +      where WindowsPath('C:/Users/msm84/AppData/Local/Programs/Python/Python313/python.exe') = Path('C:\\Users\\msm84\\AppData\\Local\\Programs\\Python\\Python313\\python.exe')&#10; +        where 'C:\\Users\\msm84\\AppData\\Local\\Programs\\Python\\Python313\\python.exe' = &lt;module 'sys' (built-in)&gt;._base_executable">tests\test_collaboration_release.py:221: in test_release_uses_direct_runtime_and_rejects_launcher_serving_pid_mismatch
+    server.start()
+scripts\verify_collaboration_release.py:150: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:207: in launch
+    assert Path(args[0]).resolve() == Path(sys._base_executable).resolve()
+E   AssertionError: assert WindowsPath('D:/src/agent学习/安澜2.0/.venv/Scripts/python.exe') == WindowsPath('C:/Users/msm84/AppData/Local/Programs/Python/Python313/python.exe')
+E    +  where WindowsPath('D:/src/agent学习/安澜2.0/.venv/Scripts/python.exe') = resolve()
+E    +    where resolve = WindowsPath('D:/src/agent学习/安澜2.0/.venv/Scripts/python.exe').resolve
+E    +      where WindowsPath('D:/src/agent学习/安澜2.0/.venv/Scripts/python.exe') = Path('D:\\src\\agent学习\\安澜2.0\\.venv\\Scripts\\python.exe')
+E    +  and   WindowsPath('C:/Users/msm84/AppData/Local/Programs/Python/Python313/python.exe') = resolve()
+E    +    where resolve = WindowsPath('C:/Users/msm84/AppData/Local/Programs/Python/Python313/python.exe').resolve
+E    +      where WindowsPath('C:/Users/msm84/AppData/Local/Programs/Python/Python313/python.exe') = Path('C:\\Users\\msm84\\AppData\\Local\\Programs\\Python\\Python313\\python.exe')
+E    +        where 'C:\\Users\\msm84\\AppData\\Local\\Programs\\Python\\Python313\\python.exe' = &lt;module 'sys' (built-in)&gt;._base_executable</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_stop_waits_for_owned_process_and_closed_port[normal]" time="0.006"><failure message="KeyError: 'exit_verified'">tests\test_collaboration_release.py:255: in test_release_stop_waits_for_owned_process_and_closed_port
+    assert server.history[-1]['exit_verified'] and server.history[-1]['port_closed']
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'exit_verified'</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_stop_waits_for_owned_process_and_closed_port[kill]" time="0.009"><failure message="KeyError: 'exit_verified'">tests\test_collaboration_release.py:255: in test_release_stop_waits_for_owned_process_and_closed_port
+    assert server.history[-1]['exit_verified'] and server.history[-1]['port_closed']
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'exit_verified'</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_stop_waits_for_owned_process_and_closed_port[crash]" time="0.008"><failure message="KeyError: 'exit_verified'">tests\test_collaboration_release.py:255: in test_release_stop_waits_for_owned_process_and_closed_port
+    assert server.history[-1]['exit_verified'] and server.history[-1]['port_closed']
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'exit_verified'</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_stop_waits_for_owned_process_and_closed_port[occupied_port]" time="0.009"><failure message="Failed: DID NOT RAISE RuntimeError">tests\test_collaboration_release.py:251: in test_release_stop_waits_for_owned_process_and_closed_port
+    with pytest.raises(RuntimeError, match='port'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE RuntimeError</failure></testcase></testsuite></testsuites>

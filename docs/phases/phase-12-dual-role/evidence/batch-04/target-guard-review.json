@@ -1,0 +1,155 @@
+{
+  "status": "passed",
+  "review_baseline": "51d088b",
+  "resume_baseline": "80ee20e",
+  "resume_date": "2026-10-25",
+  "fix_sha": "27325580c98c47d9067d28c8ab9c4c784e3edd36",
+  "application_source_unchanged": true,
+  "application_implementation_sha": "c9a096e641c706588bdb884627518bf6b725f15e",
+  "application_wheel_sha256": "6024af9350d518e29eb0610bbfeedbbee2567669d13a70f62641fca2c68b1bb6",
+  "harness_sha256": "96d5052561cb981acab087f0ad40e2787414824dba55038e06e2725c03f76dc6",
+  "offline_red": {
+    "tests": 70,
+    "failures": 70,
+    "errors": 0,
+    "skipped": 0,
+    "deselected": 7,
+    "elapsed_seconds": 33.66
+  },
+  "offline_green": {
+    "passed": 70,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "deselected": 7,
+    "elapsed_seconds": 6.26
+  },
+  "offline_tests_actual_processes_and_connections": 0,
+  "lifecycle_control_green": {
+    "passed": 85,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "deselected": 7,
+    "elapsed_seconds": 8.36
+  },
+  "adjacent_before_lifecycle_fix": {
+    "passed": 97,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "elapsed_seconds": 106.7
+  },
+  "adjacent": {
+    "passed": 112,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "elapsed_seconds": 96.33
+  },
+  "first_guard_full": {
+    "passed": 889,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "deselected": 1,
+    "elapsed_seconds": 731.73,
+    "cause": "WinError32 at temporary-directory cleanup after business assertions"
+  },
+  "single_test_diagnostic": {
+    "passed": 1,
+    "elapsed_seconds": 56.57
+  },
+  "resume_pg_unavailable": {
+    "passed": 87,
+    "errors": 1,
+    "elapsed_seconds": 14.59,
+    "cause": "Local PG not started on resume; restored project PG17.11"
+  },
+  "intermediate_socket_probe": {
+    "passed": 110,
+    "failures": 1,
+    "elapsed_seconds": 74.17,
+    "cause": "Timeout cannot establish Windows listener closure"
+  },
+  "intermediate_full": "Stopped after native listener-table fix; not counted as passed",
+  "full_timing_note": "Pytest reported 73451.27s; original JUnit retained. Existing test_hard_process_exit_after_material_merge_can_recover reports 72813.765s. Cause of this timing outlier is not established; no performance claim.",
+  "interrupted_process_cleanup": "interrupted-run-process-cleanup.json; owned PID30960 from interrupted pytest PID10660 was verified, stopped, waited, port62584 closed; old directory retained. Earlier process inventory was non-atomic.",
+  "post_cleanup_exact_serving_signature_count": 0,
+  "long_timing_single_case_recheck": {
+    "passed": 1,
+    "elapsed_seconds": 3.72,
+    "does_not_replace_full_regression": true
+  },
+  "full_pytest": {
+    "tests": 905,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "deselected": 1,
+    "elapsed_seconds": 73451.27,
+    "junit": "pytest-target-guard-final.xml"
+  },
+  "ruff": "src tests evals scripts deploy: All checks passed",
+  "target_policy": {
+    "kind": "single_explicit_loopback",
+    "address_pinned": true,
+    "pg_environment": "nonempty_rejected_all_removed",
+    "validation_boundaries": [
+      "verify",
+      "process_start"
+    ]
+  },
+  "real_loopback_release": "wheel-target-lifecycle.json",
+  "process_lifecycle": [
+    {
+      "pid": 348,
+      "launched_pid": 348,
+      "port": 63017,
+      "module_file": "D:\\src\\agent学习\\安澜2.0\\.runtime\\p12-b4-dist\\anlan-0.1.0-py3-none-any.whl\\anlan\\__init__.py",
+      "knowledge": "KnowledgeStore",
+      "exit_code": 1,
+      "port_closed": true,
+      "exit_verified": true
+    },
+    {
+      "pid": 12648,
+      "launched_pid": 12648,
+      "port": 63017,
+      "module_file": "D:\\src\\agent学习\\安澜2.0\\.runtime\\p12-b4-dist\\anlan-0.1.0-py3-none-any.whl\\anlan\\__init__.py",
+      "knowledge": "KnowledgeStore",
+      "exit_code": 91,
+      "port_closed": true,
+      "exit_verified": true
+    },
+    {
+      "pid": 28752,
+      "launched_pid": 28752,
+      "port": 63017,
+      "module_file": "D:\\src\\agent学习\\安澜2.0\\.runtime\\p12-b4-dist\\anlan-0.1.0-py3-none-any.whl\\anlan\\__init__.py",
+      "knowledge": "KnowledgeStore",
+      "exit_code": 1,
+      "port_closed": true,
+      "exit_verified": true
+    },
+    {
+      "pid": 18828,
+      "launched_pid": 18828,
+      "port": 63017,
+      "module_file": "D:\\src\\agent学习\\安澜2.0\\.runtime\\p12-b4-dist\\anlan-0.1.0-py3-none-any.whl\\anlan\\__init__.py",
+      "knowledge": "KnowledgeStore",
+      "exit_code": 1,
+      "port_closed": true,
+      "exit_verified": true
+    }
+  ],
+  "temporary_directory_removed": true,
+  "directory_cleanup_attempts": 1,
+  "launcher_gap_probe": "launcher-ownership-probe.json; process handle state only is authoritative",
+  "earlier_local_evidence_remains_valid": true,
+  "earlier_evidence_context": "Coordinator confirmed relevant PG environment settings absent; this run also observed no nonempty inherited PG settings. No claim of prior remote access.",
+  "red_xml_original_sha256": "a1886125d8c0ede228254b0731f2c1a90c5094d6b6ee6ee346d4226f9f35bba5",
+  "red_xml_presentation_trailing_whitespace_only_normalized": true,
+  "provider_requests": 0,
+  "b5_started": false
+}

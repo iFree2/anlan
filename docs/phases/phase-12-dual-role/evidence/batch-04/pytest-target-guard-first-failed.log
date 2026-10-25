@@ -1,0 +1,57 @@
+........................................................................ [  8%]
+........................................................................ [ 16%]
+........................................................................ [ 24%]
+........................................................................ [ 32%]
+....................................F................................... [ 40%]
+........................................................................ [ 48%]
+........................................................................ [ 56%]
+........................................................................ [ 64%]
+........................................................................ [ 72%]
+........................................................................ [ 80%]
+........................................................................ [ 88%]
+........................................................................ [ 97%]
+..........................                                               [100%]
+================================== FAILURES ===================================
+__ test_wheel_process_restarts_preserve_frozen_commands_and_committed_replay __
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\shutil.py:631: in _rmtree_unsafe
+    os.rmdir(path)
+E   PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'C:\\Users\\msm84\\AppData\\Local\\Temp\\anlan-b4-wheel-9osgpbmw'
+
+During handling of the above exception, another exception occurred:
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\tempfile.py:909: in onexc
+    _os.unlink(path)
+E   PermissionError: [WinError 5] 拒绝访问。: 'C:\\Users\\msm84\\AppData\\Local\\Temp\\anlan-b4-wheel-9osgpbmw'
+
+During handling of the above exception, another exception occurred:
+tests\test_collaboration_release.py:269: in test_wheel_process_restarts_preserve_frozen_commands_and_committed_replay
+    report = module.verify(Path(wheel), Path(config), dsn)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts\verify_collaboration_release.py:199: in verify
+    with tempfile.TemporaryDirectory(prefix='anlan-b4-wheel-') as temporary:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\tempfile.py:950: in __exit__
+    self.cleanup()
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\tempfile.py:954: in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\tempfile.py:934: in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\shutil.py:790: in rmtree
+    return _rmtree_unsafe(path, onexc)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\shutil.py:635: in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\tempfile.py:924: in onexc
+    cls._rmtree(path, ignore_errors=ignore_errors,
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\tempfile.py:934: in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\shutil.py:790: in rmtree
+    return _rmtree_unsafe(path, onexc)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\shutil.py:635: in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\shutil.py:631: in _rmtree_unsafe
+    os.rmdir(path)
+E   PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'C:\\Users\\msm84\\AppData\\Local\\Temp\\anlan-b4-wheel-9osgpbmw'
+=========================== short test summary info ===========================
+FAILED tests/test_collaboration_release.py::test_wheel_process_restarts_preserve_frozen_commands_and_committed_replay
+1 failed, 889 passed, 1 deselected in 731.73s (0:12:11)

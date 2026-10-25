@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="70" skipped="0" tests="70" time="33.447" timestamp="2026-10-24T22:54:00.303102+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[remote-ipv4-verify]" time="0.904"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[remote-ipv4-start]" time="0.026"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[remote-ipv6-verify]" time="1.488"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[remote-ipv6-start]" time="0.013"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[remote-dns-verify]" time="1.483"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[remote-dns-start]" time="0.030"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[hostaddr-wins-verify]" time="0.975"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[hostaddr-wins-start]" time="0.008"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[remote-host-label-verify]" time="1.095"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[remote-host-label-start]" time="0.008"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[mapped-remote-verify]" time="0.729"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[mapped-remote-start]" time="0.007"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[mixed-hosts-verify]" time="0.712"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[mixed-hosts-start]" time="0.010"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[unsupported-local-multihost-verify]" time="0.706"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[unsupported-local-multihost-start]" time="0.008"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[mixed-addresses-verify]" time="0.724"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[mixed-addresses-start]" time="0.010"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[multiple-ports-verify]" time="0.718"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[multiple-ports-start]" time="0.010"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[zero-port-verify]" time="0.712"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[zero-port-start]" time="0.007"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[invalid-port-verify]" time="0.713"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[invalid-port-start]" time="0.009"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[nonnumeric-port-verify]" time="0.744"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[nonnumeric-port-start]" time="0.008"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[empty-port-verify]" time="0.761"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[empty-port-start]" time="0.008"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[empty-hostaddr-verify]" time="0.740"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[empty-hostaddr-start]" time="0.008"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[implicit-target-verify]" time="0.752"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[implicit-target-start]" time="0.008"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[empty-dsn-verify]" time="0.707"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[empty-dsn-start]" time="0.007"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[empty-host-verify]" time="0.721"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[empty-host-start]" time="0.009"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[unsupported-socket-verify]" time="0.714"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[unsupported-socket-start]" time="0.008"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[untrusted-localhost-alias-verify]" time="0.716"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[untrusted-localhost-alias-start]" time="0.007"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[dsn-service-verify]" time="0.703"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[dsn-service-start]" time="0.008"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[uri-service-verify]" time="0.714"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[uri-service-start]" time="0.009"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[invalid-dsn-redacts-secrets-verify]" time="0.744"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[invalid-dsn-redacts-secrets-start]" time="0.009"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[environment-pghost-verify]" time="0.729"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[environment-pghost-start]" time="0.008"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[environment-pghostaddr-verify]" time="0.712"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[environment-pghostaddr-start]" time="0.008"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[environment-pgport-verify]" time="0.714"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[environment-pgport-start]" time="0.008"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[environment-pgdatabase-verify]" time="0.714"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[environment-pgdatabase-start]" time="0.009"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[environment-pgoptions-verify]" time="0.714"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[environment-pgoptions-start]" time="0.012"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[environment-pgservice-verify]" time="0.734"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[environment-pgservice-start]" time="0.009"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[environment-pgservicefile-verify]" time="0.713"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[environment-pgservicefile-start]" time="0.010"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[environment-pgsysconfdir-verify]" time="0.719"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[environment-pgsysconfdir-start]" time="0.008"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[environment-pgpassword-verify]" time="0.716"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:106: in test_release_target_rejected_before_any_process_or_connection
+    module.verify(wheel, config, dsn)
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_target_rejected_before_any_process_or_connection[environment-pgpassword-start]" time="0.016"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:108: in test_release_target_rejected_before_any_process_or_connection
+    module.WheelServer(wheel, config, dsn, tmp_path, 1).start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_explicit_loopback_pins_address_and_cleans_child_environment[postgresql://127.0.0.1:55432/demo-127.0.0.1-55432]" time="0.719"><failure message="assert not True&#10; +  where True = any(&lt;generator object test_release_explicit_loopback_pins_address_and_cleans_child_environment.&lt;locals&gt;.&lt;genexpr&gt; at 0x0000013328165080&gt;)">tests\test_collaboration_release.py:134: in test_release_explicit_loopback_pins_address_and_cleans_child_environment
+    assert not any(name.upper().startswith('PG') for name in child)
+E   assert not True
+E    +  where True = any(&lt;generator object test_release_explicit_loopback_pins_address_and_cleans_child_environment.&lt;locals&gt;.&lt;genexpr&gt; at 0x0000013328165080&gt;)</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_explicit_loopback_pins_address_and_cleans_child_environment[host=localhost dbname=demo-127.0.0.1-5432]" time="0.740"><failure message="assert not True&#10; +  where True = any(&lt;generator object test_release_explicit_loopback_pins_address_and_cleans_child_environment.&lt;locals&gt;.&lt;genexpr&gt; at 0x0000013328167510&gt;)">tests\test_collaboration_release.py:134: in test_release_explicit_loopback_pins_address_and_cleans_child_environment
+    assert not any(name.upper().startswith('PG') for name in child)
+E   assert not True
+E    +  where True = any(&lt;generator object test_release_explicit_loopback_pins_address_and_cleans_child_environment.&lt;locals&gt;.&lt;genexpr&gt; at 0x0000013328167510&gt;)</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_explicit_loopback_pins_address_and_cleans_child_environment[postgresql://[::1]:55432/demo-::1-55432]" time="0.727"><failure message="assert not True&#10; +  where True = any(&lt;generator object test_release_explicit_loopback_pins_address_and_cleans_child_environment.&lt;locals&gt;.&lt;genexpr&gt; at 0x00000133281E4C70&gt;)">tests\test_collaboration_release.py:134: in test_release_explicit_loopback_pins_address_and_cleans_child_environment
+    assert not any(name.upper().startswith('PG') for name in child)
+E   assert not True
+E    +  where True = any(&lt;generator object test_release_explicit_loopback_pins_address_and_cleans_child_environment.&lt;locals&gt;.&lt;genexpr&gt; at 0x00000133281E4C70&gt;)</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_explicit_loopback_pins_address_and_cleans_child_environment[host=localhost hostaddr=::1 port=55432 dbname=demo-::1-55432]" time="0.724"><failure message="assert not True&#10; +  where True = any(&lt;generator object test_release_explicit_loopback_pins_address_and_cleans_child_environment.&lt;locals&gt;.&lt;genexpr&gt; at 0x00000133281236B0&gt;)">tests\test_collaboration_release.py:134: in test_release_explicit_loopback_pins_address_and_cleans_child_environment
+    assert not any(name.upper().startswith('PG') for name in child)
+E   assert not True
+E    +  where True = any(&lt;generator object test_release_explicit_loopback_pins_address_and_cleans_child_environment.&lt;locals&gt;.&lt;genexpr&gt; at 0x00000133281236B0&gt;)</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_explicit_loopback_pins_address_and_cleans_child_environment[host=127.7.8.9 port=5432 dbname=demo-127.7.8.9-5432]" time="0.712"><failure message="assert not True&#10; +  where True = any(&lt;generator object test_release_explicit_loopback_pins_address_and_cleans_child_environment.&lt;locals&gt;.&lt;genexpr&gt; at 0x00000133281E4FB0&gt;)">tests\test_collaboration_release.py:134: in test_release_explicit_loopback_pins_address_and_cleans_child_environment
+    assert not any(name.upper().startswith('PG') for name in child)
+E   assert not True
+E    +  where True = any(&lt;generator object test_release_explicit_loopback_pins_address_and_cleans_child_environment.&lt;locals&gt;.&lt;genexpr&gt; at 0x00000133281E4FB0&gt;)</failure></testcase><testcase classname="tests.test_collaboration_release" name="test_release_rechecks_environment_at_process_start" time="0.715"><failure message="test_collaboration_release.StartupBlocked: offline process boundary">tests\test_collaboration_release.py:149: in test_release_rechecks_environment_at_process_start
+    module.verify(wheel, config, 'host=localhost dbname=demo')
+scripts\verify_collaboration_release.py:178: in verify
+    server.start()
+scripts\verify_collaboration_release.py:102: in start
+    self.process = subprocess.Popen(
+tests\test_collaboration_release.py:48: in block_start
+    raise StartupBlocked('offline process boundary')
+E   test_collaboration_release.StartupBlocked: offline process boundary</failure></testcase></testsuite></testsuites>

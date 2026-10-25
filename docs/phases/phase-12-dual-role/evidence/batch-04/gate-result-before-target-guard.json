@@ -1,0 +1,56 @@
+{
+  "status": "passed",
+  "implementation_sha": "c9a096e641c706588bdb884627518bf6b725f15e",
+  "baseline_sha": "fd783e1",
+  "data_origin": "SYNTHETIC",
+  "model_mode": "scripted_double",
+  "provider_requests_this_batch": 0,
+  "postgres": {
+    "server_version": "17.11",
+    "extension": "pgvector 0.8.6",
+    "database": "anlan_p12_b4_20261024",
+    "actually_executed": true
+  },
+  "full_pytest": {
+    "tests": 820,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "deselected": 1,
+    "elapsed_seconds": 637.09,
+    "deselected_reason": "Explicitly excluded live_model; user-owned manual live test has no default opt-in guard and must not consume paid requests in B4."
+  },
+  "targeted_pytest": {
+    "passed": 14,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "elapsed_seconds": 79.54
+  },
+  "first_full_attempt": {
+    "passed": 815,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "deselected": 1,
+    "elapsed_seconds": 707.7
+  },
+  "intermediate_full_attempt": "Stopped after new JSON-order UI fix; not counted as passed.",
+  "before_final_empty_guard_full": {
+    "passed": 820,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "deselected": 1,
+    "elapsed_seconds": 675.55
+  },
+  "ruff": "src tests evals scripts deploy: All checks passed",
+  "wheel_sha256": "6024af9350d518e29eb0610bbfeedbbee2567669d13a70f62641fca2c68b1bb6",
+  "wheel_resources": 21,
+  "wheel_actual_process_count": 4,
+  "browser_task": "44dced2e-2db7-5667-b06d-960a7b36bdd3",
+  "credentials_scanned_without_recording": true,
+  "g4_unmet_items": [],
+  "production_safety_or_model_generalization_claimed": false,
+  "cloud_deployment_and_dual_role_video": "Not done; B5 scope"
+}
