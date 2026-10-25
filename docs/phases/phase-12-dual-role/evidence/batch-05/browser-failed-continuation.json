@@ -1,0 +1,92 @@
+{
+  "source": "http://47.93.218.52/anlan/console",
+  "data_origin": "SYNTHETIC",
+  "as_of": "2026-09-22T04:00:00+00:00",
+  "chapters": [
+    {
+      "name": "request-changes",
+      "role": "safety-manager",
+      "start": 22.672
+    }
+  ],
+  "messages": [
+    {
+      "role": "applicant",
+      "text": "我要申请动火作业。这是SYNTHETIC合成演示。作业位置：合成园区检修区A工位；作业对象：演示试件A的焊缝；作业方式：采用电弧焊进行补焊；附件说明：已提供试件A的位置示意图和焊缝照片，仅为合成示例。",
+      "status": "completed",
+      "http_status": 200,
+      "conversation_id": "1471099e-ce04-4537-817b-495a3c97f66e",
+      "revision": 2,
+      "error_category": null
+    },
+    {
+      "role": "applicant",
+      "text": "UI确认",
+      "status": "completed",
+      "http_status": 200,
+      "conversation_id": "1471099e-ce04-4537-817b-495a3c97f66e",
+      "revision": 3,
+      "error_category": null
+    },
+    {
+      "role": "applicant",
+      "text": "UI确认",
+      "status": "completed",
+      "http_status": 200,
+      "conversation_id": "1471099e-ce04-4537-817b-495a3c97f66e",
+      "revision": 5,
+      "error_category": null
+    },
+    {
+      "role": "safety-manager",
+      "text": "UI确认",
+      "status": "attempted",
+      "http_status": 200,
+      "conversation_id": null,
+      "revision": null,
+      "error_category": "classifier_failure"
+    },
+    {
+      "role": "safety-manager",
+      "text": "UI确认",
+      "status": "attempted",
+      "http_status": 200,
+      "conversation_id": null,
+      "revision": null,
+      "error_category": "classifier_failure"
+    }
+  ],
+  "supplier_attempt_caps": {
+    "conversation": 8,
+    "materials": 4,
+    "events": 1
+  },
+  "status": "failed",
+  "contexts": {
+    "applicant": {
+      "independent_browser_context": true,
+      "identity": {
+        "tenant_id": "synthetic-p12-ecs-09531dd70185",
+        "user_id": "applicant-demo"
+      },
+      "video_wall_start": 1.617,
+      "raw_video": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-continuation\\raw\\applicant\\page@de05ddac747e3444386d2f99d0e6eb71.webm"
+    },
+    "safety-manager": {
+      "independent_browser_context": true,
+      "identity": {
+        "tenant_id": "synthetic-p12-ecs-09531dd70185",
+        "user_id": "safety-manager-demo"
+      },
+      "video_wall_start": 11.756,
+      "raw_video": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-continuation\\raw\\safety-manager\\page@a2a7b3b7b6da126ba94a00b344fb28f9.webm"
+    }
+  },
+  "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+  "receipt_id": "fdeca96f-719c-4683-a04d-006067de5539",
+  "review_id": "979ad9fc-2a27-4210-ba6e-775e2f254333",
+  "continuation_of": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025\\recording-report.json",
+  "error_type": "AssertionError",
+  "error": "Paid message failed; stopped",
+  "recording_wall_seconds": 28.391
+}

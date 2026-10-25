@@ -1,0 +1,244 @@
+{
+  "date": "2026-10-25 Asia/Shanghai",
+  "implementation_commit": "1b72135",
+  "application_wheel_sha256": "6024af9350d518e29eb0610bbfeedbbee2567669d13a70f62641fca2c68b1bb6",
+  "helper_sha256": "3ef15464f65296c2e53320fa3b6d04f6f7da060fc0c6e96d32cf9db8ee6b31c8",
+  "user_authorization_update": {
+    "scope": "B5 conversation attempts only",
+    "before": 8,
+    "after": 9,
+    "answer": "允许本批最多9次对话尝试",
+    "total_limit": 100,
+    "P11-WP01_limit": 30,
+    "P11-WP02_limit": 10,
+    "new_package": false
+  },
+  "red": {
+    "tests": 11,
+    "failed": 11,
+    "errors": 0,
+    "skipped": 0
+  },
+  "green_final": {
+    "tests": 14,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "warning": "Existing Starlette/AnyIO BlockingPortal deprecation, one warning"
+  },
+  "ruff": "All checks passed: src tests evals scripts deploy",
+  "private_value_scan": "passed; values never emitted",
+  "visual_qa": "Final film key frames inspected; two subtitle layout revisions; no business calls",
+  "files": [
+    {
+      "name": ".gitattributes",
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da",
+      "size_bytes": 8
+    },
+    {
+      "name": "activated.json",
+      "sha256": "e7239606828159c6ccd0af237a1205a02e40ecfa6ddbae6b5e8816da14728afd",
+      "size_bytes": 2535
+    },
+    {
+      "name": "attempt-audit.json",
+      "sha256": "7ebcc8520da886f7ce7bea2560c9e5c631584250dcfd66b29fdad10d1600329d",
+      "size_bytes": 4878
+    },
+    {
+      "name": "before-restart-snapshots.json",
+      "sha256": "d6a121236a466e94206a2f437a44fa79f5785f5d7f1b70a9448ddbf4bdd71809",
+      "size_bytes": 23504
+    },
+    {
+      "name": "browser-completed.json",
+      "sha256": "65551d6db9a6295df9842cb910d3265cbb08d29e5920a022f54315a39a975fa9",
+      "size_bytes": 5157
+    },
+    {
+      "name": "browser-failed-continuation.json",
+      "sha256": "405a072aeed9b134cfdef317d69264badb1f3bcc26f2e47b2c1d2d26107d99d4",
+      "size_bytes": 3016
+    },
+    {
+      "name": "browser-initial.json",
+      "sha256": "65e9eb9ddfb45f92dd85ae4466008c0f5a2fc47732005618513a2951a285c82d",
+      "size_bytes": 3305
+    },
+    {
+      "name": "browser-recovery.json",
+      "sha256": "9187430e25f6e9d9ebc5ab7c7a1bb3ead1883c17c740a57319e2491f5dfa943a",
+      "size_bytes": 901
+    },
+    {
+      "name": "budget-stop.json",
+      "sha256": "82742d7afc5a4c8db683ce556a3b6f74728a8aab6f27b15764abb4bdd7c7073b",
+      "size_bytes": 1346
+    },
+    {
+      "name": "cloud-applicant-complete.png",
+      "sha256": "b2e2f3a1de5d8ef9d301db4ef7bfabb85f3ae70cbd2aae338eb29159f3ce250f",
+      "size_bytes": 145745
+    },
+    {
+      "name": "cloud-complete.png",
+      "sha256": "37a240a4844c8b6188e2134df042c67678aeffa7b2c477092cc3c92e2fd14142",
+      "size_bytes": 150257
+    },
+    {
+      "name": "cloud-create.png",
+      "sha256": "f89cd510c69be6497a2cd37256209dcf140a35b8b43074bec06436b31d27d5b7",
+      "size_bytes": 142916
+    },
+    {
+      "name": "cloud-event.png",
+      "sha256": "5a05e272b257ef8f99058a197f8f689ca2e155ff4cb7ef3b27cea43cb9eae202",
+      "size_bytes": 137220
+    },
+    {
+      "name": "cloud-intent.png",
+      "sha256": "572c382bcc9a0360dce97ff9e9b29d9e278f9d854030a801221cff481c294ad1",
+      "size_bytes": 120328
+    },
+    {
+      "name": "cloud-manager-task.png",
+      "sha256": "ec0fa9ea699c1cd6c74759fa527c24d430c029d0fd119948524804a82679158b",
+      "size_bytes": 122625
+    },
+    {
+      "name": "cloud-request-changes.png",
+      "sha256": "de6939c7d579379c02df26f565d5b3343c21507190e19e1d5bf5e4e7bc2672f7",
+      "size_bytes": 133173
+    },
+    {
+      "name": "cloud-resubmit.png",
+      "sha256": "50a656cfff49eba311f53db39e91203efc7b95d7bfbd1f74a894caf6c43e6158",
+      "size_bytes": 138218
+    },
+    {
+      "name": "cloud-submit.png",
+      "sha256": "30826c924a50a7a4158d3de58eb3183441d7613853d09c0f1c8f3111dd2e59a9",
+      "size_bytes": 133150
+    },
+    {
+      "name": "cloud-update.png",
+      "sha256": "97e8bb412f35fd70ccde978aa03607523ffde77224120cbe71110cb398016d13",
+      "size_bytes": 143608
+    },
+    {
+      "name": "deployment-final.xml",
+      "sha256": "d07db9103043f576c56d7b708306ac8d6f8a149da40237e073436babbd5d46ff",
+      "size_bytes": 2272
+    },
+    {
+      "name": "deployment-green.xml",
+      "sha256": "49982214f0776714e49d48ca6e386b28849773a2765466ebbd84e7170f7d0091",
+      "size_bytes": 2272
+    },
+    {
+      "name": "deployment-red.xml",
+      "sha256": "73fce2a18cd27b8eb4421080edcaa19d5aa99d0cf049b2c7fe64c335aea0cad3",
+      "size_bytes": 6148
+    },
+    {
+      "name": "failure-diagnostic.json",
+      "sha256": "50c4f29664850873aa70403332782cfd6698d4f75dcaff8a8e55b9248fcd6193",
+      "size_bytes": 1263
+    },
+    {
+      "name": "film-applicant-complete-end.png",
+      "sha256": "57fc0c1492f98abfb4e16238c45fc1883e72c3440aa9066b04c8544b04d7f452",
+      "size_bytes": 648565
+    },
+    {
+      "name": "film-complete-end.png",
+      "sha256": "517a7f2e2baaa7ae9f99a0aa6723333027ae3ecf8ab9d5feb6fb5f12b2fab698",
+      "size_bytes": 668041
+    },
+    {
+      "name": "film-event-end.png",
+      "sha256": "c80422f316df0d47302af22826ae7033f7f9b1348112160418eafefbb7fb4192",
+      "size_bytes": 575011
+    },
+    {
+      "name": "film-intent-end.png",
+      "sha256": "7031d4dc9d0a4a53ca4960ff3df4377e1c6498ee1707a2cc89912e903e673169",
+      "size_bytes": 514866
+    },
+    {
+      "name": "film-request-changes-mid.png",
+      "sha256": "4237a992e1930080c64de64cefe91464712736e49cc14827570eed9324e14785",
+      "size_bytes": 631985
+    },
+    {
+      "name": "film-restart-end.png",
+      "sha256": "b511d5d6e7c44d2e18aacf10561836350114f1e79a4bc974965eae5d327ede14",
+      "size_bytes": 673273
+    },
+    {
+      "name": "film-stale-end.png",
+      "sha256": "8675b72213eef30a685aa99cc92c1ae7ae21ca76a95b52e46f1719bc1197174c",
+      "size_bytes": 638736
+    },
+    {
+      "name": "final-cloud.json",
+      "sha256": "a678b93a95a12e5718ffb597e33545864d053f35872ee06ef66e8c8e64bceb6b",
+      "size_bytes": 2601
+    },
+    {
+      "name": "first-failure-budget.json",
+      "sha256": "a515b12007c00d2cb237b06e7221c73e659bfa0cc425ac963462142a1a437204",
+      "size_bytes": 1346
+    },
+    {
+      "name": "ignored-media-sources.json",
+      "sha256": "268d5dadf02c5c1bca842250d2096fd2a4fc38f197916642b1648e696f375ab2",
+      "size_bytes": 8779
+    },
+    {
+      "name": "knowledge-public-ingest.json",
+      "sha256": "20932f77f9d9905b74b1e52dbf184a39ae10ffa65a01395d9f6056b9940561c0",
+      "size_bytes": 3615
+    },
+    {
+      "name": "live-event-review.json",
+      "sha256": "be52c3e45e6f170f4ac97a2b6c69b116ebe09aa26475ab4d0cc2c4ceed18a9d5",
+      "size_bytes": 7755
+    },
+    {
+      "name": "maintenance-probe.json",
+      "sha256": "e1ff36e4e55f6dfa3f4b150e8a24702f0e18e8ff72838a1c04c7987d4184b227",
+      "size_bytes": 500
+    },
+    {
+      "name": "media-cuts.json",
+      "sha256": "aa48aed0703c17a1105906e49c1c972f037c3587207da771ca812b57ce705266",
+      "size_bytes": 5267
+    },
+    {
+      "name": "media-verification.json",
+      "sha256": "87bd8b020263bfe534942ff72965cd982730c64fafa39277eb7ab96c983d11c0",
+      "size_bytes": 3810
+    },
+    {
+      "name": "preflight.json",
+      "sha256": "fc985afdf21aa3c9977ab6f88cabd8063dee2d059ae9ddc15feadfb085123a97",
+      "size_bytes": 5134
+    },
+    {
+      "name": "prepared.json",
+      "sha256": "983e4b2fb0e122979644c7d9e32e41bb42913c2046a3566565c0f00b788f201f",
+      "size_bytes": 1560
+    },
+    {
+      "name": "recovery.json",
+      "sha256": "4970c1bfda36d4cd9c44bcacdb1764c7c82fb5ad5538d2c9b28cb76c15f53564",
+      "size_bytes": 60540
+    },
+    {
+      "name": "video-report.json",
+      "sha256": "6d8ee7d0889df51605511b08646c85e77e650b78367ad302072c3ee39954dc7f",
+      "size_bytes": 8887
+    }
+  ]
+}

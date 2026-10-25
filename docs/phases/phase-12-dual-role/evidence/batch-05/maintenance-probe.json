@@ -1,0 +1,29 @@
+{
+  "nonroot_uid": 987,
+  "pid": 3420557,
+  "exit_code": -15,
+  "port_closed": true,
+  "write_checks": [
+    {
+      "path": "/tasks/frozen/resume",
+      "status": 503
+    },
+    {
+      "path": "/tasks/frozen/revise",
+      "status": 503
+    },
+    {
+      "path": "/tasks/frozen/recover",
+      "status": 503
+    },
+    {
+      "path": "/conversations/c/messages",
+      "status": 503
+    },
+    {
+      "path": "/console/api/events/e/reviews",
+      "status": 503
+    }
+  ],
+  "model_calls": 0
+}

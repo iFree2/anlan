@@ -1,0 +1,179 @@
+{
+  "files": [
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025\\raw\\applicant\\page@d7aa8feb20434ececaf6053e7c54cebe.webm",
+      "size_bytes": 10813509,
+      "sha256": "02c20c29550ed3bd891f0565506e1afe17785ebcee131b42e98ed93c75569a0f"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025\\raw\\safety-manager\\page@ce7236f3e02b95cf9dd981fdbcc28f17.webm",
+      "size_bytes": 9617623,
+      "sha256": "1b75107f35ed78ffd6200a86d96aaaa0253aa275f525e3d82be70c750174b918"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-authorized\\raw\\applicant\\page@64656bbd881a0c64d10ecf91d7e49fad.webm",
+      "size_bytes": 15572167,
+      "sha256": "72e7c969394c42d889d98744b6e366ab8c7edb9179e4c0ed20e2c66758eaa35c"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-authorized\\raw\\safety-manager\\page@65afa77df9b1b5080254244766a260f4.webm",
+      "size_bytes": 15991521,
+      "sha256": "fa0872c7395e7ee90424ad8982def8817d5d46a8404b221288113fdc3e47cacf"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-continuation\\raw\\applicant\\page@de05ddac747e3444386d2f99d0e6eb71.webm",
+      "size_bytes": 3858528,
+      "sha256": "ecef9308d0183e1ca1bb0f1101def684cd4d32bd9822a2c1036fd53ebdf9c1b9"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-continuation\\raw\\safety-manager\\page@a2a7b3b7b6da126ba94a00b344fb28f9.webm",
+      "size_bytes": 3129926,
+      "sha256": "07aee4d7f244f8ac85e11609f20b7f9865a00867ce0ee9ff16b624e3416c7a5b"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\Anlan-Dual-Role-Demo-ZH-Female.mp4",
+      "size_bytes": 14602128,
+      "sha256": "938031adc30ab32ea91ff7ccc64b0189b122fd7b187402623d11ef343845981e"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\applicant-complete.mp3",
+      "size_bytes": 123696,
+      "sha256": "327b98bb98f9b594c751b960e82e22427d3b70c137b00e39941b7cfc954ed6fa"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\applicant-complete.srt",
+      "size_bytes": 372,
+      "sha256": "9d162f51b55e76d39291d98f63753b2d4a1f24322e0ba4748fd78c110a1e658c"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\complete.mp3",
+      "size_bytes": 132048,
+      "sha256": "118b744e2c3ce90e30c6c95adb32927123281af52b87840c9c972acdf4a6f23b"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\complete.srt",
+      "size_bytes": 381,
+      "sha256": "f5164276d88f845bc20c1b2b07593d4d1ec5e67307f5dd86d2142f102c6386fe"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\create.mp3",
+      "size_bytes": 126576,
+      "sha256": "d8e113b9f5f64e953f8dbe03b3f21dc970860a85defcaaca050a5b2524947df4"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\create.srt",
+      "size_bytes": 404,
+      "sha256": "d2ce8a50a06f82d6dbe5b8b69cd56e37ec618616323ef4a1bb3160b54b8b0725"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\event.mp3",
+      "size_bytes": 144576,
+      "sha256": "486dae3e906290077b69d0eda9b4a64d91ccad8493a5316d919ea37da66d9a2f"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\event.srt",
+      "size_bytes": 437,
+      "sha256": "668d0da08fe7f9016b816ec7e4309e76c8a0180fa51690d9faaa0b2c76e372e0"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\intent.mp3",
+      "size_bytes": 129312,
+      "sha256": "1c77df0f059db75ab1dec7c66e5f45f852deb5de2ab9faf563eb399d7bda281e"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\intent.srt",
+      "size_bytes": 413,
+      "sha256": "190c968b9afab17d8682bc5b31d60beb9237c5c74c1b38aacc4b70343ca23e58"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\manager-task.mp3",
+      "size_bytes": 120384,
+      "sha256": "0ea154d03df30079e0c4d52dd131d66eec23bb6bce49e6e594c8c5c8e25cadd7"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\manager-task.srt",
+      "size_bytes": 401,
+      "sha256": "fa6341195812b59808b0a8bacb867945cff226171032f6db21f012bf505ce064"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\received.mp3",
+      "size_bytes": 109008,
+      "sha256": "afe31c81d712de9a1e6f3ac9e24a300628c2f6432cfad572e2c6f20701286f4f"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\received.srt",
+      "size_bytes": 339,
+      "sha256": "0e4e87eb5992844ebb2b565a33cb76be7bcfc757c4f99051ba76cd33e0ac8a26"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\request-changes.mp3",
+      "size_bytes": 161136,
+      "sha256": "83f212f8a6d380c8a2fbaab853de781312345daa47e78e42dd4e6c86d808fe67"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\request-changes.srt",
+      "size_bytes": 432,
+      "sha256": "815592a8c3913cd025be212bf8f73c4a589fe460bae319726a48a097c6d285d4"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\restart.mp3",
+      "size_bytes": 149760,
+      "sha256": "32673c84fdf100b4cfd990f480abd0b84a5be3d3b7f52addeb1a76b1d6d754d9"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\restart.srt",
+      "size_bytes": 402,
+      "sha256": "67551a3c646c707ae27b081e30c8471b4b376eecefd0202b38014c55c396f3b5"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\resubmit.mp3",
+      "size_bytes": 108000,
+      "sha256": "340f266dd8fef4bca02f832b93ce066cdf8909c6754293562b28a2adcc61433f"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\resubmit.srt",
+      "size_bytes": 333,
+      "sha256": "e8b7237a17553d3bf89fcc6e07ed8220847483e52541cfe5eca806c16110ded7"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\stale.mp3",
+      "size_bytes": 119088,
+      "sha256": "5cc872b93192489a429bd66a1a6491d7f08918069403c8cfc6653c0171d67184"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\stale.srt",
+      "size_bytes": 351,
+      "sha256": "a7307f7c9e145b642c5e0acf639cb220ca43ab33ac5be882493720b509150200"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\submit.mp3",
+      "size_bytes": 126432,
+      "sha256": "6087007e25fc32e3e7cc7bc2650a2d6025a4eedec166ba7c5e0fbe775d4cea8f"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\submit.srt",
+      "size_bytes": 398,
+      "sha256": "40b887d1f8211026802937b58cdb8410274de48576a66e5ac218bac9ce7f7bca"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\update.mp3",
+      "size_bytes": 117216,
+      "sha256": "a3ca4fc7358296696201080b55d21d37b96e569a17ca20ff819b3a04f9479b68"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\voice\\update.srt",
+      "size_bytes": 389,
+      "sha256": "0c0c34500062f1ee2ff1f14ccf7239d6c2e2fab655a87c5c22e5d07a879d58b3"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-recovery\\raw\\applicant\\page@4cf655f04eeb00e168d4c4796e523b1b.webm",
+      "size_bytes": 5526505,
+      "sha256": "8010f870da966320acd37d88be2c6cb706e06d5afd397ab1f72e86d8e5d9c44f"
+    },
+    {
+      "path": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-recovery\\raw\\safety-manager\\page@401ecfbe89202f72f6862edf3cd189bc.webm",
+      "size_bytes": 4075710,
+      "sha256": "881c41ee7e7c196c79ba6f7d62c207484a6c009acc1efc10220c88be93e027ae"
+    }
+  ]
+}

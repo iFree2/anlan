@@ -1,0 +1,259 @@
+{
+  "movie": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-film\\Anlan-Dual-Role-Demo-ZH-Female.mp4",
+  "duration_seconds": 293.472,
+  "size_bytes": 14602128,
+  "resolution": "1920x1080",
+  "fps": 30,
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "rate": "-10%",
+  "pitch": "-4Hz",
+  "sha256": "938031adc30ab32ea91ff7ccc64b0189b122fd7b187402623d11ef343845981e",
+  "chapters": [
+    {
+      "chapter": "intent",
+      "narration_seconds": 21.552,
+      "audio_rms": 2375.54,
+      "duration_seconds": 22.752,
+      "start_seconds": 0,
+      "source_cuts": [
+        {
+          "source": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025\\raw\\applicant\\page@d7aa8feb20434ececaf6053e7c54cebe.webm",
+          "start": 19.521,
+          "end": 26.2,
+          "screenshot_match_seconds": 25.75,
+          "wall_to_media_offset": 0.065,
+          "thumbnail_mean_absolute_error": 0.251,
+          "role": "applicant"
+        }
+      ]
+    },
+    {
+      "chapter": "create",
+      "narration_seconds": 21.096,
+      "audio_rms": 2371.44,
+      "duration_seconds": 22.296,
+      "start_seconds": 22.752,
+      "source_cuts": [
+        {
+          "source": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025\\raw\\applicant\\page@d7aa8feb20434ececaf6053e7c54cebe.webm",
+          "start": 28.475,
+          "end": 35.7,
+          "screenshot_match_seconds": 35.25,
+          "wall_to_media_offset": 0.102,
+          "thumbnail_mean_absolute_error": 0.265,
+          "role": "applicant"
+        }
+      ]
+    },
+    {
+      "chapter": "submit",
+      "narration_seconds": 21.072,
+      "audio_rms": 2311.14,
+      "duration_seconds": 22.272,
+      "start_seconds": 45.048,
+      "source_cuts": [
+        {
+          "source": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025\\raw\\applicant\\page@d7aa8feb20434ececaf6053e7c54cebe.webm",
+          "start": 37.896,
+          "end": 47.45,
+          "screenshot_match_seconds": 47.0,
+          "wall_to_media_offset": 0.1,
+          "thumbnail_mean_absolute_error": 0.256,
+          "role": "applicant"
+        }
+      ]
+    },
+    {
+      "chapter": "manager-task",
+      "narration_seconds": 20.064,
+      "audio_rms": 2359.09,
+      "duration_seconds": 21.264,
+      "start_seconds": 67.32,
+      "source_cuts": [
+        {
+          "source": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025\\raw\\safety-manager\\page@ce7236f3e02b95cf9dd981fdbcc28f17.webm",
+          "start": 39.314,
+          "end": 44.45,
+          "screenshot_match_seconds": 44.0,
+          "wall_to_media_offset": 0.116,
+          "thumbnail_mean_absolute_error": 0.239,
+          "role": "safety-manager"
+        }
+      ]
+    },
+    {
+      "chapter": "event",
+      "narration_seconds": 24.096,
+      "audio_rms": 2403.01,
+      "duration_seconds": 25.296,
+      "start_seconds": 88.584,
+      "source_cuts": [
+        {
+          "source": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025\\raw\\safety-manager\\page@ce7236f3e02b95cf9dd981fdbcc28f17.webm",
+          "start": 46.507,
+          "end": 59.95,
+          "screenshot_match_seconds": 59.5,
+          "wall_to_media_offset": -0.04,
+          "thumbnail_mean_absolute_error": 0.269,
+          "role": "safety-manager"
+        }
+      ]
+    },
+    {
+      "chapter": "request-changes",
+      "narration_seconds": 26.856,
+      "audio_rms": 2504.14,
+      "duration_seconds": 28.056,
+      "start_seconds": 113.88,
+      "source_cuts": [
+        {
+          "source": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-authorized\\raw\\safety-manager\\page@65afa77df9b1b5080254244766a260f4.webm",
+          "start": 10.843,
+          "end": 22.7,
+          "screenshot_match_seconds": 22.25,
+          "wall_to_media_offset": 0.04,
+          "thumbnail_mean_absolute_error": 0.244,
+          "role": "safety-manager"
+        }
+      ]
+    },
+    {
+      "chapter": "received",
+      "narration_seconds": 18.168,
+      "audio_rms": 2467.21,
+      "duration_seconds": 19.368,
+      "start_seconds": 141.936,
+      "source_cuts": [
+        {
+          "source": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-authorized\\raw\\applicant\\page@64656bbd881a0c64d10ecf91d7e49fad.webm",
+          "start": 35.736,
+          "end": 39.7,
+          "screenshot_match_seconds": 39.25,
+          "wall_to_media_offset": 0.045,
+          "thumbnail_mean_absolute_error": 0.255,
+          "role": "applicant"
+        }
+      ]
+    },
+    {
+      "chapter": "update",
+      "narration_seconds": 19.536,
+      "audio_rms": 2400.18,
+      "duration_seconds": 20.736,
+      "start_seconds": 161.304,
+      "source_cuts": [
+        {
+          "source": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-authorized\\raw\\applicant\\page@64656bbd881a0c64d10ecf91d7e49fad.webm",
+          "start": 41.791,
+          "end": 49.2,
+          "screenshot_match_seconds": 48.75,
+          "wall_to_media_offset": -0.033,
+          "thumbnail_mean_absolute_error": 0.26,
+          "role": "applicant"
+        }
+      ]
+    },
+    {
+      "chapter": "resubmit",
+      "narration_seconds": 18.0,
+      "audio_rms": 2369.26,
+      "duration_seconds": 19.2,
+      "start_seconds": 182.04,
+      "source_cuts": [
+        {
+          "source": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-authorized\\raw\\applicant\\page@64656bbd881a0c64d10ecf91d7e49fad.webm",
+          "start": 51.331,
+          "end": 60.95,
+          "screenshot_match_seconds": 60.5,
+          "wall_to_media_offset": -0.083,
+          "thumbnail_mean_absolute_error": 0.252,
+          "role": "applicant"
+        }
+      ]
+    },
+    {
+      "chapter": "stale",
+      "narration_seconds": 19.848,
+      "audio_rms": 2418.51,
+      "duration_seconds": 21.048,
+      "start_seconds": 201.24,
+      "source_cuts": [
+        {
+          "source": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-authorized\\raw\\safety-manager\\page@65afa77df9b1b5080254244766a260f4.webm",
+          "start": 52.366,
+          "end": 59.2,
+          "screenshot_match_seconds": 58.75,
+          "wall_to_media_offset": -0.074,
+          "thumbnail_mean_absolute_error": 0.249,
+          "role": "safety-manager"
+        }
+      ]
+    },
+    {
+      "chapter": "complete",
+      "narration_seconds": 22.008,
+      "audio_rms": 2406.19,
+      "duration_seconds": 23.208,
+      "start_seconds": 222.28799999999998,
+      "source_cuts": [
+        {
+          "source": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-authorized\\raw\\safety-manager\\page@65afa77df9b1b5080254244766a260f4.webm",
+          "start": 61.522,
+          "end": 72.45,
+          "screenshot_match_seconds": 72.0,
+          "wall_to_media_offset": 0.067,
+          "thumbnail_mean_absolute_error": 0.256,
+          "role": "safety-manager"
+        }
+      ]
+    },
+    {
+      "chapter": "applicant-complete",
+      "narration_seconds": 20.616,
+      "audio_rms": 2402.96,
+      "duration_seconds": 21.816,
+      "start_seconds": 245.49599999999998,
+      "source_cuts": [
+        {
+          "source": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-authorized\\raw\\applicant\\page@64656bbd881a0c64d10ecf91d7e49fad.webm",
+          "start": 85.374,
+          "end": 90.7,
+          "screenshot_match_seconds": 90.25,
+          "wall_to_media_offset": -0.05,
+          "thumbnail_mean_absolute_error": 0.265,
+          "role": "applicant"
+        }
+      ]
+    },
+    {
+      "chapter": "restart",
+      "narration_seconds": 24.96,
+      "audio_rms": 2438.9,
+      "duration_seconds": 26.16,
+      "start_seconds": 267.312,
+      "source_cuts": [
+        {
+          "source": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-recovery\\raw\\applicant\\page@4cf655f04eeb00e168d4c4796e523b1b.webm",
+          "start": 8.243,
+          "end": 12.2,
+          "screenshot_match_seconds": 11.75,
+          "wall_to_media_offset": -0.043,
+          "thumbnail_mean_absolute_error": 0.254,
+          "role": "applicant"
+        },
+        {
+          "source": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-recovery\\raw\\safety-manager\\page@401ecfbe89202f72f6862edf3cd189bc.webm",
+          "start": 9.48,
+          "end": 14.95,
+          "screenshot_match_seconds": 14.5,
+          "wall_to_media_offset": 0.046,
+          "thumbnail_mean_absolute_error": 0.268,
+          "role": "safety-manager"
+        }
+      ]
+    }
+  ],
+  "source": "Actual ECS UI, two authenticated independent browser contexts",
+  "editing": "Actual clips slowed; final source frames held; no fabricated responses",
+  "business_model_calls_during_media_work": 0
+}

@@ -1,0 +1,128 @@
+{
+  "intent": {
+    "source": "D:\\src\\agent\u5b66\u4e60\\\u5b89\u6f9c2.0\\.runtime\\anlan-dual-role-demo-20261025\\raw\\applicant\\page@d7aa8feb20434ececaf6053e7c54cebe.webm",
+    "start": 19.521,
+    "end": 26.2,
+    "screenshot_match_seconds": 25.75,
+    "wall_to_media_offset": 0.065,
+    "thumbnail_mean_absolute_error": 0.251,
+    "role": "applicant"
+  },
+  "create": {
+    "source": "D:\\src\\agent\u5b66\u4e60\\\u5b89\u6f9c2.0\\.runtime\\anlan-dual-role-demo-20261025\\raw\\applicant\\page@d7aa8feb20434ececaf6053e7c54cebe.webm",
+    "start": 28.475,
+    "end": 35.7,
+    "screenshot_match_seconds": 35.25,
+    "wall_to_media_offset": 0.102,
+    "thumbnail_mean_absolute_error": 0.265,
+    "role": "applicant"
+  },
+  "submit": {
+    "source": "D:\\src\\agent\u5b66\u4e60\\\u5b89\u6f9c2.0\\.runtime\\anlan-dual-role-demo-20261025\\raw\\applicant\\page@d7aa8feb20434ececaf6053e7c54cebe.webm",
+    "start": 37.896,
+    "end": 47.45,
+    "screenshot_match_seconds": 47.0,
+    "wall_to_media_offset": 0.1,
+    "thumbnail_mean_absolute_error": 0.256,
+    "role": "applicant"
+  },
+  "manager-task": {
+    "source": "D:\\src\\agent\u5b66\u4e60\\\u5b89\u6f9c2.0\\.runtime\\anlan-dual-role-demo-20261025\\raw\\safety-manager\\page@ce7236f3e02b95cf9dd981fdbcc28f17.webm",
+    "start": 39.314,
+    "end": 44.45,
+    "screenshot_match_seconds": 44.0,
+    "wall_to_media_offset": 0.116,
+    "thumbnail_mean_absolute_error": 0.239,
+    "role": "safety-manager"
+  },
+  "event": {
+    "source": "D:\\src\\agent\u5b66\u4e60\\\u5b89\u6f9c2.0\\.runtime\\anlan-dual-role-demo-20261025\\raw\\safety-manager\\page@ce7236f3e02b95cf9dd981fdbcc28f17.webm",
+    "start": 46.507,
+    "end": 59.95,
+    "screenshot_match_seconds": 59.5,
+    "wall_to_media_offset": -0.04,
+    "thumbnail_mean_absolute_error": 0.269,
+    "role": "safety-manager"
+  },
+  "request-changes": {
+    "source": "D:\\src\\agent\u5b66\u4e60\\\u5b89\u6f9c2.0\\.runtime\\anlan-dual-role-demo-20261025-authorized\\raw\\safety-manager\\page@65afa77df9b1b5080254244766a260f4.webm",
+    "start": 10.843,
+    "end": 22.7,
+    "screenshot_match_seconds": 22.25,
+    "wall_to_media_offset": 0.04,
+    "thumbnail_mean_absolute_error": 0.244,
+    "role": "safety-manager"
+  },
+  "received": {
+    "source": "D:\\src\\agent\u5b66\u4e60\\\u5b89\u6f9c2.0\\.runtime\\anlan-dual-role-demo-20261025-authorized\\raw\\applicant\\page@64656bbd881a0c64d10ecf91d7e49fad.webm",
+    "start": 35.736,
+    "end": 39.7,
+    "screenshot_match_seconds": 39.25,
+    "wall_to_media_offset": 0.045,
+    "thumbnail_mean_absolute_error": 0.255,
+    "role": "applicant"
+  },
+  "update": {
+    "source": "D:\\src\\agent\u5b66\u4e60\\\u5b89\u6f9c2.0\\.runtime\\anlan-dual-role-demo-20261025-authorized\\raw\\applicant\\page@64656bbd881a0c64d10ecf91d7e49fad.webm",
+    "start": 41.791,
+    "end": 49.2,
+    "screenshot_match_seconds": 48.75,
+    "wall_to_media_offset": -0.033,
+    "thumbnail_mean_absolute_error": 0.26,
+    "role": "applicant"
+  },
+  "resubmit": {
+    "source": "D:\\src\\agent\u5b66\u4e60\\\u5b89\u6f9c2.0\\.runtime\\anlan-dual-role-demo-20261025-authorized\\raw\\applicant\\page@64656bbd881a0c64d10ecf91d7e49fad.webm",
+    "start": 51.331,
+    "end": 60.95,
+    "screenshot_match_seconds": 60.5,
+    "wall_to_media_offset": -0.083,
+    "thumbnail_mean_absolute_error": 0.252,
+    "role": "applicant"
+  },
+  "stale": {
+    "source": "D:\\src\\agent\u5b66\u4e60\\\u5b89\u6f9c2.0\\.runtime\\anlan-dual-role-demo-20261025-authorized\\raw\\safety-manager\\page@65afa77df9b1b5080254244766a260f4.webm",
+    "start": 52.366,
+    "end": 59.2,
+    "screenshot_match_seconds": 58.75,
+    "wall_to_media_offset": -0.074,
+    "thumbnail_mean_absolute_error": 0.249,
+    "role": "safety-manager"
+  },
+  "complete": {
+    "source": "D:\\src\\agent\u5b66\u4e60\\\u5b89\u6f9c2.0\\.runtime\\anlan-dual-role-demo-20261025-authorized\\raw\\safety-manager\\page@65afa77df9b1b5080254244766a260f4.webm",
+    "start": 61.522,
+    "end": 72.45,
+    "screenshot_match_seconds": 72.0,
+    "wall_to_media_offset": 0.067,
+    "thumbnail_mean_absolute_error": 0.256,
+    "role": "safety-manager"
+  },
+  "applicant-complete": {
+    "source": "D:\\src\\agent\u5b66\u4e60\\\u5b89\u6f9c2.0\\.runtime\\anlan-dual-role-demo-20261025-authorized\\raw\\applicant\\page@64656bbd881a0c64d10ecf91d7e49fad.webm",
+    "start": 85.374,
+    "end": 90.7,
+    "screenshot_match_seconds": 90.25,
+    "wall_to_media_offset": -0.05,
+    "thumbnail_mean_absolute_error": 0.265,
+    "role": "applicant"
+  },
+  "restart-applicant": {
+    "source": "D:\\src\\agent\u5b66\u4e60\\\u5b89\u6f9c2.0\\.runtime\\anlan-dual-role-demo-20261025-recovery\\raw\\applicant\\page@4cf655f04eeb00e168d4c4796e523b1b.webm",
+    "start": 8.243,
+    "end": 12.2,
+    "screenshot_match_seconds": 11.75,
+    "wall_to_media_offset": -0.043,
+    "thumbnail_mean_absolute_error": 0.254,
+    "role": "applicant"
+  },
+  "restart-safety-manager": {
+    "source": "D:\\src\\agent\u5b66\u4e60\\\u5b89\u6f9c2.0\\.runtime\\anlan-dual-role-demo-20261025-recovery\\raw\\safety-manager\\page@401ecfbe89202f72f6862edf3cd189bc.webm",
+    "start": 9.48,
+    "end": 14.95,
+    "screenshot_match_seconds": 14.5,
+    "wall_to_media_offset": 0.046,
+    "thumbnail_mean_absolute_error": 0.268,
+    "role": "safety-manager"
+  }
+}

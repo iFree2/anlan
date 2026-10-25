@@ -1,0 +1,167 @@
+{
+  "status": "passed",
+  "conversation_attempts": 9,
+  "materials_attempts": 2,
+  "event_attempts": 1,
+  "failed": 2,
+  "succeeded": 10,
+  "supplier_output_not_persisted": true,
+  "attempts": [
+    {
+      "attempt_id": "09c7b246-cde7-4f23-b4ec-601534e50b8c",
+      "work_package": "P11-WP01",
+      "status": "succeeded",
+      "error": null,
+      "usage": {
+        "total_tokens": 1726,
+        "prompt_tokens": 1670,
+        "completion_tokens": 56
+      },
+      "reserved_at": "2026-10-25 21:49:17.673562+08:00",
+      "finished_at": "2026-10-25 21:49:18.978092+08:00"
+    },
+    {
+      "attempt_id": "979415df-4ebf-4921-979f-637dac57bd88",
+      "work_package": "P11-WP01",
+      "status": "succeeded",
+      "error": null,
+      "usage": {
+        "total_tokens": 1772,
+        "prompt_tokens": 1719,
+        "completion_tokens": 53
+      },
+      "reserved_at": "2026-10-25 21:48:56.831785+08:00",
+      "finished_at": "2026-10-25 21:48:57.797225+08:00"
+    },
+    {
+      "attempt_id": "74d2b2d3-1276-41b8-b80f-ea10cdc6d3c2",
+      "work_package": "P11-WP02",
+      "status": "succeeded",
+      "error": null,
+      "usage": {
+        "total_tokens": 428,
+        "prompt_tokens": 423,
+        "completion_tokens": 5
+      },
+      "reserved_at": "2026-10-25 21:48:45.570139+08:00",
+      "finished_at": "2026-10-25 21:48:46.094690+08:00"
+    },
+    {
+      "attempt_id": "6cb3fd2c-9ee4-4480-91df-608ba0bb481e",
+      "work_package": "P11-WP01",
+      "status": "succeeded",
+      "error": null,
+      "usage": {
+        "total_tokens": 1600,
+        "prompt_tokens": 1527,
+        "completion_tokens": 73
+      },
+      "reserved_at": "2026-10-25 21:48:44.322775+08:00",
+      "finished_at": "2026-10-25 21:48:45.488992+08:00"
+    },
+    {
+      "attempt_id": "ac5c3d2d-1c2f-4bad-b6ae-e31d224d2102",
+      "work_package": "P11-WP01",
+      "status": "succeeded",
+      "error": null,
+      "usage": {
+        "total_tokens": 1404,
+        "prompt_tokens": 1353,
+        "completion_tokens": 51
+      },
+      "reserved_at": "2026-10-25 21:48:29.010607+08:00",
+      "finished_at": "2026-10-25 21:48:30.259398+08:00"
+    },
+    {
+      "attempt_id": "d1c7f6cb-f5d4-4931-ad78-ec287d000cd2",
+      "work_package": "P11-WP01",
+      "status": "failed",
+      "error": "invalid_output",
+      "usage": {
+        "total_tokens": 1439,
+        "prompt_tokens": 1343,
+        "completion_tokens": 96
+      },
+      "reserved_at": "2026-10-25 21:45:50.135719+08:00",
+      "finished_at": "2026-10-25 21:45:51.448041+08:00"
+    },
+    {
+      "attempt_id": "7e5f7790-f1aa-4aee-b3fa-983e0a4714ff",
+      "work_package": "P11-WP01",
+      "status": "failed",
+      "error": "invalid_output",
+      "usage": {
+        "total_tokens": 1425,
+        "prompt_tokens": 1334,
+        "completion_tokens": 91
+      },
+      "reserved_at": "2026-10-25 21:44:13.429423+08:00",
+      "finished_at": "2026-10-25 21:44:14.893012+08:00"
+    },
+    {
+      "attempt_id": "6c655bb4-aa86-4bbc-a69d-3407a1ef7bbb",
+      "work_package": "P11-WP02",
+      "status": "succeeded",
+      "error": null,
+      "usage": {
+        "total_tokens": 3036,
+        "prompt_tokens": 2934,
+        "completion_tokens": 102
+      },
+      "reserved_at": "2026-10-25 21:43:57.354816+08:00",
+      "finished_at": "2026-10-25 21:43:58.531447+08:00"
+    },
+    {
+      "attempt_id": "ac7f70b0-f257-43fb-84e1-f04a0e23c3a1",
+      "work_package": "P11-WP01",
+      "status": "succeeded",
+      "error": null,
+      "usage": {
+        "total_tokens": 1165,
+        "prompt_tokens": 1113,
+        "completion_tokens": 52
+      },
+      "reserved_at": "2026-10-25 21:43:38.407489+08:00",
+      "finished_at": "2026-10-25 21:43:39.359872+08:00"
+    },
+    {
+      "attempt_id": "a678f734-e23d-4609-8d58-03051a8d06d6",
+      "work_package": "P11-WP02",
+      "status": "succeeded",
+      "error": null,
+      "usage": {
+        "total_tokens": 412,
+        "prompt_tokens": 407,
+        "completion_tokens": 5
+      },
+      "reserved_at": "2026-10-25 21:43:26.988301+08:00",
+      "finished_at": "2026-10-25 21:43:27.640787+08:00"
+    },
+    {
+      "attempt_id": "e8652255-a469-4aa4-870f-6e9c1d5d8c30",
+      "work_package": "P11-WP01",
+      "status": "succeeded",
+      "error": null,
+      "usage": {
+        "total_tokens": 763,
+        "prompt_tokens": 713,
+        "completion_tokens": 50
+      },
+      "reserved_at": "2026-10-25 21:43:25.919103+08:00",
+      "finished_at": "2026-10-25 21:43:26.773275+08:00"
+    },
+    {
+      "attempt_id": "7af5801b-5984-42e1-a60d-70bde258f6c9",
+      "work_package": "P11-WP01",
+      "status": "succeeded",
+      "error": null,
+      "usage": {
+        "total_tokens": 629,
+        "prompt_tokens": 524,
+        "completion_tokens": 105
+      },
+      "reserved_at": "2026-10-25 21:43:17.860895+08:00",
+      "finished_at": "2026-10-25 21:43:19.052312+08:00"
+    }
+  ]
+}

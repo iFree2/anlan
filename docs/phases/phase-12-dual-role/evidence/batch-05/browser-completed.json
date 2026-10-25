@@ -1,0 +1,175 @@
+{
+  "source": "http://47.93.218.52/anlan/console",
+  "data_origin": "SYNTHETIC",
+  "as_of": "2026-09-22T04:00:00+00:00",
+  "chapters": [
+    {
+      "name": "request-changes",
+      "role": "safety-manager",
+      "start": 22.978,
+      "ready": 34.385,
+      "end": 37.034
+    },
+    {
+      "name": "received",
+      "role": "applicant",
+      "start": 37.035,
+      "ready": 40.549,
+      "end": 43.165
+    },
+    {
+      "name": "update",
+      "role": "applicant",
+      "start": 43.168,
+      "ready": 50.127,
+      "end": 52.757
+    },
+    {
+      "name": "resubmit",
+      "role": "applicant",
+      "start": 52.758,
+      "ready": 61.927,
+      "end": 64.614
+    },
+    {
+      "name": "stale",
+      "role": "safety-manager",
+      "start": 64.615,
+      "ready": 70.999,
+      "end": 73.629
+    },
+    {
+      "name": "complete",
+      "role": "safety-manager",
+      "start": 73.63,
+      "ready": 84.108,
+      "end": 86.767
+    },
+    {
+      "name": "applicant-complete",
+      "role": "applicant",
+      "start": 86.768,
+      "ready": 91.644,
+      "end": 94.257
+    }
+  ],
+  "messages": [
+    {
+      "role": "applicant",
+      "text": "我要申请动火作业。这是SYNTHETIC合成演示。作业位置：合成园区检修区A工位；作业对象：演示试件A的焊缝；作业方式：采用电弧焊进行补焊；附件说明：已提供试件A的位置示意图和焊缝照片，仅为合成示例。",
+      "status": "completed",
+      "http_status": 200,
+      "conversation_id": "1471099e-ce04-4537-817b-495a3c97f66e",
+      "revision": 2,
+      "error_category": null
+    },
+    {
+      "role": "applicant",
+      "text": "UI确认",
+      "status": "completed",
+      "http_status": 200,
+      "conversation_id": "1471099e-ce04-4537-817b-495a3c97f66e",
+      "revision": 3,
+      "error_category": null
+    },
+    {
+      "role": "applicant",
+      "text": "UI确认",
+      "status": "completed",
+      "http_status": 200,
+      "conversation_id": "1471099e-ce04-4537-817b-495a3c97f66e",
+      "revision": 5,
+      "error_category": null
+    },
+    {
+      "role": "safety-manager",
+      "text": "UI确认",
+      "status": "attempted",
+      "http_status": 200,
+      "conversation_id": null,
+      "revision": null,
+      "error_category": "classifier_failure"
+    },
+    {
+      "role": "safety-manager",
+      "text": "UI确认",
+      "status": "attempted",
+      "http_status": 200,
+      "conversation_id": null,
+      "revision": null,
+      "error_category": "classifier_failure"
+    },
+    {
+      "role": "safety-manager",
+      "text": "确认继续",
+      "status": "completed",
+      "http_status": 200,
+      "conversation_id": "93940ed6-a4d4-404a-9f32-9eb8a56fa0ec",
+      "revision": 6,
+      "error_category": null
+    },
+    {
+      "role": "applicant",
+      "text": "补充作业位置：合成园区检修区东侧2号工位，演示试件A摆放在该工位中心工作台上；这是SYNTHETIC合成示例，其余作业对象、方式和附件说明保持不变。",
+      "status": "completed",
+      "http_status": 200,
+      "conversation_id": "1471099e-ce04-4537-817b-495a3c97f66e",
+      "revision": 6,
+      "error_category": null
+    },
+    {
+      "role": "applicant",
+      "text": "UI确认",
+      "status": "completed",
+      "http_status": 200,
+      "conversation_id": "1471099e-ce04-4537-817b-495a3c97f66e",
+      "revision": 8,
+      "error_category": null
+    },
+    {
+      "role": "safety-manager",
+      "text": "UI确认",
+      "status": "completed",
+      "http_status": 200,
+      "conversation_id": "93940ed6-a4d4-404a-9f32-9eb8a56fa0ec",
+      "revision": 8,
+      "error_category": null
+    }
+  ],
+  "supplier_attempt_caps": {
+    "conversation": 9,
+    "materials": 4,
+    "events": 1
+  },
+  "status": "passed",
+  "contexts": {
+    "applicant": {
+      "independent_browser_context": true,
+      "identity": {
+        "tenant_id": "synthetic-p12-ecs-09531dd70185",
+        "user_id": "applicant-demo"
+      },
+      "video_wall_start": 1.344,
+      "conversation_id": "1471099e-ce04-4537-817b-495a3c97f66e",
+      "raw_video": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-authorized\\raw\\applicant\\page@64656bbd881a0c64d10ecf91d7e49fad.webm"
+    },
+    "safety-manager": {
+      "independent_browser_context": true,
+      "identity": {
+        "tenant_id": "synthetic-p12-ecs-09531dd70185",
+        "user_id": "safety-manager-demo"
+      },
+      "video_wall_start": 12.175,
+      "conversation_id": "93940ed6-a4d4-404a-9f32-9eb8a56fa0ec",
+      "raw_video": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-authorized\\raw\\safety-manager\\page@65afa77df9b1b5080254244766a260f4.webm"
+    }
+  },
+  "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+  "receipt_id": "fdeca96f-719c-4683-a04d-006067de5539",
+  "review_id": "979ad9fc-2a27-4210-ba6e-775e2f254333",
+  "continuation_of": "D:\\src\\agent学习\\安澜2.0\\.runtime\\anlan-dual-role-demo-20261025-continuation\\recording-report.json",
+  "conversation_attempts": 9,
+  "event_attempts": 1,
+  "material_analyses": 2,
+  "recording_wall_seconds": 98.693
+}

@@ -1,0 +1,1416 @@
+{
+  "status": "passed",
+  "pids": {
+    "before": "3420837",
+    "forward": "3424397",
+    "restart": "3424454"
+  },
+  "rollback": {
+    "status": "maintenance",
+    "release": "/opt/anlan2/releases/p12-maintenance-20261025",
+    "database_preserved": true,
+    "business_writes": false
+  },
+  "forward": {
+    "status": "forward_recovered",
+    "database_preserved": true
+  },
+  "maintenance_write_checks": [
+    {
+      "path": "/tasks/7cf090e5-8b23-5234-80c3-08a8ebdb7a8b/resume",
+      "status": 503
+    },
+    {
+      "path": "/tasks/7cf090e5-8b23-5234-80c3-08a8ebdb7a8b/revise",
+      "status": 503
+    },
+    {
+      "path": "/tasks/7cf090e5-8b23-5234-80c3-08a8ebdb7a8b/recover",
+      "status": 503
+    },
+    {
+      "path": "/conversations/legacy/messages",
+      "status": 503
+    },
+    {
+      "path": "/collaboration/applications/7cf090e5-8b23-5234-80c3-08a8ebdb7a8b/commands/complete_review",
+      "status": 503
+    }
+  ],
+  "all_rows_identical_across_recovery": true,
+  "all_legacy_rows_preserved": true,
+  "state_identical_across_recovery": true,
+  "root_site_sha256": "b5a7f25ac949b5f26ded8692c39c42f64f85cb919736f5db68bc776987515b12",
+  "ledger": {
+    "total": 91,
+    "conversation": 21,
+    "materials_events": 6,
+    "total_limit": 100,
+    "materials_events_limit": 10,
+    "conversation_limit": 30
+  },
+  "statuses": {
+    "succeeded": 85,
+    "failed": 6
+  },
+  "counts": {
+    "anlan_operations": 39,
+    "anlan_tasks": 13,
+    "checkpoint_blobs": 134,
+    "checkpoint_writes": 562,
+    "checkpoints": 106,
+    "collaboration_applications": 1,
+    "collaboration_commands": 4,
+    "collaboration_events": 6,
+    "collaboration_notifications": 6,
+    "conversation_messages": 41,
+    "conversation_routes": 20,
+    "conversations": 3,
+    "knowledge_chunks": 9,
+    "knowledge_documents": 9,
+    "memories": 0,
+    "memory_feedback": 0,
+    "memory_revisions": 0,
+    "model_budget_attempts": 91,
+    "model_budget_authorizations": 1,
+    "model_budget_package_limits": 1,
+    "pending_intents": 7,
+    "perception_events": 11,
+    "perception_feedback": 6,
+    "perception_heads": 10,
+    "perception_reviews": 12
+  },
+  "backup_modes": {
+    "/opt/anlan2/shared/before-p12-collaboration-20261025": "0o700",
+    "/opt/anlan2/shared/before-p12-collaboration-20261025/database.dump": "0o600",
+    "/opt/anlan2/shared/before-p12-collaboration-20261025/app.env": "0o600",
+    "/opt/anlan2/shared/before-p12-collaboration-20261025/console.json": "0o600"
+  },
+  "states": {
+    "applicant": {
+      "conversation": {
+        "conversation_id": "1471099e-ce04-4537-817b-495a3c97f66e",
+        "status": "active_hot_work",
+        "revision": 8,
+        "active_task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+        "pending_intent": null,
+        "messages": [
+          {
+            "message_id": "e58018b5-8ef7-46a3-bf9b-84febeed26e6",
+            "ordinal": 18,
+            "role": "user",
+            "text": "我要申请动火作业。这是SYNTHETIC合成演示。作业位置：合成园区检修区A工位；作业对象：演示试件A的焊缝；作业方式：采用电弧焊进行补焊；附件说明：已提供试件A的位置示意图和焊缝照片，仅为合成示例。",
+            "status": "completed"
+          },
+          {
+            "message_id": "6e27e82c-961a-4683-828b-5c59c9622013",
+            "ordinal": 19,
+            "role": "assistant",
+            "text": "请确认是否按以上信息继续（作业位置：合成园区检修区A工位；作业对象：演示试件A的焊缝；作业方式：采用电弧焊进行补焊；附件说明：已提供试件A的位置示意图和焊缝照片，仅为合成示例）；确认前不会创建或修改动火任务。",
+            "status": "completed"
+          },
+          {
+            "message_id": "82fc406b-95f7-4347-9839-274ae8084761",
+            "ordinal": 20,
+            "role": "user",
+            "text": "确认申请",
+            "status": "completed"
+          },
+          {
+            "message_id": "6d1d02f4-4d09-43dd-b012-e3b166bf9f4c",
+            "ordinal": 21,
+            "role": "assistant",
+            "text": "已按你的确认创建动火材料任务。 材料分析已完成。申请仍为草稿待提交；请选择安全人员并确认提交。",
+            "status": "completed"
+          },
+          {
+            "message_id": "373cdf7d-812e-47d9-921e-69182e18ccb6",
+            "ordinal": 22,
+            "role": "user",
+            "text": "准备提交申请",
+            "status": "completed"
+          },
+          {
+            "message_id": "6339f64e-74c4-4a34-a1d6-76f9ede57398",
+            "ordinal": 23,
+            "role": "assistant",
+            "text": "请核对协作动作、申请编号、双版本与完整说明；确认后才会提交。",
+            "status": "completed"
+          },
+          {
+            "message_id": "f186275c-a71e-4fb3-87eb-662e7181de62",
+            "ordinal": 24,
+            "role": "user",
+            "text": "确认",
+            "status": "completed"
+          },
+          {
+            "message_id": "4a37bd3c-1221-4bc4-8367-b12f1171bd71",
+            "ordinal": 25,
+            "role": "assistant",
+            "text": "已执行确认的协作动作。材料核查完成不代表作业批准或开工授权。",
+            "status": "completed"
+          },
+          {
+            "message_id": "771ea6bf-4ca3-4be4-9415-e58965e31585",
+            "ordinal": 32,
+            "role": "user",
+            "text": "补充作业位置：合成园区检修区东侧2号工位，演示试件A摆放在该工位中心工作台上；这是SYNTHETIC合成示例，其余作业对象、方式和附件说明保持不变。",
+            "status": "completed"
+          },
+          {
+            "message_id": "9cdb85ad-f371-47d4-9ebb-65d4ae2c490e",
+            "ordinal": 33,
+            "role": "assistant",
+            "text": "已提交补充材料；任务最新状态以侧栏为准。",
+            "status": "completed"
+          },
+          {
+            "message_id": "cb097f76-c617-45af-bc5c-cdf9221b27cc",
+            "ordinal": 34,
+            "role": "user",
+            "text": "准备重新提交申请",
+            "status": "completed"
+          },
+          {
+            "message_id": "7d3668d5-abdb-48a0-85f9-d6a78fad7129",
+            "ordinal": 35,
+            "role": "assistant",
+            "text": "请核对协作动作、申请编号、双版本与完整说明；确认后才会提交。",
+            "status": "completed"
+          },
+          {
+            "message_id": "fa5e913f-f49a-44d9-bb79-89951827f585",
+            "ordinal": 36,
+            "role": "user",
+            "text": "确认",
+            "status": "completed"
+          },
+          {
+            "message_id": "d63c71d1-c43c-4b14-a05b-dc8866c409bb",
+            "ordinal": 37,
+            "role": "assistant",
+            "text": "已执行确认的协作动作。材料核查完成不代表作业批准或开工授权。",
+            "status": "completed"
+          }
+        ],
+        "task_projection": {
+          "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+          "status": "awaiting_review",
+          "revision": 2,
+          "fields": {
+            "work_location_description": "合成园区检修区东侧2号工位，演示试件A摆放在该工位中心工作台上",
+            "work_object_description": "演示试件A的焊缝",
+            "work_method_description": "采用电弧焊进行补焊",
+            "attachment_description": "已提供试件A的位置示意图和焊缝照片，仅为合成示例"
+          },
+          "missing_fields": [],
+          "issue_questions": [],
+          "analysis_mode": "deepseek_live",
+          "semantic_status": "checked",
+          "recoverable": false,
+          "event_count": 0,
+          "review_count": 0,
+          "stale_review_warning": false,
+          "collaboration": {
+            "application": {
+              "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+              "tenant_id": "synthetic-p12-ecs-09531dd70185",
+              "applicant_user_id": "applicant-demo",
+              "reviewer_user_id": "safety-manager-demo",
+              "status": "review_completed",
+              "version": 5,
+              "submitted_material_revision": 2,
+              "completed_material_revision": 2,
+              "created_at": "2026-10-25T21:43:26.865640+08:00",
+              "updated_at": "2026-10-25T21:49:19.023450+08:00"
+            },
+            "events": [
+              {
+                "event_id": "889f2b78e3e54c58a3843aa5f8eda5fc",
+                "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+                "actor_user_id": "applicant-demo",
+                "actor_role": "applicant",
+                "action": "submit",
+                "material_revision": 1,
+                "application_version": 2,
+                "payload": {
+                  "reviewer_user_id": "safety-manager-demo"
+                },
+                "created_at": "2026-10-25T21:43:39.410575+08:00"
+              },
+              {
+                "event_id": "a1d045417f7e40be84e4b4ce87f1dabc",
+                "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+                "actor_user_id": "safety-manager-demo",
+                "actor_role": "safety_manager",
+                "action": "run_event_review",
+                "material_revision": 1,
+                "application_version": 2,
+                "payload": {
+                  "review_id": "979ad9fc-2a27-4210-ba6e-775e2f254333",
+                  "receipt_id": "fdeca96f-719c-4683-a04d-006067de5539"
+                },
+                "created_at": "2026-10-25T21:43:57.242273+08:00"
+              },
+              {
+                "event_id": "8e83456c399e4bf68b50d49d58531f25",
+                "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+                "actor_user_id": "safety-manager-demo",
+                "actor_role": "safety_manager",
+                "action": "record_event_feedback",
+                "material_revision": 1,
+                "application_version": 2,
+                "payload": {
+                  "decision": "needs_verification",
+                  "review_id": "979ad9fc-2a27-4210-ba6e-775e2f254333"
+                },
+                "created_at": "2026-10-25T21:44:01.996370+08:00"
+              },
+              {
+                "event_id": "25261c5da439441fbc5fd211400fb920",
+                "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+                "actor_user_id": "safety-manager-demo",
+                "actor_role": "safety_manager",
+                "action": "request_changes",
+                "material_revision": 1,
+                "application_version": 3,
+                "payload": {
+                  "questions": [
+                    "请把作业位置补充到检修区东侧2号工位，并说明试件A的具体摆放点，便于材料核对。"
+                  ]
+                },
+                "created_at": "2026-10-25T21:48:30.327728+08:00"
+              },
+              {
+                "event_id": "647c3e849e2d4d5aa7e0357389cc70c7",
+                "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+                "actor_user_id": "applicant-demo",
+                "actor_role": "applicant",
+                "action": "resubmit",
+                "material_revision": 2,
+                "application_version": 4,
+                "payload": {
+                  "reply": "已按要求补充东侧2号工位与工作台摆放点，请核对本轮材料版本。"
+                },
+                "created_at": "2026-10-25T21:48:57.845493+08:00"
+              },
+              {
+                "event_id": "e5c26cc661744660b1f173bfe234ac24",
+                "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+                "actor_user_id": "safety-manager-demo",
+                "actor_role": "safety_manager",
+                "action": "complete_review",
+                "material_revision": 2,
+                "application_version": 5,
+                "payload": {
+                  "conclusion": "已人工核对本轮位置、对象、方式和附件说明，材料核查完成。本结论不代表作业批准或开工授权，事件仍需继续核实。"
+                },
+                "created_at": "2026-10-25T21:49:19.024756+08:00"
+              }
+            ],
+            "allowed_actions": [],
+            "notice": "材料核查完成不代表作业批准或开工授权"
+          },
+          "collaboration_role": "applicant"
+        },
+        "allowed_actions": [
+          "send_message",
+          "pause_task",
+          "cancel_task"
+        ],
+        "collaboration_role": "applicant",
+        "business_messages": [
+          {
+            "event_id": "889f2b78e3e54c58a3843aa5f8eda5fc",
+            "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+            "actor_user_id": "applicant-demo",
+            "actor_role": "applicant",
+            "action": "submit",
+            "material_revision": 1,
+            "application_version": 2,
+            "payload": {
+              "reviewer_user_id": "safety-manager-demo"
+            },
+            "created_at": "2026-10-25T21:43:39.410575+08:00"
+          },
+          {
+            "event_id": "a1d045417f7e40be84e4b4ce87f1dabc",
+            "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+            "actor_user_id": "safety-manager-demo",
+            "actor_role": "safety_manager",
+            "action": "run_event_review",
+            "material_revision": 1,
+            "application_version": 2,
+            "payload": {
+              "review_id": "979ad9fc-2a27-4210-ba6e-775e2f254333",
+              "receipt_id": "fdeca96f-719c-4683-a04d-006067de5539"
+            },
+            "created_at": "2026-10-25T21:43:57.242273+08:00"
+          },
+          {
+            "event_id": "8e83456c399e4bf68b50d49d58531f25",
+            "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+            "actor_user_id": "safety-manager-demo",
+            "actor_role": "safety_manager",
+            "action": "record_event_feedback",
+            "material_revision": 1,
+            "application_version": 2,
+            "payload": {
+              "decision": "needs_verification",
+              "review_id": "979ad9fc-2a27-4210-ba6e-775e2f254333"
+            },
+            "created_at": "2026-10-25T21:44:01.996370+08:00"
+          },
+          {
+            "event_id": "25261c5da439441fbc5fd211400fb920",
+            "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+            "actor_user_id": "safety-manager-demo",
+            "actor_role": "safety_manager",
+            "action": "request_changes",
+            "material_revision": 1,
+            "application_version": 3,
+            "payload": {
+              "questions": [
+                "请把作业位置补充到检修区东侧2号工位，并说明试件A的具体摆放点，便于材料核对。"
+              ]
+            },
+            "created_at": "2026-10-25T21:48:30.327728+08:00"
+          },
+          {
+            "event_id": "647c3e849e2d4d5aa7e0357389cc70c7",
+            "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+            "actor_user_id": "applicant-demo",
+            "actor_role": "applicant",
+            "action": "resubmit",
+            "material_revision": 2,
+            "application_version": 4,
+            "payload": {
+              "reply": "已按要求补充东侧2号工位与工作台摆放点，请核对本轮材料版本。"
+            },
+            "created_at": "2026-10-25T21:48:57.845493+08:00"
+          },
+          {
+            "event_id": "e5c26cc661744660b1f173bfe234ac24",
+            "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+            "actor_user_id": "safety-manager-demo",
+            "actor_role": "safety_manager",
+            "action": "complete_review",
+            "material_revision": 2,
+            "application_version": 5,
+            "payload": {
+              "conclusion": "已人工核对本轮位置、对象、方式和附件说明，材料核查完成。本结论不代表作业批准或开工授权，事件仍需继续核实。"
+            },
+            "created_at": "2026-10-25T21:49:19.024756+08:00"
+          }
+        ]
+      },
+      "application": {
+        "application": {
+          "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+          "tenant_id": "synthetic-p12-ecs-09531dd70185",
+          "applicant_user_id": "applicant-demo",
+          "reviewer_user_id": "safety-manager-demo",
+          "status": "review_completed",
+          "version": 5,
+          "submitted_material_revision": 2,
+          "completed_material_revision": 2,
+          "created_at": "2026-10-25T21:43:26.865640+08:00",
+          "updated_at": "2026-10-25T21:49:19.023450+08:00"
+        },
+        "materials": {
+          "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+          "fields": {
+            "work_location_description": "合成园区检修区东侧2号工位，演示试件A摆放在该工位中心工作台上",
+            "work_object_description": "演示试件A的焊缝",
+            "work_method_description": "采用电弧焊进行补焊",
+            "attachment_description": "已提供试件A的位置示意图和焊缝照片，仅为合成示例"
+          },
+          "revision": 2,
+          "status": "awaiting_review",
+          "analysis_mode": "deepseek_live"
+        },
+        "events": [
+          {
+            "event_id": "889f2b78e3e54c58a3843aa5f8eda5fc",
+            "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+            "actor_user_id": "applicant-demo",
+            "actor_role": "applicant",
+            "action": "submit",
+            "material_revision": 1,
+            "application_version": 2,
+            "payload": {
+              "reviewer_user_id": "safety-manager-demo"
+            },
+            "created_at": "2026-10-25T21:43:39.410575+08:00"
+          },
+          {
+            "event_id": "a1d045417f7e40be84e4b4ce87f1dabc",
+            "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+            "actor_user_id": "safety-manager-demo",
+            "actor_role": "safety_manager",
+            "action": "run_event_review",
+            "material_revision": 1,
+            "application_version": 2,
+            "payload": {
+              "review_id": "979ad9fc-2a27-4210-ba6e-775e2f254333",
+              "receipt_id": "fdeca96f-719c-4683-a04d-006067de5539"
+            },
+            "created_at": "2026-10-25T21:43:57.242273+08:00"
+          },
+          {
+            "event_id": "8e83456c399e4bf68b50d49d58531f25",
+            "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+            "actor_user_id": "safety-manager-demo",
+            "actor_role": "safety_manager",
+            "action": "record_event_feedback",
+            "material_revision": 1,
+            "application_version": 2,
+            "payload": {
+              "decision": "needs_verification",
+              "review_id": "979ad9fc-2a27-4210-ba6e-775e2f254333"
+            },
+            "created_at": "2026-10-25T21:44:01.996370+08:00"
+          },
+          {
+            "event_id": "25261c5da439441fbc5fd211400fb920",
+            "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+            "actor_user_id": "safety-manager-demo",
+            "actor_role": "safety_manager",
+            "action": "request_changes",
+            "material_revision": 1,
+            "application_version": 3,
+            "payload": {
+              "questions": [
+                "请把作业位置补充到检修区东侧2号工位，并说明试件A的具体摆放点，便于材料核对。"
+              ]
+            },
+            "created_at": "2026-10-25T21:48:30.327728+08:00"
+          },
+          {
+            "event_id": "647c3e849e2d4d5aa7e0357389cc70c7",
+            "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+            "actor_user_id": "applicant-demo",
+            "actor_role": "applicant",
+            "action": "resubmit",
+            "material_revision": 2,
+            "application_version": 4,
+            "payload": {
+              "reply": "已按要求补充东侧2号工位与工作台摆放点，请核对本轮材料版本。"
+            },
+            "created_at": "2026-10-25T21:48:57.845493+08:00"
+          },
+          {
+            "event_id": "e5c26cc661744660b1f173bfe234ac24",
+            "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+            "actor_user_id": "safety-manager-demo",
+            "actor_role": "safety_manager",
+            "action": "complete_review",
+            "material_revision": 2,
+            "application_version": 5,
+            "payload": {
+              "conclusion": "已人工核对本轮位置、对象、方式和附件说明，材料核查完成。本结论不代表作业批准或开工授权，事件仍需继续核实。"
+            },
+            "created_at": "2026-10-25T21:49:19.024756+08:00"
+          }
+        ],
+        "notice": "材料核查完成不代表作业批准或开工授权"
+      },
+      "inbox": {
+        "items": [
+          {
+            "ordinal": 2,
+            "event": {
+              "event_id": "a1d045417f7e40be84e4b4ce87f1dabc",
+              "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+              "actor_user_id": "safety-manager-demo",
+              "actor_role": "safety_manager",
+              "action": "run_event_review",
+              "material_revision": 1,
+              "application_version": 2,
+              "payload": {
+                "review_id": "979ad9fc-2a27-4210-ba6e-775e2f254333",
+                "receipt_id": "fdeca96f-719c-4683-a04d-006067de5539"
+              },
+              "created_at": "2026-10-25T21:43:57.242273+08:00"
+            }
+          },
+          {
+            "ordinal": 3,
+            "event": {
+              "event_id": "8e83456c399e4bf68b50d49d58531f25",
+              "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+              "actor_user_id": "safety-manager-demo",
+              "actor_role": "safety_manager",
+              "action": "record_event_feedback",
+              "material_revision": 1,
+              "application_version": 2,
+              "payload": {
+                "decision": "needs_verification",
+                "review_id": "979ad9fc-2a27-4210-ba6e-775e2f254333"
+              },
+              "created_at": "2026-10-25T21:44:01.996370+08:00"
+            }
+          },
+          {
+            "ordinal": 4,
+            "event": {
+              "event_id": "25261c5da439441fbc5fd211400fb920",
+              "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+              "actor_user_id": "safety-manager-demo",
+              "actor_role": "safety_manager",
+              "action": "request_changes",
+              "material_revision": 1,
+              "application_version": 3,
+              "payload": {
+                "questions": [
+                  "请把作业位置补充到检修区东侧2号工位，并说明试件A的具体摆放点，便于材料核对。"
+                ]
+              },
+              "created_at": "2026-10-25T21:48:30.327728+08:00"
+            }
+          },
+          {
+            "ordinal": 6,
+            "event": {
+              "event_id": "e5c26cc661744660b1f173bfe234ac24",
+              "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+              "actor_user_id": "safety-manager-demo",
+              "actor_role": "safety_manager",
+              "action": "complete_review",
+              "material_revision": 2,
+              "application_version": 5,
+              "payload": {
+                "conclusion": "已人工核对本轮位置、对象、方式和附件说明，材料核查完成。本结论不代表作业批准或开工授权，事件仍需继续核实。"
+              },
+              "created_at": "2026-10-25T21:49:19.024756+08:00"
+            }
+          }
+        ],
+        "next_cursor": 6,
+        "limit": 100
+      },
+      "review": {
+        "review_id": "979ad9fc-2a27-4210-ba6e-775e2f254333",
+        "receipt_id": "fdeca96f-719c-4683-a04d-006067de5539",
+        "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+        "material_revision": 1,
+        "data_origin": "SYNTHETIC",
+        "actor": {
+          "user_id": "safety-manager-demo",
+          "tenant_id": "synthetic-p12-ecs-09531dd70185"
+        },
+        "created_at": "2026-09-22T04:00:00+00:00",
+        "revision": 2,
+        "currentness": "stale_material",
+        "cancel_requested": false,
+        "feedback": {
+          "decision": "needs_verification",
+          "recorded_at": "2026-09-22T04:00:00+00:00",
+          "actor": {
+            "user_id": "safety-manager-demo",
+            "tenant_id": "synthetic-p12-ecs-09531dd70185"
+          }
+        },
+        "result": {
+          "status": "completed",
+          "currentness_at_finish": "current",
+          "completed_at": "2026-09-22T04:00:00+00:00",
+          "report": {
+            "candidate": {
+              "notice": "感知辅助候选，仍需人工确认；不改变原始报警",
+              "concerns": [
+                {
+                  "category": "helmet_missing",
+                  "evidence_ids": [
+                    "e1"
+                  ]
+                },
+                {
+                  "category": "context_for_review",
+                  "evidence_ids": [
+                    "o3"
+                  ]
+                }
+              ],
+              "event_id": "9066afc6b6eef2abedf742158d5f363a",
+              "next_steps": [
+                "verify_event_on_site",
+                "review_evidence_with_safety_manager"
+              ],
+              "unknown_observation_ids": []
+            },
+            "observations": [
+              {
+                "tool": "query_worker_qualification",
+                "facts": {
+                  "status": "active",
+                  "qualification_type": "welding"
+                },
+                "reason": null,
+                "source": {
+                  "sha256": "f504a2ac8d91d3829088d668119fa3c6124ac47f4bb08bd408beb92e26b17654",
+                  "version": "p5-perception-v1",
+                  "resource": "qualifications.json",
+                  "record_id": "p5-qualification-001",
+                  "valid_from": "2026-09-22T03:00:00Z",
+                  "observed_at": "2026-09-22T03:55:00Z",
+                  "valid_until": "2026-09-22T05:00:00Z"
+                },
+                "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+                "outcome": "ok",
+                "object_id": "worker-p5-001",
+                "elapsed_ms": 14.14,
+                "queried_at": "2026-09-22T04:00:00Z",
+                "data_origin": "SYNTHETIC"
+              },
+              {
+                "tool": "query_area_status",
+                "facts": {
+                  "status": "restricted"
+                },
+                "reason": null,
+                "source": {
+                  "sha256": "5749a5ec626a587f830c03c9f1dd6181bb56242bb5d99fbf02b976e6676c6d31",
+                  "version": "p5-perception-v1",
+                  "resource": "areas.json",
+                  "record_id": "p5-area-001",
+                  "valid_from": "2026-09-22T03:00:00Z",
+                  "observed_at": "2026-09-22T03:55:00Z",
+                  "valid_until": "2026-09-22T05:00:00Z"
+                },
+                "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+                "outcome": "ok",
+                "object_id": "area-p5-demo",
+                "elapsed_ms": 3.38,
+                "queried_at": "2026-09-22T04:00:00Z",
+                "data_origin": "SYNTHETIC"
+              },
+              {
+                "tool": "query_knowledge",
+                "facts": null,
+                "reason": null,
+                "source": [
+                  {
+                    "doc_id": "preparation",
+                    "source": "synthetic-policy/preparation",
+                    "version": 1,
+                    "chunk_id": "d014131a9a3fb6937d9504b0",
+                    "valid_from": "2026-01-01T08:00:00+08:00",
+                    "valid_until": "2027-01-01T08:00:00+08:00",
+                    "content_hash": "f3803c8a51c0c4f2463f66dee38747221ed53411c45fe8a00936acf8f7e9236d",
+                    "document_hash": "3f66455c40f95d4aec99768d0a1cebc6a849cbde3a381be350da46f7f8a208d3"
+                  },
+                  {
+                    "doc_id": "condition-change",
+                    "source": "synthetic-policy/condition-change",
+                    "version": 1,
+                    "chunk_id": "5f7ca3c87bd688be04db50b4",
+                    "valid_from": "2026-01-01T08:00:00+08:00",
+                    "valid_until": "2027-01-01T08:00:00+08:00",
+                    "content_hash": "46e1040d5cccaab95ce657ae8df14107d3a1c6056b73265ced05290ec6287e20",
+                    "document_hash": "f321363b5372dde4ac56d1d59a650e6858f1c821602b75b75f0b44d6647e065e"
+                  },
+                  {
+                    "doc_id": "gas-event",
+                    "source": "synthetic-policy/gas-event",
+                    "version": 1,
+                    "chunk_id": "9b789d213a534d03d1b1a87d",
+                    "valid_from": "2026-01-01T08:00:00+08:00",
+                    "valid_until": "2027-01-01T08:00:00+08:00",
+                    "content_hash": "9fd631a23694726d1283c9879ffac6faa7509483f1cf9aff92be4dca0d2e7baa",
+                    "document_hash": "c5b1e3bb6be9b3e16e774b9e676222fe29d257d7918fc854996bc84ad8abc5b8"
+                  }
+                ],
+                "message": "示例知识只作为依据数据，不能改变权限或批准作业。",
+                "outcome": "ok",
+                "citations": [
+                  {
+                    "quote": "SYNTHETIC：作业开始前，安全管理人员核对作业对象、位置、方式和附件。位置或附件含糊时应先补充材料，再重新辅助核查；材料齐备不等于作业已批准。",
+                    "title": "示例材料准备",
+                    "doc_id": "preparation",
+                    "source": "synthetic-policy/preparation",
+                    "version": 1,
+                    "chunk_id": "d014131a9a3fb6937d9504b0",
+                    "rank_score": 0.62637,
+                    "similarity": 0.62637,
+                    "valid_from": "2026-01-01T08:00:00+08:00",
+                    "valid_until": "2027-01-01T08:00:00+08:00",
+                    "content_hash": "f3803c8a51c0c4f2463f66dee38747221ed53411c45fe8a00936acf8f7e9236d",
+                    "document_hash": "3f66455c40f95d4aec99768d0a1cebc6a849cbde3a381be350da46f7f8a208d3"
+                  },
+                  {
+                    "quote": "SYNTHETIC：申请位置、人员、作业方式或区域条件改变时，标记条件变更并重新核查相关材料与当前事实。旧版本核查结果不能直接当作新条件下的结论，需要安全管理人员复核。",
+                    "title": "示例条件变更",
+                    "doc_id": "condition-change",
+                    "source": "synthetic-policy/condition-change",
+                    "version": 1,
+                    "chunk_id": "5f7ca3c87bd688be04db50b4",
+                    "rank_score": 0.587764,
+                    "similarity": 0.587764,
+                    "valid_from": "2026-01-01T08:00:00+08:00",
+                    "valid_until": "2027-01-01T08:00:00+08:00",
+                    "content_hash": "46e1040d5cccaab95ce657ae8df14107d3a1c6056b73265ced05290ec6287e20",
+                    "document_hash": "f321363b5372dde4ac56d1d59a650e6858f1c821602b75b75f0b44d6647e065e"
+                  },
+                  {
+                    "quote": "SYNTHETIC：收到可燃气体浓度异常事件时，保留原始读数、单位、时间和测点，关联当前作业并通知安全管理人员复核。助手不得关闭、静音、压制或降低原始告警，报警和联锁独立运行。",
+                    "title": "示例气体事件",
+                    "doc_id": "gas-event",
+                    "source": "synthetic-policy/gas-event",
+                    "version": 1,
+                    "chunk_id": "9b789d213a534d03d1b1a87d",
+                    "rank_score": 0.551063,
+                    "similarity": 0.551063,
+                    "valid_from": "2026-01-01T08:00:00+08:00",
+                    "valid_until": "2027-01-01T08:00:00+08:00",
+                    "content_hash": "9fd631a23694726d1283c9879ffac6faa7509483f1cf9aff92be4dca0d2e7baa",
+                    "document_hash": "c5b1e3bb6be9b3e16e774b9e676222fe29d257d7918fc854996bc84ad8abc5b8"
+                  }
+                ],
+                "object_id": null,
+                "elapsed_ms": 61.61,
+                "queried_at": "2026-09-22T04:00:00+00:00",
+                "data_origin": "SYNTHETIC"
+              }
+            ],
+            "stop_reason": "completed",
+            "mode": "deepseek_live"
+          }
+        }
+      }
+    },
+    "safety_manager": {
+      "conversation": {
+        "conversation_id": "93940ed6-a4d4-404a-9f32-9eb8a56fa0ec",
+        "status": "active_hot_work",
+        "revision": 8,
+        "active_task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+        "pending_intent": null,
+        "messages": [
+          {
+            "message_id": "d76dc83f-2e03-408e-9c3d-ea82858e376d",
+            "ordinal": 26,
+            "role": "user",
+            "text": "准备提出补充要求",
+            "status": "completed"
+          },
+          {
+            "message_id": "c7b37ea0-2045-4f18-9dfd-82bcab0d0332",
+            "ordinal": 27,
+            "role": "assistant",
+            "text": "请核对协作动作、申请编号、双版本与完整说明；确认后才会提交。",
+            "status": "completed"
+          },
+          {
+            "message_id": "e79b6153-05c9-483d-8d08-26cc313fc4a3",
+            "ordinal": 28,
+            "role": "user",
+            "text": "确认",
+            "status": "failed"
+          },
+          {
+            "message_id": "fc753bc2-2a0d-4792-aa88-fecb6fd1a472",
+            "ordinal": 29,
+            "role": "user",
+            "text": "确认",
+            "status": "failed"
+          },
+          {
+            "message_id": "7817c250-b517-410e-a4b2-cbb7e0299f20",
+            "ordinal": 30,
+            "role": "user",
+            "text": "确认继续",
+            "status": "completed"
+          },
+          {
+            "message_id": "e64d56fe-e033-4f8d-877e-9cfc47a9d0cc",
+            "ordinal": 31,
+            "role": "assistant",
+            "text": "已执行确认的协作动作。材料核查完成不代表作业批准或开工授权。",
+            "status": "completed"
+          },
+          {
+            "message_id": "56aea00c-613a-464c-837f-2b8055c93ade",
+            "ordinal": 38,
+            "role": "user",
+            "text": "准备完成人工材料核查",
+            "status": "completed"
+          },
+          {
+            "message_id": "4265164c-c6f5-40f7-8a4e-274095b01f99",
+            "ordinal": 39,
+            "role": "assistant",
+            "text": "请核对协作动作、申请编号、双版本与完整说明；确认后才会提交。",
+            "status": "completed"
+          },
+          {
+            "message_id": "860bb7ca-e17c-45b4-9b1c-8acacbaf3450",
+            "ordinal": 40,
+            "role": "user",
+            "text": "确认",
+            "status": "completed"
+          },
+          {
+            "message_id": "bf88f856-b444-4fb6-954d-d5476a20a3e9",
+            "ordinal": 41,
+            "role": "assistant",
+            "text": "已执行确认的协作动作。材料核查完成不代表作业批准或开工授权。",
+            "status": "completed"
+          }
+        ],
+        "task_projection": {
+          "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+          "status": "awaiting_review",
+          "revision": 2,
+          "fields": {
+            "work_location_description": "合成园区检修区东侧2号工位，演示试件A摆放在该工位中心工作台上",
+            "work_object_description": "演示试件A的焊缝",
+            "work_method_description": "采用电弧焊进行补焊",
+            "attachment_description": "已提供试件A的位置示意图和焊缝照片，仅为合成示例"
+          },
+          "missing_fields": [],
+          "issue_questions": [],
+          "analysis_mode": "deepseek_live",
+          "semantic_status": "shared_materials",
+          "recoverable": false,
+          "event_count": 0,
+          "review_count": 0,
+          "stale_review_warning": false,
+          "collaboration": {
+            "application": {
+              "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+              "tenant_id": "synthetic-p12-ecs-09531dd70185",
+              "applicant_user_id": "applicant-demo",
+              "reviewer_user_id": "safety-manager-demo",
+              "status": "review_completed",
+              "version": 5,
+              "submitted_material_revision": 2,
+              "completed_material_revision": 2,
+              "created_at": "2026-10-25T21:43:26.865640+08:00",
+              "updated_at": "2026-10-25T21:49:19.023450+08:00"
+            },
+            "events": [
+              {
+                "event_id": "889f2b78e3e54c58a3843aa5f8eda5fc",
+                "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+                "actor_user_id": "applicant-demo",
+                "actor_role": "applicant",
+                "action": "submit",
+                "material_revision": 1,
+                "application_version": 2,
+                "payload": {
+                  "reviewer_user_id": "safety-manager-demo"
+                },
+                "created_at": "2026-10-25T21:43:39.410575+08:00"
+              },
+              {
+                "event_id": "a1d045417f7e40be84e4b4ce87f1dabc",
+                "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+                "actor_user_id": "safety-manager-demo",
+                "actor_role": "safety_manager",
+                "action": "run_event_review",
+                "material_revision": 1,
+                "application_version": 2,
+                "payload": {
+                  "review_id": "979ad9fc-2a27-4210-ba6e-775e2f254333",
+                  "receipt_id": "fdeca96f-719c-4683-a04d-006067de5539"
+                },
+                "created_at": "2026-10-25T21:43:57.242273+08:00"
+              },
+              {
+                "event_id": "8e83456c399e4bf68b50d49d58531f25",
+                "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+                "actor_user_id": "safety-manager-demo",
+                "actor_role": "safety_manager",
+                "action": "record_event_feedback",
+                "material_revision": 1,
+                "application_version": 2,
+                "payload": {
+                  "decision": "needs_verification",
+                  "review_id": "979ad9fc-2a27-4210-ba6e-775e2f254333"
+                },
+                "created_at": "2026-10-25T21:44:01.996370+08:00"
+              },
+              {
+                "event_id": "25261c5da439441fbc5fd211400fb920",
+                "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+                "actor_user_id": "safety-manager-demo",
+                "actor_role": "safety_manager",
+                "action": "request_changes",
+                "material_revision": 1,
+                "application_version": 3,
+                "payload": {
+                  "questions": [
+                    "请把作业位置补充到检修区东侧2号工位，并说明试件A的具体摆放点，便于材料核对。"
+                  ]
+                },
+                "created_at": "2026-10-25T21:48:30.327728+08:00"
+              },
+              {
+                "event_id": "647c3e849e2d4d5aa7e0357389cc70c7",
+                "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+                "actor_user_id": "applicant-demo",
+                "actor_role": "applicant",
+                "action": "resubmit",
+                "material_revision": 2,
+                "application_version": 4,
+                "payload": {
+                  "reply": "已按要求补充东侧2号工位与工作台摆放点，请核对本轮材料版本。"
+                },
+                "created_at": "2026-10-25T21:48:57.845493+08:00"
+              },
+              {
+                "event_id": "e5c26cc661744660b1f173bfe234ac24",
+                "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+                "actor_user_id": "safety-manager-demo",
+                "actor_role": "safety_manager",
+                "action": "complete_review",
+                "material_revision": 2,
+                "application_version": 5,
+                "payload": {
+                  "conclusion": "已人工核对本轮位置、对象、方式和附件说明，材料核查完成。本结论不代表作业批准或开工授权，事件仍需继续核实。"
+                },
+                "created_at": "2026-10-25T21:49:19.024756+08:00"
+              }
+            ],
+            "allowed_actions": [
+              "run_event_review",
+              "record_event_feedback"
+            ],
+            "notice": "材料核查完成不代表作业批准或开工授权"
+          },
+          "collaboration_role": "safety_manager"
+        },
+        "allowed_actions": [
+          "send_message",
+          "pause_task",
+          "cancel_task"
+        ],
+        "collaboration_role": "safety_manager",
+        "business_messages": [
+          {
+            "event_id": "889f2b78e3e54c58a3843aa5f8eda5fc",
+            "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+            "actor_user_id": "applicant-demo",
+            "actor_role": "applicant",
+            "action": "submit",
+            "material_revision": 1,
+            "application_version": 2,
+            "payload": {
+              "reviewer_user_id": "safety-manager-demo"
+            },
+            "created_at": "2026-10-25T21:43:39.410575+08:00"
+          },
+          {
+            "event_id": "a1d045417f7e40be84e4b4ce87f1dabc",
+            "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+            "actor_user_id": "safety-manager-demo",
+            "actor_role": "safety_manager",
+            "action": "run_event_review",
+            "material_revision": 1,
+            "application_version": 2,
+            "payload": {
+              "review_id": "979ad9fc-2a27-4210-ba6e-775e2f254333",
+              "receipt_id": "fdeca96f-719c-4683-a04d-006067de5539"
+            },
+            "created_at": "2026-10-25T21:43:57.242273+08:00"
+          },
+          {
+            "event_id": "8e83456c399e4bf68b50d49d58531f25",
+            "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+            "actor_user_id": "safety-manager-demo",
+            "actor_role": "safety_manager",
+            "action": "record_event_feedback",
+            "material_revision": 1,
+            "application_version": 2,
+            "payload": {
+              "decision": "needs_verification",
+              "review_id": "979ad9fc-2a27-4210-ba6e-775e2f254333"
+            },
+            "created_at": "2026-10-25T21:44:01.996370+08:00"
+          },
+          {
+            "event_id": "25261c5da439441fbc5fd211400fb920",
+            "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+            "actor_user_id": "safety-manager-demo",
+            "actor_role": "safety_manager",
+            "action": "request_changes",
+            "material_revision": 1,
+            "application_version": 3,
+            "payload": {
+              "questions": [
+                "请把作业位置补充到检修区东侧2号工位，并说明试件A的具体摆放点，便于材料核对。"
+              ]
+            },
+            "created_at": "2026-10-25T21:48:30.327728+08:00"
+          },
+          {
+            "event_id": "647c3e849e2d4d5aa7e0357389cc70c7",
+            "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+            "actor_user_id": "applicant-demo",
+            "actor_role": "applicant",
+            "action": "resubmit",
+            "material_revision": 2,
+            "application_version": 4,
+            "payload": {
+              "reply": "已按要求补充东侧2号工位与工作台摆放点，请核对本轮材料版本。"
+            },
+            "created_at": "2026-10-25T21:48:57.845493+08:00"
+          },
+          {
+            "event_id": "e5c26cc661744660b1f173bfe234ac24",
+            "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+            "actor_user_id": "safety-manager-demo",
+            "actor_role": "safety_manager",
+            "action": "complete_review",
+            "material_revision": 2,
+            "application_version": 5,
+            "payload": {
+              "conclusion": "已人工核对本轮位置、对象、方式和附件说明，材料核查完成。本结论不代表作业批准或开工授权，事件仍需继续核实。"
+            },
+            "created_at": "2026-10-25T21:49:19.024756+08:00"
+          }
+        ]
+      },
+      "application": {
+        "application": {
+          "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+          "tenant_id": "synthetic-p12-ecs-09531dd70185",
+          "applicant_user_id": "applicant-demo",
+          "reviewer_user_id": "safety-manager-demo",
+          "status": "review_completed",
+          "version": 5,
+          "submitted_material_revision": 2,
+          "completed_material_revision": 2,
+          "created_at": "2026-10-25T21:43:26.865640+08:00",
+          "updated_at": "2026-10-25T21:49:19.023450+08:00"
+        },
+        "materials": {
+          "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+          "fields": {
+            "work_location_description": "合成园区检修区东侧2号工位，演示试件A摆放在该工位中心工作台上",
+            "work_object_description": "演示试件A的焊缝",
+            "work_method_description": "采用电弧焊进行补焊",
+            "attachment_description": "已提供试件A的位置示意图和焊缝照片，仅为合成示例"
+          },
+          "revision": 2,
+          "status": "awaiting_review",
+          "analysis_mode": "deepseek_live"
+        },
+        "events": [
+          {
+            "event_id": "889f2b78e3e54c58a3843aa5f8eda5fc",
+            "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+            "actor_user_id": "applicant-demo",
+            "actor_role": "applicant",
+            "action": "submit",
+            "material_revision": 1,
+            "application_version": 2,
+            "payload": {
+              "reviewer_user_id": "safety-manager-demo"
+            },
+            "created_at": "2026-10-25T21:43:39.410575+08:00"
+          },
+          {
+            "event_id": "a1d045417f7e40be84e4b4ce87f1dabc",
+            "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+            "actor_user_id": "safety-manager-demo",
+            "actor_role": "safety_manager",
+            "action": "run_event_review",
+            "material_revision": 1,
+            "application_version": 2,
+            "payload": {
+              "review_id": "979ad9fc-2a27-4210-ba6e-775e2f254333",
+              "receipt_id": "fdeca96f-719c-4683-a04d-006067de5539"
+            },
+            "created_at": "2026-10-25T21:43:57.242273+08:00"
+          },
+          {
+            "event_id": "8e83456c399e4bf68b50d49d58531f25",
+            "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+            "actor_user_id": "safety-manager-demo",
+            "actor_role": "safety_manager",
+            "action": "record_event_feedback",
+            "material_revision": 1,
+            "application_version": 2,
+            "payload": {
+              "decision": "needs_verification",
+              "review_id": "979ad9fc-2a27-4210-ba6e-775e2f254333"
+            },
+            "created_at": "2026-10-25T21:44:01.996370+08:00"
+          },
+          {
+            "event_id": "25261c5da439441fbc5fd211400fb920",
+            "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+            "actor_user_id": "safety-manager-demo",
+            "actor_role": "safety_manager",
+            "action": "request_changes",
+            "material_revision": 1,
+            "application_version": 3,
+            "payload": {
+              "questions": [
+                "请把作业位置补充到检修区东侧2号工位，并说明试件A的具体摆放点，便于材料核对。"
+              ]
+            },
+            "created_at": "2026-10-25T21:48:30.327728+08:00"
+          },
+          {
+            "event_id": "647c3e849e2d4d5aa7e0357389cc70c7",
+            "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+            "actor_user_id": "applicant-demo",
+            "actor_role": "applicant",
+            "action": "resubmit",
+            "material_revision": 2,
+            "application_version": 4,
+            "payload": {
+              "reply": "已按要求补充东侧2号工位与工作台摆放点，请核对本轮材料版本。"
+            },
+            "created_at": "2026-10-25T21:48:57.845493+08:00"
+          },
+          {
+            "event_id": "e5c26cc661744660b1f173bfe234ac24",
+            "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+            "actor_user_id": "safety-manager-demo",
+            "actor_role": "safety_manager",
+            "action": "complete_review",
+            "material_revision": 2,
+            "application_version": 5,
+            "payload": {
+              "conclusion": "已人工核对本轮位置、对象、方式和附件说明，材料核查完成。本结论不代表作业批准或开工授权，事件仍需继续核实。"
+            },
+            "created_at": "2026-10-25T21:49:19.024756+08:00"
+          }
+        ],
+        "notice": "材料核查完成不代表作业批准或开工授权"
+      },
+      "inbox": {
+        "items": [
+          {
+            "ordinal": 1,
+            "event": {
+              "event_id": "889f2b78e3e54c58a3843aa5f8eda5fc",
+              "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+              "actor_user_id": "applicant-demo",
+              "actor_role": "applicant",
+              "action": "submit",
+              "material_revision": 1,
+              "application_version": 2,
+              "payload": {
+                "reviewer_user_id": "safety-manager-demo"
+              },
+              "created_at": "2026-10-25T21:43:39.410575+08:00"
+            }
+          },
+          {
+            "ordinal": 5,
+            "event": {
+              "event_id": "647c3e849e2d4d5aa7e0357389cc70c7",
+              "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+              "actor_user_id": "applicant-demo",
+              "actor_role": "applicant",
+              "action": "resubmit",
+              "material_revision": 2,
+              "application_version": 4,
+              "payload": {
+                "reply": "已按要求补充东侧2号工位与工作台摆放点，请核对本轮材料版本。"
+              },
+              "created_at": "2026-10-25T21:48:57.845493+08:00"
+            }
+          }
+        ],
+        "next_cursor": 5,
+        "limit": 100
+      },
+      "review": {
+        "review_id": "979ad9fc-2a27-4210-ba6e-775e2f254333",
+        "receipt_id": "fdeca96f-719c-4683-a04d-006067de5539",
+        "task_id": "7cf090e5-8b23-5234-80c3-08a8ebdb7a8b",
+        "material_revision": 1,
+        "data_origin": "SYNTHETIC",
+        "actor": {
+          "user_id": "safety-manager-demo",
+          "tenant_id": "synthetic-p12-ecs-09531dd70185"
+        },
+        "created_at": "2026-09-22T04:00:00+00:00",
+        "revision": 2,
+        "currentness": "stale_material",
+        "cancel_requested": false,
+        "feedback": {
+          "decision": "needs_verification",
+          "recorded_at": "2026-09-22T04:00:00+00:00",
+          "actor": {
+            "user_id": "safety-manager-demo",
+            "tenant_id": "synthetic-p12-ecs-09531dd70185"
+          }
+        },
+        "result": {
+          "status": "completed",
+          "currentness_at_finish": "current",
+          "completed_at": "2026-09-22T04:00:00+00:00",
+          "report": {
+            "candidate": {
+              "notice": "感知辅助候选，仍需人工确认；不改变原始报警",
+              "concerns": [
+                {
+                  "category": "helmet_missing",
+                  "evidence_ids": [
+                    "e1"
+                  ]
+                },
+                {
+                  "category": "context_for_review",
+                  "evidence_ids": [
+                    "o3"
+                  ]
+                }
+              ],
+              "event_id": "9066afc6b6eef2abedf742158d5f363a",
+              "next_steps": [
+                "verify_event_on_site",
+                "review_evidence_with_safety_manager"
+              ],
+              "unknown_observation_ids": []
+            },
+            "observations": [
+              {
+                "tool": "query_worker_qualification",
+                "facts": {
+                  "status": "active",
+                  "qualification_type": "welding"
+                },
+                "reason": null,
+                "source": {
+                  "sha256": "f504a2ac8d91d3829088d668119fa3c6124ac47f4bb08bd408beb92e26b17654",
+                  "version": "p5-perception-v1",
+                  "resource": "qualifications.json",
+                  "record_id": "p5-qualification-001",
+                  "valid_from": "2026-09-22T03:00:00Z",
+                  "observed_at": "2026-09-22T03:55:00Z",
+                  "valid_until": "2026-09-22T05:00:00Z"
+                },
+                "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+                "outcome": "ok",
+                "object_id": "worker-p5-001",
+                "elapsed_ms": 14.14,
+                "queried_at": "2026-09-22T04:00:00Z",
+                "data_origin": "SYNTHETIC"
+              },
+              {
+                "tool": "query_area_status",
+                "facts": {
+                  "status": "restricted"
+                },
+                "reason": null,
+                "source": {
+                  "sha256": "5749a5ec626a587f830c03c9f1dd6181bb56242bb5d99fbf02b976e6676c6d31",
+                  "version": "p5-perception-v1",
+                  "resource": "areas.json",
+                  "record_id": "p5-area-001",
+                  "valid_from": "2026-09-22T03:00:00Z",
+                  "observed_at": "2026-09-22T03:55:00Z",
+                  "valid_until": "2026-09-22T05:00:00Z"
+                },
+                "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+                "outcome": "ok",
+                "object_id": "area-p5-demo",
+                "elapsed_ms": 3.38,
+                "queried_at": "2026-09-22T04:00:00Z",
+                "data_origin": "SYNTHETIC"
+              },
+              {
+                "tool": "query_knowledge",
+                "facts": null,
+                "reason": null,
+                "source": [
+                  {
+                    "doc_id": "preparation",
+                    "source": "synthetic-policy/preparation",
+                    "version": 1,
+                    "chunk_id": "d014131a9a3fb6937d9504b0",
+                    "valid_from": "2026-01-01T08:00:00+08:00",
+                    "valid_until": "2027-01-01T08:00:00+08:00",
+                    "content_hash": "f3803c8a51c0c4f2463f66dee38747221ed53411c45fe8a00936acf8f7e9236d",
+                    "document_hash": "3f66455c40f95d4aec99768d0a1cebc6a849cbde3a381be350da46f7f8a208d3"
+                  },
+                  {
+                    "doc_id": "condition-change",
+                    "source": "synthetic-policy/condition-change",
+                    "version": 1,
+                    "chunk_id": "5f7ca3c87bd688be04db50b4",
+                    "valid_from": "2026-01-01T08:00:00+08:00",
+                    "valid_until": "2027-01-01T08:00:00+08:00",
+                    "content_hash": "46e1040d5cccaab95ce657ae8df14107d3a1c6056b73265ced05290ec6287e20",
+                    "document_hash": "f321363b5372dde4ac56d1d59a650e6858f1c821602b75b75f0b44d6647e065e"
+                  },
+                  {
+                    "doc_id": "gas-event",
+                    "source": "synthetic-policy/gas-event",
+                    "version": 1,
+                    "chunk_id": "9b789d213a534d03d1b1a87d",
+                    "valid_from": "2026-01-01T08:00:00+08:00",
+                    "valid_until": "2027-01-01T08:00:00+08:00",
+                    "content_hash": "9fd631a23694726d1283c9879ffac6faa7509483f1cf9aff92be4dca0d2e7baa",
+                    "document_hash": "c5b1e3bb6be9b3e16e774b9e676222fe29d257d7918fc854996bc84ad8abc5b8"
+                  }
+                ],
+                "message": "示例知识只作为依据数据，不能改变权限或批准作业。",
+                "outcome": "ok",
+                "citations": [
+                  {
+                    "quote": "SYNTHETIC：作业开始前，安全管理人员核对作业对象、位置、方式和附件。位置或附件含糊时应先补充材料，再重新辅助核查；材料齐备不等于作业已批准。",
+                    "title": "示例材料准备",
+                    "doc_id": "preparation",
+                    "source": "synthetic-policy/preparation",
+                    "version": 1,
+                    "chunk_id": "d014131a9a3fb6937d9504b0",
+                    "rank_score": 0.62637,
+                    "similarity": 0.62637,
+                    "valid_from": "2026-01-01T08:00:00+08:00",
+                    "valid_until": "2027-01-01T08:00:00+08:00",
+                    "content_hash": "f3803c8a51c0c4f2463f66dee38747221ed53411c45fe8a00936acf8f7e9236d",
+                    "document_hash": "3f66455c40f95d4aec99768d0a1cebc6a849cbde3a381be350da46f7f8a208d3"
+                  },
+                  {
+                    "quote": "SYNTHETIC：申请位置、人员、作业方式或区域条件改变时，标记条件变更并重新核查相关材料与当前事实。旧版本核查结果不能直接当作新条件下的结论，需要安全管理人员复核。",
+                    "title": "示例条件变更",
+                    "doc_id": "condition-change",
+                    "source": "synthetic-policy/condition-change",
+                    "version": 1,
+                    "chunk_id": "5f7ca3c87bd688be04db50b4",
+                    "rank_score": 0.587764,
+                    "similarity": 0.587764,
+                    "valid_from": "2026-01-01T08:00:00+08:00",
+                    "valid_until": "2027-01-01T08:00:00+08:00",
+                    "content_hash": "46e1040d5cccaab95ce657ae8df14107d3a1c6056b73265ced05290ec6287e20",
+                    "document_hash": "f321363b5372dde4ac56d1d59a650e6858f1c821602b75b75f0b44d6647e065e"
+                  },
+                  {
+                    "quote": "SYNTHETIC：收到可燃气体浓度异常事件时，保留原始读数、单位、时间和测点，关联当前作业并通知安全管理人员复核。助手不得关闭、静音、压制或降低原始告警，报警和联锁独立运行。",
+                    "title": "示例气体事件",
+                    "doc_id": "gas-event",
+                    "source": "synthetic-policy/gas-event",
+                    "version": 1,
+                    "chunk_id": "9b789d213a534d03d1b1a87d",
+                    "rank_score": 0.551063,
+                    "similarity": 0.551063,
+                    "valid_from": "2026-01-01T08:00:00+08:00",
+                    "valid_until": "2027-01-01T08:00:00+08:00",
+                    "content_hash": "9fd631a23694726d1283c9879ffac6faa7509483f1cf9aff92be4dca0d2e7baa",
+                    "document_hash": "c5b1e3bb6be9b3e16e774b9e676222fe29d257d7918fc854996bc84ad8abc5b8"
+                  }
+                ],
+                "object_id": null,
+                "elapsed_ms": 61.61,
+                "queried_at": "2026-09-22T04:00:00+00:00",
+                "data_origin": "SYNTHETIC"
+              }
+            ],
+            "stop_reason": "completed",
+            "mode": "deepseek_live"
+          }
+        }
+      }
+    }
+  }
+}

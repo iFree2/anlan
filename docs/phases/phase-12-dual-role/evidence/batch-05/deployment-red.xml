@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="11" skipped="0" tests="11" time="0.923" timestamp="2026-10-25T21:37:26.524333+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_collaboration_deployment" name="test_budget_plan_uses_actual_ledger_and_counts_failed_and_reserved" time="0.001"><failure message="AttributeError: module 'p12_deploy' has no attribute 'live_plan'">tests\test_collaboration_deployment.py:19: in test_budget_plan_uses_actual_ledger_and_counts_failed_and_reserved
+    assert release.live_plan(ledger) == {'conversation': 7, 'materials': 2, 'event': 1}
+           ^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'p12_deploy' has no attribute 'live_plan'</failure></testcase><testcase classname="tests.test_collaboration_deployment" name="test_preflight_refuses_unfinished_work_instead_of_replaying_it" time="0.001"><failure message="AttributeError: module 'p12_deploy' has no attribute 'require_quiescent'">tests\test_collaboration_deployment.py:30: in test_preflight_refuses_unfinished_work_instead_of_replaying_it
+    release.require_quiescent({key: 1})
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'p12_deploy' has no attribute 'require_quiescent'</failure></testcase><testcase classname="tests.test_collaboration_deployment" name="test_new_identity_config_preserves_legacy_token_role_and_profile" time="0.001"><failure message="AttributeError: module 'p12_deploy' has no attribute 'dual_config'">tests\test_collaboration_deployment.py:40: in test_new_identity_config_preserves_legacy_token_role_and_profile
+    config, clients = release.dual_config(old, {}, Path('/new/facts'))
+                      ^^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'p12_deploy' has no attribute 'dual_config'</failure></testcase><testcase classname="tests.test_collaboration_deployment" name="test_synthetic_facts_are_added_without_retagging_legacy_records" time="0.001"><failure message="AttributeError: module 'p12_deploy' has no attribute 'merge_facts'">tests\test_collaboration_deployment.py:55: in test_synthetic_facts_are_added_without_retagging_legacy_records
+    result = release.merge_facts(legacy, fixture, 'new')
+             ^^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'p12_deploy' has no attribute 'merge_facts'</failure></testcase><testcase classname="tests.test_collaboration_deployment" name="test_new_collaboration_requires_maintenance_rollback_for_every_old_write_path" time="0.001"><failure message="AttributeError: module 'p12_deploy' has no attribute 'MAINTENANCE_SOURCE'">tests\test_collaboration_deployment.py:64: in test_new_collaboration_requires_maintenance_rollback_for_every_old_write_path
+    exec(release.MAINTENANCE_SOURCE, module.__dict__)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'p12_deploy' has no attribute 'MAINTENANCE_SOURCE'</failure></testcase><testcase classname="tests.test_collaboration_deployment" name="test_rollback_never_switches_to_legacy_or_restores_database" time="0.014"><failure message="AttributeError: &lt;module 'p12_deploy' from 'D:\\src\\agent学习\\安澜2.0\\deploy\\aliyun\\release_collaboration.py'&gt; has no attribute 'MAINTENANCE'">tests\test_collaboration_deployment.py:79: in test_rollback_never_switches_to_legacy_or_restores_database
+    monkeypatch.setattr(release, 'MAINTENANCE', fallback)
+E   AttributeError: &lt;module 'p12_deploy' from 'D:\\src\\agent学习\\安澜2.0\\deploy\\aliyun\\release_collaboration.py'&gt; has no attribute 'MAINTENANCE'</failure></testcase><testcase classname="tests.test_collaboration_deployment" name="test_wheel_traversal_is_rejected_before_extract[../escape]" time="0.004"><failure message="AttributeError: module 'p12_deploy' has no attribute 'validate_wheel'">tests\test_collaboration_deployment.py:95: in test_wheel_traversal_is_rejected_before_extract
+    release.validate_wheel(wheel, release.digest(wheel.read_bytes()))
+    ^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'p12_deploy' has no attribute 'validate_wheel'</failure></testcase><testcase classname="tests.test_collaboration_deployment" name="test_wheel_traversal_is_rejected_before_extract[/absolute]" time="0.007"><failure message="AttributeError: module 'p12_deploy' has no attribute 'validate_wheel'">tests\test_collaboration_deployment.py:95: in test_wheel_traversal_is_rejected_before_extract
+    release.validate_wheel(wheel, release.digest(wheel.read_bytes()))
+    ^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'p12_deploy' has no attribute 'validate_wheel'</failure></testcase><testcase classname="tests.test_collaboration_deployment" name="test_wheel_traversal_is_rejected_before_extract[a/../../escape]" time="0.005"><failure message="AttributeError: module 'p12_deploy' has no attribute 'validate_wheel'">tests\test_collaboration_deployment.py:95: in test_wheel_traversal_is_rejected_before_extract
+    release.validate_wheel(wheel, release.digest(wheel.read_bytes()))
+    ^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'p12_deploy' has no attribute 'validate_wheel'</failure></testcase><testcase classname="tests.test_collaboration_deployment" name="test_wheel_traversal_is_rejected_before_extract[a\\..\\escape]" time="0.004"><failure message="AttributeError: module 'p12_deploy' has no attribute 'validate_wheel'">tests\test_collaboration_deployment.py:95: in test_wheel_traversal_is_rejected_before_extract
+    release.validate_wheel(wheel, release.digest(wheel.read_bytes()))
+    ^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'p12_deploy' has no attribute 'validate_wheel'</failure></testcase><testcase classname="tests.test_collaboration_deployment" name="test_activation_rejects_changed_data_and_missing_backup" time="0.001"><failure message="AttributeError: module 'p12_deploy' has no attribute 'activation_gate'">tests\test_collaboration_deployment.py:101: in test_activation_rejects_changed_data_and_missing_backup
+    release.activation_gate(manifest, before, before)
+    ^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'p12_deploy' has no attribute 'activation_gate'</failure></testcase></testsuite></testsuites>

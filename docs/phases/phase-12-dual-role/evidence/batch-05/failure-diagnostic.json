@@ -1,0 +1,78 @@
+{
+  "last_attempts": [
+    [
+      "P11-WP01",
+      "failed",
+      "invalid_output",
+      {
+        "total_tokens": 1425,
+        "prompt_tokens": 1334,
+        "completion_tokens": 91
+      }
+    ],
+    [
+      "P11-WP02",
+      "succeeded",
+      null,
+      {
+        "total_tokens": 3036,
+        "prompt_tokens": 2934,
+        "completion_tokens": 102
+      }
+    ],
+    [
+      "P11-WP01",
+      "succeeded",
+      null,
+      {
+        "total_tokens": 1165,
+        "prompt_tokens": 1113,
+        "completion_tokens": 52
+      }
+    ],
+    [
+      "P11-WP02",
+      "succeeded",
+      null,
+      {
+        "total_tokens": 412,
+        "prompt_tokens": 407,
+        "completion_tokens": 5
+      }
+    ],
+    [
+      "P11-WP01",
+      "succeeded",
+      null,
+      {
+        "total_tokens": 763,
+        "prompt_tokens": 713,
+        "completion_tokens": 50
+      }
+    ],
+    [
+      "P11-WP01",
+      "succeeded",
+      null,
+      {
+        "total_tokens": 629,
+        "prompt_tokens": 524,
+        "completion_tokens": 105
+      }
+    ]
+  ],
+  "failed_messages": [
+    [
+      "failed",
+      {
+        "error_category": "chat_failure"
+      }
+    ],
+    [
+      "failed",
+      {
+        "error_category": "classifier_failure"
+      }
+    ]
+  ]
+}

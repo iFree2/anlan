@@ -1,0 +1,60 @@
+{
+  "counts": {
+    "anlan_operations": 38,
+    "anlan_tasks": 13,
+    "checkpoint_blobs": 130,
+    "checkpoint_writes": 547,
+    "checkpoints": 103,
+    "collaboration_applications": 1,
+    "collaboration_commands": 1,
+    "collaboration_events": 3,
+    "collaboration_notifications": 3,
+    "conversation_messages": 29,
+    "conversation_routes": 14,
+    "conversations": 3,
+    "knowledge_chunks": 9,
+    "knowledge_documents": 9,
+    "memories": 0,
+    "memory_feedback": 0,
+    "memory_revisions": 0,
+    "model_budget_attempts": 86,
+    "model_budget_authorizations": 1,
+    "model_budget_package_limits": 1,
+    "pending_intents": 5,
+    "perception_events": 11,
+    "perception_feedback": 6,
+    "perception_heads": 10,
+    "perception_reviews": 12
+  },
+  "ledger": {
+    "total": 86,
+    "conversation": 17,
+    "materials_events": 5,
+    "total_limit": 100,
+    "materials_events_limit": 10,
+    "conversation_limit": 30
+  },
+  "packages": {
+    "P3-WP03": 9,
+    "P11-WP02": 5,
+    "P8-WP04": 8,
+    "P4-WP02": 9,
+    "P7-WP03": 4,
+    "P5-WP02": 4,
+    "P6-WP03": 8,
+    "P2-WP02": 6,
+    "P8-WP03": 10,
+    "P11-WP01": 17,
+    "P2-WP04": 6
+  },
+  "statuses": {
+    "succeeded": 80,
+    "failed": 6
+  },
+  "pending": {
+    "pending_operations": 0,
+    "pending_messages": 0,
+    "pending_reviews": 0,
+    "reserved_attempts": 0
+  }
+}

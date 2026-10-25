@@ -1,0 +1,306 @@
+{
+  "current": "/opt/anlan2/releases/p11-conversation-verified-20261022",
+  "service": "MainPID=2978005\nExecStart={ path=/opt/anlan2/current/venv/bin/python ; argv[]=/opt/anlan2/current/venv/bin/python -m anlan.interfaces.serve --config /opt/anlan2/shared/console.json --port 8018 --root-path /anlan ; ignore_errors=no ; start_time=[Thu 2026-10-22 00:32:29 CST] ; stop_time=[n/a] ; pid=2978005 ; code=(null) ; status=0/0 }\nWorkingDirectory=/opt/anlan2/current\nUser=anlan2\nActiveState=active",
+  "listeners": "State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess\nLISTEN 0      2048       127.0.0.1:8018      0.0.0.0:*    users:((\"python\",pid=2978005,fd=9))",
+  "configuration": {
+    "model_mode": "deepseek_live",
+    "console_work_package": "P11-WP02",
+    "facts_dir": "/opt/anlan2/releases/p8-console-20261007/examples/synthetic/perception-v1/facts",
+    "embeddings_cache": "/opt/anlan2/shared/embeddings",
+    "as_of": "2026-09-22T04:00:00+00:00"
+  },
+  "grants": [
+    {
+      "identity": {
+        "tenant_id": "synthetic-p5-replay",
+        "user_id": "safety-manager-demo"
+      },
+      "role": null
+    }
+  ],
+  "budget_environment": {},
+  "root_sha256": "b5a7f25ac949b5f26ded8692c39c42f64f85cb919736f5db68bc776987515b12",
+  "database_version": "13.23",
+  "migrations": [
+    [
+      1
+    ],
+    [
+      5
+    ],
+    [
+      6
+    ],
+    [
+      7
+    ],
+    [
+      8
+    ],
+    [
+      9
+    ],
+    [
+      13
+    ],
+    [
+      15
+    ],
+    [
+      16
+    ]
+  ],
+  "tables": [
+    [
+      "anlan_operations"
+    ],
+    [
+      "anlan_schema_migrations"
+    ],
+    [
+      "anlan_tasks"
+    ],
+    [
+      "checkpoint_blobs"
+    ],
+    [
+      "checkpoint_migrations"
+    ],
+    [
+      "checkpoint_writes"
+    ],
+    [
+      "checkpoints"
+    ],
+    [
+      "conversation_messages"
+    ],
+    [
+      "conversation_routes"
+    ],
+    [
+      "conversations"
+    ],
+    [
+      "knowledge_chunks"
+    ],
+    [
+      "knowledge_documents"
+    ],
+    [
+      "memories"
+    ],
+    [
+      "memory_feedback"
+    ],
+    [
+      "memory_revisions"
+    ],
+    [
+      "model_budget_attempts"
+    ],
+    [
+      "model_budget_authorizations"
+    ],
+    [
+      "model_budget_package_limits"
+    ],
+    [
+      "pending_intents"
+    ],
+    [
+      "perception_events"
+    ],
+    [
+      "perception_feedback"
+    ],
+    [
+      "perception_heads"
+    ],
+    [
+      "perception_reviews"
+    ]
+  ],
+  "budget_columns": [
+    [
+      "model_budget_attempts",
+      "attempt_id"
+    ],
+    [
+      "model_budget_attempts",
+      "authorization_id"
+    ],
+    [
+      "model_budget_attempts",
+      "work_package"
+    ],
+    [
+      "model_budget_attempts",
+      "run_id"
+    ],
+    [
+      "model_budget_attempts",
+      "status"
+    ],
+    [
+      "model_budget_attempts",
+      "usage"
+    ],
+    [
+      "model_budget_attempts",
+      "error"
+    ],
+    [
+      "model_budget_attempts",
+      "reserved_at"
+    ],
+    [
+      "model_budget_attempts",
+      "finished_at"
+    ],
+    [
+      "model_budget_authorizations",
+      "authorization_id"
+    ],
+    [
+      "model_budget_authorizations",
+      "total_limit"
+    ],
+    [
+      "model_budget_authorizations",
+      "package_limit"
+    ],
+    [
+      "model_budget_authorizations",
+      "created_at"
+    ],
+    [
+      "model_budget_package_limits",
+      "authorization_id"
+    ],
+    [
+      "model_budget_package_limits",
+      "work_package"
+    ],
+    [
+      "model_budget_package_limits",
+      "package_limit"
+    ]
+  ],
+  "attempts": [
+    [
+      "20260920-long-term-v1",
+      "P11-WP01",
+      "failed",
+      2
+    ],
+    [
+      "20260920-long-term-v1",
+      "P11-WP01",
+      "succeeded",
+      10
+    ],
+    [
+      "20260920-long-term-v1",
+      "P11-WP02",
+      "succeeded",
+      3
+    ],
+    [
+      "20260920-long-term-v1",
+      "P2-WP02",
+      "succeeded",
+      6
+    ],
+    [
+      "20260920-long-term-v1",
+      "P2-WP04",
+      "succeeded",
+      6
+    ],
+    [
+      "20260920-long-term-v1",
+      "P3-WP03",
+      "succeeded",
+      9
+    ],
+    [
+      "20260920-long-term-v1",
+      "P4-WP02",
+      "succeeded",
+      9
+    ],
+    [
+      "20260920-long-term-v1",
+      "P5-WP02",
+      "failed",
+      2
+    ],
+    [
+      "20260920-long-term-v1",
+      "P5-WP02",
+      "succeeded",
+      2
+    ],
+    [
+      "20260920-long-term-v1",
+      "P6-WP03",
+      "succeeded",
+      8
+    ],
+    [
+      "20260920-long-term-v1",
+      "P7-WP03",
+      "succeeded",
+      4
+    ],
+    [
+      "20260920-long-term-v1",
+      "P8-WP03",
+      "succeeded",
+      10
+    ],
+    [
+      "20260920-long-term-v1",
+      "P8-WP04",
+      "succeeded",
+      8
+    ]
+  ],
+  "operation_columns": [
+    [
+      "task_id"
+    ],
+    [
+      "request_id"
+    ],
+    [
+      "run_id"
+    ],
+    [
+      "kind"
+    ],
+    [
+      "expected_revision"
+    ],
+    [
+      "fields"
+    ],
+    [
+      "result"
+    ],
+    [
+      "started_at"
+    ],
+    [
+      "completed_at"
+    ]
+  ],
+  "counts": {
+    "anlan_tasks": 12,
+    "anlan_operations": 37,
+    "perception_events": 10,
+    "perception_reviews": 11,
+    "conversations": 1
+  }
+}
