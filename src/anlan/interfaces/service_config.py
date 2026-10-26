@@ -15,6 +15,7 @@ from pydantic import (
 
 from anlan.collaboration.contracts import Role
 from anlan.common.models import Identity, StrictModel
+from anlan.preflight.contracts import PrecheckCatalog
 from anlan.tools.contracts import FactReferences
 from anlan.workflows.event_contracts import SourceBinding
 
@@ -61,11 +62,15 @@ class ServiceConfig(StrictModel):
     embeddings_cache: Path = Path(".runtime/embeddings")
     as_of: AwareDatetime | None = None
     console_profiles: list[ConsoleProfile] = Field(default_factory=list, max_length=20)
+    precheck_catalogs: list[PrecheckCatalog] = Field(default_factory=list, max_length=100)
     model_mode: Literal["scripted_double", "deepseek_live"] = "scripted_double"
     console_work_package: Literal["P8-WP04", "P11-WP02"] = "P8-WP04"
 
     @model_validator(mode="after")
     def unique_scopes(self):
+        tenants = [catalog.tenant_id for catalog in self.precheck_catalogs]
+        if len(set(tenants)) != len(tenants):
+            raise ValueError("Duplicate precheck catalog tenant")
         if len({g.token.get_secret_value() for g in self.tokens}) != len(self.tokens):
             raise ValueError("Tokens must be unique")
         identities = {(g.identity.tenant_id, g.identity.user_id) for g in self.tokens}

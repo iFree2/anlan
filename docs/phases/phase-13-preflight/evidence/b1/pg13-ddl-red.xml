@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="1.506" timestamp="2026-10-26T23:41:49.462448+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_preflight_store" name="test_migration_trigger_ddl_supports_postgres13" time="0.002"><failure message="AssertionError: assert 'CREATE OR REPLACE TRIGGER' not in '-- B1 IS AD...O NOTHING;\n'&#10;  &#10;  'CREATE OR REPLACE TRIGGER' is contained here:&#10;    ;&#10;    END $$;&#10;    CREATE OR REPLACE TRIGGER PRECHECK_BINDING_VERSIONS_IMMUTABLE&#10;        BEFORE UPDATE OR DELETE ON ANLAN_V2.PRECHECK_BINDING_VERSIONS&#10;        FOR EACH ROW EXECUTE FUNCTION ANLAN_V2.PRECHECK_BINDING_IMMUTABLE();...&#10;  &#10;  ...Full output truncated (8 lines hidden), use '-vv' to show">tests\test_preflight_store.py:28: in test_migration_trigger_ddl_supports_postgres13
+    assert "CREATE OR REPLACE TRIGGER" not in sql.upper()
+E   AssertionError: assert 'CREATE OR REPLACE TRIGGER' not in '-- B1 IS AD...O NOTHING;\n'
+E
+E     'CREATE OR REPLACE TRIGGER' is contained here:
+E       ;
+E       END $$;
+E       CREATE OR REPLACE TRIGGER PRECHECK_BINDING_VERSIONS_IMMUTABLE
+E           BEFORE UPDATE OR DELETE ON ANLAN_V2.PRECHECK_BINDING_VERSIONS
+E           FOR EACH ROW EXECUTE FUNCTION ANLAN_V2.PRECHECK_BINDING_IMMUTABLE();...
+E
+E     ...Full output truncated (8 lines hidden), use '-vv' to show</failure></testcase></testsuite></testsuites>

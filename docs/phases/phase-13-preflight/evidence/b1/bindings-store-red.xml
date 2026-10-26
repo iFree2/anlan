@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="27" skipped="0" tests="27" time="10.281" timestamp="2026-10-26T23:36:00.036049+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_preflight_bindings" name="test_confirm_get_reconnect_and_noop_revision" time="0.750"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_bindings.py:92: in test_confirm_get_reconnect_and_noop_revision
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:73: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, _):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_bindings" name="test_idempotency_compares_full_payload[mutation0]" time="0.227"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_bindings.py:108: in test_idempotency_compares_full_payload
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:101: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, _):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_bindings" name="test_idempotency_compares_full_payload[mutation1]" time="0.204"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_bindings.py:108: in test_idempotency_compares_full_payload
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:101: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, _):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_bindings" name="test_idempotency_compares_full_payload[mutation2]" time="0.225"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_bindings.py:108: in test_idempotency_compares_full_payload
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:101: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, _):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_bindings" name="test_idempotency_compares_full_payload[mutation3]" time="0.297"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_bindings.py:108: in test_idempotency_compares_full_payload
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:101: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, _):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_bindings" name="test_material_and_binding_revisions_are_independent" time="0.213"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_bindings.py:133: in test_material_and_binding_revisions_are_independent
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:113: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, _):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_bindings" name="test_roles_tenants_participants_and_revocation" time="0.217"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_bindings.py:165: in test_roles_tenants_participants_and_revocation
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:138: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, collab):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_bindings" name="test_stages_freeze_replays_but_changes_requested_allows_binding" time="0.182"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_bindings.py:189: in test_stages_freeze_replays_but_changes_requested_allows_binding
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:170: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, collab):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_bindings" name="test_directory_rejection_and_client_authority_injection" time="0.181"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_bindings.py:206: in test_directory_rejection_and_client_authority_injection
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:196: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, _):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_bindings" name="test_confirm_checks_real_checkpoint_and_pending_before_replay[pending]" time="0.236"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_bindings.py:230: in test_confirm_checks_real_checkpoint_and_pending_before_replay
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:213: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, _):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_bindings" name="test_confirm_checks_real_checkpoint_and_pending_before_replay[missing]" time="0.305"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_bindings.py:230: in test_confirm_checks_real_checkpoint_and_pending_before_replay
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:213: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, _):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_bindings" name="test_confirm_checks_real_checkpoint_and_pending_before_replay[contract]" time="0.209"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_bindings.py:230: in test_confirm_checks_real_checkpoint_and_pending_before_replay
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:213: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, _):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_bindings" name="test_confirm_checks_real_checkpoint_and_pending_before_replay[mode]" time="0.194"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_bindings.py:230: in test_confirm_checks_real_checkpoint_and_pending_before_replay
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:213: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, _):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_bindings" name="test_waiting_input_cannot_confirm" time="0.213"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_bindings.py:238: in test_waiting_input_cannot_confirm
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:235: in scenario
+    async with setup(dsn, tmp_path, fields={}) as (service, actors, state, _):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_bindings" name="test_transaction_rolls_back_version_head_and_receipt" time="0.190"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_bindings.py:254: in test_transaction_rolls_back_version_head_and_receipt
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:243: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, _):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_bindings" name="test_real_task_lock_serializes_binding_and_materials" time="0.195"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_bindings.py:273: in test_real_task_lock_serializes_binding_and_materials
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:259: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, _):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_bindings" name="test_cross_task_request_race_is_atomic_and_separate_from_collaboration" time="0.223"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_bindings.py:319: in test_cross_task_request_race_is_atomic_and_separate_from_collaboration
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:279: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, collab):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_store" name="test_sql019_resource_exists" time="0.001"><failure message="AssertionError: assert False&#10; +  where False = is_file()&#10; +    where is_file = WindowsPath('D:/src/agent学习/安澜2.0/src/anlan/sql/019_preflight_bindings.sql').is_file&#10; +      where WindowsPath('D:/src/agent学习/安澜2.0/src/anlan/sql/019_preflight_bindings.sql') = joinpath('sql/019_preflight_bindings.sql')&#10; +        where joinpath = WindowsPath('D:/src/agent学习/安澜2.0/src/anlan').joinpath&#10; +          where WindowsPath('D:/src/agent学习/安澜2.0/src/anlan') = files('anlan')">tests\test_preflight_store.py:15: in test_sql019_resource_exists
+    assert files("anlan").joinpath("sql/019_preflight_bindings.sql").is_file()
+E   AssertionError: assert False
+E    +  where False = is_file()
+E    +    where is_file = WindowsPath('D:/src/agent学习/安澜2.0/src/anlan/sql/019_preflight_bindings.sql').is_file
+E    +      where WindowsPath('D:/src/agent学习/安澜2.0/src/anlan/sql/019_preflight_bindings.sql') = joinpath('sql/019_preflight_bindings.sql')
+E    +        where joinpath = WindowsPath('D:/src/agent学习/安澜2.0/src/anlan').joinpath
+E    +          where WindowsPath('D:/src/agent学习/安澜2.0/src/anlan') = files('anlan')</failure></testcase><testcase classname="tests.test_preflight_store" name="test_policy_uses_actual_stage_and_preserves_later_policy" time="0.419"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_store.py:42: in test_policy_uses_actual_stage_and_preserves_later_policy
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_store.py:20: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, collab):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_store" name="test_initialization_preserves_original_rows_and_does_not_activate_policy" time="0.184"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_store.py:68: in test_initialization_preserves_original_rows_and_does_not_activate_policy
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_store.py:47: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, _):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_store" name="test_sql_constraints_and_immutable_history[UPDATE anlan_v2.precheck_binding_versions SET worker_id='worker-b' WHERE task_id=%s-RaiseException]" time="0.315"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_store.py:93: in test_sql_constraints_and_immutable_history
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_store.py:86: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, _):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_store" name="test_sql_constraints_and_immutable_history[DELETE FROM anlan_v2.precheck_binding_commands WHERE task_id=%s-RaiseException]" time="0.186"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_store.py:93: in test_sql_constraints_and_immutable_history
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_store.py:86: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, _):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_store" name="test_sql_constraints_and_immutable_history[UPDATE anlan_v2.precheck_binding_heads SET binding_revision=0 WHERE task_id=%s-CheckViolation]" time="0.344"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_store.py:93: in test_sql_constraints_and_immutable_history
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_store.py:86: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, _):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_store" name="test_sql_constraints_and_immutable_history[UPDATE anlan_v2.precheck_binding_heads SET binding_revision=42 WHERE task_id=%s-ForeignKeyViolation]" time="0.206"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_store.py:93: in test_sql_constraints_and_immutable_history
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_store.py:86: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, _):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_store" name="test_sql_constraints_and_immutable_history[UPDATE anlan_v2.precheck_binding_heads SET tenant_id='foreign' WHERE task_id=%s-ForeignKeyViolation]" time="0.209"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_store.py:93: in test_sql_constraints_and_immutable_history
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_store.py:86: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, _):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_store" name="test_sql_constraints_and_immutable_history[UPDATE anlan_v2.precheck_policies SET required=false,legacy_completed=false WHERE task_id=%s-CheckViolation]" time="0.199"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_store.py:93: in test_sql_constraints_and_immutable_history
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_store.py:86: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, _):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase><testcase classname="tests.test_preflight_store" name="test_versions_and_actor_requests_are_unique_and_tenant_bound" time="0.213"><failure message="ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'">tests\test_preflight_store.py:112: in test_versions_and_actor_requests_are_unique_and_tenant_bound
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_store.py:98: in scenario
+    async with setup(dsn, tmp_path) as (service, actors, state, _):
+               ^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_preflight_bindings.py:45: in setup
+    from anlan.infrastructure.preflight import PrecheckStore
+E   ModuleNotFoundError: No module named 'anlan.infrastructure.preflight'</failure></testcase></testsuite></testsuites>
