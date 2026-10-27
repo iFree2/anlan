@@ -51,7 +51,7 @@ claim 用短事务 `FOR UPDATE SKIP LOCKED`，lease 用真实 PG `clock_timestam
 
 要求补充时保存当前绑定与来源基线。重提允许材料 revision 增加、绑定 revision 实质变化，或源资料更新后先显式重查得到不同的当前来源批次；不用改无关材料。旧未绑定 under_review 申请可先要求补充，再由申请人确认绑定并以相同材料 revision 重提。安全人员只读/重查/要求补充，不能替申请人改绑定。
 
-## 验证与交付证据
+## B2 基线验证与交付证据（449dd21）
 
 真实 PostgreSQL 17.11（server_version 170011），项目 loopback `127.0.0.1:55432`，独立库 `anlan_p13_b2_20261027`。使用 dev-postgres Start/Env 后只替换库名；为知识测试在该库显式创建 vector extension。初轮仅包含本批试验的库保存在 `anlan_p13_b2_initial_20261027`，未删除数据；正式 B2 库为重新创建的独立空库。
 
@@ -66,7 +66,7 @@ RED/修复过程见 `evidence/b2/red-green-notes.md`；原始失败组合、租�
 | 全目录 Ruff | 0 finding，空数组 | `ruff.json` |
 | 最终 wheel 离源码验证 | **107 modules / 20 resources / 9 CLI**，SQL020 与全部旧资源逐字节校验 | `wheel-layout-release.json` |
 
-最终制品 `.runtime/p13-b2-release-dist/anlan-0.1.0-py3-none-any.whl`，SHA256 **`c785f33c7460c7b871ba1547c8f7f2bd6d49a9636ba97d5d583b1e552bd7622b`**。`wheel-layout.json` 与 `wheel-layout-final.json` 是前两轮历史构建，分别对应 `.runtime/p13-b2-dist/`、`.runtime/p13-b2-final-dist/`，不能替代 release 报告。
+449dd21 基线制品 `.runtime/p13-b2-release-dist/anlan-0.1.0-py3-none-any.whl`，SHA256 **`c785f33c7460c7b871ba1547c8f7f2bd6d49a9636ba97d5d583b1e552bd7622b`**。`wheel-layout.json` 与 `wheel-layout-final.json` 是前两轮历史构建，分别对应 `.runtime/p13-b2-dist/`、`.runtime/p13-b2-final-dist/`，不能替代 release 报告。
 
 最终主组合命令如下。使用显式文件集合，未以该结果冒充整个仓库的 B4 Gate；本组合没有 live 用例被选择，没有 skip。
 
@@ -79,6 +79,23 @@ uv build --wheel --out-dir .runtime/p13-b2-release-dist
 .venv/Scripts/python.exe scripts/verify_package_layout.py --wheel .runtime/p13-b2-release-dist/anlan-0.1.0-py3-none-any.whl --output docs/phases/phase-13-preflight/evidence/b2/wheel-layout-release.json
 ```
 
-wheel verifier 输出为排他创建，复验应指定新的报告路径。追加策略加强测试只增强测试断言，没有在最后 170 项之后修改生产代码。
+wheel verifier 输出为排他创建，复验应指定新的报告路径。上述追加策略加强测试仅增强断言；449dd21 基线的生产代码与当时 170 项和 wheel 证据一致。后续协调 Minor 修复见下一节，不包含在这个基线 wheel 中。
+
+## 协调 Minor：区分执行失败与依据过时
+
+协调另库基线 49 项通过、全目录 Ruff 通过，代码审查无 Critical/Important，提出 runner 异常投影 Minor。本次只修复两个服务模块、相关测试与交接证据，不改 SQL/完成权限、不启动 B3。
+
+`process_next` 捕获 runner 异常时持久化 `execution_status=failed`、`ready=false` 和安全类别 `source_unavailable`；不持久化异常文本/trace，也不制造 valid_until。新增 `inputs_current` 只核对当前输入和最新轮次，失败写回据此单独记录是否 stale；证据的 `current` 对失败始终为 false。完成门控仍拒绝该 check，不能用人工结论或任意引用覆盖。
+
+授权共享投影将执行失败显示为 status/execution_status=failed；输入未变时 stale=false，输入已变时 stale=true。current=false 仅表示没有有效依据，不能单独当作失败或过时。新排队重查显示 queued/stale=false，失败审计和原 attempt/result 保留，显式重查可生成新的有效 check。新字段均为服务端派生，客户端没有覆盖入口。
+
+针对性真实 PG RED 为两个 `status: stale != failed`；另外补充 queued 不能仅因 current=false 而标 stale 的 RED。证据为 `failed-projection-red.xml`、`failed-projection-queue-red.xml`、`failed-projection-green.xml`，相邻回归与全目录 Ruff 结果在 `failed-projection-regression-green.xml`、`failed-projection-ruff.json`。本次未重建 wheel，后续交付必须包含源码修复后重新构建的制品，不能把 449dd21 的 wheel 当作已含本补丁。
+
+实际结果：针对性 2 passed / 14 deselected；随后在同一真实 PG17.11 隔离库 `anlan_p13_b2_20261027` 跑 evaluator/jobs/service/gate 加 collaboration service/API，**65 passed / 0 failed / 0 errors / 0 skipped，124.52s**。针对性两项已包含于 65 项内，不相加。全目录 Ruff 为 0 finding。未重新跑全仓、真实模型或 SSH，原 dirty 路径保留。
+
+```powershell
+.venv/Scripts/python.exe -m pytest -q tests/test_preflight_evaluator.py tests/test_preflight_jobs.py tests/test_preflight_service.py tests/test_preflight_gate.py tests/test_collaboration_service.py tests/test_collaboration_api.py -m 'not live_model' --tb=short --junitxml=docs/phases/phase-13-preflight/evidence/b2/failed-projection-regression-green.xml
+.venv/Scripts/ruff.exe check src tests evals scripts deploy --output-format json --output-file docs/phases/phase-13-preflight/evidence/b2/failed-projection-ruff.json
+```
 
 未执行用户未提交的 test_tool_loop_live.py、真实模型/供应商测试、SSH、部署或额度重置；保留 roadmap/status 的原 dirty、phase-10 目录和 .superpowers/。本批不修改总 README、阶段 README、acceptance 或 coordinator-check，不自行启动 B3。

@@ -123,10 +123,26 @@ class CollaborationService:
                             current = await self.preflight.current(
                                 conn, actor, application, state, binding, job
                             )
+                            failed = (
+                                job["result"] is not None
+                                and job["result"].get("execution_status") == "failed"
+                            )
+                            stale = (
+                                bool(job["result"].get("stale"))
+                                or not await self.preflight.inputs_current(
+                                    conn, actor, application, state, binding, job
+                                )
+                                if failed
+                                else bool(job["result"] is not None and not current)
+                            )
                         view.update(
                             current=current,
+                            stale=stale,
+                            execution_status="failed" if failed else job["status"],
                             status=(
-                                "ready"
+                                "failed"
+                                if failed
+                                else "ready"
                                 if current and job["result"].get("ready")
                                 else "gap"
                                 if current

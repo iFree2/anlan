@@ -182,6 +182,110 @@ def test_real_fact_and_knowledge_queries_persist_without_model(dsn, tmp_path):  
 
 
 @pytest.mark.postgres
+@pytest.mark.parametrize("input_changes", [False, True], ids=["same-input", "changed-input"])
+def test_runner_exception_is_failed_without_fabricating_current_evidence(
+    dsn,  # noqa: F811
+    tmp_path,
+    input_changes,
+):
+    from anlan.common.errors import InvalidTransition
+
+    async def scenario():
+        async with integrated(dsn, tmp_path) as (preflight, bindings, actors, state, collab, _):
+            task = state["task_id"]
+            submit = await collab.execute(
+                actors[0],
+                task,
+                "submit",
+                dict(
+                    request_id="submit",
+                    expected_application_version=1,
+                    expected_material_revision=1,
+                    expected_binding_revision=1,
+                    reviewer_user_id=actors[1].user_id,
+                ),
+            )
+            original = preflight.runner
+
+            class FailingRunner:
+                async def run(self, *args):
+                    if input_changes:
+                        await collab.execute(
+                            actors[1],
+                            task,
+                            "request_changes",
+                            dict(
+                                request_id="return",
+                                expected_application_version=2,
+                                expected_material_revision=1,
+                                questions=["请补充"],
+                            ),
+                        )
+                    raise RuntimeError("SYNTHETIC-PRIVATE-ERROR-DETAIL")
+
+            preflight.runner = FailingRunner()
+            failed = await preflight.process_next(submit["precheck_job_id"])
+            shared = await collab.get(actors[1], task)
+            assert shared["precheck"]["status"] == "failed"
+            assert shared["precheck"]["execution_status"] == "failed"
+            assert shared["precheck"]["current"] is False
+            assert shared["precheck"]["stale"] is input_changes
+            assert shared["precheck"]["issues"] == ["source_unavailable"]
+            assert not failed["result"]["ready"]
+            assert "valid_until" not in failed["result"]
+            assert bool(failed["result"].get("stale")) is input_changes
+            assert "SYNTHETIC-PRIVATE-ERROR-DETAIL" not in str(shared) + str(failed)
+            with pytest.raises(InvalidTransition):
+                await collab.execute(
+                    actors[1],
+                    task,
+                    "complete_review",
+                    dict(
+                        request_id="complete",
+                        expected_application_version=3 if input_changes else 2,
+                        expected_material_revision=1,
+                        expected_binding_revision=1,
+                        expected_check_id=failed["check_id"],
+                        applied_knowledge_citation_ids=["invented"],
+                        conclusion="人工结论不能覆盖失败",
+                    ),
+                )
+            preflight.runner = original
+            recheck = await preflight.recheck(
+                actors[1],
+                task,
+                dict(
+                    request_id="retry",
+                    expected_application_version=3 if input_changes else 2,
+                    expected_material_revision=1,
+                    expected_binding_revision=1,
+                    reason="明确重查失败查询",
+                ),
+            )
+            queued = (await collab.get(actors[1], task))["precheck"]
+            assert queued["status"] == "queued" and queued["stale"] is False
+            retried = await preflight.process_next(recheck["job_id"])
+            assert retried["result"]["ready"]
+            async with bindings.store.connection() as conn:
+                old = await (
+                    await conn.execute(
+                        "SELECT * FROM anlan_v2.precheck_results WHERE check_id=%s",
+                        (failed["check_id"],),
+                    )
+                ).fetchone()
+                assert old == failed
+                attempt = await (
+                    await conn.execute(
+                        "SELECT status FROM anlan_v2.precheck_attempts WHERE attempt_id=%s",
+                        (failed["attempt_id"],),
+                    )
+                ).fetchone()
+                assert attempt["status"] == "completed"
+
+    run(scenario())
+
+
+@pytest.mark.postgres
 @pytest.mark.parametrize(
     "change",
     [

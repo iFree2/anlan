@@ -149,8 +149,9 @@ class PreflightService:
         except (AccessDenied, OSError, ValueError, KeyError, TimeoutError):
             return False
 
-    async def current(self, conn, actor, application, state, binding, job):
-        if binding is None or job is None or job["result"] is None:
+    async def inputs_current(self, conn, actor, application, state, binding, job):
+        """Input identity is separate from having successfully collected valid evidence."""
+        if binding is None or job is None or not state:
             return False
         latest = await self.store.latest(actor.tenant_id, application.task_id, conn=conn)
         if latest is None or latest["job_id"] != job["job_id"]:
@@ -160,9 +161,19 @@ class PreflightService:
             job["material_revision"] != state["revision"]
             or job["binding_revision"] != binding.binding_revision
             or job["application_version"] != version
-            or job["result"].get("stale")
             or job["input_snapshot"]["fields"] != state["fields"]
             or job["input_snapshot"]["references"] != binding.references.model_dump()
+        ):
+            return False
+        return True
+
+    async def current(self, conn, actor, application, state, binding, job):
+        if (
+            job is None
+            or job["result"] is None
+            or job["result"].get("stale")
+            or job["result"].get("execution_status") == "failed"
+            or not await self.inputs_current(conn, actor, application, state, binding, job)
         ):
             return False
         result = job["result"]
@@ -331,6 +342,7 @@ class PreflightService:
             return None
         except Exception:
             result = {
+                "execution_status": "failed",
                 "ready": False,
                 "issues": ["source_unavailable"],
                 "citation_ids": [],
@@ -382,7 +394,12 @@ class PreflightService:
                                 result["knowledge_acl_hashes"][citation["doc_id"]] = hashlib.sha256(
                                     json.dumps(sorted(metadata["allowed_users"])).encode()
                                 ).hexdigest()
-                        if not await self.current(conn, actor, app, state, binding, check_job):
+                        validate = (
+                            self.inputs_current
+                            if result.get("execution_status") == "failed"
+                            else self.current
+                        )
+                        if not await validate(conn, actor, app, state, binding, check_job):
                             result["stale"] = True
                 except (AccessDenied, InvalidTransition):
                     result["stale"] = True

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="5.436" timestamp="2026-10-27T23:58:35.183922+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_preflight_service" name="test_runner_exception_is_failed_without_fabricating_current_evidence[same-input]" time="2.277"><failure message="AssertionError: assert ('queued' == 'queued'&#10;  &#10;    queued and True is False)">tests\test_preflight_service.py:285: in test_runner_exception_is_failed_without_fabricating_current_evidence
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_service.py:266: in scenario
+    assert queued['status'] == 'queued' and queued['stale'] is False
+E   AssertionError: assert ('queued' == 'queued'
+E
+E       queued and True is False)</failure></testcase><testcase classname="tests.test_preflight_service" name="test_runner_exception_is_failed_without_fabricating_current_evidence[changed-input]" time="1.634"><failure message="AssertionError: assert ('queued' == 'queued'&#10;  &#10;    queued and True is False)">tests\test_preflight_service.py:285: in test_runner_exception_is_failed_without_fabricating_current_evidence
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_service.py:266: in scenario
+    assert queued['status'] == 'queued' and queued['stale'] is False
+E   AssertionError: assert ('queued' == 'queued'
+E
+E       queued and True is False)</failure></testcase></testsuite></testsuites>
