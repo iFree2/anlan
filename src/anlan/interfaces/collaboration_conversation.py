@@ -68,6 +68,12 @@ class CollaborationConversationAdapter:
                    if proposal.collaboration else {})
         if not details.get('questions'):
             details.pop('questions', None)
+        if action in {'submit', 'resubmit', 'complete_review'}:
+            details['expected_binding_revision'] = shared['precheck']['binding_revision']
+        if action == 'complete_review':
+            details['expected_check_id'] = shared['precheck'].get('check_id')
+            # Ordinary chat/model proposals cannot select applicable references.
+            details['applied_knowledge_citation_ids'] = []
         payload = COMMANDS[action].model_validate({
             'request_id': _request_id(conversation_id, message_id, action),
             'expected_application_version': app.version,

@@ -3,7 +3,7 @@
 import asyncio
 
 import pytest
-from test_collaboration_api import clients, command, send, settings, start
+from test_collaboration_api import clients, command, completion, send, settings, start
 from test_events_postgres import dsn, run  # noqa: F401
 from test_material_revisions import COMPLETE, PATCH
 
@@ -85,9 +85,11 @@ def test_concurrent_edit_and_completion_conflict(dsn):  # noqa: F811
                 async with service._registry.locked(actors[0], task):
                     await send(reviewer, task, "complete_review", command(
                         2, conclusion="已核对"), 409)
+            body = await completion(reviewer, task, command(2, conclusion='人工核对'))
+            # Distinct requests still contend on the one real task/application version.
             results = await asyncio.gather(*[reviewer.post(
                 f"/collaboration/applications/{task}/commands/complete_review",
-                json=command(2, conclusion="人工核对")) for _ in range(2)])
+                json=body | {'request_id': str(i)}) for i in range(2)])
             assert sorted(r.status_code for r in results) == [200, 409]
             async with postgres_service(dsn, OfflineAnalyzer(), access_config=trusted) as service:
                 with pytest.raises(InvalidTransition):
@@ -248,7 +250,7 @@ def test_cross_task_concurrent_request_reuse_has_one_atomic_winner(dsn):  # noqa
     async def scenario():
         async with clients(dsn) as (sessions, actors, _):
             tasks = [(await start(sessions[0]))["task_id"] for _ in range(2)]
-            body = command(reviewer_user_id="reviewer")
+            body = command(reviewer_user_id="reviewer", expected_binding_revision=1)
             responses = await asyncio.gather(*[sessions[0].post(
                 f"/collaboration/applications/{task}/commands/submit", json=body)
                 for task in tasks])

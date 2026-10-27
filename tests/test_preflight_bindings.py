@@ -52,6 +52,9 @@ async def setup(dsn, directory, fields=COMPLETE):  # noqa: F811
 
 
 async def send(collab, actor, task, action, version=1, revision=1, **extra):
+    if action in {'submit', 'resubmit'} and 'expected_binding_revision' not in extra:
+        binding = await collab.prechecks.get_binding(actor.tenant_id, task)
+        extra['expected_binding_revision'] = binding.binding_revision if binding else None
     return await collab.execute(actor, task, action, dict(
         request_id=uuid4().hex, expected_application_version=version,
         expected_material_revision=revision, **extra))
@@ -182,7 +185,21 @@ def test_stages_freeze_replays_but_changes_requested_allows_binding(dsn, tmp_pat
             async with service.service_context_factory() as workflow:
                 await workflow.revise(owner, task, 1, PATCH)
             await send(collab, owner, task, "resubmit", 3, 2, reply="已修改")
-            await send(collab, reviewer, task, "complete_review", 4, 2, conclusion="人工核对")
+            # B1's stage-freeze assertion uses real B2 evidence rather than bypassing its gate.
+            from test_preflight_service import populate_sources
+
+            from anlan.preflight.runner import PreflightRunner
+            from anlan.preflight.service import PreflightService
+            from anlan.tools.queries import FactTools
+            knowledge = await populate_sources(dsn, service.config, actors, tmp_path)
+            preflight = PreflightService(dsn, service.config, service.service_context_factory,
+                PreflightRunner(FactTools(tmp_path, clock=lambda: service.config.as_of), knowledge,
+                                clock=lambda: service.config.as_of))
+            job = await service.store.latest(owner.tenant_id, task)
+            evidence = await preflight.process_next(job['job_id'])
+            await send(collab, reviewer, task, "complete_review", 4, 2, conclusion="人工核对",
+                expected_binding_revision=2, expected_check_id=evidence['check_id'],
+                applied_knowledge_citation_ids=evidence['result']['citation_ids'])
             with pytest.raises(InvalidTransition):
                 await service.confirm(owner, task, command(
                     request_id="completed", expected_material_revision=2,
@@ -317,5 +334,6 @@ def test_cross_task_request_race_is_atomic_and_separate_from_collaboration(
             # P12 uses its own request namespace: the same text remains valid there.
             await collab.execute(owner, state["task_id"], "submit", dict(
                 request_id="bind-1", expected_material_revision=1,
-                expected_application_version=1, reviewer_user_id=actors[1].user_id))
+                expected_application_version=1, expected_binding_revision=1,
+                reviewer_user_id=actors[1].user_id))
     run(scenario())

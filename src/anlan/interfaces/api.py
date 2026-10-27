@@ -1,8 +1,9 @@
 """Local FastAPI adapter: trusted identity, bounded bodies, existing persistent workflows."""
 
+import asyncio
 import re
 import secrets
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, suppress
 from datetime import UTC, datetime
 from typing import Annotated, Literal
 
@@ -22,6 +23,7 @@ from anlan.infrastructure.conversations import ConversationStore
 from anlan.infrastructure.events import EventStore
 from anlan.infrastructure.perception import PerceptionStore
 from anlan.infrastructure.postgres import initialize_database
+from anlan.infrastructure.preflight import PrecheckStore
 from anlan.interfaces.collaboration_conversation import CollaborationConversationAdapter
 from anlan.interfaces.collaboration_routes import install_collaboration_routes
 from anlan.interfaces.console.routes import install_console
@@ -37,6 +39,8 @@ from anlan.knowledge.store import KnowledgeStore
 from anlan.knowledge.tool import UnavailableKnowledgeStore
 from anlan.llm.perception import ScriptedPerceptionModel
 from anlan.memory.store import MemoryStore
+from anlan.preflight.runner import PreflightRunner
+from anlan.preflight.service import PreflightService
 from anlan.tools.queries import FactTools
 from anlan.workflows.event_contracts import Identifier
 from anlan.workflows.material_contracts import Application, Supplement
@@ -118,8 +122,30 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
             except Exception:
                 selected = UnavailableKnowledgeStore(clock)
         app.state.knowledge = selected
+        prechecks = PrecheckStore(dsn)
+        # Explicit, persisted upgrade: completed rows stay historical; all unfinished
+        # collaboration rows require evidence. No private task is registered or queried.
+        async with prechecks.connection() as conn:
+            rows = await (await conn.execute(
+                'SELECT a.task_id,a.tenant_id FROM anlan_v2.collaboration_applications a '
+                'LEFT JOIN anlan_v2.precheck_policies p USING(task_id) '
+                'WHERE p.task_id IS NULL ORDER BY a.task_id')).fetchall()
+            for row in rows:
+                async with conn.transaction():
+                    await conn.execute('SELECT pg_advisory_xact_lock(hashtextextended(%s,0))',
+                                       (row['task_id'],))
+                    await prechecks.ensure_policy(row['tenant_id'], row['task_id'], conn=conn)
+        app.state.preflight = PreflightService(dsn, config, models.material_service,
+            PreflightRunner(FactTools(config.facts_dir, clock=clock), selected, clock=clock),
+            clock=clock)
         async with models.lifespan():
-            yield
+            worker = asyncio.create_task(app.state.preflight.serve())
+            try:
+                yield
+            finally:
+                worker.cancel()
+                with suppress(asyncio.CancelledError):
+                    await worker
 
     app = FastAPI(title="安澜 SYNTHETIC 本地服务", lifespan=lifespan, docs_url=None,
                   redoc_url=None, root_path=root_path)
@@ -193,7 +219,7 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
 
     async def task_read(identity, task):
         async with models.material_service() as service:
-            return await service.get(identity, task)
+            return await CollaborationService._bounded_lock(lambda: service.get(identity, task))
 
     install_conversation_routes(app, conversation_service, Actor)
     install_collaboration_routes(app, CollaborationService(
@@ -237,12 +263,12 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
     @app.get("/tasks/{task}/history")
     async def history(task: str, identity: Actor):
         async with models.material_service() as service:
-            return await service.history(identity, task)
+            return await CollaborationService._bounded_lock(lambda: service.history(identity, task))
 
     @app.post("/tasks/{task}/recover")
     async def recover_task(task: str, identity: Actor):
         async with models.material_service() as service:
-            return await service.recover(identity, task)
+            return await CollaborationService._bounded_lock(lambda: service.recover(identity, task))
 
     @app.post("/tasks/{task}/{action}")
     async def submit(
@@ -250,13 +276,13 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
     ):
         async with models.material_service() as service:
             method = service.resume if action == "resume" else service.revise
-            return await method(
+            return await CollaborationService._bounded_lock(lambda: method(
                 identity,
                 task,
                 payload.expected_revision,
                 payload.fields,
                 request_id=payload.request_id,
-            )
+            ))
 
     @app.post("/sources/{source_id}/events")
     async def receive_event(source_id: str, payload: dict, identity: LegacyActor):

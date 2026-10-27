@@ -81,7 +81,13 @@ def test_four_cards_confirm_full_round_trip_and_private_messages(dsn):  # noqa: 
             a = await say(applicant, a, '确认')
             b = await say(reviewer, b, '完成材料核查：已人工核对本轮材料')
             assert b['pending_intent']['collaboration']['action'] == 'complete_review'
-            b = await say(reviewer, b, '确认')
+            assert b['pending_intent']['collaboration']['payload'][
+                'applied_knowledge_citation_ids'] == []
+            # Plain chat has not selected the actual references. It cannot complete P13.
+            await say(reviewer, b, '确认', status=409)
+            await send(reviewer, task, 'complete_review', command(
+                4, 2, conclusion='已通过结构化命令选择本轮实际引用'))
+            b = (await reviewer.get(f"/conversations/{b['conversation_id']}")).json()
             assert b['task_projection']['collaboration']['application']['status'] == (
                 'review_completed')
             timeline = (await applicant.get(f'/collaboration/applications/{task}')).json()['events']

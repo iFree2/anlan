@@ -8,7 +8,7 @@ from test_events_postgres import dsn, run  # noqa: F401
 from test_preflight_bindings import send, setup
 from test_preflight_contracts import command
 
-from anlan.common.errors import AccessDenied
+from anlan.common.errors import AccessDenied, InvalidTransition
 from anlan.infrastructure.budget import BudgetLedger
 from anlan.infrastructure.conversations import ConversationStore
 from anlan.interfaces.runtime import postgres_service
@@ -34,15 +34,37 @@ def test_policy_uses_actual_stage_and_preserves_later_policy(dsn, tmp_path):  # 
             owner, reviewer, task = actors[0], actors[1], state["task_id"]
             policy = await service.store.ensure_policy(owner.tenant_id, task)
             assert policy.required and not policy.legacy_completed
+            await service.confirm(owner, task, command())
             await send(collab, owner, task, "submit", reviewer_user_id=reviewer.user_id)
-            await send(collab, reviewer, task, "complete_review", 2, conclusion="旧人工核查")
+            with pytest.raises(InvalidTransition):
+                await send(collab, reviewer, task, "complete_review", 2, conclusion="旧人工核查")
+            from test_preflight_service import populate_sources
+
+            from anlan.preflight.runner import PreflightRunner
+            from anlan.preflight.service import PreflightService
+            from anlan.tools.queries import FactTools
+
+            knowledge = await populate_sources(dsn, service.config, actors, tmp_path)
+            preflight = PreflightService(dsn, service.config, service.service_context_factory,
+                PreflightRunner(FactTools(tmp_path, clock=lambda: service.config.as_of), knowledge,
+                                clock=lambda: service.config.as_of))
+            job = await service.store.latest(owner.tenant_id, task)
+            evidence = await preflight.process_next(job['job_id'])
+            await send(collab, reviewer, task, 'complete_review', 2, conclusion='人工核对',
+                expected_binding_revision=1, expected_check_id=evidence['check_id'],
+                applied_knowledge_citation_ids=evidence['result']['citation_ids'])
             # A later completion must not reclassify a policy already created as required.
             assert await service.store.ensure_policy(owner.tenant_id, task) == policy
             async with service.service_context_factory() as workflow:
                 other = await workflow.start(owner, state["fields"])
-            await send(collab, owner, other["task_id"], "submit", reviewer_user_id=reviewer.user_id)
-            await send(collab, reviewer, other["task_id"], "complete_review", 2,
-                       conclusion="历史核查")
+            # A controlled pre-P13 row has no policy yet and was already completed at upgrade.
+            async with service.store.connection() as conn:
+                await conn.execute('DELETE FROM anlan_v2.precheck_policies WHERE task_id=%s',
+                                   (other['task_id'],))
+                await conn.execute("UPDATE anlan_v2.collaboration_applications SET "
+                    "status='review_completed',reviewer_user_id=%s,version=3,"
+                    'submitted_material_revision=1,completed_material_revision=1 WHERE task_id=%s',
+                    (reviewer.user_id, other['task_id']))
             historical = await collab.get(owner, other["task_id"])
             legacy = await service.store.ensure_policy(owner.tenant_id, other["task_id"])
             assert legacy.legacy_completed and not legacy.required
@@ -100,7 +122,7 @@ def test_initialization_preserves_original_rows_and_does_not_activate_policy(dsn
             async with service.store.connection() as conn:
                 row = await (await conn.execute("SELECT count(*) AS n FROM "
                     "anlan_v2.precheck_policies WHERE task_id=%s", (state["task_id"],))).fetchone()
-                assert row["n"] == 0
+                assert row["n"] == 1
             async with service.service_context_factory() as workflow:
                 assert await workflow.get(actors[0], state["task_id"]) == state
             async with postgres_service(dsn, OfflineAnalyzer()) as workflow:
@@ -152,8 +174,8 @@ def test_versions_and_actor_requests_are_unique_and_tenant_bound(dsn, tmp_path):
                                 (task,))
                 with pytest.raises(errors.ForeignKeyViolation):
                     async with conn.transaction(force_rollback=True):
-                        await conn.execute("INSERT INTO anlan_v2.precheck_policies "
-                            "(task_id,tenant_id,required,legacy_completed) "
-                            "VALUES (%s,'foreign',true,false)",
+                        await conn.execute("UPDATE anlan_v2.precheck_policies "
+                            "SET tenant_id='foreign' "
+                            "WHERE task_id=%s",
                             (task,))
     run(scenario())

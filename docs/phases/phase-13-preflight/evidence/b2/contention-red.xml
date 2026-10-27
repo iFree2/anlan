@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="3.851" timestamp="2026-10-27T23:27:03.252664+08:00" hostname="DESKTOPBEG5JJT"><testcase classname="tests.test_preflight_service" name="test_busy_registry_relinquishes_lease_for_readonly_retry" time="1.796"><failure message="assert None is not None">tests\test_preflight_service.py:362: in test_busy_registry_relinquishes_lease_for_readonly_retry
+    run(scenario())
+tests\test_events_postgres.py:24: in run
+    return asyncio.run(coro, loop_factory=asyncio.SelectorEventLoop)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\msm84\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:719: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_preflight_service.py:361: in scenario
+    assert await preflight.store.claim(submit['precheck_job_id']) is not None
+E   assert None is not None</failure></testcase></testsuite></testsuites>

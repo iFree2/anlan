@@ -11,8 +11,9 @@ PositiveRevision = Annotated[int, Field(strict=True, ge=1)]
 
 
 class BindingCommand(FactReferences):
-    request_id: Annotated[str, StringConstraints(
-        strict=True, min_length=1, max_length=500, pattern=r"\S")]
+    request_id: Annotated[
+        str, StringConstraints(strict=True, min_length=1, max_length=500, pattern=r"\S")
+    ]
     expected_material_revision: PositiveRevision
     expected_binding_revision: int = Field(strict=True, ge=0)
 
@@ -45,6 +46,16 @@ class EvidenceKey(StrictModel):
     material_revision: PositiveRevision
     binding_revision: PositiveRevision
     application_version: PositiveRevision
+
+
+class RecheckCommand(StrictModel):
+    request_id: Annotated[str, StringConstraints(strict=True, min_length=1, max_length=500,
+                                               pattern=r'\S')]
+    expected_material_revision: PositiveRevision
+    expected_binding_revision: PositiveRevision
+    expected_application_version: PositiveRevision
+    reason: Annotated[str, StringConstraints(strict=True, min_length=1, max_length=500,
+                                           pattern=r'\S')]
 
 
 class CatalogQualification(StrictModel):

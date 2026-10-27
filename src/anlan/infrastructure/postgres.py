@@ -34,6 +34,11 @@ async def initialize_database(dsn: str) -> None:
                 conninfo(dsn), serde=checkpoint_serde()
             ) as saver:
                 await saver.setup()
+            from anlan.infrastructure.collaboration import CollaborationStore
+            from anlan.infrastructure.preflight import PrecheckStore
+
+            await CollaborationStore(dsn).initialize()
+            await PrecheckStore(dsn).initialize()
         finally:
             await conn.execute("SELECT pg_advisory_unlock(73421102)")
 
@@ -55,6 +60,10 @@ class PostgresRegistry:
 
                     await CollaborationStore("").ensure_draft(
                         record.identity, "applicant", record.task_id, conn=self.conn)
+                    from anlan.infrastructure.preflight import PrecheckStore
+
+                    await PrecheckStore('').ensure_policy(record.identity.tenant_id,
+                                                         record.task_id, conn=self.conn)
 
     async def _create(self, record, *, idempotent):
         await self.conn.execute(
