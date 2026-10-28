@@ -22,8 +22,6 @@
 
 协调实际核对route/request metadata/freeze后确认，已交原会话。最终源码/RED-GREEN待复核。
 
-## 执行纪律
-
 ## Important：binding直接投影的当前对象授权
 
 接入同锁precheck_projection后，初版在当前facts ACL校验前向view写入完整binding；校验仅在有job时执行，拒绝后binding仍在。无job或对象ACL撤销时，BindingService.get拒绝的对象ID仍可由协作GET/会话快照返回。要求任何对象投影前验证当前ACL；失败只返回安全状态，不带binding/原始证据。源码已加入binding_visible方向修复，最终真实PG红绿待核对。
@@ -40,4 +38,4 @@
 
 ## 执行纪律
 
-审查者只读，没有运行测试、改代码、SSH或模型调用。协调不并行改B3源码，原dirty与私密配置保留。B1/B2已验收；B3三项关闭并完成接口/UI/事件/浏览器交接后再做独立验收，B4仍未启动。
+审查者只读，没有运行测试、改代码、SSH或模型调用。协调不并行改B3源码，原dirty与私密配置保留。B1/B2已验收；B3五项关闭并完成接口/UI/事件/浏览器交接后再做独立验收，B4仍未启动。
