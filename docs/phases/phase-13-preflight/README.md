@@ -21,4 +21,4 @@
 
 协调启动前非PG配置基线23 passed、1 PG用例排除，2.03s；B1自身仍必须使用独立真实PG验收。本阶段没有创建自动化，后批不能凭B1自检提前启动。
 
-2026-10-28：B3上轮因Codex开发额度触发systemError，全部未提交改动保留。协调读取当前额度已恢复可用，按用户“继续”在原会话恢复；未消费reset、未建重复批次。需关闭private legacy事件入口、旧shared缺binding_revision、人工引用选择在生成卡片前被升级三项提前审查问题，再收尾UI/浏览器与本批回归。见[待闭环审查记录](batch-03-coordinator-review.md)。B3仍未验收，B4未启动。
+2026-10-28：B3上轮因Codex开发额度触发systemError，全部未提交改动保留。协调读取当前额度已恢复可用，按用户“继续”在原会话恢复；未消费reset、未建重复批次。提前审查涉及private legacy事件入口、旧shared缺binding_revision、人工引用选择批次、binding直接投影ACL、旧消息缓存ACL五项。前三项源码修复方向已核对；新增投影/缓存防线仍需真实PG及替换批次验证，随后收尾UI/双浏览器与完整相邻回归。见[待闭环审查记录](batch-03-coordinator-review.md)。原会话局部回复不当作整批完成，B3仍未验收，B4未启动。
