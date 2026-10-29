@@ -1,0 +1,45 @@
+{
+  "status": "passed",
+  "date": "2026-10-29",
+  "data_origin": "SYNTHETIC",
+  "real_model_requests": 0,
+  "credentials_recorded": false,
+  "wheel": {
+    "name": "anlan-0.1.0-py3-none-any.whl",
+    "sha256": "3155719ed37c44f958711a13471f47277e582b95891f4aa5e2425783b0d156cb"
+  },
+  "wheel_gate": {
+    "processes": 3,
+    "unique_pids": 3,
+    "cwd_outside_source": true,
+    "temporary_directory_removed": true,
+    "application_version": 5,
+    "ready_binding_revision": 2,
+    "event_binding_revision": 2,
+    "event_currentness": "current",
+    "initial_alarm_state": "active",
+    "final_alarm_state": "active"
+  },
+  "full_regression": {
+    "command": "pytest -q -m 'not live_model'",
+    "passed": 1044,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "deselected": 1,
+    "duration_seconds": 793.98,
+    "third_party_warning": "Starlette BlockingPortal deprecation"
+  },
+  "browser": {
+    "contexts": 2,
+    "desktop": true,
+    "mobile_viewport": "390x844",
+    "horizontal_overflow": false,
+    "abnormal_gap_seen": true,
+    "rebind_and_resubmit_closed": true,
+    "event_review_current": true,
+    "alarm_preserved_active": true
+  },
+  "ruff": "passed",
+  "independent_review": "pending"
+}

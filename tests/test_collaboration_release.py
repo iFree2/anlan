@@ -15,6 +15,14 @@ def verifier():
     return module
 
 
+def preflight_verifier():
+    spec = importlib.util.spec_from_file_location(
+        'preflight_release', 'scripts/verify_preflight_release.py')
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 class StartupBlocked(Exception):
     """Offline tests must never spawn a child or connect to any database/network."""
 
@@ -394,9 +402,15 @@ globalThis.refresh = refreshConversation;
 def test_wheel_process_restarts_preserve_frozen_commands_and_committed_replay(
     dsn, tmp_path,  # noqa: F811
 ):
+    import asyncio
     import json
     import os
     import subprocess
+
+    from anlan.common.models import Identity
+    from anlan.interfaces.service_config import ServiceConfig
+    from anlan.knowledge.embeddings import LocalEmbeddings
+    from anlan.knowledge.store import KnowledgeStore
 
     wheel = os.environ.get('ANLAN_B4_TEST_WHEEL')
     config = os.environ.get('ANLAN_B4_TEST_CONFIG')
@@ -411,20 +425,54 @@ def test_wheel_process_restarts_preserve_frozen_commands_and_committed_replay(
         spec.loader.exec_module(prepare)
         config = prepare.prepare(tmp_path / 'demo') / 'service.json'
         document = json.loads(config.read_text(encoding='utf-8'))
-        document['embeddings_cache'] = str(Path('.runtime/embeddings').resolve())
+        cache = Path('.runtime/embeddings').resolve()
+        document['embeddings_cache'] = str(cache)
         config.write_text(json.dumps(document), encoding='utf-8')
-    module = verifier()
+        service = ServiceConfig.model_validate(document)
+        tenant = service.tokens[0].identity.tenant_id
+        users = [grant.identity.user_id for grant in service.tokens]
+        documents = json.loads(
+            Path('examples/synthetic/perception-v1/knowledge.json').read_text(
+                encoding='utf-8'))['documents']
+        documents.append({
+            'data_origin': 'SYNTHETIC',
+            'doc_id': 'p13-preflight-hot-work',
+            'version': 1,
+            'title': '合成动火作业前依据',
+            'source': 'synthetic-p13-policy/preflight',
+            'valid_from': '2026-09-22T03:00:00Z',
+            'valid_until': '2026-09-23T00:00:00Z',
+            'allowed_users': users,
+            'paragraphs': [
+                'SYNTHETIC：作业前先核对已确认作业人员的焊接资质、当前区域状态和适用规程。'
+                '安全人员必须明确选择实际采用的引用；材料核查完成不代表作业批准或开工授权。'
+            ],
+        })
+
+        async def seed():
+            embeddings = await LocalEmbeddings.create(cache)
+            store = KnowledgeStore(dsn, embeddings, clock=lambda: service.as_of)
+            await store.initialize()
+            owner = Identity(tenant_id=tenant, user_id=users[0])
+            for item in documents:
+                await store.ingest(owner, item | {'allowed_users': users})
+
+        asyncio.run(seed(), loop_factory=asyncio.SelectorEventLoop)
+    module = preflight_verifier()
     report = module.verify(Path(wheel), Path(config), dsn)
     assert report['status'] == 'passed'
-    assert len(set(report['process_ids'])) == 4
-    assert report['crash_exit_code'] == 91
+    assert len(set(report['process_ids'])) == 3
     assert report['application_version'] == 5
-    assert report['completed_material_revision'] == 2
-    assert report['applicant_conversation'] != report['reviewer_conversation']
+    assert report['precheck_blocked_worker'] == 'worker-p13-alert'
+    assert report['precheck_blocked_area'] == 'area-p13-restricted'
+    assert report['precheck_ready_binding_revision'] == 2
+    assert report['event_review']['binding_revision'] == 2
+    assert report['event_review']['alarm_state'] == 'active'
+    assert report['event_review']['currentness'] == 'current'
     assert all(str(Path(wheel).resolve()) in value for value in report['module_files'])
     assert report['cwd_outside_source']
-    assert report['submit_event_count'] == report['submit_notification_count'] == 1
-    assert len(report['process_lifecycle']) == 4
+    assert report['real_model_requests'] == 0
+    assert len(report['process_lifecycle']) == 3
     assert all(row['pid'] == row['launched_pid'] and row['exit_verified'] and row['port_closed']
                for row in report['process_lifecycle'])
     assert report['temporary_directory_removed']
