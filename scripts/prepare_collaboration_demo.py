@@ -27,10 +27,58 @@ def prepare(output: Path):
             record['tenant_id'] = tenant
         with (facts / path.name).open('x', encoding='utf-8') as stream:
             json.dump(document, stream, ensure_ascii=False, indent=2)
+    # New, local-only P13 fixtures deliberately do not reuse a person's private facts.
+    # Both identities receive two visible choices, one normal and one blocking scenario.
+    access = {
+        'data_origin': 'SYNTHETIC', 'version': 'p13-b3-demo-v1', 'records': [
+            {'tenant_id': tenant, 'user_id': grant['identity']['user_id'],
+             'worker_ids': ['worker-p13-normal', 'worker-p13-alert'],
+             'area_ids': ['area-p13-normal', 'area-p13-restricted']}
+            for grant in grants
+        ],
+    }
+    qualifications = {
+        'data_origin': 'SYNTHETIC', 'version': 'p13-b3-demo-v1', 'records': [
+            {'tenant_id': tenant, 'record_id': 'qualification-p13-normal',
+             'object_id': 'worker-p13-normal', 'qualification_type': 'welding',
+             'observed_at': '2026-09-22T03:55:00Z', 'valid_from': '2026-09-22T03:00:00Z',
+             'valid_until': '2026-09-22T05:00:00Z', 'status': 'active'},
+            {'tenant_id': tenant, 'record_id': 'qualification-p13-alert',
+             'object_id': 'worker-p13-alert', 'qualification_type': 'welding',
+             'observed_at': '2026-09-22T03:55:00Z', 'valid_from': '2026-09-22T03:00:00Z',
+             'valid_until': '2026-09-22T05:00:00Z', 'status': 'suspended'},
+        ],
+    }
+    areas = {
+        'data_origin': 'SYNTHETIC', 'version': 'p13-b3-demo-v1', 'records': [
+            {'tenant_id': tenant, 'record_id': 'area-p13-normal', 'object_id': 'area-p13-normal',
+             'observed_at': '2026-09-22T03:55:00Z', 'valid_from': '2026-09-22T03:00:00Z',
+             'valid_until': '2026-09-22T05:00:00Z', 'status': 'normal'},
+            {'tenant_id': tenant, 'record_id': 'area-p13-restricted',
+             'object_id': 'area-p13-restricted', 'observed_at': '2026-09-22T03:55:00Z',
+             'valid_from': '2026-09-22T03:00:00Z', 'valid_until': '2026-09-22T05:00:00Z',
+             'status': 'restricted'},
+        ],
+    }
+    for name, document in [('access.json', access), ('qualifications.json', qualifications),
+                           ('areas.json', areas)]:
+        with (facts / name).open('w', encoding='utf-8') as stream:
+            json.dump(document, stream, ensure_ascii=False, indent=2)
     config = {'schema_version': 'local-service-v1', 'tokens': grants,
               'model_mode': 'scripted_double',
               'as_of': '2026-09-22T04:00:00+00:00',
               'facts_dir': str(facts.resolve()),
+              'precheck_catalogs': [{'tenant_id': tenant, 'workers': [
+                  {'worker_id': 'worker-p13-normal', 'label': 'SYNTHETIC 正常作业人员',
+                   'qualification_types': [
+                       {'qualification_type': 'welding', 'label': 'SYNTHETIC 焊接资质'}]},
+                  {'worker_id': 'worker-p13-alert', 'label': 'SYNTHETIC 资质异常人员',
+                   'qualification_types': [
+                       {'qualification_type': 'welding', 'label': 'SYNTHETIC 焊接资质'}]},
+              ], 'areas': [
+                  {'area_id': 'area-p13-normal', 'label': 'SYNTHETIC 正常区域'},
+                  {'area_id': 'area-p13-restricted', 'label': 'SYNTHETIC 受限区域'},
+              ]}],
               'console_profiles': [{'identity': grants[1]['identity'], 'references':
                   json.loads((source / 'refs.json').read_text(encoding='utf-8'))}]}
     ServiceConfig.model_validate(config)

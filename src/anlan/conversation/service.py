@@ -77,6 +77,14 @@ class ConversationService:
                     proposal = proposal_override or await models.classifier.classify(
                         context, run_id=f"conversation:{reservation['message_id']}:classify"
                     )
+                    # A model may describe citations, but it can never select an adopted
+                    # citation.  Only the dedicated deterministic HTTP route supplies the
+                    # special classifier marker consumed by the collaboration adapter.
+                    if proposal_override is None and proposal.collaboration is not None:
+                        collaboration = proposal.collaboration.model_copy(
+                            update={"applied_knowledge_citation_ids": []}
+                        )
+                        proposal = proposal.model_copy(update={"collaboration": collaboration})
                 except Exception:
                     return await self.store.fail_message(
                         identity,

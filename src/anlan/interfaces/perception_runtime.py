@@ -12,6 +12,7 @@ from anlan.common.models import StrictModel
 from anlan.infrastructure.budget import AUTHORIZATION_ID
 from anlan.infrastructure.events import EventStore
 from anlan.infrastructure.perception import PerceptionStore
+from anlan.infrastructure.preflight import PrecheckStore
 from anlan.interfaces.event_runtime import process_event
 from anlan.interfaces.runtime import postgres_service
 from anlan.tools.contracts import FactReferences
@@ -42,6 +43,7 @@ class PerceptionRuntime:
         self.access_config = access_config
         self.events = EventStore(dsn, clock=lambda: self.clock(), access_config=access_config)
         self.store = PerceptionStore(dsn, clock=lambda: self.clock(), access_config=access_config)
+        self.prechecks = PrecheckStore(dsn)
 
     def workflow(self):
         return postgres_service(self.dsn, OfflineAnalyzer(), access_config=self.access_config)
@@ -63,6 +65,18 @@ class PerceptionRuntime:
         status = material_status(source, state)
         if status != "linked":
             return status
+        application = await service._registry.access.application(conn, source.task_id)
+        if application is not None:
+            binding = await self.prechecks.get_binding(
+                identity.tenant_id, source.task_id, conn=conn
+            )
+            if (
+                binding is None
+                or source.binding_revision is None
+                or binding.binding_revision != source.binding_revision
+                or binding.references.area_id != source.object_ref
+            ):
+                return "stale_binding"
         temporal = admission(parse_event(event["raw"]), source, self.events.now())
         if temporal != "pending":
             return temporal

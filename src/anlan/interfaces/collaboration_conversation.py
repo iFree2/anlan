@@ -37,6 +37,7 @@ class CollaborationConversationAdapter:
                 if not material:
                     raise InvalidTransition('任务尚未写入 checkpoint；请执行 recover')
                 events = await self.service.store.events(conn, app)
+                precheck = await self.service.precheck_projection(actor, app, material, conn=conn)
                 if self.role(actor) == 'applicant' and actor == record.identity:
                     projection = _project(material)
                 else:
@@ -55,8 +56,8 @@ class CollaborationConversationAdapter:
                 continue
             actions.append(action)
         return WorkflowResult(projection=projection.model_copy(update={
-            'collaboration': {'application': app.model_dump(mode='json'),
-                              'events': events, 'allowed_actions': actions,
+            'collaboration': {'application': app.model_dump(mode='json'), 'events': events,
+                              'precheck': precheck, 'allowed_actions': actions,
                               'notice': '材料核查完成不代表作业批准或开工授权'}}))
 
     async def freeze(self, actor, conversation_id, message_id, task_id, proposal):
@@ -66,14 +67,35 @@ class CollaborationConversationAdapter:
         authorize(actor, self.role(actor), app, action)
         details = (proposal.collaboration.model_dump(exclude_none=True)
                    if proposal.collaboration else {})
+        selected_citations = details.pop('applied_knowledge_citation_ids', [])
+        requested_preflight = {
+            key: details.pop(key, None)
+            for key in ('expected_check_id', 'expected_material_revision',
+                        'expected_binding_revision', 'expected_application_version')
+        }
         if not details.get('questions'):
             details.pop('questions', None)
         if action in {'submit', 'resubmit', 'complete_review'}:
             details['expected_binding_revision'] = shared['precheck']['binding_revision']
         if action == 'complete_review':
-            details['expected_check_id'] = shared['precheck'].get('check_id')
-            # Ordinary chat/model proposals cannot select applicable references.
-            details['applied_knowledge_citation_ids'] = []
+            expected = {
+                'expected_check_id': shared['precheck'].get('check_id'),
+                'expected_material_revision': shared['materials']['revision'],
+                'expected_binding_revision': shared['precheck']['binding_revision'],
+                'expected_application_version': app.version,
+            }
+            if proposal.classifier_version == 'structured-human-citations-v1':
+                if requested_preflight != expected:
+                    raise InvalidTransition('人工引用选择所见的申请、材料、绑定或预核查版本已过期')
+                details.update(requested_preflight)
+            else:
+                details['expected_check_id'] = expected['expected_check_id']
+            # Only the dedicated structured human-citation route may carry selections.
+            # A normal chat/model proposal is always frozen with an empty selection.
+            details['applied_knowledge_citation_ids'] = (
+                selected_citations if proposal.classifier_version ==
+                'structured-human-citations-v1' else []
+            )
         payload = COMMANDS[action].model_validate({
             'request_id': _request_id(conversation_id, message_id, action),
             'expected_application_version': app.version,
@@ -115,3 +137,25 @@ class CollaborationConversationAdapter:
             # Original authorized workflow read preserves legacy owner-only compatibility,
             # and checks persisted collaboration participation even when role is now None.
             await bounded_read(lambda: self.workflow.read(actor, task_id))
+            cached = ((projection.get('collaboration') or {}).get('precheck') or {})
+            if cached.get('binding') is not None or cached.get('evidence') is not None:
+                # Cached conversation results never bypass newly revoked object or
+                # knowledge access.  A safe rejection avoids replaying private evidence
+                # and does not execute the original business command again.
+                fresh = await self.service.get(actor, task_id)
+                current = fresh['precheck']
+                binding_revoked = (
+                    cached.get('binding') is not None and current.get('binding') is None
+                )
+                evidence_revoked = (
+                    cached.get('evidence') is not None and current.get('evidence') is None
+                )
+                binding_replaced = (
+                    cached.get('binding_revision') != current.get('binding_revision')
+                )
+                check_replaced = (
+                    cached.get('evidence') is not None
+                    and cached.get('check_id') != current.get('check_id')
+                )
+                if binding_revoked or evidence_revoked or binding_replaced or check_replaced:
+                    raise AccessDenied('缓存中的作业前依据已不再获授权访问')

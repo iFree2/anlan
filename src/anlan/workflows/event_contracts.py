@@ -67,6 +67,10 @@ class SourceBinding(StrictModel):
     object_ref: Identifier
     task_id: Identifier
     revision: Sequence
+    # Pre-P13 receipts did not record the application object binding.  Keep those
+    # immutable historical records readable, but every newly generated shared event
+    # carries this value and can therefore become stale when the worker/area changes.
+    binding_revision: Sequence | None = None
     run_id: Identifier
     valid_from: AwareDatetime
     valid_until: AwareDatetime

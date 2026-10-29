@@ -32,6 +32,7 @@ from anlan.interfaces.conversation_routes import install_conversation_routes
 from anlan.interfaces.conversation_runtime import WorkflowAdapter
 from anlan.interfaces.event_runtime import process_event
 from anlan.interfaces.perception_runtime import Feedback, PerceptionRuntime
+from anlan.interfaces.preflight_routes import install_preflight_routes
 from anlan.interfaces.service_models import ServiceModels
 from anlan.interfaces.streams import snapshot_stream
 from anlan.knowledge.embeddings import LocalEmbeddings
@@ -222,8 +223,9 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
             return await CollaborationService._bounded_lock(lambda: service.get(identity, task))
 
     install_conversation_routes(app, conversation_service, Actor)
-    install_collaboration_routes(app, CollaborationService(
-        dsn, config, models.material_service), Actor)
+    collaboration_routes = CollaborationService(dsn, config, models.material_service)
+    install_collaboration_routes(app, collaboration_routes, Actor)
+    install_preflight_routes(app, collaboration_routes, Actor)
 
     @app.get("/healthz")
     async def health():

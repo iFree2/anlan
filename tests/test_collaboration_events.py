@@ -97,8 +97,6 @@ def test_shared_event_time_and_superseding_checks_remain_authoritative(dsn):  # 
     async def scenario():
         from datetime import timedelta
 
-        from test_events import NOW
-
         from anlan.interfaces.perception_runtime import PerceptionRuntime
 
         async with clients(dsn, event_settings()) as (sessions, actors, config):
@@ -109,7 +107,7 @@ def test_shared_event_time_and_superseding_checks_remain_authoritative(dsn):  # 
                 'request_id': 'time-review'})
             assert review.status_code == 200
             rid = review.json()['review_id']
-            future = PerceptionRuntime(dsn, clock=lambda: NOW + timedelta(minutes=11),
+            future = PerceptionRuntime(dsn, clock=lambda: config.as_of + timedelta(minutes=11),
                                        access_config=config)
             assert (await future.get(actors[1], rid))['currentness'] == 'expired_event'
             await simulate(sessions[1], task)

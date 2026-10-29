@@ -71,7 +71,9 @@ def public_event(value):
     result = value.get('result')
     return {k: value[k] for k in ('receipt_id', 'source_id', 'raw', 'admission',
                                   'data_origin', 'received_at', 'actor') if k in value} | {
-        'binding': {k: binding[k] for k in ('task_id', 'revision', 'object_ref', 'kind')
+        'binding': {k: binding[k] for k in (
+            'task_id', 'revision', 'binding_revision', 'object_ref', 'kind'
+        )
                     if k in binding},
         'result': ({k: result[k] for k in ('status', 'task_id', 'revision', 'processed_at')
                     if k in result} if result else None),

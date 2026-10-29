@@ -34,7 +34,15 @@
 
 ## 当前待交付
 
-截至协调本次记录，B3尚未提交实现/handoff，test_preflight_console.py及两独立浏览器主线证据仍待完成。已在原会话继续完整B3，不能把局部Ruff或单条修复回复当作交付。以上前三项源码方向经审查确认，尚需最终提交/完整回归后逐项闭环。
+截至协调本次记录，B3尚未提交实现/handoff。test_preflight_console.py已建立，协调独立执行通过；两独立浏览器主线仍在原会话推进。不能把局部Ruff或单条修复回复当作交付。五项源码方向已经提前审查，仍需最终提交、完整回归和证据逐项闭环。
+
+## 协调初验：绑定与后台任务短锁竞争（专项复验通过，待最终交接）
+
+2026-10-28，协调在新的loopback PG17隔离库anlan_p13_coord_b3_20261028启用vector，执行test_preflight_api.py、test_preflight_conversation.py、test_preflight_events.py、test_preflight_console.py，结果6 passed / 1 failed，40.72s，0跳过。原始JUnit保存在.runtime/p13-b3-coordinator-initial.xml；不是最终验收结果。
+
+失败位于test_console_events_follow_confirmed_binding_and_old_review_is_stale_binding：submit→事件生成/核查→request_changes→立即BindingService.confirm更换绑定时，在registry.locked获取锁处抛TaskBusy（测试第39行）。已交回原会话复现并区分自动worker/读取短锁的竞争，核对HTTP绑定入口与既有有界获取锁惯例；不以固定长sleep或盲目重跑判通过，不重执行已提交业务或模型。关闭此失败后再执行独立复验。
+
+2026-10-29复验：BindingService.confirm已加入11次、50ms间隔的有界获取重试，当前调用链的TaskBusy只在registry.locked取得任务锁前抛出，不重放已执行事务。首次复验因项目PG17没有运行而产生6个setup连接超时（DOM 1项通过），保留.runtime/p13-b3-coordinator-lockfix.xml；不能当成代码测试通过。经项目脚本恢复自有PG17，崩溃恢复保留原库后，同一组合**7 passed，0跳过，56.13s**，记录.runtime/p13-b3-coordinator-restored.xml。初验失败与环境失败均保留，最终提交和完整相邻回归仍待原会话交付。
 
 ## 执行纪律
 

@@ -1,12 +1,14 @@
 """Scoped lists and server-bound synthetic events; no model or approval authority."""
 
+import asyncio
 from datetime import timedelta
 from importlib.resources import files
 
 from anlan.collaboration.event_access import public_event, public_review
-from anlan.common.errors import AccessDenied, InvalidTransition
+from anlan.common.errors import AccessDenied, InvalidTransition, TaskBusy
 from anlan.infrastructure.events import EventStore
 from anlan.infrastructure.perception import PerceptionStore
+from anlan.infrastructure.preflight import PrecheckStore
 from anlan.interfaces.conversation_runtime import bounded_read
 from anlan.interfaces.runtime import postgres_service
 from anlan.workflows.event_contracts import SourceBinding, digest
@@ -39,6 +41,17 @@ class ConsoleService:
 
     def workflow(self):
         return postgres_service(self.dsn, OfflineAnalyzer(), access_config=self.config)
+
+    @staticmethod
+    async def bounded(operation):
+        """Retry only a transient task-lock acquisition; each command stays idempotent."""
+        for attempt in range(11):
+            try:
+                return await operation()
+            except TaskBusy:
+                if attempt == 10:
+                    raise
+                await asyncio.sleep(0.05)
 
     async def initialize(self):
         async with await self.events.connect() as conn:
@@ -103,6 +116,16 @@ class ConsoleService:
                 if record.mode != self.material_mode:
                     raise InvalidTransition("历史材料只读，请新建当前模型模式的任务")
                 async with registry.conn.transaction():
+                    application = await registry.access.application(registry.conn, task_id)
+                    trusted = None
+                    if application is not None:
+                        trusted = await PrecheckStore(self.dsn).get_binding(
+                            storage_scope.tenant_id, task_id, conn=registry.conn
+                        )
+                        if trusted is None:
+                            # Persisted collaboration history is never a profile-default fallback.
+                            raise InvalidTransition("本申请尚未确认作业人员、资质类型和区域")
+                    references = trusted.references if trusted is not None else profile.references
                     await self.events._stream_lock(registry.conn, storage_scope, sid)
                     cursor = await registry.conn.execute(
                         "SELECT document,result FROM anlan_v2.perception_events "
@@ -128,8 +151,9 @@ class ConsoleService:
                     head = await self.events._head(registry.conn, storage_scope, sid)
                     binding = SourceBinding(
                         identity=storage_scope, source_id=sid, kind=request.kind,
-                        object_ref=profile.references.area_id, task_id=task_id,
+                        object_ref=references.area_id, task_id=task_id,
                         revision=state["revision"], run_id=state["run_id"],
+                        binding_revision=(trusted.binding_revision if trusted else None),
                         valid_from=now - timedelta(seconds=1),
                         valid_until=now + timedelta(minutes=15),
                     )
@@ -152,13 +176,32 @@ class ConsoleService:
         binding = event["binding"]
         if (not binding or event["source_id"] != source_id(
                 SourceBinding.model_validate(binding).identity,
-                binding["task_id"], event["raw"]["kind"])
-                or binding["object_ref"] != profile.references.area_id):
+                binding["task_id"], event["raw"]["kind"])):
             raise AccessDenied("事件不属于当前合成操作台来源")
         async with self.workflow() as workflow:
             async with workflow._registry.locked(identity, binding["task_id"],
                                                  action='run_event_review') as record:
                 if record.mode != self.material_mode:
                     raise InvalidTransition("历史材料只读，请新建当前模型模式的任务")
-        return await runtime.review(identity, receipt, profile.references.model_dump(),
+                source = SourceBinding.model_validate(binding)
+                application = await workflow._registry.access.application(
+                    workflow._registry.conn, binding["task_id"]
+                )
+                if application is not None:
+                    trusted = await PrecheckStore(self.dsn).get_binding(
+                        record.identity.tenant_id, binding["task_id"], conn=workflow._registry.conn
+                    )
+                    if (
+                        trusted is None
+                        or source.binding_revision is None
+                        or source.binding_revision != trusted.binding_revision
+                        or source.object_ref != trusted.references.area_id
+                    ):
+                        raise InvalidTransition("事件绑定已过期，需要按当前申请对象重新生成事件")
+                    references = trusted.references
+                else:
+                    if source.object_ref != profile.references.area_id:
+                        raise AccessDenied("事件不属于当前合成操作台来源")
+                    references = profile.references
+        return await runtime.review(identity, receipt, references.model_dump(),
                                     request_id=request_id)

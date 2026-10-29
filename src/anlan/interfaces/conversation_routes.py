@@ -30,6 +30,18 @@ class CollaborationCandidateRequest(StrictModel):
     collaboration: CollaborationInput
 
 
+class HumanCitationCandidateRequest(StrictModel):
+    """A safety manager's actual checkbox selection; never a model-proposed field."""
+    request_id: Identifier
+    expected_revision: int = Field(strict=True, ge=1)
+    expected_check_id: str = Field(strict=True, min_length=1, max_length=500)
+    expected_material_revision: int = Field(strict=True, ge=1)
+    expected_binding_revision: int = Field(strict=True, ge=1)
+    expected_application_version: int = Field(strict=True, ge=1)
+    conclusion: str = Field(strict=True, min_length=1, max_length=500)
+    applied_knowledge_citation_ids: list[str] = Field(min_length=1, max_length=3)
+
+
 class ConversationMessageRequest(StrictModel):
     request_id: Identifier
     expected_revision: int = Field(strict=True, ge=1)
@@ -62,6 +74,30 @@ def install_conversation_routes(app, service, Actor):
                                            'resubmit_application': '准备重新提交申请',
                                            'complete_material_review': '准备完成人工材料核查'}[
                                                payload.intent], proposal_override=proposal)
+
+    @app.post('/conversations/{conversation_id}/preflight-citation-candidates')
+    async def human_citation_candidate(conversation_id: str, payload: HumanCitationCandidateRequest,
+                                       identity: Actor):
+        # This route is a deterministic human selection, not a classifier tool call.
+        proposal = IntentProposal(
+            intent='complete_material_review',
+            collaboration=CollaborationInput(
+                conclusion=payload.conclusion,
+                applied_knowledge_citation_ids=payload.applied_knowledge_citation_ids,
+                expected_check_id=payload.expected_check_id,
+                expected_material_revision=payload.expected_material_revision,
+                expected_binding_revision=payload.expected_binding_revision,
+                expected_application_version=payload.expected_application_version,
+            ),
+            requires_confirmation=True,
+            user_explanation='本人已选择本轮实际采用的预核查引用',
+            classifier_version='structured-human-citations-v1',
+        )
+        return await service.message(
+            identity, conversation_id, request_id=payload.request_id,
+            expected_revision=payload.expected_revision, text='准备确认实际采用的作业前依据',
+            proposal_override=proposal,
+        )
     @app.post("/conversations")
     async def create_conversation(payload: CreateConversationRequest, identity: Actor):
         return await service.create(identity, request_id=payload.request_id)

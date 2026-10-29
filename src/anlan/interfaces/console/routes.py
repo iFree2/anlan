@@ -83,7 +83,8 @@ def install_console(app, dsn, config, who, clock, runtime_factory, model_info):
 
     @app.post("/console/api/tasks/{task}/events")
     async def simulate(task: str, payload: SimulateRequest, identity: Actor):
-        return service.event_projection(identity, await service.simulate(identity, task, payload))
+        value = await service.bounded(lambda: service.simulate(identity, task, payload))
+        return service.event_projection(identity, value)
 
     @app.get("/console/api/events/{receipt}/reviews")
     async def reviews(receipt: str, identity: Actor):
@@ -91,5 +92,7 @@ def install_console(app, dsn, config, who, clock, runtime_factory, model_info):
 
     @app.post("/console/api/events/{receipt}/reviews")
     async def review(receipt: str, payload: ConsoleReviewRequest, identity: Actor):
-        return service.review_projection(identity, await service.review(
-            identity, receipt, payload.request_id, runtime_factory()))
+        value = await service.bounded(
+            lambda: service.review(identity, receipt, payload.request_id, runtime_factory())
+        )
+        return service.review_projection(identity, value)

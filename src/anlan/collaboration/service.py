@@ -93,6 +93,92 @@ class CollaborationService:
     async def get(self, actor, task_id):
         return await self._bounded_lock(lambda: self._get(actor, task_id))
 
+    async def precheck_projection(self, actor, application, state, *, conn):
+        """Build a shared-safe preflight view from the caller's existing task snapshot."""
+        policy = await self.prechecks.ensure_policy(actor.tenant_id, application.task_id, conn=conn)
+        binding = await self.prechecks.get_binding(actor.tenant_id, application.task_id, conn=conn)
+        binding_visible = binding is not None
+        binding_denied = False
+        if binding is not None:
+            try:
+                await CatalogService(self.config).validate(actor, binding.references)
+            except AccessDenied:
+                binding_visible = False
+                binding_denied = True
+        labels = None
+        if binding_visible:
+            catalog = next(
+                (item for item in self.config.precheck_catalogs
+                 if item.tenant_id == actor.tenant_id),
+                None,
+            )
+            worker = next(
+                (item for item in (catalog.workers if catalog else [])
+                 if item.worker_id == binding.references.worker_id),
+                None,
+            )
+            area = next(
+                (item for item in (catalog.areas if catalog else [])
+                 if item.area_id == binding.references.area_id),
+                None,
+            )
+            qualification = next(
+                (item for item in (worker.qualification_types if worker else [])
+                 if item.qualification_type == binding.references.qualification_type),
+                None,
+            )
+            labels = {
+                "worker": worker.label if worker else binding.references.worker_id,
+                "qualification": (qualification.label if qualification
+                                  else binding.references.qualification_type),
+                "area": area.label if area else binding.references.area_id,
+            }
+        job = await self.prechecks.latest(actor.tenant_id, application.task_id, conn=conn)
+        view = {
+            "required": policy.required,
+            "legacy_completed": policy.legacy_completed,
+            "binding_revision": binding.binding_revision if binding_visible else None,
+            "binding": (binding.model_dump(mode="json") | {"labels": labels}
+                        if binding_visible else None),
+            "status": "unavailable" if binding_denied else "unbound" if binding is None
+            else "not_checked",
+            "clock_mode": "fixed_replay" if self.config.as_of else "wall_clock",
+            "as_of": self.config.as_of.isoformat() if self.config.as_of else None,
+        }
+        if job:
+            view.update(status=job["status"], check_id=job["check_id"])
+            if job["result"]:
+                view["issues"] = job["result"].get("issues", [])
+            try:
+                if not binding_visible:
+                    raise AccessDenied("当前对象授权已撤销")
+                async with conn.transaction():
+                    current = await self.preflight.current(
+                        conn, actor, application, state, binding, job
+                    )
+                    failed = (
+                        job["result"] is not None
+                        and job["result"].get("execution_status") == "failed"
+                    )
+                    stale = (
+                        bool(job["result"].get("stale")) or not await self.preflight.inputs_current(
+                            conn, actor, application, state, binding, job
+                        ) if failed else bool(job["result"] is not None and not current)
+                    )
+                view.update(
+                    current=current, stale=stale,
+                    execution_status="failed" if failed else job["status"],
+                    status="failed" if failed else "ready" if current and job["result"].get("ready")
+                    else "gap" if current else "stale",
+                )
+                if current:
+                    view["evidence"] = job["result"]
+            except (AccessDenied, AttributeError):
+                view.update(current=False, status="unavailable")
+            if job["result"] is None:
+                view.update(current=False, status=job["status"])
+        return view
+
     async def _get(self, actor, task_id):
         role = self.config.collaboration_role(actor)
         async with self.service_context_factory() as workflow:
@@ -102,59 +188,7 @@ class CollaborationService:
                 state = (await workflow._snapshot(record)).values
                 if not state:
                     raise InvalidTransition("任务尚未写入 checkpoint；请执行 recover")
-                policy = await self.prechecks.ensure_policy(actor.tenant_id, task_id, conn=conn)
-                binding = await self.prechecks.get_binding(actor.tenant_id, task_id, conn=conn)
-                job = await self.prechecks.latest(actor.tenant_id, task_id, conn=conn)
-                view = {
-                    "required": policy.required,
-                    "legacy_completed": policy.legacy_completed,
-                    "binding_revision": binding.binding_revision if binding else None,
-                    "status": "unbound" if binding is None else "not_checked",
-                    "clock_mode": "fixed_replay" if self.config.as_of else "wall_clock",
-                    "as_of": self.config.as_of.isoformat() if self.config.as_of else None,
-                }
-                if job:
-                    view.update(status=job["status"], check_id=job["check_id"])
-                    if job["result"]:
-                        view["issues"] = job["result"].get("issues", [])
-                    try:
-                        await CatalogService(self.config).validate(actor, binding.references)
-                        async with conn.transaction():
-                            current = await self.preflight.current(
-                                conn, actor, application, state, binding, job
-                            )
-                            failed = (
-                                job["result"] is not None
-                                and job["result"].get("execution_status") == "failed"
-                            )
-                            stale = (
-                                bool(job["result"].get("stale"))
-                                or not await self.preflight.inputs_current(
-                                    conn, actor, application, state, binding, job
-                                )
-                                if failed
-                                else bool(job["result"] is not None and not current)
-                            )
-                        view.update(
-                            current=current,
-                            stale=stale,
-                            execution_status="failed" if failed else job["status"],
-                            status=(
-                                "failed"
-                                if failed
-                                else "ready"
-                                if current and job["result"].get("ready")
-                                else "gap"
-                                if current
-                                else "stale"
-                            ),
-                        )
-                        if current:
-                            view["evidence"] = job["result"]
-                    except (AccessDenied, AttributeError):
-                        view.update(current=False, status="unavailable")
-                    if job["result"] is None:
-                        view.update(current=False, status=job["status"])
+                view = await self.precheck_projection(actor, application, state, conn=conn)
                 return {
                     "application": application,
                     "materials": project_materials(state),

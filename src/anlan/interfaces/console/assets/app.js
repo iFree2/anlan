@@ -4,7 +4,7 @@ const $ = id => document.getElementById(id);
 const labels = {work_location_description:"作业位置", work_object_description:"作业对象", work_method_description:"作业方式", attachment_description:"附件说明"};
 const statuses = {idle:"空闲", pending_confirmation:"等待确认", active_hot_work:"任务进行中", paused:"已暂停", waiting_input:"待补充材料", awaiting_review:"待人工复核", analyzing:"分析中", completed:"核查完成", failed:"核查失败", current:"当前有效", stale_material:"材料已变化"};
 const kinds = {helmet_missing:"未戴安全帽", gas_abnormal:"气体浓度异常"};
-const state = {info:null, conversations:[], snapshot:null, busy:false, stream:null, streamId:null, events:[], event:null, reviews:[], review:null, applications:[], notifications:new Map(), notificationCursor:0, pollTimer:null, epoch:0, businessDrafts:new Map()};
+const state = {info:null, conversations:[], snapshot:null, busy:false, stream:null, streamId:null, events:[], event:null, reviews:[], review:null, applications:[], notifications:new Map(), notificationCursor:0, pollTimer:null, epoch:0, businessDrafts:new Map(), preflightCatalogs:new Map(), preflightDrafts:new Map()};
 const businessLabels = {submit:"提交申请", request_changes:"要求补充", resubmit:"重新提交", complete_review:"材料核查完成", run_event_review:"发起事件核查", record_event_feedback:"保存人工反馈"};
 const applicationStatuses = {draft:"草稿", under_review:"待安全人员核查", changes_requested:"待申请人补充", review_completed:"材料核查完成"};
 
@@ -87,6 +87,8 @@ function renderConfirmation(target) {
     const frozen = pending.collaboration, body = frozen.payload;
     card.append(node("p", `${businessLabels[frozen.action]} · ${frozen.task_id}`));
     card.append(node("p", `申请版本 ${body.expected_application_version} / 材料版本 ${body.expected_material_revision}`));
+    if (body.expected_binding_revision || body.expected_check_id) card.append(node("p", `绑定版本 ${body.expected_binding_revision ?? "未提供"} / 预核查 ${body.expected_check_id ?? "未提供"}`));
+    if (body.applied_knowledge_citation_ids?.length) card.append(node("p", `人工采用引用：${body.applied_knowledge_citation_ids.join("、")}`));
     for (const key of ["reviewer_user_id", "questions", "reply", "conclusion"]) if (body[key]) card.append(node("p", Array.isArray(body[key]) ? body[key].join("；") : body[key]));
   }
   if (fields.length) {
@@ -312,7 +314,7 @@ function resetIdentityState() {
   state.stream = state.streamId = state.pollTimer = null;
   state.info = state.snapshot = state.event = state.review = null;
   state.conversations = []; state.events = []; state.reviews = []; state.applications = [];
-  state.notifications.clear(); state.notificationCursor = 0; state.businessDrafts.clear();
+  state.notifications.clear(); state.notificationCursor = 0; state.businessDrafts.clear(); state.preflightCatalogs.clear(); state.preflightDrafts.clear();
   for (const id of ["application-list", "business-inbox", "business-timeline", "message-list", "collaboration-actions", "task-projection", "task-actions", "event-list", "review-result", "conversation-list"]) $(id).replaceChildren();
   $("message-input").value = ""; text("trusted-role", ""); clearNotices();
 }
@@ -328,9 +330,11 @@ function renderCollaboration(task) {
   const shared = task.collaboration; if (!shared) return;
   const app = shared.application;
   $("task-projection").append(node("p", `${applicationStatuses[app.status]} · 申请版本 ${app.version} · 核查人 ${app.reviewer_user_id || "待选择"}`));
+  renderPreflight(task, shared);
   for (const event of shared.events || []) $("business-timeline").append(businessCard(event));
   const candidates = {submit:["submit_application", "提交给安全人员"], request_changes:["request_changes", "提出补充要求"], resubmit:["resubmit_application", "重新提交申请"], complete_review:["complete_material_review", "完成人工材料核查"]};
   for (const name of shared.allowed_actions || []) {
+    if (name === "complete_review" && shared.precheck?.required) continue;
     if (!candidates[name]) continue;
     const [intent, label] = candidates[name], form = node("form");
     const input = node(name === "submit" ? "select" : "textarea"); input.required = true;
@@ -347,6 +351,39 @@ function renderCollaboration(task) {
     }); }); $("collaboration-actions").append(form);
   }
 }
+
+function renderPreflight(task, shared) {
+  const precheck = shared.precheck || {}, app = shared.application, evidence = precheck.evidence;
+  const card = node("section", undefined, "preflight-card");
+  if (precheck.legacy_completed) {
+    card.append(node("h3", "作业前依据"), node("p", "历史材料核查：未执行本版作业前预核查。", "muted"));
+    $("task-projection").append(card); return;
+  }
+  const failed = precheck.execution_status === "failed", label = failed ? "核查执行失败" : ({unbound:"待确认对象", not_checked:"待核查", queued:"核查排队中", running:"核查中", ready:"依据可供人工核对", gap:"依据有缺口", stale:"依据已过时"}[precheck.status] || precheck.status || "待核查");
+  card.append(node("h3", "作业前依据"), node("p", `${label} · ${precheck.current ? "当前" : "非当前"}${precheck.stale ? " · 输入或来源已变" : ""}`, precheck.status === "ready" ? "good" : "warning"));
+  card.append(node("p", `查谁/哪个区域：绑定 v${precheck.binding_revision ?? "未确认"} · 材料 v${task.revision} · 核查 ${precheck.check_id || "尚未产生"}`));
+  if (precheck.binding?.references) { const refs = precheck.binding.references, labels = precheck.binding.labels || {}; card.append(node("p", `人员 ${labels.worker || refs.worker_id}（${refs.worker_id}）· 资质 ${labels.qualification || refs.qualification_type}（${refs.qualification_type}）· 区域 ${labels.area || refs.area_id}（${refs.area_id}）`, "muted")); }
+  card.append(node("p", `查询时间：${evidence?.queried_at || precheck.as_of || "服务端实时钟"}（${precheck.clock_mode === "fixed_replay" ? "合成固定时钟" : "服务端时钟"}）· 有效至 ${evidence?.valid_until || "尚未取得"}`, "muted"));
+  if (failed) card.append(node("p", `来源查询失败：${(precheck.issues || ["source_unavailable"]).join("、")}；请核对来源后显式重查。`, "warning"));
+  else if (precheck.issues?.length) card.append(node("p", `缺口/异常：${precheck.issues.join("、")}`, "warning"));
+  if (evidence) {
+    for (const [key, title] of [["worker", "人员资质"], ["area", "区域状态"]]) { const value = evidence[key] || {}, facts = value.facts || {}; card.append(node("p", `${title}：查询 ${value.outcome || "unknown"} · 业务状态 ${facts.status || "未知"} · 来源 ${value.source?.version || "未提供"} · 观察 ${value.source?.observed_at || "未提供"} · 有效至 ${value.source?.valid_until || "未提供"}`, facts.status === "active" || facts.status === "normal" ? "muted" : "warning")); }
+    const citations = evidence.knowledge?.citations || [];
+    for (const citation of citations) card.append(node("p", `知识：${citation.quote || citation.chunk_id} · 来源 ${citation.source || "未提供"} · v${citation.version || "?"} · ${citation.chunk_id}`, "muted"));
+    if (!citations.length) card.append(node("p", "没有当前知识引用；不能以文字补造。", "warning"));
+  }
+  const role = state.info?.collaboration_role, allowed = shared.allowed_actions || [];
+  if (role === "applicant" && allowed.includes("edit_materials")) renderBinding(card, task, precheck);
+  if ((role === "safety_manager" && app.status !== "review_completed") || (role === "applicant" && ["draft", "changes_requested"].includes(app.status))) {
+    const recheck = node("button", "显式重查依据", "secondary"); recheck.type = "button"; recheck.disabled = !precheck.binding_revision;
+    recheck.addEventListener("click", () => action(async () => { await mutate(`/collaboration/applications/${task.task_id}/prechecks`, {expected_material_revision:task.revision, expected_binding_revision:precheck.binding_revision, expected_application_version:app.version, reason:"本人请求重新核对当前合成依据"}); await refreshConversation({quiet:true}); })); card.append(recheck);
+  }
+  if (role === "safety_manager" && allowed.includes("complete_review") && precheck.current && precheck.status === "ready" && evidence?.citation_ids?.length) renderCitations(card, task, app, precheck, evidence);
+  $("task-projection").append(card);
+}
+async function loadCatalog(taskId) { if (state.preflightCatalogs.has(taskId)) return; const epoch = state.epoch; try { const catalog = await request(`/collaboration/applications/${taskId}/object-catalog`); if (epoch === state.epoch && projection()?.task_id === taskId) { state.preflightCatalogs.set(taskId, catalog); renderSnapshot(); } } catch (error) { if (!error.stale) showNotice(error.message, true); } }
+function renderBinding(card, task, precheck) { const catalog = state.preflightCatalogs.get(task.task_id); if (!catalog) { card.append(node("p", "正在读取当前身份的授权对象目录…", "muted")); queueMicrotask(() => loadCatalog(task.task_id)); return; } if (!catalog.workers?.length || !catalog.areas?.length) { card.append(node("p", "未配置或无授权对象；系统不会默认选择。", "warning")); return; } const key = `${task.task_id}:${task.revision}:${precheck.binding_revision || 0}`, draft = state.preflightDrafts.get(key)?.binding || {}, form = node("form"), worker = node("select"), type = node("select"), area = node("select"); const choose = (select, label) => { const option = node("option", label); option.value = ""; option.disabled = option.selected = true; select.append(option); select.required = true; }; choose(worker, "选择作业人员"); choose(area, "选择作业区域"); for (const value of catalog.workers) { const option = node("option", value.label); option.value = value.worker_id; worker.append(option); } for (const value of catalog.areas) { const option = node("option", value.label); option.value = value.area_id; area.append(option); } const fill = () => { type.replaceChildren(); choose(type, "选择资质类型"); for (const value of catalog.workers.find(item => item.worker_id === worker.value)?.qualification_types || []) { const option = node("option", value.label); option.value = value.qualification_type; type.append(option); } if (draft.qualification_type) type.value = draft.qualification_type; }; if (draft.worker_id) worker.value = draft.worker_id; if (draft.area_id) area.value = draft.area_id; worker.addEventListener("change", fill); fill(); for (const input of [worker, type, area]) input.addEventListener("input", () => state.preflightDrafts.set(key, {binding:{worker_id:worker.value, qualification_type:type.value, area_id:area.value}})); const submit = node("button", "确认本申请对象", "secondary"); submit.type = "submit"; form.append(worker, type, area, submit); form.addEventListener("submit", event => { event.preventDefault(); action(async () => { await mutate(`/collaboration/applications/${task.task_id}/binding`, {expected_material_revision:task.revision, expected_binding_revision:precheck.binding_revision || 0, worker_id:worker.value, qualification_type:type.value, area_id:area.value}); state.preflightDrafts.delete(key); await refreshConversation({quiet:true}); }); }); card.append(form); }
+function renderCitations(card, task, app, precheck, evidence) { const form = node("form"), key = `${task.task_id}:${task.revision}:${precheck.binding_revision}:${precheck.check_id}`, draft = state.preflightDrafts.get(key)?.citation || {}; form.append(node("p", "请勾选本轮实际采用的知识引用；模型不会代选。")); for (const citation of evidence.citation_ids) { const label = node("label"), box = document.createElement("input"); box.type = "checkbox"; box.value = citation; box.checked = draft.citations?.includes(citation); box.addEventListener("change", () => state.preflightDrafts.set(key, {citation:{citations:Array.from(form.querySelectorAll("input:checked"), item => item.value), conclusion:conclusion.value}})); label.append(box, document.createTextNode(citation)); form.append(label); } const conclusion = node("textarea"); conclusion.required = true; conclusion.maxLength = 500; conclusion.placeholder = "填写人工适用性结论"; conclusion.value = draft.conclusion || ""; conclusion.addEventListener("input", () => state.preflightDrafts.set(key, {citation:{citations:Array.from(form.querySelectorAll("input:checked"), item => item.value), conclusion:conclusion.value}})); const submit = node("button", "冻结采用引用并确认", "primary"); submit.type = "submit"; form.append(conclusion, submit); form.addEventListener("submit", event => { event.preventDefault(); action(async () => { const citations = Array.from(form.querySelectorAll("input:checked"), item => item.value); if (!citations.length) throw new ApiError("请先勾选本轮实际采用的知识引用。", 422); state.snapshot = await mutate(`/conversations/${state.snapshot.conversation_id}/preflight-citation-candidates`, {expected_revision:state.snapshot.revision, expected_check_id:precheck.check_id, expected_material_revision:task.revision, expected_binding_revision:precheck.binding_revision, expected_application_version:app.version, conclusion:conclusion.value, applied_knowledge_citation_ids:citations}); state.preflightDrafts.delete(key); renderSnapshot(); }); }); card.append(form); }
 
 async function refreshBusiness() {
   if (!state.info?.collaboration_role) return;

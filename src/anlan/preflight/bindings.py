@@ -1,9 +1,10 @@
 """Explicit object confirmation under the real registry authorization/task lock."""
 
+import asyncio
 import json
 
 from anlan.collaboration.policy import authorize
-from anlan.common.errors import AccessDenied, InvalidTransition
+from anlan.common.errors import AccessDenied, InvalidTransition, TaskBusy
 from anlan.infrastructure.collaboration import CollaborationStore
 from anlan.infrastructure.preflight import PrecheckStore
 from anlan.preflight.catalog import CatalogService
@@ -17,6 +18,15 @@ class BindingService:
         self.config, self.service_context_factory = config, service_context_factory
 
     async def catalog(self, actor, task_id):
+        for attempt in range(11):
+            try:
+                return await self._catalog(actor, task_id)
+            except TaskBusy:
+                if attempt == 10:
+                    raise
+                await asyncio.sleep(0.05)
+
+    async def _catalog(self, actor, task_id):
         async with self.service_context_factory() as workflow:
             async with workflow._registry.locked(actor, task_id, action="read"):
                 await self.applications.get(actor, self.config.collaboration_role(actor), task_id,
@@ -35,6 +45,17 @@ class BindingService:
                 return binding
 
     async def confirm(self, actor, task_id, payload) -> BindingRecord:
+        # The caller's request ID remains the idempotency key.  Retrying only a
+        # failed lock acquisition cannot duplicate a binding version or command.
+        for attempt in range(11):
+            try:
+                return await self._confirm(actor, task_id, payload)
+            except TaskBusy:
+                if attempt == 10:
+                    raise
+                await asyncio.sleep(0.05)
+
+    async def _confirm(self, actor, task_id, payload) -> BindingRecord:
         command = BindingCommand.model_validate(payload)
         role = self.config.collaboration_role(actor)
         async with self.service_context_factory() as workflow:

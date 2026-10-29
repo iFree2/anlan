@@ -35,6 +35,11 @@ class CollaborationInput(StrictModel):
     questions: list[CommandText] = Field(default_factory=list, max_length=20)
     reply: CommandText | None = None
     conclusion: CommandText | None = None
+    applied_knowledge_citation_ids: list[CommandText] = Field(default_factory=list, max_length=3)
+    expected_check_id: CommandText | None = None
+    expected_material_revision: int | None = Field(default=None, strict=True, ge=1)
+    expected_binding_revision: int | None = Field(default=None, strict=True, ge=1)
+    expected_application_version: int | None = Field(default=None, strict=True, ge=1)
 
 
 class FrozenCollaborationCommand(StrictModel):

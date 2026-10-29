@@ -1,0 +1,54 @@
+{
+  "status": "passed",
+  "data_origin": "SYNTHETIC",
+  "model_mode": "scripted_double",
+  "recorded_at": "2026-10-29T22:31:33+08:00",
+  "task_id": "34ec6381-4f26-5f8f-99e6-f8d47f8e0585",
+  "identities": {
+    "applicant": "applicant-demo",
+    "safety_manager": "safety-manager-demo"
+  },
+  "initial_precheck": {
+    "binding_revision": 1,
+    "worker": "worker-p13-alert",
+    "worker_status": "suspended",
+    "area": "area-p13-restricted",
+    "area_status": "restricted",
+    "issues": [
+      "worker_not_current_active",
+      "area_not_current_normal"
+    ],
+    "completion_entry": "blocked"
+  },
+  "closure": {
+    "request_changes": true,
+    "binding_revision": 2,
+    "worker": "worker-p13-normal",
+    "area": "area-p13-normal",
+    "precheck_status": "ready",
+    "check_id": "16f5c6d97baa44a2b1d74f413571baad",
+    "application_version": 5,
+    "material_revision": 1,
+    "material_review_status": "review_completed"
+  },
+  "event_review": {
+    "kind": "gas_abnormal",
+    "alarm_state": "active",
+    "review_currentness": "current",
+    "review_status": "completed"
+  },
+  "browser_contexts": 2,
+  "same_application": true,
+  "responsive": {
+    "viewport": "390x844",
+    "horizontal_overflow": false,
+    "screenshot": "b3-browser-mobile-390x844.png"
+  },
+  "screenshots": [
+    "b3-browser-abnormal-closure-event.png",
+    "b3-browser-event-review.png",
+    "b3-browser-mobile-390x844.png"
+  ],
+  "credentials_recorded": false,
+  "real_model_requests": 0
+}
