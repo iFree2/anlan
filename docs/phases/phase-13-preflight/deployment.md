@@ -2,13 +2,15 @@
 
 ## 当前发布：已部署到阿里云 ECS
 
-2026-11-01 已完成 P13 首次部署：
+2026-11-01 已完成 P13 首次部署；同日线上实测发现并修复旧 `changes_requested` 申请无法首次重提的问题，当前运行热修复版本。首次 P13 release 保留。
 
 - 入口：http://47.93.218.52/anlan/console
-- 发布：`/opt/anlan2/releases/p13-preflight-20261101`
+- 当前发布：`/opt/anlan2/releases/p13-preflight-20261101b`
+- 首次发布：`/opt/anlan2/releases/p13-preflight-20261101`（保留）
 - 服务：`anlan2-console`，非 root `anlan2`，`127.0.0.1:8018`
-- 首次运行 PID：`292266`
-- wheel SHA-256：`3155719ed37c44f958711a13471f47277e582b95891f4aa5e2425783b0d156cb`
+- 热修复运行 PID：`305015`
+- 当前 wheel SHA-256：`dcbee436820eebf43c4dbd3231f3c3941d4d352704a58b9338727b6c8d970680`
+- 首次 wheel SHA-256：`3155719ed37c44f958711a13471f47277e582b95891f4aa5e2425783b0d156cb`
 - 数据库备份：`/opt/anlan2/shared/before-p13-preflight-20261101/database.dump`
 - 备份 SHA-256：`e8e880a05dc2d71f92069403bbad6640998590d8ea34de48b3a8ba1e86c0e312`
 - 新配置：`/opt/anlan2/shared/p13-preflight-20261101/service.json`（0600）
@@ -18,9 +20,15 @@
 
 发布验收：两个既有协作身份仍可认证，匿名 `/console/api/info` 为 401；公网 Console 已包含“作业前依据”、对象目录和人工引用冻结入口；对象目录返回两套合成人员和两个合成区域；现有未完成 P12 申请升级后安全显示为 `unbound`，未伪造依据。
 
-证据：[部署记录](evidence/p13-ecs-deployment-20261101.json)、[公网只读截图](evidence/p13-cloud-readonly-20261101.png)。
+线上完整业务闭环：旧 `changes_requested` 申请从无绑定开始，先绑定异常人员/受限区域，获得 `gap`；安全人员要求补充；申请人换为正常绑定并重提，得到 `ready`；安全人员通过结构化引用选择完成申请；随后事件使用绑定 v2，核查 `current`，人工反馈已保存，原始报警保持 `active`。该测试新增2次真实模型尝试（135→137），没有重试或额度重置。
+
+热修复后的完整非live回归为 **1051 passed、1 deselected**；Ruff全目录通过。唯一警告为第三方 Starlette `BlockingPortal` 弃用提示。
+
+证据：[部署记录](evidence/p13-ecs-deployment-20261101.json)、[线上E2E记录](evidence/p13-cloud-e2e-20261101.json)、[公网只读截图](evidence/p13-cloud-readonly-20261101.png)、[完成状态截图](evidence/p13-cloud-e2e-20261101.png)、[事件状态截图](evidence/p13-cloud-e2e-event-20261101.png)。
 
 本次部署脚本还经历一次保护性回退：P13 服务和迁移已经启动，但最后验收步骤查错了迁移表名，触发维护回退。保留回退后的只读维护状态，修正查询后通过前向恢复重新激活；未恢复旧数据库，也未回退到旧写应用。
+
+线上业务验证另外发现：P13 部署前已经处于 `changes_requested` 的旧申请没有 `precheck_cycles` 行，原重提逻辑错误返回409。新增真实PG回归后，仅允许这类无cycle的历史申请以首次确认绑定作为实质变化重提；新轮次仍执行正常的材料/绑定/来源变化检查。修复以独立 release `…20261101b` 发布。
 
 ## 本地制品
 

@@ -467,13 +467,14 @@ def _precheck_read_probe(h, config):
         if grant.get("collaboration_role")
     }
     tenant_id = roles["safety_manager"]["tenant_id"]
+    manager_id = roles["safety_manager"]["user_id"]
     import psycopg
 
     with psycopg.connect(h.environment()["ANLAN_DATABASE_URL"]) as conn:
         row = conn.execute(
             "SELECT task_id FROM anlan_v2.collaboration_applications "
-            "WHERE tenant_id=%s ORDER BY created_at DESC LIMIT 1",
-            (tenant_id,),
+            "WHERE tenant_id=%s AND reviewer_user_id=%s ORDER BY created_at DESC LIMIT 1",
+            (tenant_id, manager_id),
         ).fetchone()
     require(row is not None, "No existing application for authenticated read probe")
     status, body = h.request(

@@ -1,5 +1,6 @@
 {
   "status": "activated",
+  "superseded_by": "/opt/anlan2/releases/p13-preflight-20261101b",
   "deployed_at": "2026-11-01T20:45:16+08:00",
   "host": "47.93.218.52",
   "public_console": "http://47.93.218.52/anlan/console",

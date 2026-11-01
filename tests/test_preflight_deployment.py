@@ -1,7 +1,9 @@
 """P13 ECS deployment helpers preserve history and add only synthetic P13 fixtures."""
 
 import importlib.util
+import sys
 import zipfile
+from contextlib import AbstractContextManager
 from pathlib import Path
 
 import pytest
@@ -134,3 +136,46 @@ def test_p13_activation_paths_are_fixed():
     assert module.MAINTENANCE.name == "p12-maintenance-20261025"
     with pytest.raises(ValueError, match="fixed"):
         module.require_fixed_path(Path("/tmp/untrusted"))
+
+
+def test_precheck_read_probe_targets_the_assigned_manager(monkeypatch):
+    module = deployment()
+    statements = []
+
+    class Connection(AbstractContextManager):
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return None
+
+        def execute(self, statement, params):
+            statements.append((statement, params))
+            return self
+
+        def fetchone(self):
+            return ("task-assigned",)
+
+    fake_psycopg = type(
+        "Psycopg",
+        (),
+        {"connect": staticmethod(lambda dsn: Connection())},
+    )
+    monkeypatch.setitem(sys.modules, "psycopg", fake_psycopg)
+
+    class Remote:
+        def environment(self):
+            return {"ANLAN_DATABASE_URL": "host=localhost"}
+
+        def request(self, path, token):
+            assert token == "manager-token"
+            return 200, {
+                "required": True,
+                "legacy_completed": False,
+                "status": "not_checked",
+            }
+
+    result = module._precheck_read_probe(Remote(), config())
+    assert result == {"task_id": "task-assigned", "status": "not_checked"}
+    assert "reviewer_user_id=%s" in statements[0][0]
+    assert statements[0][1] == ("tenant-a", "manager")
