@@ -1,0 +1,61 @@
+{
+  "status": "activated",
+  "deployed_at": "2026-11-01T20:45:16+08:00",
+  "host": "47.93.218.52",
+  "public_console": "http://47.93.218.52/anlan/console",
+  "release": "/opt/anlan2/releases/p13-preflight-20261101",
+  "previous_release": "/opt/anlan2/releases/p12-audit-only-20261025",
+  "maintenance_release": "/opt/anlan2/releases/p12-maintenance-20261025",
+  "service": {
+    "name": "anlan2-console",
+    "user": "anlan2",
+    "listen": "127.0.0.1:8018",
+    "pid_at_activation": 292266,
+    "state": "active"
+  },
+  "artifacts": {
+    "wheel": "/opt/anlan2/releases/p13-preflight-20261101/anlan-0.1.0-py3-none-any.whl",
+    "wheel_sha256": "3155719ed37c44f958711a13471f47277e582b95891f4aa5e2425783b0d156cb",
+    "deployment_helper_sha256": "803daf32c8142984bbed708f1d786baf26eebfbfc45a55004053cf2d93611e88",
+    "database_dump": "/opt/anlan2/shared/before-p13-preflight-20261101/database.dump",
+    "database_dump_sha256": "e8e880a05dc2d71f92069403bbad6640998590d8ea34de48b3a8ba1e86c0e312",
+    "config": "/opt/anlan2/shared/p13-preflight-20261101/service.json",
+    "config_mode": "0600"
+  },
+  "database": {
+    "migrations_present": [1, 5, 6, 7, 8, 9, 13, 15, 16, 17, 18, 19, 20],
+    "model_attempts_before": 130,
+    "model_attempts_after": 130,
+    "pending_operations": 0,
+    "pending_reviews": 0,
+    "precheck_policies": 5,
+    "precheck_jobs": 0,
+    "p13_knowledge_documents": 1,
+    "old_rows_preserved": true
+  },
+  "verification": {
+    "anonymous_status": 401,
+    "applicant_role": "applicant",
+    "manager_role": "safety_manager",
+    "model_mode": "deepseek_live",
+    "public_visible_applications": 4,
+    "legacy_incomplete_application_precheck_status": "unbound",
+    "object_catalog_workers": 2,
+    "object_catalog_areas": 2,
+    "p13_console_card": true,
+    "p13_object_catalog_ui": true,
+    "p13_citation_freeze_ui": true,
+    "original_root_site_sha256": "b5a7f25ac949b5f26ded8692c39c42f64f85cb919736f5db68bc776987515b12"
+  },
+  "deployment_events": {
+    "protection_rollback": true,
+    "rollback_cause": "initial migration verification used the wrong migration table name",
+    "database_restored": false,
+    "legacy_write_release_restored": false,
+    "maintenance_verified": true,
+    "forward_recovery": true
+  },
+  "real_model_requests_during_deploy": 0,
+  "credentials_recorded": false,
+  "independent_review": "pending"
+}
