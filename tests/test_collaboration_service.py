@@ -7,6 +7,7 @@ from test_collaboration_api import clients, command, completion, send, settings,
 from test_events_postgres import dsn, run  # noqa: F401
 from test_material_revisions import COMPLETE, PATCH
 
+from anlan.collaboration.service import CollaborationService
 from anlan.common.errors import AccessDenied, InvalidTransition
 from anlan.infrastructure.collaboration import CollaborationStore
 from anlan.interfaces.conversation_runtime import WorkflowAdapter
@@ -133,7 +134,9 @@ def test_direct_workflow_graph_and_conversation_adapter_cannot_bypass_freeze(dsn
                                      (service.resume, (1, PATCH)), (service.recover, ())]:
                     with pytest.raises(InvalidTransition):
                         await method(actors[0], task, *args)
-                state = await service.get(actors[0], task)
+                state = await CollaborationService._bounded_lock(
+                    lambda: service.get(actors[0], task)
+                )
                 with pytest.raises((AccessDenied, InvalidTransition)):
                     await service._graph.ainvoke(state, {"configurable": {
                         "thread_id": state["thread_id"]}})

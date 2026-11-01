@@ -292,7 +292,11 @@ class CollaborationService:
                                 conn, actor, application, state, binding, latest
                             )
                         )
-                        if not cycle or (
+                        # A P12 application may already be awaiting applicant changes
+                        # when P13 is deployed. It has no P13 cycle row and no legacy
+                        # binding, so the newly confirmed binding is its substantive
+                        # upgrade path. Later rounds use the normal cycle comparison.
+                        if cycle and (
                             binding.binding_revision == cycle["binding_revision"]
                             and not source_changed
                         ):

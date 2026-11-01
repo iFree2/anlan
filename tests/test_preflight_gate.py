@@ -269,6 +269,39 @@ def test_legacy_unbound_submission_requires_supplement_and_can_resubmit_same_mat
     run(scenario())
 
 
+def test_pre_p13_changes_requested_can_resubmit_after_confirming_first_binding(
+    dsn,  # noqa: F811
+    tmp_path,
+):
+    async def scenario():
+        async with setup(dsn, tmp_path) as (bindings, actors, state, collab):
+            task = state["task_id"]
+            async with bindings.store.connection() as conn:
+                await conn.execute(
+                    "UPDATE anlan_v2.collaboration_applications SET "
+                    "status='changes_requested',version=3,reviewer_user_id=%s,"
+                    "submitted_material_revision=1 WHERE task_id=%s",
+                    (actors[1].user_id, task),
+                )
+            # P12 could stop here before creating any P13 cycle row.
+            assert (await collab.get(actors[1], task))["precheck"]["status"] == "unbound"
+            await bindings.confirm(actors[0], task, binding_command())
+            resubmitted = await send(
+                collab,
+                actors[0],
+                task,
+                "resubmit",
+                3,
+                reply="旧申请已确认首个 P13 绑定",
+            )
+            assert resubmitted["application"]["status"] == "under_review"
+            assert resubmitted["application"]["version"] == 4
+            assert resubmitted["application"]["submitted_material_revision"] == 1
+            assert resubmitted["precheck_job_id"]
+
+    run(scenario())
+
+
 def test_material_http_waits_for_short_actual_registry_lock(dsn, monkeypatch):  # noqa: F811
     import asyncio
     from contextlib import asynccontextmanager
