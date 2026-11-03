@@ -175,6 +175,32 @@ async def test_valid_long_knowledge_quote_is_not_misreported_as_unavailable():
     assert answer.outcome == "ok" and len(answer.text) > 500
 
 
+async def test_replay_reauthorizes_explicit_target_and_knowledge_citations():
+    workflow = AuthorizedWorkflow()
+    service = BusinessQueryService(workflow, clock=lambda: NOW)
+    answer = await service.answer(APPLICANT, query_type="application_status", question="状态？",
+                                  active_task_id=None, explicit_task_id="task-1")
+    reference = service.replay_reference(answer, "application_status")
+    assert "fields" not in str(reference) and "quote" not in str(reference)
+
+    async def denied(actor, task_id):
+        raise AccessDenied("revoked")
+
+    workflow.read = denied
+    with pytest.raises(AccessDenied):
+        await service.validate_replay(APPLICANT, reference, "状态？")
+    knowledge = Knowledge()
+    service = BusinessQueryService(workflow, clock=lambda: NOW,
+                                   knowledge_provider=lambda: knowledge)
+    answer = await service.answer(APPLICANT, query_type="safety_knowledge", question="动火？",
+                                  active_task_id=None, explicit_task_id=None)
+    reference = service.replay_reference(answer, "safety_knowledge")
+    await service.validate_replay(APPLICANT, reference, "动火？")
+    knowledge.mode = "revoked"
+    with pytest.raises(AccessDenied):
+        await service.validate_replay(APPLICANT, reference, "动火？")
+
+
 def test_query_contracts_reject_unknown_unbounded_and_partial_evidence():
     for value in ("write", "", 1):
         with pytest.raises(ValidationError):

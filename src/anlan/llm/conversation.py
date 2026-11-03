@@ -14,6 +14,7 @@ from anlan.conversation.contracts import (
     IntentKind,
     IntentProposal,
     PendingIntent,
+    QueryWriteCandidate,
 )
 from anlan.infrastructure.budget import CONVERSATION_WORK_PACKAGE
 from anlan.llm.contracts import AnalysisFailure
@@ -51,6 +52,7 @@ class _ProviderIntentProposal(StrictModel):
     user_explanation: NonEmpty
     classifier_version: str | None = None
     collaboration: CollaborationInput | None = None
+    query_write: QueryWriteCandidate | None = None
 
 
 class IntentClassifier(Protocol):
@@ -189,6 +191,7 @@ class DeepSeekIntentClassifier:
                 user_explanation=candidate.user_explanation,
                 classifier_version=INTENT_PROMPT_VERSION,
                 collaboration=candidate.collaboration,
+                query_write=candidate.query_write,
             )
 
         try:
@@ -217,6 +220,10 @@ class DeepSeekIntentClassifier:
                                 "query_application_details、query_process_guidance、"
                                 "query_safety_knowledge；查询只读，不携带 fields，不得编造证据、"
                                 "身份、版本或声称已修改。target_task_id 仅可来自用户原文同一标识。"
+                                "混合查询与明确写请求时以 query_* 为主，另用可空 query_write："
+                                "{intent,fields,collaboration} 表示独立待确认候选。"
+                                "query_write 不能携带身份、版本、request_id或采纳引用；"
+                                "宿主校验并冻结。"
                                 "submit_application 只带 reviewer_user_id；request_changes 只带"
                                 "questions 字符串数组；resubmit_application 只带 reply；"
                                 "complete_material_review 只带 conclusion。"
@@ -422,6 +429,7 @@ class ScriptedConversationModel:
             user_explanation="SYNTHETIC 规则替身的有界分类",
             classifier_version="scripted-intent-v1",
             collaboration=collaboration,
+            query_write=_scripted_query_write(text) if intent.startswith("query_") else None,
         )
 
     async def respond(
@@ -429,6 +437,44 @@ class ScriptedConversationModel:
     ) -> AssistantReply:
         del context, run_id
         return AssistantReply(text="SYNTHETIC：我可以继续对话；业务任务状态以侧栏为准。")
+
+
+def _unsafe_write_text(text: str) -> bool:
+    return any(word in text for word in (
+        "?", "？", "吗", "什么", "为什么", "怎么", "如何", "解释", "流程", "区别",
+        "不要", "别把", "不想", "并非", "不是", "假如", "如果", "假设", "举例",
+        "引用", "他说", "忽略规则", "忽略之前", "越过", "“", "”", '"', "‘", "’",
+    ))
+
+
+def _scripted_query_write(text: str) -> QueryWriteCandidate | None:
+    """Only explicit separate imperative clauses may propose a confirmed follow-up."""
+    for clause in re.split(r"[。；;？?!！]", text):
+        clause = re.sub(r"^(?:另外|然后|请|再|同时)[，,\s]*", "", clause.strip())
+        if not clause or _unsafe_write_text(clause):
+            continue
+        match = re.fullmatch(r"把((?:作业)?位置|(?:作业)?对象|(?:作业)?方式|附件说明)"
+                             r"(?:改成|改为|修改为)([^，,]+)", clause)
+        if match:
+            name = {"位置": "work_location_description", "对象": "work_object_description",
+                    "方式": "work_method_description", "附件说明": "attachment_description"}[
+                        match.group(1).removeprefix("作业")]
+            return QueryWriteCandidate(intent="task_input_candidate", fields={name: match.group(2)})
+        match = re.fullmatch(r"提交申请给\s+([A-Za-z0-9._:-]{1,100})", clause)
+        if match:
+            return QueryWriteCandidate(intent="submit_application",
+                                       collaboration=CollaborationInput(
+                                           reviewer_user_id=match.group(1)))
+        match = re.fullmatch(r"(要求补充|重新提交申请|完成材料核查)[：:]\s*(.+)", clause)
+        if match:
+            intent, field = {"要求补充": ("request_changes", "questions"),
+                             "重新提交申请": ("resubmit_application", "reply"),
+                             "完成材料核查": ("complete_material_review", "conclusion")
+                             }[match.group(1)]
+            value = [match.group(2)] if field == "questions" else match.group(2)
+            return QueryWriteCandidate(
+                intent=intent, collaboration=CollaborationInput.model_validate({field: value}))
+    return None
 
 
 def _scripted_query_intent(text: str) -> str | None:

@@ -8,11 +8,18 @@ from anlan.conversation.contracts import (
     COLLABORATION_INTENTS,
     ConversationState,
     FrozenCollaborationCommand,
+    FrozenQueryFollowUp,
     IntentProposal,
     PendingIntent,
 )
 from anlan.conversation.policy import RouteAction, RouteDecision, decide
-from anlan.llm.conversation import ConversationContext, VisibleMessage, _scripted_query_intent
+from anlan.llm.conversation import (
+    ConversationContext,
+    VisibleMessage,
+    _scripted_query_intent,
+    _scripted_query_write,
+    _unsafe_write_text,
+)
 from anlan.workflows.material_contracts import LABELS, QUESTIONS
 
 
@@ -54,6 +61,11 @@ class ConversationService:
             **({'request_metadata': proposal_override} if proposal_override else {}),
         )
         if reservation.get("result") is not None:
+            reference = reservation["result"].get("query_reference")
+            if reference is not None:
+                if self.business_queries is None:
+                    raise AccessDenied("业务查询暂不可重放")
+                await self.business_queries.validate_replay(identity, reference, text)
             if hasattr(self.workflow, 'validate_cached'):
                 await self.workflow.validate_cached(identity, reservation['result'])
             return self._replay_result(reservation["result"])
@@ -99,6 +111,11 @@ class ConversationService:
                     proposal = self.workflow.constrain(identity, proposal)
                 try:
                     decision = decide(state, proposal)
+                    if (decision.action is RouteAction.EXECUTE_BUSINESS_QUERY
+                            and proposal.query_write):
+                        follow_up = await self._freeze_query_follow_up(
+                            identity, conversation_id, reservation["message_id"], state, proposal)
+                        decision = decision.model_copy(update={"query_follow_up": follow_up})
                     if decision.action is RouteAction.ASK_COLLABORATION_CONFIRMATION:
                         frozen = await self.workflow.freeze(
                             identity, conversation_id, reservation['message_id'],
@@ -186,6 +203,7 @@ class ConversationService:
         message_id = reservation["message_id"]
         action = decision.action
         assistant = None
+        query_reference = None
 
         if action is RouteAction.ASK_COLLABORATION_CONFIRMATION:
             candidate = proposal.model_dump(mode='json')
@@ -322,6 +340,18 @@ class ConversationService:
                 active_task_id=raw["active_task_id"], explicit_task_id=decision.target_task_id,
                 source_message_id=message_id)
             assistant = answer.text
+            if hasattr(self.business_queries, "replay_reference"):
+                query_reference = self.business_queries.replay_reference(
+                    answer, decision.query_type)
+            if decision.query_follow_up is not None and answer.outcome == "ok":
+                await self.store.set_pending_intent(
+                    identity, conversation_id, message_id,
+                    decision.query_follow_up.model_dump(mode="json"))
+                assistant += " 另有一项修改待你确认；确认前不会写入业务状态。"
+            elif (proposal.query_write and proposal.query_write.intent == "task_input_candidate"
+                  and hasattr(self.workflow, "role")
+                  and self.workflow.role(identity) == "safety_manager"):
+                assistant += " 当前身份无权修改材料。"
         elif action is RouteAction.REPLY_ONLY:
             reply = await models.responder.respond(
                 self._context(raw, self._state(raw), projection,
@@ -337,9 +367,33 @@ class ConversationService:
             identity, conversation_id, message_id, assistant
         )
         latest = await self.store.get(identity, conversation_id)
-        return await self.snapshot_from_store(
+        result = await self.snapshot_from_store(
             identity, latest, completing_message_id=message_id
         )
+        if query_reference is not None:
+            result["query_reference"] = query_reference
+        return result
+
+    async def _freeze_query_follow_up(self, identity, conversation_id, message_id, state, proposal):
+        if (not state.active_task_id or state.pending_intent is not None
+                or proposal.target_task_id not in {None, state.active_task_id}):
+            return None
+        candidate = IntentProposal(**proposal.query_write.model_dump(), requires_confirmation=True,
+                                   user_explanation="查询后的独立待确认请求",
+                                   classifier_version=proposal.classifier_version)
+        if hasattr(self.workflow, "constrain"):
+            candidate = self.workflow.constrain(identity, candidate)
+        try:
+            route = decide(state, candidate)
+            if route.action is RouteAction.ASK_TASK_INPUT_CONFIRMATION:
+                return FrozenQueryFollowUp(intent=candidate.intent, fields=candidate.fields)
+            if route.action is RouteAction.ASK_COLLABORATION_CONFIRMATION:
+                frozen = await self.workflow.freeze(identity, conversation_id, message_id,
+                                                    state.active_task_id, candidate)
+                return FrozenQueryFollowUp(intent=candidate.intent, collaboration=frozen)
+        except (InvalidTransition, AccessDenied, ValueError):
+            return None
+        return None
 
     async def snapshot_from_store(self, identity, raw, *, completing_message_id=None):
         projection = await self._task_projection(identity, raw)
@@ -461,8 +515,13 @@ class ConversationService:
             return proposal.model_copy(update={
                 "intent": query_intent or proposal.intent, "fields": {},
                 "collaboration": None, "requires_confirmation": False,
+                "query_write": _scripted_query_write(text),
                 "target_task_id": target if target and target in text else None,
             })
+        if (proposal.intent in {"task_input_candidate", "hot_work_candidate",
+                                "switch_or_create_task", *COLLABORATION_INTENTS}
+                and _unsafe_write_text(text)):
+            return ConversationService._reply_only(proposal)
         negative_material_markers = (
             "不要把",
             "别把",
@@ -522,6 +581,7 @@ class ConversationService:
                 "fields": {},
                 "requires_confirmation": False,
                 "target_task_id": None,
+                "query_write": None,
             }
         )
 

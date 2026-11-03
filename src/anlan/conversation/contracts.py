@@ -82,6 +82,22 @@ class ConversationState(StrictModel):
     pending_intent: PendingIntent | None = None
 
 
+FollowUpIntent = Literal["task_input_candidate", "submit_application", "request_changes",
+                         "resubmit_application", "complete_material_review"]
+
+
+class QueryWriteCandidate(StrictModel):
+    intent: FollowUpIntent
+    fields: dict[FieldName, Text] = Field(default_factory=dict, max_length=4)
+    collaboration: CollaborationInput | None = None
+
+
+class FrozenQueryFollowUp(StrictModel):
+    intent: FollowUpIntent
+    fields: dict[FieldName, Text] = Field(default_factory=dict, max_length=4)
+    collaboration: FrozenCollaborationCommand | None = None
+
+
 class IntentProposal(StrictModel):
     intent: IntentKind
     fields: dict[FieldName, Text] = Field(default_factory=dict, max_length=4)
@@ -90,3 +106,10 @@ class IntentProposal(StrictModel):
     user_explanation: NonEmpty
     classifier_version: NonEmpty
     collaboration: CollaborationInput | None = None
+    query_write: QueryWriteCandidate | None = None
+
+    @model_validator(mode="after")
+    def query_write_only_for_queries(self):
+        if self.query_write is not None and self.intent not in BUSINESS_QUERY_INTENTS:
+            raise ValueError("secondary writes require a query primary")
+        return self

@@ -469,3 +469,45 @@ def test_business_status_answers_are_private_and_authorized(dsn):  # noqa: F811
             assert (await reviewer.get(f"/tasks/{task}/history")).status_code == 404
     run(scenario())
 
+def test_mixed_query_material_and_collaboration_wait_for_confirmation(dsn):  # noqa: F811
+    async def scenario():
+        async with clients(dsn) as (sessions, _, _):
+            applicant, reviewer = sessions[:2]
+            task = (await start(applicant))["task_id"]
+            a = await bind(applicant, await conversation(applicant), task)
+            a = await say(applicant, a, "当前材料状态是什么？另外把作业位置改成二号罐区。")
+            assert "当前" in a["messages"][-1]["text"]
+            assert a["pending_intent"]["kind"] == "task_input_candidate"
+            assert a["pending_intent"]["fields"] == {"work_location_description": "二号罐区"}
+            assert a["task_projection"]["revision"] == 1
+            args = (applicant, a, "确认")
+            a = await say(*args, request_id="confirm-mixed")
+            assert a["task_projection"]["revision"] == 2
+            assert await say(*args, request_id="confirm-mixed") == a
+            a = await say(applicant, a, "当前状态是什么？提交申请给 reviewer")
+            frozen = a["pending_intent"]["collaboration"]
+            assert frozen["payload"]["expected_material_revision"] == 2
+            assert frozen["payload"]["expected_application_version"] == 1
+            a = await say(applicant, a, "确认")
+            b = await bind(reviewer, await conversation(reviewer), task)
+            b = await say(reviewer, b, "当前状态是什么？把位置改成三号罐区。")
+            assert b["pending_intent"] is None
+            assert "无权修改材料" in b["messages"][-1]["text"]
+            assert b["task_projection"]["revision"] == 2
+    run(scenario())
+
+def test_explicit_unbound_query_replay_reauthorizes_after_role_revocation(dsn):  # noqa: F811
+    async def scenario():
+        async with clients(dsn) as (sessions, _, config):
+            applicant, reviewer = sessions[:2]
+            task = (await start(applicant))["task_id"]
+            await send(applicant, task, "submit", command(reviewer_user_id="reviewer"))
+            conv = await conversation(reviewer)
+            text = f"申请 {task} 当前材料状态是什么？"
+            answer = await say(reviewer, conv, text, request_id="explicit-query")
+            assert answer["active_task_id"] is None
+            assert answer["query_reference"]["task_id"] == task
+            config.tokens[1].collaboration_role = None
+            await say(reviewer, conv, text, request_id="explicit-query", status=404)
+    run(scenario())
+

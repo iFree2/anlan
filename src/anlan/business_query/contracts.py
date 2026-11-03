@@ -67,3 +67,22 @@ class QueryAnswer(StrictModel):
                 and self.evidence.query_type == "safety_knowledge" and not self.evidence.citations):
             raise ValueError("knowledge answers require citations")
         return self
+
+
+class CitationReference(StrictModel):
+    doc_id: NonEmpty
+    chunk_id: NonEmpty
+    version: int = Field(strict=True, ge=1)
+    content_hash: NonEmpty
+    document_hash: NonEmpty
+    valid_from: AwareDatetime
+    valid_until: AwareDatetime
+
+
+class QueryReference(StrictModel):
+    query_type: QueryType
+    task_id: NonEmpty | None = None
+    material_revision: int | None = Field(default=None, strict=True, ge=1)
+    application_version: int | None = Field(default=None, strict=True, ge=1)
+    citations: list[CitationReference] = Field(default_factory=list, max_length=3)
+    candidate_task_ids: list[NonEmpty] = Field(default_factory=list, max_length=20)

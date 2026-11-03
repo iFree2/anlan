@@ -13,6 +13,7 @@ from anlan.conversation.contracts import (
     COLLABORATION_INTENTS,
     ConversationState,
     FrozenCollaborationCommand,
+    FrozenQueryFollowUp,
     IntentProposal,
 )
 from anlan.workflows.material_contracts import FieldName, Text
@@ -39,6 +40,7 @@ class RouteAction(StrEnum):
 class RouteDecision(StrictModel):
     action: RouteAction
     query_type: QueryType | None = None
+    query_follow_up: FrozenQueryFollowUp | None = None
     fields: dict[FieldName, Text] = Field(default_factory=dict, max_length=4)
     active_task_id: NonEmpty | None = None
     business_write: bool = False

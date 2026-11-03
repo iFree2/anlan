@@ -9,9 +9,11 @@ from anlan.business_query.contracts import (
     EvidenceCitation,
     EvidenceFact,
     QueryAnswer,
+    QueryReference,
     QueryText,
     QueryType,
 )
+from anlan.common.errors import AccessDenied
 from anlan.knowledge.tool import UnavailableKnowledgeStore, query_knowledge
 from anlan.workflows.material_contracts import LABELS
 
@@ -78,6 +80,39 @@ class BusinessQueryService:
             return QueryAnswer(text=text, evidence=bundle, outcome="ok")
         except Exception:
             return self._knowledge_failure("error", "knowledge_unavailable", self.clock())
+
+    @staticmethod
+    def replay_reference(answer, query_type):
+        bundle = answer.evidence
+        return QueryReference(
+            query_type=query_type, task_id=bundle.task_id if bundle else None,
+            material_revision=bundle.material_revision if bundle else None,
+            application_version=bundle.application_version if bundle else None,
+            candidate_task_ids=[item["task_id"] for item in answer.candidate_tasks],
+            citations=[{k: c.model_dump()[k] for k in (
+                "doc_id", "chunk_id", "version", "content_hash", "document_hash",
+                "valid_from", "valid_until")} for c in bundle.citations] if bundle else [],
+        ).model_dump(mode="json")
+
+    async def validate_replay(self, actor, reference, question):
+        reference = QueryReference.model_validate(reference)
+        if reference.task_id:
+            result = await self.workflow.read(actor, reference.task_id)
+            projection = result.projection.model_dump(mode="json")
+            if (projection["revision"] != reference.material_revision or
+                    projection["collaboration"]["application"]["version"] !=
+                    reference.application_version):
+                raise AccessDenied("查询引用已变化，请使用新请求刷新")
+        elif reference.query_type == "safety_knowledge":
+            current = await self._answer_knowledge(actor, question)
+            current_reference = QueryReference.model_validate(
+                self.replay_reference(current, "safety_knowledge"))
+            if current_reference.citations != reference.citations:
+                raise AccessDenied("知识引用已不可用，请使用新请求刷新")
+        elif reference.candidate_task_ids:
+            allowed = {item["task_id"] for item in await self.workflow.applications(actor)}
+            if not set(reference.candidate_task_ids) <= allowed:
+                raise AccessDenied("申请列表授权已变化，请刷新")
 
     @staticmethod
     def _knowledge_failure(outcome, limitation, now):
