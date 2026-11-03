@@ -19,6 +19,7 @@ from anlan.collaboration.service import CollaborationService
 from anlan.common.errors import AccessDenied, InvalidTransition, TaskBusy
 from anlan.common.models import Identity, StrictModel
 from anlan.conversation.service import ConversationService
+from anlan.infrastructure.business_queries import BusinessQueryAuditStore
 from anlan.infrastructure.collaboration import CollaborationStore
 from anlan.infrastructure.conversations import ConversationStore
 from anlan.infrastructure.events import EventStore
@@ -102,6 +103,7 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
     events = EventStore(dsn, clock=clock, access_config=config)
     memory = MemoryStore(dsn, clock=clock)
     conversations = ConversationStore(dsn)
+    query_audit = BusinessQueryAuditStore(dsn)
     sources = config
 
     @asynccontextmanager
@@ -113,6 +115,7 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
         await ConsoleService(dsn, config, clock=clock).initialize()
         await memory.initialize()
         await conversations.initialize()
+        await query_audit.initialize()
         await models.ledger.initialize()
         selected = knowledge
         if selected is None:
@@ -188,7 +191,8 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
     workflow_adapter = CollaborationConversationAdapter(
         collaboration, WorkflowAdapter(models.material_service))
     business_queries = BusinessQueryService(
-        workflow_adapter, clock=clock, knowledge_provider=lambda: app.state.knowledge)
+        workflow_adapter, clock=clock, knowledge_provider=lambda: app.state.knowledge,
+        audit=query_audit)
     conversation_service = ConversationService(conversations, models.conversation,
                                                workflow_adapter, business_queries)
 

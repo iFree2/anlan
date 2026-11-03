@@ -40,7 +40,32 @@ class BusinessQueryService:
                      active_task_id: str | None, explicit_task_id: str | None,
                      source_message_id: str | None = None) -> QueryAnswer:
         query_type = TypeAdapter(QueryType).validate_python(query_type)
-        TypeAdapter(QueryText).validate_python(question)
+        try:
+            question = TypeAdapter(QueryText).validate_python(question)
+            answer = await self._answer(
+                actor, query_type, question, active_task_id, explicit_task_id)
+        except Exception:
+            await self._record(actor, query_type, source_message_id, QueryAnswer(
+                text="查询暂不可用。", outcome="error"))
+            raise
+        await self._record(actor, query_type, source_message_id, answer)
+        return answer
+
+    async def _record(self, actor, query_type, source_message_id, answer):
+        if self.audit is None:
+            return
+        from anlan.infrastructure.business_queries import QueryReceipt
+
+        bundle = answer.evidence
+        role = self.workflow.role(actor) if hasattr(self.workflow, "role") else None
+        await self.audit.record(actor, role, QueryReceipt(
+            source_message_id=source_message_id, query_type=query_type, outcome=answer.outcome,
+            task_id=bundle.task_id if bundle else None,
+            material_revision=bundle.material_revision if bundle else None,
+            application_version=bundle.application_version if bundle else None,
+            citation_ids=[c.chunk_id for c in bundle.citations] if bundle else []))
+
+    async def _answer(self, actor, query_type, question, active_task_id, explicit_task_id):
         if query_type == "safety_knowledge":
             return await self._answer_knowledge(actor, question)
         target = explicit_task_id or active_task_id

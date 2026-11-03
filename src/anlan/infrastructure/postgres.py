@@ -34,11 +34,13 @@ async def initialize_database(dsn: str) -> None:
                 conninfo(dsn), serde=checkpoint_serde()
             ) as saver:
                 await saver.setup()
+            from anlan.infrastructure.business_queries import BusinessQueryAuditStore
             from anlan.infrastructure.collaboration import CollaborationStore
             from anlan.infrastructure.preflight import PrecheckStore
 
             await CollaborationStore(dsn).initialize()
             await PrecheckStore(dsn).initialize()
+            await BusinessQueryAuditStore(dsn).initialize()
         finally:
             await conn.execute("SELECT pg_advisory_unlock(73421102)")
 

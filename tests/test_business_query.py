@@ -201,6 +201,30 @@ async def test_replay_reauthorizes_explicit_target_and_knowledge_citations():
         await service.validate_replay(APPLICANT, reference, "动火？")
 
 
+async def test_query_is_audited_before_answer_and_audit_failure_is_not_ignored():
+    class Audit:
+        rows = []
+        fail = False
+
+        async def record(self, actor, role, receipt):
+            if self.fail:
+                raise RuntimeError("PRIVATE-AUDIT")
+            self.rows.append((actor, role, receipt))
+
+    audit = Audit()
+    service = BusinessQueryService(AuthorizedWorkflow(), audit=audit)
+    await service.answer(APPLICANT, query_type="application_status", question="PRIVATE-QUESTION",
+                         active_task_id="task-1", explicit_task_id=None, source_message_id="msg-1")
+    assert len(audit.rows) == 1
+    assert audit.rows[0][2].source_message_id == "msg-1"
+    assert "PRIVATE" not in audit.rows[0][2].model_dump_json()
+    audit.fail = True
+    with pytest.raises(RuntimeError):
+        await service.answer(APPLICANT, query_type="application_status", question="状态？",
+                             active_task_id="task-1", explicit_task_id=None,
+                             source_message_id="msg-2")
+
+
 def test_query_contracts_reject_unknown_unbounded_and_partial_evidence():
     for value in ("write", "", 1):
         with pytest.raises(ValidationError):

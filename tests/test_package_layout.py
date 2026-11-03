@@ -66,6 +66,7 @@ def test_wheel_resources_include_new_sql_and_keep_old_migration_checks(tmp_path)
     assert len(checked) == len(resources)
     names = {item["path"] for item in checked}
     assert "anlan/sql/017_collaboration.sql" in names
+    assert "anlan/sql/021_business_queries.sql" in names
     assert {resource.relative_to(root / "src").as_posix()
             for resource in (root / "src/anlan/sql").glob("*.sql")} <= names
     archive_without("anlan/sql/001_registry.sql")
