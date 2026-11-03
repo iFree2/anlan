@@ -450,7 +450,9 @@ def test_applicant_analysis_status_is_preserved_and_failure_is_not_claimed_compl
     run(scenario())
 def test_business_status_answers_are_private_and_authorized(dsn):  # noqa: F811
     async def scenario():
-        async with clients(dsn) as (sessions, _, _):
+        from anlan.infrastructure.business_queries import BusinessQueryAuditStore
+
+        async with clients(dsn) as (sessions, actors, _):
             applicant, reviewer = sessions[:2]
             task = (await start(applicant))["task_id"]
             a = await bind(applicant, await conversation(applicant), task)
@@ -458,15 +460,72 @@ def test_business_status_answers_are_private_and_authorized(dsn):  # noqa: F811
             await send(applicant, task, "submit", command(reviewer_user_id="reviewer"))
             b = await bind(reviewer, await conversation(reviewer), task)
             b = await say(reviewer, b, "PRIVATE-REVIEWER 私聊")
-            a = await say(applicant, a, "当前材料状态是什么？")
-            b = await say(reviewer, b, "当前材料状态是什么？")
+            audit = BusinessQueryAuditStore(dsn)
+
+            async def counts():
+                async with await audit.connect() as conn:
+                    values = []
+                    for table in ("anlan_operations", "collaboration_commands",
+                                  "collaboration_events"):
+                        # Identifiers are a fixed test-owned tuple, never request input.
+                        row = await (await conn.execute(
+                            f"SELECT count(*) AS n FROM anlan_v2.{table} WHERE task_id=%s",
+                            (task,))).fetchone()
+                        values.append(row["n"])
+                    row = await (await conn.execute(
+                        "SELECT count(*) AS n FROM anlan_v2.collaboration_notifications n "
+                        "JOIN anlan_v2.collaboration_events e USING(tenant_id,event_id) "
+                        "WHERE e.task_id=%s", (task,))).fetchone()
+                    values.append(row["n"])
+                    row = await (await conn.execute(
+                        "SELECT count(*) AS n FROM anlan_v2.pending_intents "
+                        "WHERE conversation_id=ANY(%s)",
+                        ([a["conversation_id"], b["conversation_id"]],))).fetchone()
+                    values.append(row["n"])
+                    return values
+
+            before = await counts()
+            a = await say(applicant, a, "当前材料状态是什么？APPLICANT-QUERY")
+            b = await say(reviewer, b, "当前材料状态是什么？REVIEWER-QUERY")
+            assert await counts() == before
             for result in (a, b):
                 answer = result["messages"][-1]["text"]
                 assert task in answer and "材料版本 1" in answer and "申请版本 2" in answer
                 assert "安全审核中" in answer and "PRIVATE" not in answer
                 assert result["pending_intent"] is None
             assert "PRIVATE-APPLICANT" not in str(b) and "PRIVATE-REVIEWER" not in str(a)
+            assert "APPLICANT-QUERY" not in str(b) and "REVIEWER-QUERY" not in str(a)
+            assert not ({m["message_id"] for m in a["messages"]} &
+                        {m["message_id"] for m in b["messages"]})
+            for actor, result in zip(actors[:2], (a, b)):
+                source = next(m for m in reversed(result["messages"]) if m["role"] == "user")
+                receipt = await audit.get(actor, source["message_id"])
+                assert receipt["material_revision"] == 1 and receipt["application_version"] == 2
+                assert receipt["outcome"] == "ok" and receipt["citation_ids"] == []
+                assert not {"question", "answer", "facts", "citations"} & receipt.keys()
             assert (await reviewer.get(f"/tasks/{task}/history")).status_code == 404
+    run(scenario())
+
+
+def test_unauthorized_queries_and_audit_failure_disclose_no_business_facts(dsn):  # noqa: F811
+    async def scenario():
+        from anlan.infrastructure.business_queries import BusinessQueryAuditStore
+
+        async with clients(dsn) as (sessions, _, _):
+            task = (await start(sessions[0]))["task_id"]
+            await send(sessions[0], task, "submit", command(reviewer_user_id="reviewer"))
+            for actor in (sessions[2], sessions[3], sessions[5]):
+                conv = await conversation(actor)
+                result = await say(actor, conv, f"申请 {task} 当前状态是什么？")
+                assert result == {"error_category": "query_failure"}
+                conv = (await actor.get(f"/conversations/{conv['conversation_id']}")).json()
+                result = await say(actor, conv, "申请 nonexistent-task 当前状态是什么？")
+                assert result == {"error_category": "query_failure"}
+            conv = await bind(sessions[0], await conversation(sessions[0]), task)
+            with patch.object(BusinessQueryAuditStore, "record",
+                              side_effect=RuntimeError("PRIVATE")):
+                result = await say(sessions[0], conv, "当前状态是什么？")
+            assert result == {"error_category": "query_failure"}
     run(scenario())
 
 def test_mixed_query_material_and_collaboration_wait_for_confirmation(dsn):  # noqa: F811
@@ -509,5 +568,22 @@ def test_explicit_unbound_query_replay_reauthorizes_after_role_revocation(dsn): 
             assert answer["query_reference"]["task_id"] == task
             config.tokens[1].collaboration_role = None
             await say(reviewer, conv, text, request_id="explicit-query", status=404)
+    run(scenario())
+
+
+def test_long_details_answer_fits_real_private_message_storage(dsn):  # noqa: F811
+    async def scenario():
+        from test_material_revisions import COMPLETE
+
+        async with clients(dsn) as (sessions, _, _):
+            actor = sessions[0]
+            fields = COMPLETE | {"work_location_description": "位" * 2000,
+                                 "work_object_description": "管" * 2000}
+            task = (await start(actor, fields))["task_id"]
+            conv = await bind(actor, await conversation(actor), task)
+            conv = await say(actor, conv, "作业对象是什么？")
+            text = conv["messages"][-1]["text"]
+            assert len(text.encode("utf-8")) <= 7600 and "已截断" in text
+            assert task in text and "材料版本 1" in text and "申请版本 1" in text
     run(scenario())
 

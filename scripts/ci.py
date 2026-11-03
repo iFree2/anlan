@@ -88,7 +88,9 @@ def main():
                     stdout=output,
                     stderr=subprocess.STDOUT,
                     env=os.environ | {"PYTHONIOENCODING": "utf-8"},
-                    timeout=900,
+                    # The real-PG suite exceeds 15 minutes on the Windows test host.
+                    # Keep all checks and assertions; only extend its wall-clock budget.
+                    timeout=1800 if name == "tests" else 900,
                 )
             report["checks"].append({"name": name, "returncode": run.returncode})
             report["sources_after"] = source_fingerprints()

@@ -106,6 +106,15 @@ async def test_review_completed_never_means_permission():
     assert "不代表作业批准或开工授权" in answer.text
 
 
+async def test_status_answer_names_the_current_handler_from_state_rules():
+    workflow = AuthorizedWorkflow()
+    workflow.status = "under_review"
+    answer = await BusinessQueryService(workflow).answer(
+        APPLICANT, query_type="application_status", question="轮到谁？",
+        active_task_id="task-1", explicit_task_id=None)
+    assert "指定安全审核人员" in answer.text
+
+
 class Knowledge:
     clock = staticmethod(lambda: NOW)
 
@@ -223,6 +232,91 @@ async def test_query_is_audited_before_answer_and_audit_failure_is_not_ignored()
         await service.answer(APPLICANT, query_type="application_status", question="状态？",
                              active_task_id="task-1", explicit_task_id=None,
                              source_message_id="msg-2")
+
+
+@pytest.mark.parametrize("unstable", [False, True])
+async def test_version_change_retries_once_then_refuses_unstable_snapshot(unstable):
+    workflow = AuthorizedWorkflow()
+    original_read = workflow.read
+
+    async def read(actor, target):
+        result = await original_read(actor, target)
+        return result.model_copy(update={"projection": result.projection.model_copy(
+            update={"revision": 2 + len(workflow.read_calls)})})
+
+    async def versions(actor, target):
+        return (3 + len(workflow.read_calls) if unstable else 4, 2)
+
+    workflow.read, workflow.query_versions = read, versions
+    answer = await BusinessQueryService(workflow).answer(
+        APPLICANT, query_type="application_status", question="当前状态？",
+        active_task_id="task-1", explicit_task_id=None)
+    assert len(workflow.read_calls) == 2
+    if unstable:
+        assert answer.outcome == "error" and "刷新" in answer.text
+    else:
+        assert answer.evidence.material_revision == 4
+
+
+async def test_long_details_and_twenty_uuid_summaries_fit_answer_contract():
+    from uuid import uuid4
+
+    workflow = AuthorizedWorkflow(20)
+
+    async def applications(actor):
+        return [{"task_id": str(uuid4()), "status": "draft", "version": 1} for _ in range(20)]
+
+    workflow.applications = applications
+    selection = await BusinessQueryService(workflow).answer(
+        APPLICANT, query_type="application_status", question="状态？",
+        active_task_id=None, explicit_task_id=None)
+    assert selection.outcome == "selection_required" and len(selection.text) > 500
+    original = workflow.read
+
+    async def read(actor, target):
+        result = await original(actor, target)
+        return result.model_copy(update={"projection": result.projection.model_copy(
+            update={"fields": {"work_object_description": "管" * 2000}})})
+
+    workflow.read = read
+    details = await BusinessQueryService(workflow).answer(
+        APPLICANT, query_type="application_details", question="作业对象是什么？",
+        active_task_id="task-1", explicit_task_id=None)
+    assert details.outcome == "ok" and "管" * 2000 in details.text
+
+
+async def test_composer_exception_returns_safe_fixed_application_fallback():
+    service = BusinessQueryService(AuthorizedWorkflow())
+
+    def broken(bundle):
+        raise RuntimeError("PRIVATE-TEMPLATE")
+
+    service._compose_application = broken
+    answer = await service.answer(APPLICANT, query_type="application_status", question="状态？",
+                                  active_task_id="task-1", explicit_task_id=None)
+    assert answer.outcome == "error" and "PRIVATE" not in answer.text
+
+
+async def test_four_maximum_fields_fit_private_message_byte_budget_with_provenance():
+    from anlan.workflows.material_contracts import LABELS
+
+    workflow = AuthorizedWorkflow()
+    original = workflow.read
+
+    async def read(actor, target):
+        result = await original(actor, target)
+        return result.model_copy(update={"projection": result.projection.model_copy(
+            update={"fields": {key: "材" * 2000 for key in LABELS}})})
+
+    workflow.read = read
+    answer = await BusinessQueryService(workflow, clock=lambda: NOW).answer(
+        APPLICANT, query_type="application_details", question="详情？",
+        active_task_id="task-1", explicit_task_id=None)
+    assert answer.outcome == "ok"
+    assert len(answer.text.encode("utf-8")) <= 7600
+    assert "已截断" in answer.text and "answer_truncated" in answer.evidence.limitations
+    assert "材料版本 3" in answer.text and "申请版本 2" in answer.text
+    assert NOW.isoformat() in answer.text
 
 
 def test_query_contracts_reject_unknown_unbounded_and_partial_evidence():

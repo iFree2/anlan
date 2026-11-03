@@ -519,7 +519,8 @@ class ConversationService:
                 "target_task_id": target if target and target in text else None,
             })
         if (proposal.intent in {"task_input_candidate", "hot_work_candidate",
-                                "switch_or_create_task", *COLLABORATION_INTENTS}
+                                "switch_or_create_task", "resume_task", "pause_task", "cancel_task",
+                                "switch_task", *COLLABORATION_INTENTS}
                 and _unsafe_write_text(text)):
             return ConversationService._reply_only(proposal)
         negative_material_markers = (

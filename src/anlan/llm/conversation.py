@@ -442,13 +442,20 @@ class ScriptedConversationModel:
 def _unsafe_write_text(text: str) -> bool:
     return any(word in text for word in (
         "?", "？", "吗", "什么", "为什么", "怎么", "如何", "解释", "流程", "区别",
-        "不要", "别把", "不想", "并非", "不是", "假如", "如果", "假设", "举例",
-        "引用", "他说", "忽略规则", "忽略之前", "越过", "“", "”", '"', "‘", "’",
+        "不要", "别", "不想", "不用", "无需", "并非", "不是", "不确认", "还没", "尚未",
+        "请勿", "不执行", "不修改", "暂不", "假如", "如果", "假设", "举例",
+        "引用", "他说", "忽略", "ignore", "越过", "绕过", "“", "”", '"', "‘", "’",
     ))
 
 
 def _scripted_query_write(text: str) -> QueryWriteCandidate | None:
     """Only explicit separate imperative clauses may propose a confirmed follow-up."""
+    if any(marker in text.lower() for marker in (
+        "假如", "如果", "假设", "引用", "他说", "忽略", "越过", "绕过", "ignore",
+        "不要", "别", "不想", "不用", "无需", "并非", "不是", "不执行", "不修改", "不做",
+        "暂不", "请勿", "还没", "尚未", "不确认", "“", "”", '"', "‘", "’",
+    )):
+        return None
     for clause in re.split(r"[。；;？?!！]", text):
         clause = re.sub(r"^(?:另外|然后|请|再|同时)[，,\s]*", "", clause.strip())
         if not clause or _unsafe_write_text(clause):

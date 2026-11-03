@@ -71,13 +71,22 @@ class BusinessQueryService:
         target = explicit_task_id or active_task_id
         if target is None:
             return await self._selection_answer(actor)
-        result = await self.workflow.read(actor, target)
-        try:
-            projection = result.projection.model_dump(mode="json")
-            bundle = self._application_evidence(query_type, projection)
-            return self._compose_application(bundle)
-        except (ValueError, KeyError, TypeError, AttributeError):
-            return QueryAnswer(text="当前申请数据暂不可查询，请刷新后重试。", outcome="error")
+        for _ in range(2):
+            result = await self.workflow.read(actor, target)
+            try:
+                projection = result.projection.model_dump(mode="json")
+                bundle = self._application_evidence(query_type, projection)
+            except (ValueError, KeyError, TypeError, AttributeError):
+                return QueryAnswer(text="当前申请数据暂不可查询，请刷新后重试。", outcome="error")
+            if hasattr(self.workflow, "query_versions"):
+                current = await self.workflow.query_versions(actor, target)
+                if current != (bundle.material_revision, bundle.application_version):
+                    continue
+            try:
+                return self._compose_application(bundle)
+            except Exception:
+                return QueryAnswer(text="当前申请回答暂不可生成，请刷新后重试。", outcome="error")
+        return QueryAnswer(text="申请版本持续变化，请刷新后重试。", outcome="error")
 
     async def _answer_knowledge(self, actor, question):
         try:
@@ -102,6 +111,13 @@ class BusinessQueryService:
                     f"（引用 {primary.doc_id}/{primary.chunk_id}，来源 {primary.source}）。"
                     "该说明用于材料准备，不代表作业批准或开工授权。"
                     f"查询时间 {now.isoformat()}。")
+            if len(text.encode("utf-8")) > 7600:
+                text = (f"根据《{primary.title[:60]}…》的依据：{primary.quote}"
+                        f"（引用 {primary.doc_id[:120]}…/{primary.chunk_id[:120]}…，"
+                        f"来源 {primary.source[:120]}…）。完整引用标识见查询引用信息。"
+                        "该说明用于材料准备，不代表作业批准或开工授权。"
+                        f"查询时间 {now.isoformat()}。")
+                bundle = bundle.model_copy(update={"limitations": ["citation_metadata_truncated"]})
             return QueryAnswer(text=text, evidence=bundle, outcome="ok")
         except Exception:
             return self._knowledge_failure("error", "knowledge_unavailable", self.clock())
@@ -156,6 +172,8 @@ class BusinessQueryService:
             return QueryAnswer(text="暂无可查询申请。请通过现有入口创建或选择获授权的申请。",
                                outcome="unknown")
         identifiers = "、".join(str(item["task_id"]) for item in summaries)
+        if len(identifiers.encode("utf-8")) > 7000:
+            identifiers = f"共 {len(summaries)} 项，详见候选申请列表"
         return QueryAnswer(text=f"请选择要查询的申请：{identifiers}。查询不会自动绑定申请。",
                            requires_selection=True, candidate_tasks=summaries,
                            outcome="selection_required")
@@ -198,12 +216,21 @@ class BusinessQueryService:
         facts = {fact.key: fact.value for fact in bundle.facts}
         status = facts["application_status"]
         text = f"申请 {bundle.task_id} 当前为“{APPLICATION_LABELS[status]}”。"
+        handler = {"applicant": "申请人", "safety_manager": "指定安全审核人员",
+                   "none": "本轮处理已结束"}[facts["current_handler"]]
+        text += f"当前处理方：{handler}。"
         missing = "、".join(LABELS[k] for k in facts["missing_fields"])
         text += f"缺失材料：{missing}。" if missing else "必填材料已填写。"
         if bundle.query_type == "application_details":
             text += "；".join(f"{LABELS[k]}：{v}" for k, v in facts["fields"].items()) + "。"
         if bundle.query_type == "process_guidance":
             text += facts["next_step"]
-        text += (f" 材料版本 {bundle.material_revision}，申请版本 {bundle.application_version}，"
-                 f"查询时间 {bundle.observed_at.isoformat()}。")
+        metadata = (f" 材料版本 {bundle.material_revision}，申请版本 {bundle.application_version}，"
+                    f"查询时间 {bundle.observed_at.isoformat()}。")
+        if len((text + metadata).encode("utf-8")) > 7600:
+            notice = "…（内容较长，已截断；完整材料见侧栏）。"
+            budget = 7600 - len((notice + metadata).encode("utf-8"))
+            text = text.encode("utf-8")[:budget].decode("utf-8", errors="ignore") + notice
+            bundle = bundle.model_copy(update={"limitations": ["answer_truncated"]})
+        text += metadata
         return QueryAnswer(text=text, evidence=bundle, outcome="ok")

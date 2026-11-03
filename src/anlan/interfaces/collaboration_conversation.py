@@ -27,6 +27,13 @@ class CollaborationConversationAdapter:
                  "updated_at": item.updated_at.isoformat() if item.updated_at else ""}
                 for item in result["items"][:20]]
 
+    async def query_versions(self, actor, task_id):
+        result = await self.read(actor, task_id)
+        shared = result.projection.collaboration
+        if shared is None:
+            raise InvalidTransition("申请版本暂不可查询")
+        return result.projection.revision, shared["application"]["version"]
+
     async def read(self, actor, task_id):
         if self.role(actor) is None:
             return await self.workflow.read(actor, task_id)
