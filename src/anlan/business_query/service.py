@@ -6,11 +6,13 @@ from pydantic import TypeAdapter
 
 from anlan.business_query.contracts import (
     EvidenceBundle,
+    EvidenceCitation,
     EvidenceFact,
     QueryAnswer,
     QueryText,
     QueryType,
 )
+from anlan.knowledge.tool import UnavailableKnowledgeStore, query_knowledge
 from anlan.workflows.material_contracts import LABELS
 
 APPLICATION_LABELS = {"draft": "草稿", "under_review": "安全审核中",
@@ -38,7 +40,7 @@ class BusinessQueryService:
         query_type = TypeAdapter(QueryType).validate_python(query_type)
         TypeAdapter(QueryText).validate_python(question)
         if query_type == "safety_knowledge":
-            return QueryAnswer(text="当前知识库没有足够依据回答这个问题。", outcome="unknown")
+            return await self._answer_knowledge(actor, question)
         target = explicit_task_id or active_task_id
         if target is None:
             return await self._selection_answer(actor)
@@ -49,6 +51,40 @@ class BusinessQueryService:
             return self._compose_application(bundle)
         except (ValueError, KeyError, TypeError, AttributeError):
             return QueryAnswer(text="当前申请数据暂不可查询，请刷新后重试。", outcome="error")
+
+    async def _answer_knowledge(self, actor, question):
+        try:
+            knowledge = (self.knowledge_provider() if self.knowledge_provider
+                         else UnavailableKnowledgeStore(self.clock))
+            observation = await query_knowledge(knowledge, actor, {"question": question})
+            now = self.clock()
+            if observation.outcome != "ok" or not observation.citations:
+                outcome = "error" if observation.outcome == "error" else "unknown"
+                limitation = ("knowledge_unavailable" if outcome == "error"
+                              else "no_eligible_evidence")
+                return self._knowledge_failure(outcome, limitation, now)
+            citations = [EvidenceCitation.model_validate({k: item[k]
+                         for k in EvidenceCitation.model_fields})
+                         for item in observation.citations[:3]]
+            if any(not (c.valid_from <= now < c.valid_until) for c in citations):
+                return self._knowledge_failure("unknown", "expired_citation", now)
+            bundle = EvidenceBundle(query_type="safety_knowledge", observed_at=now,
+                                    citations=citations)
+            primary = citations[0]
+            text = (f"根据《{primary.title}》的当前可用依据：{primary.quote}"
+                    f"（引用 {primary.doc_id}/{primary.chunk_id}，来源 {primary.source}）。"
+                    "该说明用于材料准备，不代表作业批准或开工授权。"
+                    f"查询时间 {now.isoformat()}。")
+            return QueryAnswer(text=text, evidence=bundle, outcome="ok")
+        except Exception:
+            return self._knowledge_failure("error", "knowledge_unavailable", self.clock())
+
+    @staticmethod
+    def _knowledge_failure(outcome, limitation, now):
+        text = ("知识服务暂不可查询，请稍后重试。" if outcome == "error"
+                else "当前知识库没有足够依据回答这个问题。")
+        return QueryAnswer(text=text, outcome=outcome, evidence=EvidenceBundle(
+            query_type="safety_knowledge", observed_at=now, limitations=[limitation]))
 
     async def _selection_answer(self, actor):
         items = await self.workflow.applications(actor)

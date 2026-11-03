@@ -1,11 +1,17 @@
 """Strict query boundary and deterministic gateway acceptance."""
 
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 
 import pytest
 from pydantic import TypeAdapter, ValidationError
 
-from anlan.business_query.contracts import EvidenceBundle, EvidenceCitation, QueryText, QueryType
+from anlan.business_query.contracts import (
+    EvidenceBundle,
+    EvidenceCitation,
+    QueryAnswer,
+    QueryText,
+    QueryType,
+)
 from anlan.business_query.service import BusinessQueryService
 from anlan.common.errors import AccessDenied
 from anlan.common.models import Identity
@@ -100,6 +106,75 @@ async def test_review_completed_never_means_permission():
     assert "不代表作业批准或开工授权" in answer.text
 
 
+class Knowledge:
+    clock = staticmethod(lambda: NOW)
+
+    def __init__(self, mode="ok"):
+        self.mode = mode
+        self.calls = []
+
+    async def search(self, actor, parameters):
+        self.calls.append((actor, parameters))
+        if self.mode == "unavailable":
+            raise RuntimeError("PRIVATE-CREDENTIAL")
+        if self.mode == "timeout":
+            raise TimeoutError()
+        citations = [{
+            "doc_id": "doc-1", "chunk_id": "chunk-1", "version": 1, "title": "合成动火规程",
+            "source": "synthetic/policy", "quote": "动火前应检测可燃气体。",
+            "content_hash": "a" * 64, "document_hash": "b" * 64,
+            "valid_from": (NOW - timedelta(days=1)).isoformat(),
+            "valid_until": (NOW + timedelta(days=1)).isoformat(),
+            "rank_score": 0.9,
+        }]
+        if self.mode in {"no_evidence", "revoked"}:
+            citations = []
+        elif self.mode == "expired":
+            citations[0]["valid_until"] = NOW.isoformat()
+        elif self.mode == "missing_hash":
+            del citations[0]["content_hash"]
+        return {"outcome": "ok" if citations else "unknown", "reason": None,
+                "queried_at": NOW.isoformat(), "citations": citations}
+
+
+@pytest.mark.parametrize("mode", ["ok", "no_evidence", "revoked", "unavailable", "timeout",
+                                  "expired", "missing_hash"])
+async def test_safety_knowledge_is_only_a_current_authorized_quote(mode):
+    knowledge = Knowledge(mode)
+    service = BusinessQueryService(AuthorizedWorkflow(), clock=lambda: NOW,
+                                   knowledge_provider=lambda: knowledge)
+    answer = await service.answer(APPLICANT, query_type="safety_knowledge",
+                                  question="为什么气体检测？",
+                                  active_task_id=None, explicit_task_id=None)
+    assert len(knowledge.calls) == 1
+    assert "PRIVATE" not in answer.text and "受限空间" not in answer.text
+    if mode == "ok":
+        assert answer.outcome == "ok" and answer.evidence.task_id is None
+        assert answer.evidence.citations[0].chunk_id == "chunk-1"
+        assert "可燃气体" in answer.text and "doc-1/chunk-1" in answer.text
+        assert NOW.isoformat() in answer.text
+    else:
+        assert answer.outcome in {"unknown", "error"}
+        assert "可燃气体" not in answer.text
+
+
+async def test_valid_long_knowledge_quote_is_not_misreported_as_unavailable():
+    knowledge = Knowledge()
+    search = knowledge.search
+
+    async def long_search(actor, parameters):
+        result = await search(actor, parameters)
+        result["citations"][0]["quote"] = "合成安全依据。" * 100
+        return result
+
+    knowledge.search = long_search
+    answer = await BusinessQueryService(AuthorizedWorkflow(), clock=lambda: NOW,
+                                       knowledge_provider=lambda: knowledge).answer(
+        APPLICANT, query_type="safety_knowledge", question="动火？",
+        active_task_id=None, explicit_task_id=None)
+    assert answer.outcome == "ok" and len(answer.text) > 500
+
+
 def test_query_contracts_reject_unknown_unbounded_and_partial_evidence():
     for value in ("write", "", 1):
         with pytest.raises(ValidationError):
@@ -114,3 +189,9 @@ def test_query_contracts_reject_unknown_unbounded_and_partial_evidence():
                            material_revision=revision, application_version=1, observed_at=NOW)
     with pytest.raises(ValidationError):
         EvidenceBundle(query_type="safety_knowledge", observed_at=NOW, private_messages=[])
+
+
+def test_successful_knowledge_envelope_requires_citations():
+    with pytest.raises(ValidationError):
+        QueryAnswer(text="无引用的安全结论", outcome="ok", evidence=EvidenceBundle(
+            query_type="safety_knowledge", observed_at=NOW))

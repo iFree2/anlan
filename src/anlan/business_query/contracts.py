@@ -55,8 +55,15 @@ class EvidenceBundle(StrictModel):
 
 
 class QueryAnswer(StrictModel):
-    text: NonEmpty
+    text: Annotated[str, StringConstraints(strict=True, min_length=1, max_length=12000)]
     evidence: EvidenceBundle | None = None
     requires_selection: bool = False
     candidate_tasks: list[dict[str, str | int]] = Field(default_factory=list, max_length=20)
     outcome: Literal["ok", "unknown", "selection_required", "error"]
+
+    @model_validator(mode="after")
+    def cited_knowledge_success(self):
+        if (self.outcome == "ok" and self.evidence is not None
+                and self.evidence.query_type == "safety_knowledge" and not self.evidence.citations):
+            raise ValueError("knowledge answers require citations")
+        return self
