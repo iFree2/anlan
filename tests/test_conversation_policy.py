@@ -216,3 +216,20 @@ def pending_state():
             },
         }
     )
+@pytest.mark.parametrize("intent,query_type", [
+    ("query_application_status", "application_status"),
+    ("query_application_details", "application_details"),
+    ("query_process_guidance", "process_guidance"),
+    ("query_safety_knowledge", "safety_knowledge"),
+])
+def test_business_queries_are_read_only_in_every_state(intent, query_type):
+    for status in ("idle", "active_hot_work", "paused", "pending_confirmation"):
+        state = ConversationState(conversation_id="c", revision=1, status=status,
+                                  active_task_id="task-current")
+        route = decide(state, IntentProposal(intent=intent, target_task_id="task-explicit",
+                       user_explanation="只读查询", classifier_version="test"))
+        assert route.action is RouteAction.EXECUTE_BUSINESS_QUERY
+        assert route.query_type == query_type
+        assert route.target_task_id == "task-explicit"
+        assert route.business_write is False
+

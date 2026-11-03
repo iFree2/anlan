@@ -5,9 +5,11 @@ from typing import Literal
 
 from pydantic import Field
 
+from anlan.business_query.contracts import QueryType
 from anlan.common.errors import InvalidTransition
 from anlan.common.models import NonEmpty, StrictModel
 from anlan.conversation.contracts import (
+    BUSINESS_QUERY_INTENTS,
     COLLABORATION_INTENTS,
     ConversationState,
     FrozenCollaborationCommand,
@@ -17,6 +19,7 @@ from anlan.workflows.material_contracts import FieldName, Text
 
 
 class RouteAction(StrEnum):
+    EXECUTE_BUSINESS_QUERY = "execute_business_query"
     REPLY_ONLY = "reply_only"
     ASK_CONFIRMATION = "ask_confirmation"
     REJECT_PENDING_INTENT = "reject_pending_intent"
@@ -35,6 +38,7 @@ class RouteAction(StrEnum):
 
 class RouteDecision(StrictModel):
     action: RouteAction
+    query_type: QueryType | None = None
     fields: dict[FieldName, Text] = Field(default_factory=dict, max_length=4)
     active_task_id: NonEmpty | None = None
     business_write: bool = False
@@ -47,6 +51,12 @@ class RouteDecision(StrictModel):
 def decide(state: ConversationState, proposal: IntentProposal) -> RouteDecision:
     """Resolve a bounded proposal against trusted conversation state."""
     intent = proposal.intent
+
+    if intent in BUSINESS_QUERY_INTENTS:
+        return RouteDecision(action=RouteAction.EXECUTE_BUSINESS_QUERY,
+                             active_task_id=state.active_task_id,
+                             target_task_id=proposal.target_task_id,
+                             query_type=BUSINESS_QUERY_INTENTS[intent], business_write=False)
 
     if intent in COLLABORATION_INTENTS:
         if not state.active_task_id or state.status not in {

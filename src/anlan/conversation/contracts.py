@@ -23,7 +23,17 @@ IntentKind = Literal[
     "request_changes",
     "resubmit_application",
     "complete_material_review",
+    "query_application_status",
+    "query_application_details",
+    "query_process_guidance",
+    "query_safety_knowledge",
 ]
+BUSINESS_QUERY_INTENTS = {
+    "query_application_status": "application_status",
+    "query_application_details": "application_details",
+    "query_process_guidance": "process_guidance",
+    "query_safety_knowledge": "safety_knowledge",
+}
 COLLABORATION_INTENTS = {
     'submit_application': 'submit', 'request_changes': 'request_changes',
     'resubmit_application': 'resubmit', 'complete_material_review': 'complete_review',
