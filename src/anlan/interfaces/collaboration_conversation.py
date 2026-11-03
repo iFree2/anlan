@@ -21,6 +21,12 @@ class CollaborationConversationAdapter:
     def role(self, actor):
         return self.service.config.collaboration_role(actor)
 
+    async def applications(self, actor):
+        result = await self.service.list(actor)
+        return [{"task_id": item.task_id, "status": item.status, "version": item.version,
+                 "updated_at": item.updated_at.isoformat() if item.updated_at else ""}
+                for item in result["items"][:20]]
+
     async def read(self, actor, task_id):
         if self.role(actor) is None:
             return await self.workflow.read(actor, task_id)

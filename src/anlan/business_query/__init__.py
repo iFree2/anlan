@@ -8,6 +8,7 @@ from anlan.business_query.contracts import (
     QueryText,
     QueryType,
 )
+from anlan.business_query.service import BusinessQueryService
 
-__all__ = ["EvidenceBundle", "EvidenceCitation", "EvidenceFact", "QueryAnswer",
-           "QueryText", "QueryType"]
+__all__ = ["BusinessQueryService", "EvidenceBundle", "EvidenceCitation", "EvidenceFact",
+           "QueryAnswer", "QueryText", "QueryType"]
