@@ -1015,3 +1015,38 @@ def test_workflow_not_found_replay_preserves_exception_semantics(dsn):  # noqa: 
             await subject.message(**arguments)
 
     run(scenario())
+@pytest.mark.parametrize("failure", [False, True])
+def test_business_query_uses_gateway_and_durable_sanitized_failure(dsn, failure):  # noqa: F811
+    async def scenario():
+        from anlan.business_query.contracts import QueryAnswer
+
+        class Queries:
+            calls = []
+
+            async def answer(self, actor, **kwargs):
+                self.calls.append((actor, kwargs))
+                if failure:
+                    raise RuntimeError("PRIVATE-DB-PASSWORD")
+                return QueryAnswer(text="申请 task-1 当前为要求补充。", outcome="ok")
+
+        query = Queries()
+        subject, workflow, _ = service(dsn)
+        subject.business_queries = query
+        conv = await subject.create(OWNER, request_id=unique("query"))
+        result = await subject.message(OWNER, conv["conversation_id"], request_id="q",
+                                       expected_revision=conv["revision"],
+                                       text="当前材料状态是什么？")
+        assert query.calls[0][1]["source_message_id"]
+        snapshot = await subject.snapshot(OWNER, conv["conversation_id"])
+        assert workflow.calls == [] and snapshot["active_task_id"] is None
+        if failure:
+            assert result["error_category"] == "query_failure"
+            assert "PRIVATE" not in str(result)
+        else:
+            assert result["messages"][-1]["text"] == "申请 task-1 当前为要求补充。"
+        replay = await subject.message(OWNER, conv["conversation_id"], request_id="q",
+                                       expected_revision=conv["revision"],
+                                       text="当前材料状态是什么？")
+        assert replay == result and len(query.calls) == 1
+    run(scenario())
+

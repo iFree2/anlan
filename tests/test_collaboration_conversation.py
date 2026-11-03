@@ -448,3 +448,24 @@ def test_applicant_analysis_status_is_preserved_and_failure_is_not_claimed_compl
             if semantic == 'offline_not_checked':
                 assert '语义未核查' in conv['messages'][-1]['text']
     run(scenario())
+def test_business_status_answers_are_private_and_authorized(dsn):  # noqa: F811
+    async def scenario():
+        async with clients(dsn) as (sessions, _, _):
+            applicant, reviewer = sessions[:2]
+            task = (await start(applicant))["task_id"]
+            a = await bind(applicant, await conversation(applicant), task)
+            a = await say(applicant, a, "PRIVATE-APPLICANT 私聊")
+            await send(applicant, task, "submit", command(reviewer_user_id="reviewer"))
+            b = await bind(reviewer, await conversation(reviewer), task)
+            b = await say(reviewer, b, "PRIVATE-REVIEWER 私聊")
+            a = await say(applicant, a, "当前材料状态是什么？")
+            b = await say(reviewer, b, "当前材料状态是什么？")
+            for result in (a, b):
+                answer = result["messages"][-1]["text"]
+                assert task in answer and "材料版本 1" in answer and "申请版本 2" in answer
+                assert "安全审核中" in answer and "PRIVATE" not in answer
+                assert result["pending_intent"] is None
+            assert "PRIVATE-APPLICANT" not in str(b) and "PRIVATE-REVIEWER" not in str(a)
+            assert (await reviewer.get(f"/tasks/{task}/history")).status_code == 404
+    run(scenario())
+

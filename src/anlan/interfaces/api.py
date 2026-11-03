@@ -13,6 +13,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import Field, ValidationError
 
+from anlan.business_query.service import BusinessQueryService
 from anlan.collaboration.event_access import public_event, public_review
 from anlan.collaboration.service import CollaborationService
 from anlan.common.errors import AccessDenied, InvalidTransition, TaskBusy
@@ -184,8 +185,12 @@ def create_app(dsn, config, *, knowledge=None, model_factory=ScriptedPerceptionM
     def review_view(identity, value):
         return public_review(value) if config.collaboration_role(identity) else value
     collaboration = CollaborationService(dsn, config, models.material_service)
+    workflow_adapter = CollaborationConversationAdapter(
+        collaboration, WorkflowAdapter(models.material_service))
+    business_queries = BusinessQueryService(
+        workflow_adapter, clock=clock, knowledge_provider=lambda: app.state.knowledge)
     conversation_service = ConversationService(conversations, models.conversation,
-        CollaborationConversationAdapter(collaboration, WorkflowAdapter(models.material_service)))
+                                               workflow_adapter, business_queries)
 
     async def safe_error(request, exc):
         if isinstance(exc, AccessDenied):

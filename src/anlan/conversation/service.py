@@ -17,10 +17,11 @@ from anlan.workflows.material_contracts import LABELS, QUESTIONS
 
 
 class ConversationService:
-    def __init__(self, store, model_factory, workflow):
+    def __init__(self, store, model_factory, workflow, business_queries=None):
         self.store = store
         self._model_factory = model_factory
         self.workflow = workflow
+        self.business_queries = business_queries
 
     async def create(self, identity, *, request_id):
         await self.store.initialize()
@@ -143,6 +144,9 @@ class ConversationService:
                     projection,
                 )
             except AccessDenied:
+                if decision.action is RouteAction.EXECUTE_BUSINESS_QUERY:
+                    return await self.store.fail_message(
+                        identity, conversation_id, reservation["message_id"], "query_failure")
                 await self.store.fail_message(
                     identity,
                     conversation_id,
@@ -151,6 +155,9 @@ class ConversationService:
                 )
                 raise
             except (InvalidTransition, TaskBusy):
+                if decision.action is RouteAction.EXECUTE_BUSINESS_QUERY:
+                    return await self.store.fail_message(
+                        identity, conversation_id, reservation["message_id"], "query_failure")
                 await self.store.fail_message(
                     identity,
                     conversation_id,
@@ -160,6 +167,7 @@ class ConversationService:
                 raise
             except Exception:
                 category = (
+                    "query_failure" if decision.action is RouteAction.EXECUTE_BUSINESS_QUERY else
                     "chat_failure"
                     if decision.action is RouteAction.REPLY_ONLY
                     else "workflow_failure"
@@ -306,6 +314,14 @@ class ConversationService:
             )
             projection = workflow.projection.model_dump(mode="json")
             assistant = "已切换到你有权访问的已有任务，原任务仍保留。"
+        elif action is RouteAction.EXECUTE_BUSINESS_QUERY:
+            if self.business_queries is None or decision.query_type is None:
+                raise InvalidTransition("业务查询服务未配置")
+            answer = await self.business_queries.answer(
+                identity, query_type=decision.query_type, question=reservation["text"],
+                active_task_id=raw["active_task_id"], explicit_task_id=decision.target_task_id,
+                source_message_id=message_id)
+            assistant = answer.text
         elif action is RouteAction.REPLY_ONLY:
             reply = await models.responder.respond(
                 self._context(raw, self._state(raw), projection,
