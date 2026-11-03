@@ -4,6 +4,7 @@ import re
 
 from anlan.common.errors import AccessDenied, InvalidTransition, TaskBusy
 from anlan.conversation.contracts import (
+    BUSINESS_QUERY_INTENTS,
     COLLABORATION_INTENTS,
     ConversationState,
     FrozenCollaborationCommand,
@@ -11,7 +12,7 @@ from anlan.conversation.contracts import (
     PendingIntent,
 )
 from anlan.conversation.policy import RouteAction, RouteDecision, decide
-from anlan.llm.conversation import ConversationContext, VisibleMessage
+from anlan.llm.conversation import ConversationContext, VisibleMessage, _scripted_query_intent
 from anlan.workflows.material_contracts import LABELS, QUESTIONS
 
 
@@ -438,6 +439,14 @@ class ConversationService:
     def _constrain_proposal(state, text, proposal):
         """Apply deterministic text safety gates before trusting a model proposal."""
         normalized = text.strip().rstrip("。！! ")
+        query_intent = _scripted_query_intent(text)
+        if query_intent or proposal.intent in BUSINESS_QUERY_INTENTS:
+            target = proposal.target_task_id
+            return proposal.model_copy(update={
+                "intent": query_intent or proposal.intent, "fields": {},
+                "collaboration": None, "requires_confirmation": False,
+                "target_task_id": target if target and target in text else None,
+            })
         negative_material_markers = (
             "不要把",
             "别把",

@@ -226,7 +226,7 @@ def test_chat_during_active_task_never_calls_workflow(dsn):  # noqa: F811
             conversation["conversation_id"],
             request_id="chat",
             expected_revision=active["revision"],
-            text="电焊和气焊有什么区别？",
+            text="今天心情不错，随便聊聊",
         )
         assert result["status"] == "active_hot_work"
         assert workflow.calls == before

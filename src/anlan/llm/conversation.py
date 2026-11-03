@@ -213,6 +213,10 @@ class DeepSeekIntentClassifier:
                                 "resume_task、cancel_task、switch_or_create_task、switch_task、"
                                 "submit_application、request_changes、resubmit_application、"
                                 "complete_material_review。协作候选另用 collaboration 对象："
+                                "状态、详情、流程和安全知识问题分别使用 query_application_status、"
+                                "query_application_details、query_process_guidance、"
+                                "query_safety_knowledge；查询只读，不携带 fields，不得编造证据、"
+                                "身份、版本或声称已修改。target_task_id 仅可来自用户原文同一标识。"
                                 "submit_application 只带 reviewer_user_id；request_changes 只带"
                                 "questions 字符串数组；resubmit_application 只带 reply；"
                                 "complete_material_review 只带 conclusion。"
@@ -319,7 +323,11 @@ class ScriptedConversationModel:
         question = any(mark in text for mark in ("?", "？")) or any(
             word in text for word in ("什么", "为什么", "怎么", "如何", "区别", "解释", "流程")
         )
-        if (
+        if query_intent := _scripted_query_intent(text):
+            intent, fields, confirmation = query_intent, {}, False
+            match = re.search(r"(?:申请|任务)\s+([A-Za-z0-9._:-]{1,100})", text)
+            target_task_id = match.group(1) if match else None
+        elif (
             context.pending_intent
             and context.pending_intent.kind == "switch_or_create_task"
             and "新建" in text
@@ -421,6 +429,22 @@ class ScriptedConversationModel:
     ) -> AssistantReply:
         del context, run_id
         return AssistantReply(text="SYNTHETIC：我可以继续对话；业务任务状态以侧栏为准。")
+
+
+def _scripted_query_intent(text: str) -> str | None:
+    if any(p in text for p in ("材料状态", "申请状态", "当前状态", "当前进度", "轮到谁")):
+        return "query_application_status"
+    if any(p in text for p in ("缺哪些", "作业对象是什么", "作业位置是什么",
+                               "作业方式是什么", "附件是什么")):
+        return "query_application_details"
+    if any(p in text for p in ("下一步", "为什么不能", "不能重新提交", "怎么提交",
+                               "如何重新提交", "为什么现在不能")):
+        return "query_process_guidance"
+    if any(p in text for p in ("？", "?", "为什么", "区别", "如何")) and any(
+        p in text for p in ("动火", "气体检测", "防护", "焊", "切割", "开工", "工艺")
+    ):
+        return "query_safety_knowledge"
+    return None
 
 
 def _scripted_material_fields(text: str) -> dict[FieldName, Text]:

@@ -108,7 +108,7 @@ async def test_scripted_model_extracts_material_supplements_without_misrouting_c
 
     active.messages = [VisibleMessage(role="user", text="电焊和气焊有什么区别？")]
     question = await ScriptedConversationModel().classify(active)
-    assert question.intent == "casual_chat"
+    assert question.intent == "query_safety_knowledge"
     assert question.fields == {}
 
     idle = context("这里只是讨论焊接知识，不是申请")
@@ -442,3 +442,34 @@ async def test_scripted_new_request_during_active_task_never_updates_the_old_tas
         "work_location_description": "三号罐区",
     }
     assert proposal.requires_confirmation is True
+@pytest.mark.parametrize("text,intent", [
+    ("当前材料状态是什么？", "query_application_status"),
+    ("当前还缺哪些材料？", "query_application_details"),
+    ("为什么现在不能重新提交？", "query_process_guidance"),
+    ("为什么动火前需要气体检测？", "query_safety_knowledge"),
+])
+async def test_bounded_business_questions(text, intent):
+    proposal = await ScriptedConversationModel().classify(context(text))
+    assert proposal.intent == intent
+    assert proposal.fields == {} and proposal.requires_confirmation is False
+    async with httpx.AsyncClient(transport=httpx.MockTransport(lambda request: model_response({
+        "intent": intent, "user_explanation": "只读查询",
+    }))) as client:
+        actual = await DeepSeekIntentClassifier(
+            ModelConfig(api_key="fake"), client, FakeLedger()
+        ).classify(context(text))
+    assert actual.intent == intent
+
+
+def test_host_discards_invented_query_target():
+    from anlan.conversation.contracts import ConversationState, IntentProposal
+    from anlan.conversation.service import ConversationService
+
+    state = ConversationState(conversation_id="c", revision=1)
+    proposal = IntentProposal(intent="query_application_status", target_task_id="foreign-task",
+                              user_explanation="查询", classifier_version="test")
+    actual = ConversationService._constrain_proposal(state, "当前状态？", proposal)
+    assert actual.target_task_id is None
+    assert ConversationService._constrain_proposal(
+        state, "foreign-task 当前状态？", proposal).target_task_id == "foreign-task"
+
