@@ -1,0 +1,323 @@
+{
+  "date": "2026-11-17",
+  "source_commit": "850febefd6a04cd336a5e6ad7d72e787731cacb1",
+  "local_verification": {
+    "unchanged_ci_sources": true,
+    "full_ci": {
+      "tests": 1136,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "deployment_and_query_tests": 57,
+    "deployment_tests_after_date_adjustment": 13,
+    "ruff": "passed"
+  },
+  "activation": {
+    "status": "activated",
+    "base": "/opt/anlan2/releases/p13-preflight-20261101b",
+    "new_release": "/opt/anlan2/releases/business-query-20261117",
+    "wheel_sha256": "fd2c20866774f2c03a3e3ce6a5e3cd9ea79fc29c3c04b03c5ad1ef67c9b975e0",
+    "database_dump_sha256": "31b122a01324b8546d529fbf17ee87f6402da2611c8a8e59184e9a20592f6d56",
+    "config_sha256": "7b03174b784e69e85d10f057df46c690bab077ebdbfedcb88d0e0d8d7ec0deaf",
+    "env_sha256": "c5713c4afa43070e51269ff56d0251edac589a5e52c499ef6cc05fa230f572cb",
+    "systemd_sha256": "bb088412fc5b619205df8b3725150b222a94c18cf3170faa552c2a67c7bb4a8b",
+    "migrations_before": [
+      1,
+      5,
+      6,
+      7,
+      8,
+      9,
+      13,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20
+    ],
+    "before_counts": {
+      "anlan_operations": 47,
+      "anlan_tasks": 19,
+      "checkpoint_blobs": 162,
+      "checkpoint_writes": 676,
+      "checkpoints": 128,
+      "collaboration_applications": 7,
+      "collaboration_commands": 18,
+      "collaboration_events": 22,
+      "collaboration_notifications": 22,
+      "conversation_messages": 132,
+      "conversation_routes": 64,
+      "conversations": 12,
+      "knowledge_chunks": 10,
+      "knowledge_documents": 10,
+      "memories": 0,
+      "memory_feedback": 0,
+      "memory_revisions": 0,
+      "model_budget_attempts": 144,
+      "model_budget_authorizations": 1,
+      "model_budget_package_limits": 1,
+      "model_call_policies": 1,
+      "pending_intents": 24,
+      "perception_events": 12,
+      "perception_feedback": 7,
+      "perception_heads": 11,
+      "perception_reviews": 13,
+      "precheck_attempts": 5,
+      "precheck_binding_commands": 9,
+      "precheck_binding_heads": 3,
+      "precheck_binding_versions": 5,
+      "precheck_cycles": 3,
+      "precheck_jobs": 5,
+      "precheck_policies": 7,
+      "precheck_recheck_commands": 0,
+      "precheck_results": 5
+    },
+    "ledger_before": {
+      "total": 144,
+      "conversation": 66,
+      "materials_events": 14,
+      "total_limit": 100,
+      "materials_events_limit": 10,
+      "conversation_limit": 30
+    },
+    "new_model_requests": 0,
+    "roles": [
+      {
+        "role": "legacy",
+        "model_mode": "deepseek_live"
+      },
+      {
+        "role": "applicant",
+        "model_mode": "deepseek_live"
+      },
+      {
+        "role": "safety_manager",
+        "model_mode": "deepseek_live"
+      }
+    ],
+    "anonymous_status": 401,
+    "migrations": [
+      1,
+      5,
+      6,
+      7,
+      8,
+      9,
+      13,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21
+    ],
+    "public_status": {
+      "/anlan/healthz": 200,
+      "/anlan/console": 200
+    },
+    "query_acceptance": {
+      "probe_id": "business-query-20261117-d54574d033ba",
+      "queries": [
+        {
+          "role": "legacy",
+          "query_type": "safety_knowledge",
+          "outcome": "ok",
+          "task_id": null,
+          "material_revision": null,
+          "application_version": null,
+          "citation_count": 2,
+          "http_readback": 200
+        },
+        {
+          "role": "applicant",
+          "query_type": "application_status",
+          "outcome": "ok",
+          "task_id": "c797742a-ab28-5b5c-a374-cd2ae7733260",
+          "material_revision": 1,
+          "application_version": 5,
+          "citation_count": 0,
+          "http_readback": 200
+        },
+        {
+          "role": "applicant",
+          "query_type": "application_details",
+          "outcome": "ok",
+          "task_id": "c797742a-ab28-5b5c-a374-cd2ae7733260",
+          "material_revision": 1,
+          "application_version": 5,
+          "citation_count": 0,
+          "http_readback": 200
+        },
+        {
+          "role": "applicant",
+          "query_type": "process_guidance",
+          "outcome": "ok",
+          "task_id": "c797742a-ab28-5b5c-a374-cd2ae7733260",
+          "material_revision": 1,
+          "application_version": 5,
+          "citation_count": 0,
+          "http_readback": 200
+        },
+        {
+          "role": "applicant",
+          "query_type": "safety_knowledge",
+          "outcome": "ok",
+          "task_id": null,
+          "material_revision": null,
+          "application_version": null,
+          "citation_count": 1,
+          "http_readback": 200
+        },
+        {
+          "role": "safety_manager",
+          "query_type": "application_status",
+          "outcome": "ok",
+          "task_id": "c797742a-ab28-5b5c-a374-cd2ae7733260",
+          "material_revision": 1,
+          "application_version": 5,
+          "citation_count": 0,
+          "http_readback": 200
+        },
+        {
+          "role": "safety_manager",
+          "query_type": "application_details",
+          "outcome": "ok",
+          "task_id": "c797742a-ab28-5b5c-a374-cd2ae7733260",
+          "material_revision": 1,
+          "application_version": 5,
+          "citation_count": 0,
+          "http_readback": 200
+        },
+        {
+          "role": "safety_manager",
+          "query_type": "process_guidance",
+          "outcome": "ok",
+          "task_id": "c797742a-ab28-5b5c-a374-cd2ae7733260",
+          "material_revision": 1,
+          "application_version": 5,
+          "citation_count": 0,
+          "http_readback": 200
+        },
+        {
+          "role": "safety_manager",
+          "query_type": "safety_knowledge",
+          "outcome": "ok",
+          "task_id": null,
+          "material_revision": null,
+          "application_version": null,
+          "citation_count": 3,
+          "http_readback": 200
+        }
+      ],
+      "private_threads": 3,
+      "cross_role_denials": 6,
+      "owner_only_history_status": 404,
+      "existing_task_reads": 3,
+      "binding_unchanged": true,
+      "proposal_override": true,
+      "paid_live_classifier_tested": false
+    },
+    "current": "/opt/anlan2/releases/business-query-20261117",
+    "service_pid": "2286044",
+    "old_rows_preserved": true,
+    "business_state_unchanged": true,
+    "ledger_after": {
+      "total": 144,
+      "conversation": 66,
+      "materials_events": 14,
+      "total_limit": 100,
+      "materials_events_limit": 10,
+      "conversation_limit": 30
+    },
+    "ledger_unchanged": true,
+    "after_counts": {
+      "anlan_operations": 47,
+      "anlan_tasks": 19,
+      "business_query_receipts": 9,
+      "checkpoint_blobs": 162,
+      "checkpoint_writes": 676,
+      "checkpoints": 128,
+      "collaboration_applications": 7,
+      "collaboration_commands": 18,
+      "collaboration_events": 22,
+      "collaboration_notifications": 22,
+      "conversation_messages": 150,
+      "conversation_routes": 73,
+      "conversations": 15,
+      "knowledge_chunks": 10,
+      "knowledge_documents": 10,
+      "memories": 0,
+      "memory_feedback": 0,
+      "memory_revisions": 0,
+      "model_budget_attempts": 144,
+      "model_budget_authorizations": 1,
+      "model_budget_package_limits": 1,
+      "model_call_policies": 1,
+      "pending_intents": 24,
+      "perception_events": 12,
+      "perception_feedback": 7,
+      "perception_heads": 11,
+      "perception_reviews": 13,
+      "precheck_attempts": 5,
+      "precheck_binding_commands": 9,
+      "precheck_binding_heads": 3,
+      "precheck_binding_versions": 5,
+      "precheck_cycles": 3,
+      "precheck_jobs": 5,
+      "precheck_policies": 7,
+      "precheck_recheck_commands": 0,
+      "precheck_results": 5
+    },
+    "natural_language_live_classifier_tested": false
+  },
+  "live_http": {
+    "status": "passed",
+    "run_id": "ecs-live-query-20261117-c8545f30e1",
+    "checks": [
+      {
+        "role": "applicant",
+        "question": "当前申请单的状态是什么？",
+        "answer": "申请 c797742a-ab28-5b5c-a374-cd2ae7733260 当前为“材料核查完成”。当前处理方：本轮处理已结束。必填材料已填写。 材料版本 1，申请版本 5，查询时间 2026-09-22T04:00:00+00:00。",
+        "query_reference": {
+          "task_id": "c797742a-ab28-5b5c-a374-cd2ae7733260",
+          "citations": [],
+          "query_type": "application_status",
+          "material_revision": 1,
+          "candidate_task_ids": [],
+          "application_version": 5
+        },
+        "public_http": 200,
+        "classifier_live": true
+      },
+      {
+        "role": "safety_manager",
+        "question": "当前申请单的状态是什么？",
+        "answer": "申请 c797742a-ab28-5b5c-a374-cd2ae7733260 当前为“材料核查完成”。当前处理方：本轮处理已结束。必填材料已填写。 材料版本 1，申请版本 5，查询时间 2026-09-22T04:00:00+00:00。",
+        "query_reference": {
+          "task_id": "c797742a-ab28-5b5c-a374-cd2ae7733260",
+          "citations": [],
+          "query_type": "application_status",
+          "material_revision": 1,
+          "candidate_task_ids": [],
+          "application_version": 5
+        },
+        "public_http": 200,
+        "classifier_live": true
+      }
+    ],
+    "release": "/opt/anlan2/releases/business-query-20261117",
+    "model_before": 144,
+    "model_after": 146,
+    "model_delta": 2,
+    "business_unchanged": true,
+    "pending": {
+      "pending_operations": 0,
+      "pending_messages": 0,
+      "pending_reviews": 0,
+      "reserved_attempts": 0
+    }
+  }
+}
