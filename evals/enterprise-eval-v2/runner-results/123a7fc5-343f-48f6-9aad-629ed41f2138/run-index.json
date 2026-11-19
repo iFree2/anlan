@@ -1,0 +1,273 @@
+{
+  "schema_version": "enterprise-run-index-v1",
+  "eval_run_id": "123a7fc5-343f-48f6-9aad-629ed41f2138",
+  "artifact_dir": "D:\\src\\agent学习\\安澜2.0\\evals\\enterprise-eval-v2\\runner-results\\123a7fc5-343f-48f6-9aad-629ed41f2138",
+  "status": "complete",
+  "catalog": {
+    "schema_version": "enterprise-runner-cases-v1",
+    "origin": "SYNTHETIC",
+    "split": "seen_regression",
+    "cases": [
+      {
+        "case_id": "e2a-fact-normal",
+        "family": "fact_loop",
+        "slice": "fact-normal",
+        "severity": "critical",
+        "effective_at": "2026-09-20T12:00:00Z",
+        "checked_at": "2026-09-20T12:00:00Z"
+      },
+      {
+        "case_id": "e2a-fact-outside-ref",
+        "family": "fact_loop",
+        "slice": "fact-outside-ref",
+        "severity": "critical",
+        "effective_at": "2026-09-20T12:00:00Z",
+        "checked_at": "2026-09-20T12:00:00Z"
+      },
+      {
+        "case_id": "e2a-fact-cross-tenant",
+        "family": "fact_loop",
+        "slice": "fact-cross-tenant",
+        "severity": "critical",
+        "effective_at": "2026-09-20T12:00:00Z",
+        "checked_at": "2026-09-20T12:00:00Z"
+      },
+      {
+        "case_id": "e2a-fact-tool-error",
+        "family": "fact_loop",
+        "slice": "fact-tool-error",
+        "severity": "critical",
+        "effective_at": "2026-09-20T12:00:00Z",
+        "checked_at": "2026-09-20T12:00:00Z"
+      },
+      {
+        "case_id": "e2a-fact-bad-citation",
+        "family": "fact_loop",
+        "slice": "fact-bad-citation",
+        "severity": "critical",
+        "effective_at": "2026-09-20T12:00:00Z",
+        "checked_at": "2026-09-20T12:00:00Z"
+      },
+      {
+        "case_id": "e2a-knowledge-current",
+        "family": "governance",
+        "slice": "knowledge-current",
+        "severity": "critical",
+        "effective_at": "2026-11-16T00:00:00Z",
+        "checked_at": "2026-11-16T00:00:00Z"
+      },
+      {
+        "case_id": "e2a-knowledge-withdrawn",
+        "family": "governance",
+        "slice": "knowledge-withdrawn",
+        "severity": "critical",
+        "effective_at": "2026-11-15T23:00:00Z",
+        "checked_at": "2026-11-16T00:00:00Z"
+      },
+      {
+        "case_id": "e2a-knowledge-missing-authority",
+        "family": "governance",
+        "slice": "knowledge-missing-authority",
+        "severity": "critical",
+        "effective_at": "2026-11-16T00:00:00Z",
+        "checked_at": "2026-11-16T00:00:00Z"
+      }
+    ]
+  },
+  "suite_sha256": "f748f1be6556e76e280edcf8ab512edfba0aad650393522fbddf2f2e16248399",
+  "versions": {
+    "code_head": "b8b80d459292bc29f73c34504ac4d4b5faa6ebda",
+    "dirty": true,
+    "file_hashes": {
+      "src/anlan/evaluation/__init__.py": "348a484eb829d7d08e4f192ba453a3ec804b25c43032b1c2e27a11da9d52c462",
+      "src/anlan/evaluation/adapters.py": "0b3c8cdae47ee3bb70a3b8b6080ee7d81b1eab1ffd3be79ad0d3e6c330a40623",
+      "src/anlan/evaluation/contracts.py": "1c8685df46f825831173753aacee659237fa4a2d64d9ea636d58925a30ff83ee",
+      "src/anlan/evaluation/offline_fixtures.py": "266cf5bca0d5b75758c962875051a9bf4cca4f57998cc6276f952e1c0006d4e0",
+      "src/anlan/evaluation/report.py": "0f722bc3d175022ff4da5daa75e3e8b32f401b033f6ecc00783d441d5722d5f2",
+      "src/anlan/evaluation/runner.py": "da8f7d64c0e055799f64e3e4f75cad667f45fb5ca996072381020416b3dbc433",
+      "src/anlan/evaluation/runner_contracts.py": "d790a16517ba69df508ffa739ae9a039be76fa1c91149bc76f05dd4acc932d69",
+      "src/anlan/evaluation/runner_verification.py": "5e1e61c0b558156beede0f424b81d7d9d3ab53ec6213e10bcb0e3fe5fec9782a",
+      "src/anlan/evaluation/scoring.py": "b028f4366a249d483b710630c9eeaf39ff92edc0e9786de7cc3bd3457e8c3c38",
+      "src/anlan/workflows/tool_loop.py": "24a16207803a0e493b6c295cedfb2407a03520288c0fb6e1ed1b65439a7d27fc",
+      "src/anlan/workflows/service.py": "5f6fc268e69a65d49ccf602292833152bc369012c243e1f29dc66edbcf215757",
+      "src/anlan/llm/tool_model.py": "2a8c515c49ee8c2ccb6a38f527214e26eff936fe698c683da88d879f3dffcfb6",
+      "src/anlan/tools/executor.py": "bc2104944a080f65b89055dc2f09d8a6178e1a234845e0a87ca6b19c14053665",
+      "src/anlan/tools/policy.py": "42f9fb9b1f9336f0fb0f8ff8bfb21b84f21a4dd18cb2701596d766fe7d18e6f6",
+      "src/anlan/tools/registry.py": "142a5808363f54d06559e874382a83db276756e7ed588e5a38c3efc88d425250",
+      "src/anlan/tools/builtin.py": "9efc9f623d131c61bd1175f9246e4630748183cb735a19e9e0fd4dc6fb32fd10",
+      "src/anlan/tools/queries.py": "afed6df1051d083cd6cc4ee024064b8579bf8c31ddef1f44cb6735f36f7b17cf",
+      "src/anlan/knowledge/governance/policy.py": "09de6afdbe93b40521706ece61d726febdbea56586417cf1c803d926752a5d1d",
+      "src/anlan/knowledge/documents/contracts.py": "2e2ad4f1743ef975623fa0e062f8a050dfc7332da850fb7418dd495f0a625923",
+      "evals/evaluate_enterprise.py": "da0a70a973f671a51e626ff4341691f62fed092e7bdca0bd45704d9bfbdb174a"
+    },
+    "prompt_sha256": "7f51d12cea5495b7e4fd70e56f43a6d0309bda82190605bbe220921355b2be99",
+    "lock_sha256": "f180241fbe4089b9f756030c9d5cb309883b297c25bfe541c031d2105dbf4528",
+    "fixture_hashes": {
+      "cases.json": "f748f1be6556e76e280edcf8ab512edfba0aad650393522fbddf2f2e16248399",
+      "document.json": "cb56715a2d44ab045ff014e325314a7c4a0a5a0dc28371d387faff730cabfc32",
+      "materials.json": "f5680a6ae86023ff2b3c419f90b1fb3adb969a010f68d624eb7830e59ed6cb58",
+      "facts/access.json": "9998756ff96435f1a43149d559f0f12c115f349d4889bb5454d9449d89a24c2c",
+      "facts/areas.json": "0c428010228391b635a7ea4ebd32d874b01b6fb1242ee6cd1e582267f21b2e21",
+      "facts/qualifications.json": "7d0677c99b67a49d3692329dc028e6a9a9a8358ff571f780ac34927b641cc8d9"
+    },
+    "scorer_rule_version": "e2a-observation-scorer-v1"
+  },
+  "manifest": {
+    "path": "manifest.json",
+    "sha256": "e2d76bb7ed1371e4dc5321e21993bbb4cdc2cc1d5f811141b13c64bf1ca5a29a"
+  },
+  "bundle": {
+    "path": "bundle.json",
+    "sha256": "eb96238e1a0c7166fd3cdce8093dbab3850a66bea11e513bcef28a9cdb471fc7"
+  },
+  "report": {
+    "path": "report.json",
+    "sha256": "4c41fa49b56d5ca2158cb7fa970bbab0a8f1df73eeb114ec448d4cd6e76901fa"
+  },
+  "cases": [
+    {
+      "case_id": "e2a-fact-normal",
+      "case_run_id": "73d4be96-bdab-4bfa-a1f0-5afe0b9fc629",
+      "family": "fact_loop",
+      "status": "complete",
+      "input": {
+        "path": "cases/e2a-fact-normal/input.json",
+        "sha256": "15382f9c8026bb44bf50e233918abed932f8e287de17391b8e30597d3d7efeeb"
+      },
+      "observation": {
+        "path": "cases/e2a-fact-normal/observation.json",
+        "sha256": "823b0006b3f57c16f0cae2aeb39e22eb63314a556d0e21c2a7915527f7092798"
+      },
+      "trace": {
+        "path": "cases/e2a-fact-normal/trace.jsonl",
+        "sha256": "ff44b46d1597e8c289851e3007ada1cac38bd41081b52ba06a1d334cd2e24109"
+      }
+    },
+    {
+      "case_id": "e2a-fact-outside-ref",
+      "case_run_id": "b30f2f19-35d3-4ebf-8283-096f3194ab19",
+      "family": "fact_loop",
+      "status": "complete",
+      "input": {
+        "path": "cases/e2a-fact-outside-ref/input.json",
+        "sha256": "368dbf29e51c376093ed1319a294c6e875d7d449a782ae1413e5f229a5790e7c"
+      },
+      "observation": {
+        "path": "cases/e2a-fact-outside-ref/observation.json",
+        "sha256": "b6465ff154feb764997314f9b7f20193e2759b14dc3cb4da2a34148a4dde53a3"
+      },
+      "trace": {
+        "path": "cases/e2a-fact-outside-ref/trace.jsonl",
+        "sha256": "e9c2ffb9558c497495c551fd0537f98737e0afb4c7f1393e5fed550941a036cd"
+      }
+    },
+    {
+      "case_id": "e2a-fact-cross-tenant",
+      "case_run_id": "03b057a9-50e3-4519-b700-0fbc6e7e0bb5",
+      "family": "fact_loop",
+      "status": "complete",
+      "input": {
+        "path": "cases/e2a-fact-cross-tenant/input.json",
+        "sha256": "1bb24dd4d5078dc499e48a2054c6d8d3a1227c995ff5f541243109f9585b0e28"
+      },
+      "observation": {
+        "path": "cases/e2a-fact-cross-tenant/observation.json",
+        "sha256": "1efeef51701d8cc573c479afd5e11567d21195ebf18ba610c7399d7a9ea284ea"
+      },
+      "trace": {
+        "path": "cases/e2a-fact-cross-tenant/trace.jsonl",
+        "sha256": "d36e415fea3e4883222080aa3924998d31f23ae3248a693ec77467a6ef2462a6"
+      }
+    },
+    {
+      "case_id": "e2a-fact-tool-error",
+      "case_run_id": "00c0ba22-a58d-414d-a0c3-6542924e2cff",
+      "family": "fact_loop",
+      "status": "complete",
+      "input": {
+        "path": "cases/e2a-fact-tool-error/input.json",
+        "sha256": "8d0e1d52315658e88d2802d90a547debc0c3f51d51bde3aa2a99b78c5744f443"
+      },
+      "observation": {
+        "path": "cases/e2a-fact-tool-error/observation.json",
+        "sha256": "c20f4e3bcbe070f86875ece57eca08cc42805e535f5a9b4bcb0e99d49c98e973"
+      },
+      "trace": {
+        "path": "cases/e2a-fact-tool-error/trace.jsonl",
+        "sha256": "41472605f82da67835f9544d85bf7fcf7f0fb0742a74bb510310500ca88a04d5"
+      }
+    },
+    {
+      "case_id": "e2a-fact-bad-citation",
+      "case_run_id": "8f08064c-fc81-41bb-b061-6a3ac7611d0c",
+      "family": "fact_loop",
+      "status": "complete",
+      "input": {
+        "path": "cases/e2a-fact-bad-citation/input.json",
+        "sha256": "e5e1e213a8f2368ccf6d6a0910cda09aa09879345824ebc6733ef61d31cc7968"
+      },
+      "observation": {
+        "path": "cases/e2a-fact-bad-citation/observation.json",
+        "sha256": "f16a80fab23b296ede1ccfa1e95dbb884ba1d7911537a50f5d5f0b1dedb85995"
+      },
+      "trace": {
+        "path": "cases/e2a-fact-bad-citation/trace.jsonl",
+        "sha256": "e5e217d605e4f9d8588d3adba5759d91a8be788d474d4117983d6e266693fc78"
+      }
+    },
+    {
+      "case_id": "e2a-knowledge-current",
+      "case_run_id": "1bd6ba3c-b5a2-4972-9d5a-984be8bcb52f",
+      "family": "governance",
+      "status": "complete",
+      "input": {
+        "path": "cases/e2a-knowledge-current/input.json",
+        "sha256": "09a9832bd47454d90b83533652050ecee8c0821457f9b674a8948e5c442c0655"
+      },
+      "observation": {
+        "path": "cases/e2a-knowledge-current/observation.json",
+        "sha256": "22320a79c034b008184a81459600b67f2e01412bf196461838e6720f09d269c6"
+      },
+      "trace": {
+        "path": "cases/e2a-knowledge-current/trace.jsonl",
+        "sha256": "e13a6db9685b21dd37130a03c5b4edda0a9808ac84c73a7a60af95ed04de5b83"
+      }
+    },
+    {
+      "case_id": "e2a-knowledge-withdrawn",
+      "case_run_id": "9a531bc9-87b6-4bbb-ad6b-4d53592bbbff",
+      "family": "governance",
+      "status": "complete",
+      "input": {
+        "path": "cases/e2a-knowledge-withdrawn/input.json",
+        "sha256": "e4a83d19741b5d895a837ccf628fa1a5cad36401c2136e7e039de12f4c8b0834"
+      },
+      "observation": {
+        "path": "cases/e2a-knowledge-withdrawn/observation.json",
+        "sha256": "5e8ab1be49cf56e8d1c019e4ca08b91fef38c4a2d276981d06fdfd254669815b"
+      },
+      "trace": {
+        "path": "cases/e2a-knowledge-withdrawn/trace.jsonl",
+        "sha256": "ca5a61b1355360eb945c6d3e7ce88ecf2945a146448a51d4d93136c5cebcaf47"
+      }
+    },
+    {
+      "case_id": "e2a-knowledge-missing-authority",
+      "case_run_id": "6c91e128-60f6-4598-9c87-05276bf1cff0",
+      "family": "governance",
+      "status": "complete",
+      "input": {
+        "path": "cases/e2a-knowledge-missing-authority/input.json",
+        "sha256": "dcf002951ab6b2715d5553486246c72aa333e89bf1ea0eb56fff9b2f617fc0db"
+      },
+      "observation": {
+        "path": "cases/e2a-knowledge-missing-authority/observation.json",
+        "sha256": "94fc57acf64e4822dc8e6e4e941b33d604daaae3262421318d74e523e52abb5b"
+      },
+      "trace": {
+        "path": "cases/e2a-knowledge-missing-authority/trace.jsonl",
+        "sha256": "98ed1018197589d78a2cc7800e37456643cf14ad84dce1834ebd31a73a833544"
+      }
+    }
+  ]
+}

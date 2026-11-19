@@ -1,0 +1,52 @@
+{
+  "case_id": "k3e-normal",
+  "sources": [
+    {
+      "name": "normal.txt",
+      "logical": "normal",
+      "hex": "53594e54484554494320636c6175736520616c7068613a2069736f6c61746520706f776572206265666f726520696e7370656374696f6e2e0d0a0d0a53594e54484554494320636c6175736520626574613a207265636f7264206f62736572766174696f6e732e0a",
+      "sha256": "9843a7af7bf6f3ca675aaec910cac4ba26d73605038ddaf11068cb5359ab5dac"
+    }
+  ],
+  "initial_governance": {
+    "normal": [
+      {
+        "tenant_id": "tenant-eval",
+        "logical_document_id": "normal",
+        "revision": 1,
+        "updated_at": "2026-11-17T00:00:00Z",
+        "allowed_users": [
+          "reader"
+        ],
+        "scope": [
+          "synthetic-plant"
+        ]
+      },
+      {
+        "tenant_id": "tenant-eval",
+        "logical_document_id": "normal",
+        "revision": 1,
+        "updated_at": "2026-11-17T00:00:00Z",
+        "withdrawn": false,
+        "withdrawn_versions": []
+      },
+      {
+        "tenant_id": "tenant-eval",
+        "logical_document_id": "normal",
+        "schema_version": "knowledge.release.v2",
+        "generation": 1,
+        "document_version_id": "normal-v1",
+        "source_sha256": "9843a7af7bf6f3ca675aaec910cac4ba26d73605038ddaf11068cb5359ab5dac",
+        "ir_sha256": "389b7accc695d71e6857b232e5c9f47d98c32d72f6a076ae7f51f011e8e1d9aa",
+        "review_status": "approved",
+        "reviewer": "SYNTHETIC-evaluation-fixture",
+        "published_at": "2026-11-16T00:00:00Z",
+        "valid_from": "2026-11-16T00:00:00Z",
+        "valid_until": "2026-11-18T00:00:00Z",
+        "scope": [
+          "synthetic-plant"
+        ]
+      }
+    ]
+  }
+}

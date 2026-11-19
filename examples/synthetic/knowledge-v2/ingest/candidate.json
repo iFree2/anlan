@@ -1,0 +1,13 @@
+{
+  "schema_version": "knowledge.source-candidate.v1",
+  "candidate_id": "synthetic-txt-candidate",
+  "data_origin": "SYNTHETIC",
+  "source_url": "synthetic://knowledge-v2/ingest/sample.txt",
+  "publisher": null,
+  "upstream_revision": null,
+  "retrieved_at": null,
+  "license_id": null,
+  "license_evidence": null,
+  "review_state": "candidate",
+  "expected_source_sha256": null
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": "knowledge.document.v2",
+  "data_origin": "SYNTHETIC",
+  "tenant_id": "tenant-a",
+  "logical_document_id": "synthetic-table",
+  "document_version_id": "synthetic-table-v1",
+  "generation": 1,
+  "title": "SYNTHETIC 手工表格，不是操作限值",
+  "source_uri": "synthetic://knowledge-v2/retrieval/manual-table",
+  "source_format": "xlsx",
+  "source_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "lineage": {
+    "parser": "synthetic-structure-fixture", "parser_version": "1",
+    "config_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "quality": "unverified"
+  },
+  "blocks": [{
+    "block_id": "table-1", "kind": "table", "order": 0,
+    "source_text": "SYNTHETIC 参数 值\n名称 数值\nitem0 10\nitem1 9.9\n单位 m\n仅合成示例",
+    "retrieval_text": "SYNTHETIC 参数 table reference",
+    "locator": {"kind": "xlsx", "sheet": "SYNTHETIC", "cell_range": "A1:B4"},
+    "table": {"headers": [["SYNTHETIC 参数", "值"], ["名称", "数值"]],
+              "rows": [["item0", "10"], ["item1", "9.9"]],
+              "units": ["", "m"], "footnotes": ["仅合成示例"]}
+  }]
+}

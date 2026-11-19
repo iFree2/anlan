@@ -1,0 +1,147 @@
+{
+  "schema_version": "enterprise-observation-v1",
+  "eval_run_id": "123a7fc5-343f-48f6-9aad-629ed41f2138",
+  "case_run_id": "b30f2f19-35d3-4ebf-8283-096f3194ab19",
+  "case_id": "e2a-fact-outside-ref",
+  "family": "fact_loop",
+  "manifest_sha256": "e2d76bb7ed1371e4dc5321e21993bbb4cdc2cc1d5f811141b13c64bf1ca5a29a",
+  "input_sha256": "368dbf29e51c376093ed1319a294c6e875d7d449a782ae1413e5f229a5790e7c",
+  "input_content_sha256": "38dd19622f776c6e16225067b32101f0767128a034de879ddae3876e079d0650",
+  "inputs": {
+    "scenario": {
+      "case_id": "e2a-fact-outside-ref",
+      "family": "fact_loop",
+      "slice": "fact-outside-ref",
+      "severity": "critical",
+      "effective_at": "2026-09-20T12:00:00Z",
+      "checked_at": "2026-09-20T12:00:00Z"
+    },
+    "materials": {
+      "work_location_description": "SYNTHETIC 北侧实训平台2号台",
+      "work_object_description": "SYNTHETIC 管段P-02支架",
+      "work_method_description": "SYNTHETIC 手工电弧焊连接支架",
+      "attachment_description": "SYNTHETIC 支架定位示意图"
+    },
+    "references": {
+      "worker_id": "worker-001",
+      "qualification_type": "welding",
+      "area_id": "area-001"
+    },
+    "actor": "synthetic-owner"
+  },
+  "loop_run_id": "0a62551b-fb7b-45e4-92c5-8f802aa5e980",
+  "native": {
+    "schema_version": "fact-agent-evidence-v1",
+    "data_origin": "SYNTHETIC",
+    "mode": "scripted_double",
+    "task_id": "27244318-aa84-40bf-a354-0bd8872bf405",
+    "correlation_id": "d3efb5c3-69c8-4266-a1ab-9a0aeb34d35f",
+    "revision": 1,
+    "source_run_id": "6c2a169a-022b-4511-8fba-585e6c49ae86",
+    "source_material_status": "awaiting_review",
+    "run_id": "0a62551b-fb7b-45e4-92c5-8f802aa5e980",
+    "status": "awaiting_review",
+    "results": [
+      {
+        "tool": "query_area_status",
+        "outcome": "error",
+        "reason": "outside_references",
+        "facts": null,
+        "source": null,
+        "executed": false,
+        "evidence_valid": false,
+        "call_id": "outside"
+      }
+    ],
+    "model_steps": 2,
+    "tool_calls": 1,
+    "model_attempts": [
+      {
+        "step": 1,
+        "attempt_id": null,
+        "error": null,
+        "usage": null
+      },
+      {
+        "step": 2,
+        "attempt_id": null,
+        "error": null,
+        "usage": null
+      }
+    ],
+    "requests_this_run": 0,
+    "summary": null,
+    "summary_status": "not_available",
+    "stop_reason": "missing_evidence",
+    "trace_warning": null,
+    "limits": {
+      "max_model_steps": 3,
+      "max_tool_calls": 4,
+      "timeout_seconds": 75
+    },
+    "notice": "合成事实与模型候选分别呈现，需人工复核；不是作业批准或合规结论。",
+    "elapsed_ms": 0.52
+  },
+  "exception": null,
+  "counts": {
+    "model": 2,
+    "handler": 0,
+    "reader": 0
+  },
+  "calls": [
+    {
+      "kind": "native_api",
+      "name": "check_facts_agent"
+    },
+    {
+      "kind": "scripted_turn",
+      "run_id": "0a62551b-fb7b-45e4-92c5-8f802aa5e980",
+      "turn": {
+        "calls": [
+          {
+            "id": "outside",
+            "name": "query_area_status",
+            "arguments": "{\"area_id\":\"area-outside\"}"
+          }
+        ],
+        "final": null,
+        "usage": null,
+        "attempt_id": null
+      }
+    },
+    {
+      "kind": "scripted_turn",
+      "run_id": "0a62551b-fb7b-45e4-92c5-8f802aa5e980",
+      "turn": {
+        "calls": [],
+        "final": {
+          "summary": "SYNTHETIC 候选，待人工复核",
+          "evidence_call_ids": [
+            "outside"
+          ],
+          "knowledge_citations": []
+        },
+        "usage": null,
+        "attempt_id": null
+      }
+    },
+    {
+      "kind": "state_integrity",
+      "source_run_id": "6c2a169a-022b-4511-8fba-585e6c49ae86",
+      "task_id": "27244318-aa84-40bf-a354-0bd8872bf405",
+      "correlation_id": "d3efb5c3-69c8-4266-a1ab-9a0aeb34d35f",
+      "revision": 1,
+      "before_sha256": "6173b7ab27788826342951cab38284dbae671a169ae66fc110cd8c88ac25b70c",
+      "after_sha256": "6173b7ab27788826342951cab38284dbae671a169ae66fc110cd8c88ac25b70c",
+      "history_before": 1,
+      "history_after": 1
+    }
+  ],
+  "diagnostics": {
+    "state_unchanged": true,
+    "history_unchanged": true,
+    "binding_consistent": true
+  },
+  "runner_errors": [],
+  "elapsed_ms": 27.285
+}

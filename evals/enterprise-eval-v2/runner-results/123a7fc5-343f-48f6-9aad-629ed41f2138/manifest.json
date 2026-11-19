@@ -1,0 +1,24 @@
+{
+  "schema_version": "enterprise-eval-v2",
+  "code_version": "b8b80d459292bc29f73c34504ac4d4b5faa6ebda+dirty",
+  "prompt_version": "fact-tools-v1",
+  "model_version": "scripted_double:runner-v1:no-provider",
+  "knowledge_version": "SYNTHETIC-K1-runner-v1",
+  "dataset_version": "runner-v1-seen",
+  "scorer_version": "enterprise-scorer-v2.0",
+  "environment": "local Python 3.13.3",
+  "run_at": "2026-11-16T15:54:00.906323Z",
+  "fixed_at": null,
+  "request_limit": 0,
+  "request_attempts": 0,
+  "required_case_ids": [
+    "e2a-fact-normal",
+    "e2a-fact-outside-ref",
+    "e2a-fact-cross-tenant",
+    "e2a-fact-tool-error",
+    "e2a-fact-bad-citation",
+    "e2a-knowledge-current",
+    "e2a-knowledge-withdrawn",
+    "e2a-knowledge-missing-authority"
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "scenario": {
+    "case_id": "e2a-knowledge-missing-authority",
+    "family": "governance",
+    "slice": "knowledge-missing-authority",
+    "severity": "critical",
+    "effective_at": "2026-11-16T00:00:00Z",
+    "checked_at": "2026-11-16T00:00:00Z"
+  },
+  "document": {
+    "schema_version": "knowledge.document.v2",
+    "data_origin": "SYNTHETIC",
+    "tenant_id": "tenant-a",
+    "logical_document_id": "synthetic-sop",
+    "document_version_id": "synthetic-sop-v1",
+    "generation": 1,
+    "title": "SYNTHETIC K1 合同样本，不是操作规程",
+    "source_uri": "synthetic://knowledge-v2/example.docx",
+    "source_format": "docx",
+    "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "lineage": {
+      "parser": "synthetic-fixture",
+      "parser_version": "fixture-1",
+      "config_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "transformations": [
+        "SYNTHETIC deterministic retrieval context"
+      ],
+      "quality": "unverified"
+    },
+    "blocks": [
+      {
+        "block_id": "section",
+        "kind": "heading",
+        "order": 0,
+        "parent_id": null,
+        "dependencies": [],
+        "source_text": "SYNTHETIC 标题",
+        "retrieval_text": "SYNTHETIC 标题",
+        "locator": {
+          "kind": "docx",
+          "paragraph_id": "p0",
+          "xml_anchor": null
+        },
+        "table": null
+      },
+      {
+        "block_id": "clause",
+        "kind": "paragraph",
+        "order": 1,
+        "parent_id": "section",
+        "dependencies": [
+          "section"
+        ],
+        "source_text": "SYNTHETIC 原文，数值与否定词不得改写。",
+        "retrieval_text": "SYNTHETIC 检索扩展 标题 原文，数值与否定词不得改写。",
+        "locator": {
+          "kind": "docx",
+          "paragraph_id": "p1",
+          "xml_anchor": null
+        },
+        "table": null
+      }
+    ]
+  },
+  "context": {
+    "tenant_id": "tenant-a",
+    "user_id": "reader",
+    "checked_at": "2026-11-16T00:00:00Z",
+    "effective_at": "2026-11-16T00:00:00Z",
+    "scope": [
+      "plant-a",
+      "hot-work"
+    ]
+  },
+  "authority": {
+    "schema_version": "knowledge.authority.v2",
+    "checked_at": "2026-11-16T00:00:00Z",
+    "acl": {
+      "tenant_id": "tenant-a",
+      "logical_document_id": "synthetic-sop",
+      "revision": 2,
+      "updated_at": "2026-11-16T00:00:00Z",
+      "allowed_users": [
+        "reader"
+      ],
+      "scope": [
+        "plant-a",
+        "hot-work"
+      ]
+    },
+    "withdrawal": null
+  },
+  "manifest": {
+    "tenant_id": "tenant-a",
+    "logical_document_id": "synthetic-sop",
+    "schema_version": "knowledge.release.v2",
+    "generation": 1,
+    "document_version_id": "synthetic-sop-v1",
+    "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "ir_sha256": "03d9c638f91a343a0f6ea92589afc841049e76e6670b6ecf4d9b2274ea020737",
+    "review_status": "approved",
+    "reviewer": "SYNTHETIC-policy-fixture",
+    "published_at": "2026-11-14T00:00:00Z",
+    "valid_from": "2026-11-15T00:00:00Z",
+    "valid_until": "2026-11-17T00:00:00Z",
+    "scope": [
+      "plant-a",
+      "hot-work"
+    ]
+  }
+}

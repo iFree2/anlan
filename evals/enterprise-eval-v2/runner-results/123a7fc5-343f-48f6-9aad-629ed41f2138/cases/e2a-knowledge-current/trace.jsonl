@@ -1,0 +1,3 @@
+{"case_id": "e2a-knowledge-current", "case_run_id": "1bd6ba3c-b5a2-4972-9d5a-984be8bcb52f", "eval_run_id": "123a7fc5-343f-48f6-9aad-629ed41f2138", "producer": "evaluation_runner", "payload": {"event": "case_started", "family": "governance"}}
+{"case_id": "e2a-knowledge-current", "case_run_id": "1bd6ba3c-b5a2-4972-9d5a-984be8bcb52f", "eval_run_id": "123a7fc5-343f-48f6-9aad-629ed41f2138", "producer": "evaluation_runner", "payload": {"event": "governance_decision", "allowed": true, "reason": "allowed"}}
+{"case_id": "e2a-knowledge-current", "case_run_id": "1bd6ba3c-b5a2-4972-9d5a-984be8bcb52f", "eval_run_id": "123a7fc5-343f-48f6-9aad-629ed41f2138", "producer": "evaluation_runner", "payload": {"event": "case_finished", "loop_run_id": null, "exception": null}}

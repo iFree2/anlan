@@ -1,0 +1,151 @@
+{
+  "schema_version": "knowledge-evaluation-index-v1",
+  "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+  "artifact_dir": "D:\\src\\agent学习\\安澜2.0\\evals\\enterprise-eval-v2\\knowledge-runner-results\\983a5a6f-2c66-430c-adbc-3e32f20e3865",
+  "status": "complete",
+  "catalog": {
+    "schema_version": "knowledge-evaluation-cases-v1",
+    "origin": "SYNTHETIC",
+    "split": "seen_regression",
+    "cases": [
+      "k3e-normal",
+      "k3e-withdrawal",
+      "k3e-table"
+    ]
+  },
+  "versions": {
+    "head": "b8b80d459292bc29f73c34504ac4d4b5faa6ebda",
+    "dirty": true,
+    "file_hashes": {
+      "src/anlan/evaluation/adapters.py": "0b3c8cdae47ee3bb70a3b8b6080ee7d81b1eab1ffd3be79ad0d3e6c330a40623",
+      "src/anlan/evaluation/contracts.py": "1c8685df46f825831173753aacee659237fa4a2d64d9ea636d58925a30ff83ee",
+      "src/anlan/evaluation/knowledge_contracts.py": "09a1d3a9520ce10612c4dc6080168c3b5009e75dbcee1dfdb24592f2a3d50b11",
+      "src/anlan/evaluation/knowledge_runner.py": "0109d122c5f4664ebac38a5f851a8244c1b4bf31e9f6a4554fc541aaff1f3044",
+      "src/anlan/evaluation/knowledge_scoring.py": "2e244a1871240bf863237a529db2e387c17d9985e4b256878919e28e3696f0de",
+      "src/anlan/evaluation/knowledge_verification.py": "efb18ff302722ed430891bf47f77e6da153f4efa5fc57cb40ecd6de705b69e41",
+      "src/anlan/evaluation/offline_fixtures.py": "266cf5bca0d5b75758c962875051a9bf4cca4f57998cc6276f952e1c0006d4e0",
+      "src/anlan/evaluation/report.py": "0f722bc3d175022ff4da5daa75e3e8b32f401b033f6ecc00783d441d5722d5f2",
+      "src/anlan/evaluation/runner.py": "da8f7d64c0e055799f64e3e4f75cad667f45fb5ca996072381020416b3dbc433",
+      "src/anlan/evaluation/runner_contracts.py": "d790a16517ba69df508ffa739ae9a039be76fa1c91149bc76f05dd4acc932d69",
+      "src/anlan/evaluation/runner_verification.py": "5e1e61c0b558156beede0f424b81d7d9d3ab53ec6213e10bcb0e3fe5fec9782a",
+      "src/anlan/evaluation/scoring.py": "b028f4366a249d483b710630c9eeaf39ff92edc0e9786de7cc3bd3457e8c3c38",
+      "src/anlan/evaluation/__init__.py": "348a484eb829d7d08e4f192ba453a3ec804b25c43032b1c2e27a11da9d52c462",
+      "src/anlan/knowledge/contracts.py": "7a95e9189eb96ed96dd6bb8b676dba61c62320b74f33d113a7f10921171b976f",
+      "src/anlan/knowledge/embeddings.py": "1380c23a6ff62f060af347a0e90d0386b27edfb4f58026b4b1cc1b6b8904114d",
+      "src/anlan/knowledge/store.py": "f8c30e587f93a2eda07ea01c581140bb7f555c5e08913dea6926ec77b761aa4e",
+      "src/anlan/knowledge/tool.py": "b6e391e2cf892dfcb82bed227d2c02ac141d2a0a276a451b5c81ac2b41cde8a4",
+      "src/anlan/knowledge/__init__.py": "48665665a2ad1c399b88a96ce870e11f557a66d6d1b4b9d8726538895a6123ca",
+      "src/anlan/knowledge/documents/contracts.py": "2e2ad4f1743ef975623fa0e062f8a050dfc7332da850fb7418dd495f0a625923",
+      "src/anlan/knowledge/documents/__init__.py": "06084bfb63a25a7d58e8b2bb6813322d7a2800cc5d2570de4dcfaccfbf53171c",
+      "src/anlan/knowledge/governance/policy.py": "09de6afdbe93b40521706ece61d726febdbea56586417cf1c803d926752a5d1d",
+      "src/anlan/knowledge/governance/__init__.py": "51f8cfa1e97149bb235fb511a983bd9415d6426f3a0dd664d8cddb50daa140dd",
+      "src/anlan/knowledge/parsing/contracts.py": "4de5b4b4c7db73fb78197a636b747c90afa8b607a76e7d57b10c552b91b1cb81",
+      "src/anlan/knowledge/parsing/text.py": "e185edad874c1f43cc867cdccc7ca99651e0d926eea0148f20223b40a76dc509",
+      "src/anlan/knowledge/parsing/_text_source.py": "7b57e38c7faeca08daed75512adfc25bfdd50775fd5c8763becc0de1beeabea0",
+      "src/anlan/knowledge/parsing/__init__.py": "50d68114232b692a35ad6bf5e96c1dfd7062934b73bd4c4cba91376b1be2b5e5",
+      "src/anlan/knowledge/retrieval/catalog.py": "246b41e6013516b704acf0353af6c9d8a702c4c91135d1143f7de70d442d40b6",
+      "src/anlan/knowledge/retrieval/contracts.py": "87b75ac495773abb65cf8202f16a3519e705860cbe43aec66b604c67d10b3313",
+      "src/anlan/knowledge/retrieval/providers.py": "9dc034aca0b94af56ff20803fb63b28748b70afa7518275b324880bc3191ecc5",
+      "src/anlan/knowledge/retrieval/ranking.py": "06cac10775521898a0f3bad87564e84a241da0a2d006961c0afb90b5fb62fb8e",
+      "src/anlan/knowledge/retrieval/service.py": "e864138329bbfd1beb978ce09f01302bff3f281610ab205fe7f0382cc8553bdb",
+      "src/anlan/knowledge/retrieval/tables.py": "9a08ef27885ccbe4ef7d4c270ebd6acca884ba772b645f1c2b75654daa95160e",
+      "src/anlan/knowledge/retrieval/__init__.py": "5e76f8e0c31b249c4bceb779e231bec0c4022bbd71467a8f2c03b629d548c6c9",
+      "evals/evaluate_knowledge_v2.py": "38987192c19e2fe114e29faf85ad15b3feea5c55715201d945e6feb372ff941e"
+    },
+    "fixture_hashes": {
+      "allowed-b.txt": "c8503fddc92eae3b9e08cdc8faea6e0a1a9ca9480de8e94937d5c7bd961b485e",
+      "cases.json": "f94b22ee496396873b2650686b53e3c669dfe315d0d319b9f18dd7fc81944aec",
+      "normal.txt": "9843a7af7bf6f3ca675aaec910cac4ba26d73605038ddaf11068cb5359ab5dac",
+      "README.md": "84611b52f5972a4d97b00d7e1ab40d207cc44fe2d03c83400f01266478ff877e",
+      "revoked-a.txt": "89e78619b1ec61880ff5fff2b702e232b1de0e1b3ba23a4b4b59dee6ab8f7016",
+      "table-ir.json": "c86ae7db2203190ba6039df6c53d7211c040fe72b930b10b0c2925289ad1540e"
+    },
+    "lock_sha256": "f180241fbe4089b9f756030c9d5cb309883b297c25bfe541c031d2105dbf4528",
+    "python": "3.13.3",
+    "scorer": "knowledge-observation-scorer-v1"
+  },
+  "manifest": {
+    "path": "manifest.json",
+    "sha256": "e4325f7f807e06622822d3a2d2846be5b33ac8057a80e963826cd2afb20b5c6a"
+  },
+  "cases": [
+    {
+      "case_id": "k3e-normal",
+      "case_run_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a",
+      "input": {
+        "path": "cases/k3e-normal/input.json",
+        "sha256": "b0945eb4a335ba25a478f2e24db04fc2836557b4afc8996c6ff929f3a9dbf7bc"
+      },
+      "observation": {
+        "path": "cases/k3e-normal/observation.json",
+        "sha256": "ffa78b946a36b10cad6235a18666e141ed7d343513d9f5b73cc566cfd2d7fc27"
+      },
+      "trace": {
+        "path": "cases/k3e-normal/trace.jsonl",
+        "sha256": "aae1abe907246a5a207c758afe3ab0982565c29f9f2090df48a05f4f1a9e2d5e"
+      },
+      "sources": [
+        {
+          "path": "cases/k3e-normal/normal.txt",
+          "sha256": "9843a7af7bf6f3ca675aaec910cac4ba26d73605038ddaf11068cb5359ab5dac"
+        }
+      ]
+    },
+    {
+      "case_id": "k3e-withdrawal",
+      "case_run_id": "37a814b2-d2a3-46b8-b576-242ba11ab385",
+      "input": {
+        "path": "cases/k3e-withdrawal/input.json",
+        "sha256": "be71b4933b879dd297ef1e45da7c82897eb4c79b0adf1acd266e3c4165fd4521"
+      },
+      "observation": {
+        "path": "cases/k3e-withdrawal/observation.json",
+        "sha256": "bb70e12017d5fda79ae58bbc6e25f48324e470ed3f781a5e60aab0ded5c2a2fe"
+      },
+      "trace": {
+        "path": "cases/k3e-withdrawal/trace.jsonl",
+        "sha256": "47e56b4a5672ba271307f35056fa47e2015f6ab4b888952424f922eeb66d7d82"
+      },
+      "sources": [
+        {
+          "path": "cases/k3e-withdrawal/revoked-a.txt",
+          "sha256": "89e78619b1ec61880ff5fff2b702e232b1de0e1b3ba23a4b4b59dee6ab8f7016"
+        },
+        {
+          "path": "cases/k3e-withdrawal/allowed-b.txt",
+          "sha256": "c8503fddc92eae3b9e08cdc8faea6e0a1a9ca9480de8e94937d5c7bd961b485e"
+        }
+      ]
+    },
+    {
+      "case_id": "k3e-table",
+      "case_run_id": "cec3ace4-b701-4a28-b531-96a76319ced5",
+      "input": {
+        "path": "cases/k3e-table/input.json",
+        "sha256": "75c25a05ea3f1e0083e78834536bc090dc11b1e7b044d96df20dc82d5dc27de3"
+      },
+      "observation": {
+        "path": "cases/k3e-table/observation.json",
+        "sha256": "fdb85e78b20cbf8d79eea73e6a3dfdd93d0737515c81a4455bdac42dd24afce3"
+      },
+      "trace": {
+        "path": "cases/k3e-table/trace.jsonl",
+        "sha256": "7c0eb885ab9bf0224af2284b88b2ff5717c2fcbbfe7730f1ebbe4637fe723a65"
+      },
+      "sources": [
+        {
+          "path": "cases/k3e-table/table-ir.json",
+          "sha256": "c86ae7db2203190ba6039df6c53d7211c040fe72b930b10b0c2925289ad1540e"
+        }
+      ]
+    }
+  ],
+  "bundle": {
+    "path": "bundle.json",
+    "sha256": "b0a78a942f6bb18993e6924eddbb13f994f7871b636d58ee69e0c3701af206f7"
+  },
+  "report": {
+    "path": "report.json",
+    "sha256": "14639435f9882874ac1ee527124b2f326cf42c4e1ab991040cd8244d3c867cae"
+  }
+}

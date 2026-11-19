@@ -1,0 +1,1171 @@
+{
+  "schema_version": "knowledge-evaluation-observation-v1",
+  "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+  "case_run_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a",
+  "case_id": "k3e-normal",
+  "manifest_sha256": "e4325f7f807e06622822d3a2d2846be5b33ac8057a80e963826cd2afb20b5c6a",
+  "input_content_sha256": "34ada8eab08d505fcf6d0a4af0f4b1aa4cf156d3af84e944e537214722ce006a",
+  "inputs": {
+    "case_id": "k3e-normal",
+    "sources": [
+      {
+        "name": "normal.txt",
+        "logical": "normal",
+        "hex": "53594e54484554494320636c6175736520616c7068613a2069736f6c61746520706f776572206265666f726520696e7370656374696f6e2e0d0a0d0a53594e54484554494320636c6175736520626574613a207265636f7264206f62736572766174696f6e732e0a",
+        "sha256": "9843a7af7bf6f3ca675aaec910cac4ba26d73605038ddaf11068cb5359ab5dac"
+      }
+    ],
+    "initial_governance": {
+      "normal": [
+        {
+          "tenant_id": "tenant-eval",
+          "logical_document_id": "normal",
+          "revision": 1,
+          "updated_at": "2026-11-17T00:00:00Z",
+          "allowed_users": [
+            "reader"
+          ],
+          "scope": [
+            "synthetic-plant"
+          ]
+        },
+        {
+          "tenant_id": "tenant-eval",
+          "logical_document_id": "normal",
+          "revision": 1,
+          "updated_at": "2026-11-17T00:00:00Z",
+          "withdrawn": false,
+          "withdrawn_versions": []
+        },
+        {
+          "tenant_id": "tenant-eval",
+          "logical_document_id": "normal",
+          "schema_version": "knowledge.release.v2",
+          "generation": 1,
+          "document_version_id": "normal-v1",
+          "source_sha256": "9843a7af7bf6f3ca675aaec910cac4ba26d73605038ddaf11068cb5359ab5dac",
+          "ir_sha256": "389b7accc695d71e6857b232e5c9f47d98c32d72f6a076ae7f51f011e8e1d9aa",
+          "review_status": "approved",
+          "reviewer": "SYNTHETIC-evaluation-fixture",
+          "published_at": "2026-11-16T00:00:00Z",
+          "valid_from": "2026-11-16T00:00:00Z",
+          "valid_until": "2026-11-18T00:00:00Z",
+          "scope": [
+            "synthetic-plant"
+          ]
+        }
+      ]
+    }
+  },
+  "drafts": [
+    {
+      "schema_version": "knowledge.txt-draft.v1",
+      "filename": "normal.txt",
+      "candidate": {
+        "schema_version": "knowledge.source-candidate.v1",
+        "candidate_id": "normal",
+        "data_origin": "SYNTHETIC",
+        "source_url": "synthetic://evaluation/normal.txt",
+        "publisher": null,
+        "upstream_revision": null,
+        "retrieved_at": null,
+        "license_id": null,
+        "license_evidence": null,
+        "review_state": "candidate",
+        "expected_source_sha256": "9843a7af7bf6f3ca675aaec910cac4ba26d73605038ddaf11068cb5359ab5dac"
+      },
+      "document": {
+        "schema_version": "knowledge.document.v2",
+        "data_origin": "SYNTHETIC",
+        "tenant_id": "tenant-eval",
+        "logical_document_id": "normal",
+        "document_version_id": "normal-v1",
+        "generation": 1,
+        "title": "SYNTHETIC normal",
+        "source_uri": "synthetic://knowledge-v2/txt/9843a7af7bf6f3ca675aaec910cac4ba26d73605038ddaf11068cb5359ab5dac",
+        "source_format": "text",
+        "source_sha256": "9843a7af7bf6f3ca675aaec910cac4ba26d73605038ddaf11068cb5359ab5dac",
+        "lineage": {
+          "parser": "anlan.restricted_utf8_txt",
+          "parser_version": "1",
+          "config_sha256": "51a3091682435ac4f052b17108ddde2fd5232f81cfe047e07d1cabd4181c3e05",
+          "transformations": [],
+          "quality": "unverified"
+        },
+        "blocks": [
+          {
+            "block_id": "line-1-5d87c814ad268d7b",
+            "kind": "paragraph",
+            "order": 0,
+            "parent_id": null,
+            "dependencies": [],
+            "source_text": "SYNTHETIC clause alpha: isolate power before inspection.\r\n",
+            "retrieval_text": "SYNTHETIC clause alpha: isolate power before inspection.\r\n",
+            "locator": {
+              "kind": "text",
+              "line_start": 1,
+              "line_end": 1
+            },
+            "table": null
+          },
+          {
+            "block_id": "line-3-af407c26d6ab0981",
+            "kind": "paragraph",
+            "order": 1,
+            "parent_id": null,
+            "dependencies": [],
+            "source_text": "SYNTHETIC clause beta: record observations.\n",
+            "retrieval_text": "SYNTHETIC clause beta: record observations.\n",
+            "locator": {
+              "kind": "text",
+              "line_start": 3,
+              "line_end": 3
+            },
+            "table": null
+          }
+        ]
+      },
+      "omitted_blank_lines": [
+        2
+      ],
+      "review_state": "needs_review",
+      "published": false
+    }
+  ],
+  "documents": [
+    {
+      "schema_version": "knowledge.document.v2",
+      "data_origin": "SYNTHETIC",
+      "tenant_id": "tenant-eval",
+      "logical_document_id": "normal",
+      "document_version_id": "normal-v1",
+      "generation": 1,
+      "title": "SYNTHETIC normal",
+      "source_uri": "synthetic://knowledge-v2/txt/9843a7af7bf6f3ca675aaec910cac4ba26d73605038ddaf11068cb5359ab5dac",
+      "source_format": "text",
+      "source_sha256": "9843a7af7bf6f3ca675aaec910cac4ba26d73605038ddaf11068cb5359ab5dac",
+      "lineage": {
+        "parser": "anlan.restricted_utf8_txt",
+        "parser_version": "1",
+        "config_sha256": "51a3091682435ac4f052b17108ddde2fd5232f81cfe047e07d1cabd4181c3e05",
+        "transformations": [],
+        "quality": "unverified"
+      },
+      "blocks": [
+        {
+          "block_id": "line-1-5d87c814ad268d7b",
+          "kind": "paragraph",
+          "order": 0,
+          "parent_id": null,
+          "dependencies": [],
+          "source_text": "SYNTHETIC clause alpha: isolate power before inspection.\r\n",
+          "retrieval_text": "SYNTHETIC clause alpha: isolate power before inspection.\r\n",
+          "locator": {
+            "kind": "text",
+            "line_start": 1,
+            "line_end": 1
+          },
+          "table": null
+        },
+        {
+          "block_id": "line-3-af407c26d6ab0981",
+          "kind": "paragraph",
+          "order": 1,
+          "parent_id": null,
+          "dependencies": [],
+          "source_text": "SYNTHETIC clause beta: record observations.\n",
+          "retrieval_text": "SYNTHETIC clause beta: record observations.\n",
+          "locator": {
+            "kind": "text",
+            "line_start": 3,
+            "line_end": 3
+          },
+          "table": null
+        }
+      ]
+    }
+  ],
+  "calls": [
+    {
+      "operation": "search",
+      "request": {
+        "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-0",
+        "tenant_id": "tenant-eval",
+        "user_id": "reader",
+        "effective_at": "2026-11-17T00:00:00Z",
+        "scope": [
+          "synthetic-plant"
+        ]
+      },
+      "params": {
+        "question": "power inspection",
+        "exact": null,
+        "mode": "lexical",
+        "top_k": 1
+      },
+      "packet": {
+        "schema_version": "knowledge.evidence.v2",
+        "operation": "search",
+        "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-0",
+        "requested_at": "2026-11-17T00:00:00Z",
+        "effective_at": "2026-11-17T00:00:00Z",
+        "finished_at": "2026-11-17T00:00:00Z",
+        "catalog_revision": "197c0f362c10154e31b49337e788102ab2676250ab5405ea64f3e82d21cf7908",
+        "processor_version": "knowledge-retrieval-k3a/1",
+        "tokenizer_version": "cjk-bigram-asciiword-v1",
+        "provider_versions": [
+          "bm25-k3a/1"
+        ],
+        "status": "evidence_found",
+        "coverage": "limited_candidates",
+        "items": [
+          {
+            "key": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "normal",
+              "document_version_id": "normal-v1",
+              "generation": 1,
+              "block_id": "line-1-5d87c814ad268d7b"
+            },
+            "data_origin": "SYNTHETIC",
+            "reference_kind": "synthetic_reference",
+            "title": "SYNTHETIC normal",
+            "source_uri": "synthetic://knowledge-v2/txt/9843a7af7bf6f3ca675aaec910cac4ba26d73605038ddaf11068cb5359ab5dac",
+            "source_text": "SYNTHETIC clause alpha: isolate power before inspection.\r\n",
+            "locator": {
+              "kind": "text",
+              "line_start": 1,
+              "line_end": 1
+            },
+            "source_sha256": "9843a7af7bf6f3ca675aaec910cac4ba26d73605038ddaf11068cb5359ab5dac",
+            "ir_sha256": "389b7accc695d71e6857b232e5c9f47d98c32d72f6a076ae7f51f011e8e1d9aa",
+            "generation": 1,
+            "lineage": {
+              "parser": "anlan.restricted_utf8_txt",
+              "parser_version": "1",
+              "config_sha256": "51a3091682435ac4f052b17108ddde2fd5232f81cfe047e07d1cabd4181c3e05",
+              "transformations": [],
+              "quality": "unverified"
+            },
+            "checked_at": "2026-11-17T00:00:00Z",
+            "release_fingerprint": "312d61603f8d1a52e7d1b2021ebe9d3080621314d97d1ddd150a7b246bb7ff71",
+            "acl_revision": 1,
+            "withdrawal_revision": 1,
+            "dependency_state": "complete",
+            "required_keys": [],
+            "table": null
+          }
+        ],
+        "table_rows": [],
+        "issues": [],
+        "audit": [
+          {
+            "stage": "governance",
+            "decision_code": "allowed",
+            "key_digest": null
+          },
+          {
+            "stage": "governance",
+            "decision_code": "allowed",
+            "key_digest": null
+          },
+          {
+            "stage": "governance",
+            "decision_code": "allowed",
+            "key_digest": null
+          },
+          {
+            "stage": "governance",
+            "decision_code": "allowed",
+            "key_digest": null
+          },
+          {
+            "stage": "projection",
+            "decision_code": "matched",
+            "key_digest": "3bd5d1cd37075b5ee8ce235a3e0dc9fbc50affc8b979d5afe416c105536c95b3"
+          },
+          {
+            "stage": "governance",
+            "decision_code": "allowed",
+            "key_digest": null
+          }
+        ],
+        "audit_truncated": false,
+        "authority_reads": 5,
+        "projection_reads": 1,
+        "elapsed_ms": 1.5783999988343567
+      }
+    },
+    {
+      "operation": "get_clause",
+      "request": {
+        "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-1",
+        "tenant_id": "tenant-eval",
+        "user_id": "reader",
+        "effective_at": "2026-11-17T00:00:00Z",
+        "scope": [
+          "synthetic-plant"
+        ]
+      },
+      "params": {
+        "selector": {
+          "logical_document_id": "normal",
+          "document_version_id": "normal-v1",
+          "generation": 1,
+          "block_id": "line-1-5d87c814ad268d7b"
+        }
+      },
+      "packet": {
+        "schema_version": "knowledge.evidence.v2",
+        "operation": "get_clause",
+        "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-1",
+        "requested_at": "2026-11-17T00:00:00Z",
+        "effective_at": "2026-11-17T00:00:00Z",
+        "finished_at": "2026-11-17T00:00:00Z",
+        "catalog_revision": "197c0f362c10154e31b49337e788102ab2676250ab5405ea64f3e82d21cf7908",
+        "processor_version": "knowledge-retrieval-k3a/1",
+        "tokenizer_version": "cjk-bigram-asciiword-v1",
+        "provider_versions": [],
+        "status": "evidence_found",
+        "coverage": "exact_selection",
+        "items": [
+          {
+            "key": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "normal",
+              "document_version_id": "normal-v1",
+              "generation": 1,
+              "block_id": "line-1-5d87c814ad268d7b"
+            },
+            "data_origin": "SYNTHETIC",
+            "reference_kind": "synthetic_reference",
+            "title": "SYNTHETIC normal",
+            "source_uri": "synthetic://knowledge-v2/txt/9843a7af7bf6f3ca675aaec910cac4ba26d73605038ddaf11068cb5359ab5dac",
+            "source_text": "SYNTHETIC clause alpha: isolate power before inspection.\r\n",
+            "locator": {
+              "kind": "text",
+              "line_start": 1,
+              "line_end": 1
+            },
+            "source_sha256": "9843a7af7bf6f3ca675aaec910cac4ba26d73605038ddaf11068cb5359ab5dac",
+            "ir_sha256": "389b7accc695d71e6857b232e5c9f47d98c32d72f6a076ae7f51f011e8e1d9aa",
+            "generation": 1,
+            "lineage": {
+              "parser": "anlan.restricted_utf8_txt",
+              "parser_version": "1",
+              "config_sha256": "51a3091682435ac4f052b17108ddde2fd5232f81cfe047e07d1cabd4181c3e05",
+              "transformations": [],
+              "quality": "unverified"
+            },
+            "checked_at": "2026-11-17T00:00:00Z",
+            "release_fingerprint": "312d61603f8d1a52e7d1b2021ebe9d3080621314d97d1ddd150a7b246bb7ff71",
+            "acl_revision": 1,
+            "withdrawal_revision": 1,
+            "dependency_state": "complete",
+            "required_keys": [],
+            "table": null
+          }
+        ],
+        "table_rows": [],
+        "issues": [],
+        "audit": [
+          {
+            "stage": "governance",
+            "decision_code": "allowed",
+            "key_digest": null
+          },
+          {
+            "stage": "governance",
+            "decision_code": "allowed",
+            "key_digest": null
+          },
+          {
+            "stage": "projection",
+            "decision_code": "matched",
+            "key_digest": "3bd5d1cd37075b5ee8ce235a3e0dc9fbc50affc8b979d5afe416c105536c95b3"
+          },
+          {
+            "stage": "governance",
+            "decision_code": "allowed",
+            "key_digest": null
+          }
+        ],
+        "audit_truncated": false,
+        "authority_reads": 3,
+        "projection_reads": 1,
+        "elapsed_ms": 1.1074999929405749
+      }
+    }
+  ],
+  "events": [
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": null,
+      "seq": 0,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a",
+      "case_id": "k3e-normal",
+      "kind": "case_started",
+      "data": {
+        "case_id": "k3e-normal"
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": null,
+      "seq": 1,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a",
+      "case_id": "k3e-normal",
+      "kind": "parse_started",
+      "data": {
+        "name": "normal.txt",
+        "sha256": "9843a7af7bf6f3ca675aaec910cac4ba26d73605038ddaf11068cb5359ab5dac"
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": null,
+      "seq": 2,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a",
+      "case_id": "k3e-normal",
+      "kind": "parse_finished",
+      "data": {
+        "name": "normal.txt",
+        "ir_sha256": "389b7accc695d71e6857b232e5c9f47d98c32d72f6a076ae7f51f011e8e1d9aa",
+        "published": false
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-0",
+      "seq": 3,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a",
+      "case_id": "k3e-normal",
+      "kind": "api_started",
+      "data": {
+        "operation": "search",
+        "request": {
+          "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-0",
+          "tenant_id": "tenant-eval",
+          "user_id": "reader",
+          "effective_at": "2026-11-17T00:00:00Z",
+          "scope": [
+            "synthetic-plant"
+          ]
+        },
+        "params": {
+          "question": "power inspection",
+          "exact": null,
+          "mode": "lexical",
+          "top_k": 1
+        }
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-0",
+      "seq": 4,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a",
+      "case_id": "k3e-normal",
+      "kind": "ledger_read",
+      "data": {
+        "tenant_id": "tenant-eval",
+        "logical_document_id": "normal",
+        "checked_at": "2026-11-17T00:00:00+00:00",
+        "result": {
+          "schema_version": "knowledge.governance-read.v1",
+          "authority": {
+            "schema_version": "knowledge.authority.v2",
+            "checked_at": "2026-11-17T00:00:00Z",
+            "acl": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "normal",
+              "revision": 1,
+              "updated_at": "2026-11-17T00:00:00Z",
+              "allowed_users": [
+                "reader"
+              ],
+              "scope": [
+                "synthetic-plant"
+              ]
+            },
+            "withdrawal": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "normal",
+              "revision": 1,
+              "updated_at": "2026-11-17T00:00:00Z",
+              "withdrawn": false,
+              "withdrawn_versions": []
+            }
+          },
+          "manifest": {
+            "tenant_id": "tenant-eval",
+            "logical_document_id": "normal",
+            "schema_version": "knowledge.release.v2",
+            "generation": 1,
+            "document_version_id": "normal-v1",
+            "source_sha256": "9843a7af7bf6f3ca675aaec910cac4ba26d73605038ddaf11068cb5359ab5dac",
+            "ir_sha256": "389b7accc695d71e6857b232e5c9f47d98c32d72f6a076ae7f51f011e8e1d9aa",
+            "review_status": "approved",
+            "reviewer": "SYNTHETIC-evaluation-fixture",
+            "published_at": "2026-11-16T00:00:00Z",
+            "valid_from": "2026-11-16T00:00:00Z",
+            "valid_until": "2026-11-18T00:00:00Z",
+            "scope": [
+              "synthetic-plant"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-0",
+      "seq": 5,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a",
+      "case_id": "k3e-normal",
+      "kind": "provider_started",
+      "data": {
+        "route": "lexical",
+        "version": "bm25-k3a/1",
+        "question": "power inspection",
+        "limit": 20,
+        "candidates": [
+          {
+            "key": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "normal",
+              "document_version_id": "normal-v1",
+              "generation": 1,
+              "block_id": "line-1-5d87c814ad268d7b"
+            },
+            "retrieval_text": "SYNTHETIC clause alpha: isolate power before inspection.\r\n"
+          },
+          {
+            "key": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "normal",
+              "document_version_id": "normal-v1",
+              "generation": 1,
+              "block_id": "line-3-af407c26d6ab0981"
+            },
+            "retrieval_text": "SYNTHETIC clause beta: record observations.\n"
+          }
+        ]
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-0",
+      "seq": 6,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a",
+      "case_id": "k3e-normal",
+      "kind": "provider_finished",
+      "data": {
+        "route": "lexical",
+        "result": [
+          {
+            "key": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "normal",
+              "document_version_id": "normal-v1",
+              "generation": 1,
+              "block_id": "line-1-5d87c814ad268d7b"
+            },
+            "score": 0.644788074939484
+          }
+        ]
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-0",
+      "seq": 7,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a",
+      "case_id": "k3e-normal",
+      "kind": "ledger_read",
+      "data": {
+        "tenant_id": "tenant-eval",
+        "logical_document_id": "normal",
+        "checked_at": "2026-11-17T00:00:00+00:00",
+        "result": {
+          "schema_version": "knowledge.governance-read.v1",
+          "authority": {
+            "schema_version": "knowledge.authority.v2",
+            "checked_at": "2026-11-17T00:00:00Z",
+            "acl": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "normal",
+              "revision": 1,
+              "updated_at": "2026-11-17T00:00:00Z",
+              "allowed_users": [
+                "reader"
+              ],
+              "scope": [
+                "synthetic-plant"
+              ]
+            },
+            "withdrawal": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "normal",
+              "revision": 1,
+              "updated_at": "2026-11-17T00:00:00Z",
+              "withdrawn": false,
+              "withdrawn_versions": []
+            }
+          },
+          "manifest": {
+            "tenant_id": "tenant-eval",
+            "logical_document_id": "normal",
+            "schema_version": "knowledge.release.v2",
+            "generation": 1,
+            "document_version_id": "normal-v1",
+            "source_sha256": "9843a7af7bf6f3ca675aaec910cac4ba26d73605038ddaf11068cb5359ab5dac",
+            "ir_sha256": "389b7accc695d71e6857b232e5c9f47d98c32d72f6a076ae7f51f011e8e1d9aa",
+            "review_status": "approved",
+            "reviewer": "SYNTHETIC-evaluation-fixture",
+            "published_at": "2026-11-16T00:00:00Z",
+            "valid_from": "2026-11-16T00:00:00Z",
+            "valid_until": "2026-11-18T00:00:00Z",
+            "scope": [
+              "synthetic-plant"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-0",
+      "seq": 8,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a",
+      "case_id": "k3e-normal",
+      "kind": "ledger_read",
+      "data": {
+        "tenant_id": "tenant-eval",
+        "logical_document_id": "normal",
+        "checked_at": "2026-11-17T00:00:00+00:00",
+        "result": {
+          "schema_version": "knowledge.governance-read.v1",
+          "authority": {
+            "schema_version": "knowledge.authority.v2",
+            "checked_at": "2026-11-17T00:00:00Z",
+            "acl": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "normal",
+              "revision": 1,
+              "updated_at": "2026-11-17T00:00:00Z",
+              "allowed_users": [
+                "reader"
+              ],
+              "scope": [
+                "synthetic-plant"
+              ]
+            },
+            "withdrawal": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "normal",
+              "revision": 1,
+              "updated_at": "2026-11-17T00:00:00Z",
+              "withdrawn": false,
+              "withdrawn_versions": []
+            }
+          },
+          "manifest": {
+            "tenant_id": "tenant-eval",
+            "logical_document_id": "normal",
+            "schema_version": "knowledge.release.v2",
+            "generation": 1,
+            "document_version_id": "normal-v1",
+            "source_sha256": "9843a7af7bf6f3ca675aaec910cac4ba26d73605038ddaf11068cb5359ab5dac",
+            "ir_sha256": "389b7accc695d71e6857b232e5c9f47d98c32d72f6a076ae7f51f011e8e1d9aa",
+            "review_status": "approved",
+            "reviewer": "SYNTHETIC-evaluation-fixture",
+            "published_at": "2026-11-16T00:00:00Z",
+            "valid_from": "2026-11-16T00:00:00Z",
+            "valid_until": "2026-11-18T00:00:00Z",
+            "scope": [
+              "synthetic-plant"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-0",
+      "seq": 9,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a",
+      "case_id": "k3e-normal",
+      "kind": "resolver_started",
+      "data": {
+        "key": {
+          "tenant_id": "tenant-eval",
+          "logical_document_id": "normal",
+          "document_version_id": "normal-v1",
+          "generation": 1,
+          "block_id": "line-1-5d87c814ad268d7b"
+        }
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-0",
+      "seq": 10,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a",
+      "case_id": "k3e-normal",
+      "kind": "resolver_finished",
+      "data": {
+        "key": {
+          "tenant_id": "tenant-eval",
+          "logical_document_id": "normal",
+          "document_version_id": "normal-v1",
+          "generation": 1,
+          "block_id": "line-1-5d87c814ad268d7b"
+        },
+        "block": {
+          "block_id": "line-1-5d87c814ad268d7b",
+          "kind": "paragraph",
+          "order": 0,
+          "parent_id": null,
+          "dependencies": [],
+          "source_text": "SYNTHETIC clause alpha: isolate power before inspection.\r\n",
+          "retrieval_text": "SYNTHETIC clause alpha: isolate power before inspection.\r\n",
+          "locator": {
+            "kind": "text",
+            "line_start": 1,
+            "line_end": 1
+          },
+          "table": null
+        }
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-0",
+      "seq": 11,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a",
+      "case_id": "k3e-normal",
+      "kind": "ledger_read",
+      "data": {
+        "tenant_id": "tenant-eval",
+        "logical_document_id": "normal",
+        "checked_at": "2026-11-17T00:00:00+00:00",
+        "result": {
+          "schema_version": "knowledge.governance-read.v1",
+          "authority": {
+            "schema_version": "knowledge.authority.v2",
+            "checked_at": "2026-11-17T00:00:00Z",
+            "acl": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "normal",
+              "revision": 1,
+              "updated_at": "2026-11-17T00:00:00Z",
+              "allowed_users": [
+                "reader"
+              ],
+              "scope": [
+                "synthetic-plant"
+              ]
+            },
+            "withdrawal": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "normal",
+              "revision": 1,
+              "updated_at": "2026-11-17T00:00:00Z",
+              "withdrawn": false,
+              "withdrawn_versions": []
+            }
+          },
+          "manifest": {
+            "tenant_id": "tenant-eval",
+            "logical_document_id": "normal",
+            "schema_version": "knowledge.release.v2",
+            "generation": 1,
+            "document_version_id": "normal-v1",
+            "source_sha256": "9843a7af7bf6f3ca675aaec910cac4ba26d73605038ddaf11068cb5359ab5dac",
+            "ir_sha256": "389b7accc695d71e6857b232e5c9f47d98c32d72f6a076ae7f51f011e8e1d9aa",
+            "review_status": "approved",
+            "reviewer": "SYNTHETIC-evaluation-fixture",
+            "published_at": "2026-11-16T00:00:00Z",
+            "valid_from": "2026-11-16T00:00:00Z",
+            "valid_until": "2026-11-18T00:00:00Z",
+            "scope": [
+              "synthetic-plant"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-0",
+      "seq": 12,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a",
+      "case_id": "k3e-normal",
+      "kind": "ledger_read",
+      "data": {
+        "tenant_id": "tenant-eval",
+        "logical_document_id": "normal",
+        "checked_at": "2026-11-17T00:00:00+00:00",
+        "result": {
+          "schema_version": "knowledge.governance-read.v1",
+          "authority": {
+            "schema_version": "knowledge.authority.v2",
+            "checked_at": "2026-11-17T00:00:00Z",
+            "acl": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "normal",
+              "revision": 1,
+              "updated_at": "2026-11-17T00:00:00Z",
+              "allowed_users": [
+                "reader"
+              ],
+              "scope": [
+                "synthetic-plant"
+              ]
+            },
+            "withdrawal": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "normal",
+              "revision": 1,
+              "updated_at": "2026-11-17T00:00:00Z",
+              "withdrawn": false,
+              "withdrawn_versions": []
+            }
+          },
+          "manifest": {
+            "tenant_id": "tenant-eval",
+            "logical_document_id": "normal",
+            "schema_version": "knowledge.release.v2",
+            "generation": 1,
+            "document_version_id": "normal-v1",
+            "source_sha256": "9843a7af7bf6f3ca675aaec910cac4ba26d73605038ddaf11068cb5359ab5dac",
+            "ir_sha256": "389b7accc695d71e6857b232e5c9f47d98c32d72f6a076ae7f51f011e8e1d9aa",
+            "review_status": "approved",
+            "reviewer": "SYNTHETIC-evaluation-fixture",
+            "published_at": "2026-11-16T00:00:00Z",
+            "valid_from": "2026-11-16T00:00:00Z",
+            "valid_until": "2026-11-18T00:00:00Z",
+            "scope": [
+              "synthetic-plant"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-0",
+      "seq": 13,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a",
+      "case_id": "k3e-normal",
+      "kind": "api_finished",
+      "data": {
+        "operation": "search",
+        "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-0",
+        "packet_sha256": "cd2b89e6263ce33e285db63cfbe5507f30270cc9b0f462b017c4c3529753eccd"
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-1",
+      "seq": 14,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a",
+      "case_id": "k3e-normal",
+      "kind": "api_started",
+      "data": {
+        "operation": "get_clause",
+        "request": {
+          "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-1",
+          "tenant_id": "tenant-eval",
+          "user_id": "reader",
+          "effective_at": "2026-11-17T00:00:00Z",
+          "scope": [
+            "synthetic-plant"
+          ]
+        },
+        "params": {
+          "selector": {
+            "logical_document_id": "normal",
+            "document_version_id": "normal-v1",
+            "generation": 1,
+            "block_id": "line-1-5d87c814ad268d7b"
+          }
+        }
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-1",
+      "seq": 15,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a",
+      "case_id": "k3e-normal",
+      "kind": "ledger_read",
+      "data": {
+        "tenant_id": "tenant-eval",
+        "logical_document_id": "normal",
+        "checked_at": "2026-11-17T00:00:00+00:00",
+        "result": {
+          "schema_version": "knowledge.governance-read.v1",
+          "authority": {
+            "schema_version": "knowledge.authority.v2",
+            "checked_at": "2026-11-17T00:00:00Z",
+            "acl": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "normal",
+              "revision": 1,
+              "updated_at": "2026-11-17T00:00:00Z",
+              "allowed_users": [
+                "reader"
+              ],
+              "scope": [
+                "synthetic-plant"
+              ]
+            },
+            "withdrawal": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "normal",
+              "revision": 1,
+              "updated_at": "2026-11-17T00:00:00Z",
+              "withdrawn": false,
+              "withdrawn_versions": []
+            }
+          },
+          "manifest": {
+            "tenant_id": "tenant-eval",
+            "logical_document_id": "normal",
+            "schema_version": "knowledge.release.v2",
+            "generation": 1,
+            "document_version_id": "normal-v1",
+            "source_sha256": "9843a7af7bf6f3ca675aaec910cac4ba26d73605038ddaf11068cb5359ab5dac",
+            "ir_sha256": "389b7accc695d71e6857b232e5c9f47d98c32d72f6a076ae7f51f011e8e1d9aa",
+            "review_status": "approved",
+            "reviewer": "SYNTHETIC-evaluation-fixture",
+            "published_at": "2026-11-16T00:00:00Z",
+            "valid_from": "2026-11-16T00:00:00Z",
+            "valid_until": "2026-11-18T00:00:00Z",
+            "scope": [
+              "synthetic-plant"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-1",
+      "seq": 16,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a",
+      "case_id": "k3e-normal",
+      "kind": "resolver_started",
+      "data": {
+        "key": {
+          "tenant_id": "tenant-eval",
+          "logical_document_id": "normal",
+          "document_version_id": "normal-v1",
+          "generation": 1,
+          "block_id": "line-1-5d87c814ad268d7b"
+        }
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-1",
+      "seq": 17,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a",
+      "case_id": "k3e-normal",
+      "kind": "resolver_finished",
+      "data": {
+        "key": {
+          "tenant_id": "tenant-eval",
+          "logical_document_id": "normal",
+          "document_version_id": "normal-v1",
+          "generation": 1,
+          "block_id": "line-1-5d87c814ad268d7b"
+        },
+        "block": {
+          "block_id": "line-1-5d87c814ad268d7b",
+          "kind": "paragraph",
+          "order": 0,
+          "parent_id": null,
+          "dependencies": [],
+          "source_text": "SYNTHETIC clause alpha: isolate power before inspection.\r\n",
+          "retrieval_text": "SYNTHETIC clause alpha: isolate power before inspection.\r\n",
+          "locator": {
+            "kind": "text",
+            "line_start": 1,
+            "line_end": 1
+          },
+          "table": null
+        }
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-1",
+      "seq": 18,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a",
+      "case_id": "k3e-normal",
+      "kind": "ledger_read",
+      "data": {
+        "tenant_id": "tenant-eval",
+        "logical_document_id": "normal",
+        "checked_at": "2026-11-17T00:00:00+00:00",
+        "result": {
+          "schema_version": "knowledge.governance-read.v1",
+          "authority": {
+            "schema_version": "knowledge.authority.v2",
+            "checked_at": "2026-11-17T00:00:00Z",
+            "acl": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "normal",
+              "revision": 1,
+              "updated_at": "2026-11-17T00:00:00Z",
+              "allowed_users": [
+                "reader"
+              ],
+              "scope": [
+                "synthetic-plant"
+              ]
+            },
+            "withdrawal": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "normal",
+              "revision": 1,
+              "updated_at": "2026-11-17T00:00:00Z",
+              "withdrawn": false,
+              "withdrawn_versions": []
+            }
+          },
+          "manifest": {
+            "tenant_id": "tenant-eval",
+            "logical_document_id": "normal",
+            "schema_version": "knowledge.release.v2",
+            "generation": 1,
+            "document_version_id": "normal-v1",
+            "source_sha256": "9843a7af7bf6f3ca675aaec910cac4ba26d73605038ddaf11068cb5359ab5dac",
+            "ir_sha256": "389b7accc695d71e6857b232e5c9f47d98c32d72f6a076ae7f51f011e8e1d9aa",
+            "review_status": "approved",
+            "reviewer": "SYNTHETIC-evaluation-fixture",
+            "published_at": "2026-11-16T00:00:00Z",
+            "valid_from": "2026-11-16T00:00:00Z",
+            "valid_until": "2026-11-18T00:00:00Z",
+            "scope": [
+              "synthetic-plant"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-1",
+      "seq": 19,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a",
+      "case_id": "k3e-normal",
+      "kind": "ledger_read",
+      "data": {
+        "tenant_id": "tenant-eval",
+        "logical_document_id": "normal",
+        "checked_at": "2026-11-17T00:00:00+00:00",
+        "result": {
+          "schema_version": "knowledge.governance-read.v1",
+          "authority": {
+            "schema_version": "knowledge.authority.v2",
+            "checked_at": "2026-11-17T00:00:00Z",
+            "acl": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "normal",
+              "revision": 1,
+              "updated_at": "2026-11-17T00:00:00Z",
+              "allowed_users": [
+                "reader"
+              ],
+              "scope": [
+                "synthetic-plant"
+              ]
+            },
+            "withdrawal": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "normal",
+              "revision": 1,
+              "updated_at": "2026-11-17T00:00:00Z",
+              "withdrawn": false,
+              "withdrawn_versions": []
+            }
+          },
+          "manifest": {
+            "tenant_id": "tenant-eval",
+            "logical_document_id": "normal",
+            "schema_version": "knowledge.release.v2",
+            "generation": 1,
+            "document_version_id": "normal-v1",
+            "source_sha256": "9843a7af7bf6f3ca675aaec910cac4ba26d73605038ddaf11068cb5359ab5dac",
+            "ir_sha256": "389b7accc695d71e6857b232e5c9f47d98c32d72f6a076ae7f51f011e8e1d9aa",
+            "review_status": "approved",
+            "reviewer": "SYNTHETIC-evaluation-fixture",
+            "published_at": "2026-11-16T00:00:00Z",
+            "valid_from": "2026-11-16T00:00:00Z",
+            "valid_until": "2026-11-18T00:00:00Z",
+            "scope": [
+              "synthetic-plant"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-1",
+      "seq": 20,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a",
+      "case_id": "k3e-normal",
+      "kind": "api_finished",
+      "data": {
+        "operation": "get_clause",
+        "request_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a-1",
+        "packet_sha256": "17953afb9e7a08ada1215032b3c83a4fb0b0f9da1264eb9647e3c5f814808cae"
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": null,
+      "seq": 21,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "56a83f69-9949-4953-b3fc-f4ab5801ad5a",
+      "case_id": "k3e-normal",
+      "kind": "case_finished",
+      "data": {
+        "case_id": "k3e-normal",
+        "errors": []
+      }
+    }
+  ],
+  "diagnostics": {
+    "inputs_unchanged": true,
+    "source_and_quote_match": true
+  },
+  "errors": [],
+  "elapsed_ms": 6.15
+}

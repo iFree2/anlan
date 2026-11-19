@@ -1,0 +1,10 @@
+{
+  "schema_version": "knowledge-evaluation-cases-v1",
+  "origin": "SYNTHETIC",
+  "split": "seen_regression",
+  "cases": [
+    "k3e-normal",
+    "k3e-withdrawal",
+    "k3e-table"
+  ]
+}

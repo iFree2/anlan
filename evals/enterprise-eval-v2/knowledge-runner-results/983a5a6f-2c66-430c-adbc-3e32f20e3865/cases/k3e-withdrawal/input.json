@@ -1,0 +1,97 @@
+{
+  "case_id": "k3e-withdrawal",
+  "sources": [
+    {
+      "name": "revoked-a.txt",
+      "logical": "a",
+      "hex": "53594e54484554494320706f77657220696e7370656374696f6e2077697468647261776e207265666572656e636520412e0a",
+      "sha256": "89e78619b1ec61880ff5fff2b702e232b1de0e1b3ba23a4b4b59dee6ab8f7016"
+    },
+    {
+      "name": "allowed-b.txt",
+      "logical": "b",
+      "hex": "53594e54484554494320706f77657220696e7370656374696f6e20616c6c6f776564207265666572656e636520422e0a",
+      "sha256": "c8503fddc92eae3b9e08cdc8faea6e0a1a9ca9480de8e94937d5c7bd961b485e"
+    }
+  ],
+  "initial_governance": {
+    "a": [
+      {
+        "tenant_id": "tenant-eval",
+        "logical_document_id": "a",
+        "revision": 1,
+        "updated_at": "2026-11-17T00:00:00Z",
+        "allowed_users": [
+          "reader"
+        ],
+        "scope": [
+          "synthetic-plant"
+        ]
+      },
+      {
+        "tenant_id": "tenant-eval",
+        "logical_document_id": "a",
+        "revision": 1,
+        "updated_at": "2026-11-17T00:00:00Z",
+        "withdrawn": false,
+        "withdrawn_versions": []
+      },
+      {
+        "tenant_id": "tenant-eval",
+        "logical_document_id": "a",
+        "schema_version": "knowledge.release.v2",
+        "generation": 1,
+        "document_version_id": "a-v1",
+        "source_sha256": "89e78619b1ec61880ff5fff2b702e232b1de0e1b3ba23a4b4b59dee6ab8f7016",
+        "ir_sha256": "6140cbda8db6835ca4a387205fb59fc53704aaae4542ade0d82f40768a075764",
+        "review_status": "approved",
+        "reviewer": "SYNTHETIC-evaluation-fixture",
+        "published_at": "2026-11-16T00:00:00Z",
+        "valid_from": "2026-11-16T00:00:00Z",
+        "valid_until": "2026-11-18T00:00:00Z",
+        "scope": [
+          "synthetic-plant"
+        ]
+      }
+    ],
+    "b": [
+      {
+        "tenant_id": "tenant-eval",
+        "logical_document_id": "b",
+        "revision": 1,
+        "updated_at": "2026-11-17T00:00:00Z",
+        "allowed_users": [
+          "reader"
+        ],
+        "scope": [
+          "synthetic-plant"
+        ]
+      },
+      {
+        "tenant_id": "tenant-eval",
+        "logical_document_id": "b",
+        "revision": 1,
+        "updated_at": "2026-11-17T00:00:00Z",
+        "withdrawn": false,
+        "withdrawn_versions": []
+      },
+      {
+        "tenant_id": "tenant-eval",
+        "logical_document_id": "b",
+        "schema_version": "knowledge.release.v2",
+        "generation": 1,
+        "document_version_id": "b-v1",
+        "source_sha256": "c8503fddc92eae3b9e08cdc8faea6e0a1a9ca9480de8e94937d5c7bd961b485e",
+        "ir_sha256": "951407e6ff8777557a0080c760375aed390dd4ac76abd171784e5e022fba3015",
+        "review_status": "approved",
+        "reviewer": "SYNTHETIC-evaluation-fixture",
+        "published_at": "2026-11-16T00:00:00Z",
+        "valid_from": "2026-11-16T00:00:00Z",
+        "valid_until": "2026-11-18T00:00:00Z",
+        "scope": [
+          "synthetic-plant"
+        ]
+      }
+    ]
+  }
+}

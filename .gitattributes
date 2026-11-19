@@ -1,0 +1,3 @@
+# Evidence fixtures are raw byte inputs; preserve CRLF/LF and source hashes.
+/evals/enterprise-eval-v2/knowledge-runner-v1/*.txt -text
+/examples/synthetic/knowledge-v2/ingest/*.txt -text

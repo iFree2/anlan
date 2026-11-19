@@ -1,0 +1,62 @@
+{
+  "schema_version": "dynamic-registration-v1",
+  "data_origin": "SYNTHETIC",
+  "tenant_id": "synthetic-demo",
+  "service_id": "equipment",
+  "config_version": "v1",
+  "state": "registered",
+  "connection": {
+    "transport": "stdio",
+    "executable_ref": "synthetic-reference-server",
+    "argv": [
+      "--scenario",
+      "equipment"
+    ],
+    "credential_ref": "fake-credential-ref"
+  },
+  "factories": [
+    {
+      "factory_id": "F001",
+      "aliases": [
+        "一厂",
+        "1工厂"
+      ]
+    },
+    {
+      "factory_id": "F002",
+      "aliases": [
+        "二厂",
+        "2工厂"
+      ]
+    }
+  ],
+  "bindings": [
+    {
+      "capability": "equipment.asset.query",
+      "contract_version": "1",
+      "tool_name": "equipment_asset_query",
+      "factory_ids": [
+        "F001",
+        "F002"
+      ]
+    },
+    {
+      "capability": "equipment.inspection.query",
+      "contract_version": "1",
+      "tool_name": "equipment_inspection_query",
+      "factory_ids": [
+        "F001",
+        "F002"
+      ]
+    },
+    {
+      "capability": "equipment.fault.query",
+      "contract_version": "1",
+      "tool_name": "equipment_fault_query",
+      "factory_ids": [
+        "F001",
+        "F002"
+      ]
+    }
+  ]
+}

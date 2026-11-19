@@ -1,0 +1,62 @@
+{
+  "schema_version": "knowledge.document.v2",
+  "data_origin": "SYNTHETIC",
+  "tenant_id": "tenant-eval",
+  "logical_document_id": "table",
+  "document_version_id": "table-v1",
+  "generation": 1,
+  "title": "SYNTHETIC structured table fixture",
+  "source_uri": "synthetic://evaluation/structured-ir-not-workbook",
+  "source_format": "xlsx",
+  "source_sha256": "de700338b2cdf34cbf366c02128f6f0c03da6baf23937deb2092a68d775aa602",
+  "lineage": {
+    "parser": "synthetic-structured-fixture",
+    "parser_version": "1",
+    "config_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "transformations": [],
+    "quality": "unverified"
+  },
+  "blocks": [
+    {
+      "block_id": "table",
+      "kind": "table",
+      "order": 0,
+      "source_text": "SYNTHETIC item0 10 item1 9.9 fixture footnote",
+      "retrieval_text": "SYNTHETIC limits",
+      "locator": {
+        "kind": "xlsx",
+        "sheet": "SYNTHETIC",
+        "cell_range": "A1:B4"
+      },
+      "table": {
+        "headers": [
+          [
+            "SYNTHETIC",
+            "limit"
+          ],
+          [
+            "name",
+            "value"
+          ]
+        ],
+        "rows": [
+          [
+            "item0",
+            "10"
+          ],
+          [
+            "item1",
+            "9.9"
+          ]
+        ],
+        "units": [
+          "",
+          "m"
+        ],
+        "footnotes": [
+          "SYNTHETIC fixture footnote"
+        ]
+      }
+    }
+  ]
+}

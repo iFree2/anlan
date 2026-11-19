@@ -1,0 +1,19 @@
+{
+  "schema_version": "enterprise-eval-v2",
+  "code_version": "b8b80d459292bc29f73c34504ac4d4b5faa6ebda+dirty",
+  "prompt_version": "not_applicable:no-model",
+  "model_version": "not_applicable:no-model",
+  "knowledge_version": "K1-K2a-K3a-synthetic",
+  "dataset_version": "knowledge-runner-v1-seen",
+  "scorer_version": "enterprise-scorer-v2.0",
+  "environment": "local Python 3.13.3",
+  "run_at": "2026-11-17T15:22:13.772431Z",
+  "fixed_at": "2026-11-17T00:00:00Z",
+  "request_limit": 0,
+  "request_attempts": 0,
+  "required_case_ids": [
+    "k3e-normal",
+    "k3e-withdrawal",
+    "k3e-table"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": "knowledge.document.v2",
+  "data_origin": "SYNTHETIC",
+  "tenant_id": "tenant-a",
+  "logical_document_id": "synthetic-sop",
+  "document_version_id": "synthetic-sop-v1",
+  "generation": 1,
+  "title": "SYNTHETIC K1 合同样本，不是操作规程",
+  "source_uri": "synthetic://knowledge-v2/example.docx",
+  "source_format": "docx",
+  "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "lineage": {
+    "parser": "synthetic-fixture", "parser_version": "fixture-1",
+    "config_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "transformations": ["SYNTHETIC deterministic retrieval context"],
+    "quality": "unverified"
+  },
+  "blocks": [
+    {"block_id": "section", "kind": "heading", "order": 0,
+     "source_text": "SYNTHETIC 标题", "retrieval_text": "SYNTHETIC 标题",
+     "locator": {"kind": "docx", "paragraph_id": "p0"}},
+    {"block_id": "clause", "kind": "paragraph", "order": 1,
+     "parent_id": "section", "dependencies": ["section"],
+     "source_text": "SYNTHETIC 原文，数值与否定词不得改写。",
+     "retrieval_text": "SYNTHETIC 检索扩展 标题 原文，数值与否定词不得改写。",
+     "locator": {"kind": "docx", "paragraph_id": "p1"}}
+  ]
+}

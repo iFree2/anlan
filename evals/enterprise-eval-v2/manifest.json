@@ -1,0 +1,19 @@
+{
+  "schema_version": "enterprise-eval-v2",
+  "code_version": "b8b80d4+uncommitted-E1; see evaluation-report file hashes",
+  "prompt_version": "not_applicable:historical-offline-rule-analyzer",
+  "model_version": "not_applicable:no-provider",
+  "knowledge_version": "not_applicable:materials-only",
+  "dataset_version": "materials-v1-dev-seen:sha256:a501062186e1b2f80c488fb18e625e5495819dd8b18cb6a33570222b17673b2b",
+  "scorer_version": "enterprise-scorer-v2.0",
+  "environment": "Windows local / Python 3.13.3 / offline saved-evidence replay; historical fixed business time unrecorded",
+  "run_at": "2026-11-16T23:14:27.200627+08:00",
+  "fixed_at": null,
+  "request_limit": 0,
+  "request_attempts": 0,
+  "required_case_ids": [
+    "anlan2-dev-001",
+    "anlan2-dev-002",
+    "anlan2-dev-003"
+  ]
+}

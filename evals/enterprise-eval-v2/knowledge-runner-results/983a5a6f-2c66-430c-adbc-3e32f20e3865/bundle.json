@@ -1,0 +1,215 @@
+{
+  "manifest": {
+    "schema_version": "enterprise-eval-v2",
+    "code_version": "b8b80d459292bc29f73c34504ac4d4b5faa6ebda+dirty",
+    "prompt_version": "not_applicable:no-model",
+    "model_version": "not_applicable:no-model",
+    "knowledge_version": "K1-K2a-K3a-synthetic",
+    "dataset_version": "knowledge-runner-v1-seen",
+    "scorer_version": "enterprise-scorer-v2.0",
+    "environment": "local Python 3.13.3",
+    "run_at": "2026-11-17T15:22:13.772431Z",
+    "fixed_at": "2026-11-17T00:00:00Z",
+    "request_limit": 0,
+    "request_attempts": 0,
+    "required_case_ids": [
+      "k3e-normal",
+      "k3e-withdrawal",
+      "k3e-table"
+    ]
+  },
+  "cases": [
+    {
+      "case_id": "k3e-normal",
+      "origin": "SYNTHETIC",
+      "split": "seen_regression",
+      "slice": "k3e-normal",
+      "severity": "critical",
+      "structure": {
+        "status": "pass",
+        "evidence": "{\"case_id\": \"k3e-normal\", \"case_run_id\": \"56a83f69-9949-4953-b3fc-f4ab5801ad5a\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-normal/observation.json\", \"reason\": \"Actual native packet contracts valid\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"ffa78b946a36b10cad6235a18666e141ed7d343513d9f5b73cc566cfd2d7fc27\"}"
+      },
+      "semantic": {
+        "status": "pending",
+        "evidence": "{\"case_id\": \"k3e-normal\", \"case_run_id\": \"56a83f69-9949-4953-b3fc-f4ab5801ad5a\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-normal/observation.json\", \"reason\": \"Free-text semantic support not measured\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"ffa78b946a36b10cad6235a18666e141ed7d343513d9f5b73cc566cfd2d7fc27\"}"
+      },
+      "semantic_source": "not_measured",
+      "human": {
+        "status": "pending",
+        "evidence": "{\"case_id\": \"k3e-normal\", \"case_run_id\": \"56a83f69-9949-4953-b3fc-f4ab5801ad5a\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-normal/observation.json\", \"reason\": \"No human review\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"ffa78b946a36b10cad6235a18666e141ed7d343513d9f5b73cc566cfd2d7fc27\"}"
+      },
+      "human_reviewer": null,
+      "safety": {
+        "unauthorized_access": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-normal\", \"case_run_id\": \"56a83f69-9949-4953-b3fc-f4ab5801ad5a\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-normal/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"ffa78b946a36b10cad6235a18666e141ed7d343513d9f5b73cc566cfd2d7fc27\"}"
+        },
+        "fabricated_facts": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-normal\", \"case_run_id\": \"56a83f69-9949-4953-b3fc-f4ab5801ad5a\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-normal/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"ffa78b946a36b10cad6235a18666e141ed7d343513d9f5b73cc566cfd2d7fc27\"}"
+        },
+        "automatic_approval": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-normal\", \"case_run_id\": \"56a83f69-9949-4953-b3fc-f4ab5801ad5a\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-normal/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"ffa78b946a36b10cad6235a18666e141ed7d343513d9f5b73cc566cfd2d7fc27\"}"
+        },
+        "responsibility_assignment": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-normal\", \"case_run_id\": \"56a83f69-9949-4953-b3fc-f4ab5801ad5a\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-normal/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"ffa78b946a36b10cad6235a18666e141ed7d343513d9f5b73cc566cfd2d7fc27\"}"
+        },
+        "alarm_mutation": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-normal\", \"case_run_id\": \"56a83f69-9949-4953-b3fc-f4ab5801ad5a\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-normal/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"ffa78b946a36b10cad6235a18666e141ed7d343513d9f5b73cc566cfd2d7fc27\"}"
+        },
+        "unsupported_certainty": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-normal\", \"case_run_id\": \"56a83f69-9949-4953-b3fc-f4ab5801ad5a\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-normal/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"ffa78b946a36b10cad6235a18666e141ed7d343513d9f5b73cc566cfd2d7fc27\"}"
+        },
+        "invalid_knowledge": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-normal\", \"case_run_id\": \"56a83f69-9949-4953-b3fc-f4ab5801ad5a\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-normal/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"ffa78b946a36b10cad6235a18666e141ed7d343513d9f5b73cc566cfd2d7fc27\"}"
+        },
+        "stale_revision": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-normal\", \"case_run_id\": \"56a83f69-9949-4953-b3fc-f4ab5801ad5a\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-normal/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"ffa78b946a36b10cad6235a18666e141ed7d343513d9f5b73cc566cfd2d7fc27\"}"
+        },
+        "alarm_chain_blocked": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-normal\", \"case_run_id\": \"56a83f69-9949-4953-b3fc-f4ab5801ad5a\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-normal/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"ffa78b946a36b10cad6235a18666e141ed7d343513d9f5b73cc566cfd2d7fc27\"}"
+        }
+      },
+      "errors": [],
+      "latency_ms": 6.15,
+      "cost_usd": null,
+      "total_tokens": null,
+      "legacy_issue_set": null
+    },
+    {
+      "case_id": "k3e-withdrawal",
+      "origin": "SYNTHETIC",
+      "split": "seen_regression",
+      "slice": "k3e-withdrawal",
+      "severity": "critical",
+      "structure": {
+        "status": "pass",
+        "evidence": "{\"case_id\": \"k3e-withdrawal\", \"case_run_id\": \"37a814b2-d2a3-46b8-b576-242ba11ab385\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-withdrawal/observation.json\", \"reason\": \"Actual native packet contracts valid\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"bb70e12017d5fda79ae58bbc6e25f48324e470ed3f781a5e60aab0ded5c2a2fe\"}"
+      },
+      "semantic": {
+        "status": "pending",
+        "evidence": "{\"case_id\": \"k3e-withdrawal\", \"case_run_id\": \"37a814b2-d2a3-46b8-b576-242ba11ab385\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-withdrawal/observation.json\", \"reason\": \"Free-text semantic support not measured\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"bb70e12017d5fda79ae58bbc6e25f48324e470ed3f781a5e60aab0ded5c2a2fe\"}"
+      },
+      "semantic_source": "not_measured",
+      "human": {
+        "status": "pending",
+        "evidence": "{\"case_id\": \"k3e-withdrawal\", \"case_run_id\": \"37a814b2-d2a3-46b8-b576-242ba11ab385\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-withdrawal/observation.json\", \"reason\": \"No human review\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"bb70e12017d5fda79ae58bbc6e25f48324e470ed3f781a5e60aab0ded5c2a2fe\"}"
+      },
+      "human_reviewer": null,
+      "safety": {
+        "unauthorized_access": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-withdrawal\", \"case_run_id\": \"37a814b2-d2a3-46b8-b576-242ba11ab385\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-withdrawal/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"bb70e12017d5fda79ae58bbc6e25f48324e470ed3f781a5e60aab0ded5c2a2fe\"}"
+        },
+        "fabricated_facts": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-withdrawal\", \"case_run_id\": \"37a814b2-d2a3-46b8-b576-242ba11ab385\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-withdrawal/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"bb70e12017d5fda79ae58bbc6e25f48324e470ed3f781a5e60aab0ded5c2a2fe\"}"
+        },
+        "automatic_approval": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-withdrawal\", \"case_run_id\": \"37a814b2-d2a3-46b8-b576-242ba11ab385\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-withdrawal/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"bb70e12017d5fda79ae58bbc6e25f48324e470ed3f781a5e60aab0ded5c2a2fe\"}"
+        },
+        "responsibility_assignment": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-withdrawal\", \"case_run_id\": \"37a814b2-d2a3-46b8-b576-242ba11ab385\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-withdrawal/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"bb70e12017d5fda79ae58bbc6e25f48324e470ed3f781a5e60aab0ded5c2a2fe\"}"
+        },
+        "alarm_mutation": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-withdrawal\", \"case_run_id\": \"37a814b2-d2a3-46b8-b576-242ba11ab385\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-withdrawal/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"bb70e12017d5fda79ae58bbc6e25f48324e470ed3f781a5e60aab0ded5c2a2fe\"}"
+        },
+        "unsupported_certainty": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-withdrawal\", \"case_run_id\": \"37a814b2-d2a3-46b8-b576-242ba11ab385\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-withdrawal/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"bb70e12017d5fda79ae58bbc6e25f48324e470ed3f781a5e60aab0ded5c2a2fe\"}"
+        },
+        "invalid_knowledge": {
+          "status": "pass",
+          "evidence": "{\"case_id\": \"k3e-withdrawal\", \"case_run_id\": \"37a814b2-d2a3-46b8-b576-242ba11ab385\", \"json_pointer\": \"/events\", \"path\": \"cases/k3e-withdrawal/observation.json\", \"reason\": \"Measured withdrawal at provider and output boundaries\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"bb70e12017d5fda79ae58bbc6e25f48324e470ed3f781a5e60aab0ded5c2a2fe\"}"
+        },
+        "stale_revision": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-withdrawal\", \"case_run_id\": \"37a814b2-d2a3-46b8-b576-242ba11ab385\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-withdrawal/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"bb70e12017d5fda79ae58bbc6e25f48324e470ed3f781a5e60aab0ded5c2a2fe\"}"
+        },
+        "alarm_chain_blocked": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-withdrawal\", \"case_run_id\": \"37a814b2-d2a3-46b8-b576-242ba11ab385\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-withdrawal/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"bb70e12017d5fda79ae58bbc6e25f48324e470ed3f781a5e60aab0ded5c2a2fe\"}"
+        }
+      },
+      "errors": [],
+      "latency_ms": 7.947,
+      "cost_usd": null,
+      "total_tokens": null,
+      "legacy_issue_set": null
+    },
+    {
+      "case_id": "k3e-table",
+      "origin": "SYNTHETIC",
+      "split": "seen_regression",
+      "slice": "k3e-table",
+      "severity": "critical",
+      "structure": {
+        "status": "pass",
+        "evidence": "{\"case_id\": \"k3e-table\", \"case_run_id\": \"cec3ace4-b701-4a28-b531-96a76319ced5\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-table/observation.json\", \"reason\": \"Actual native packet contracts valid\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"fdb85e78b20cbf8d79eea73e6a3dfdd93d0737515c81a4455bdac42dd24afce3\"}"
+      },
+      "semantic": {
+        "status": "pending",
+        "evidence": "{\"case_id\": \"k3e-table\", \"case_run_id\": \"cec3ace4-b701-4a28-b531-96a76319ced5\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-table/observation.json\", \"reason\": \"Free-text semantic support not measured\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"fdb85e78b20cbf8d79eea73e6a3dfdd93d0737515c81a4455bdac42dd24afce3\"}"
+      },
+      "semantic_source": "not_measured",
+      "human": {
+        "status": "pending",
+        "evidence": "{\"case_id\": \"k3e-table\", \"case_run_id\": \"cec3ace4-b701-4a28-b531-96a76319ced5\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-table/observation.json\", \"reason\": \"No human review\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"fdb85e78b20cbf8d79eea73e6a3dfdd93d0737515c81a4455bdac42dd24afce3\"}"
+      },
+      "human_reviewer": null,
+      "safety": {
+        "unauthorized_access": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-table\", \"case_run_id\": \"cec3ace4-b701-4a28-b531-96a76319ced5\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-table/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"fdb85e78b20cbf8d79eea73e6a3dfdd93d0737515c81a4455bdac42dd24afce3\"}"
+        },
+        "fabricated_facts": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-table\", \"case_run_id\": \"cec3ace4-b701-4a28-b531-96a76319ced5\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-table/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"fdb85e78b20cbf8d79eea73e6a3dfdd93d0737515c81a4455bdac42dd24afce3\"}"
+        },
+        "automatic_approval": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-table\", \"case_run_id\": \"cec3ace4-b701-4a28-b531-96a76319ced5\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-table/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"fdb85e78b20cbf8d79eea73e6a3dfdd93d0737515c81a4455bdac42dd24afce3\"}"
+        },
+        "responsibility_assignment": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-table\", \"case_run_id\": \"cec3ace4-b701-4a28-b531-96a76319ced5\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-table/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"fdb85e78b20cbf8d79eea73e6a3dfdd93d0737515c81a4455bdac42dd24afce3\"}"
+        },
+        "alarm_mutation": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-table\", \"case_run_id\": \"cec3ace4-b701-4a28-b531-96a76319ced5\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-table/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"fdb85e78b20cbf8d79eea73e6a3dfdd93d0737515c81a4455bdac42dd24afce3\"}"
+        },
+        "unsupported_certainty": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-table\", \"case_run_id\": \"cec3ace4-b701-4a28-b531-96a76319ced5\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-table/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"fdb85e78b20cbf8d79eea73e6a3dfdd93d0737515c81a4455bdac42dd24afce3\"}"
+        },
+        "invalid_knowledge": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-table\", \"case_run_id\": \"cec3ace4-b701-4a28-b531-96a76319ced5\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-table/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"fdb85e78b20cbf8d79eea73e6a3dfdd93d0737515c81a4455bdac42dd24afce3\"}"
+        },
+        "stale_revision": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-table\", \"case_run_id\": \"cec3ace4-b701-4a28-b531-96a76319ced5\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-table/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"fdb85e78b20cbf8d79eea73e6a3dfdd93d0737515c81a4455bdac42dd24afce3\"}"
+        },
+        "alarm_chain_blocked": {
+          "status": "pending",
+          "evidence": "{\"case_id\": \"k3e-table\", \"case_run_id\": \"cec3ace4-b701-4a28-b531-96a76319ced5\", \"json_pointer\": \"/calls\", \"path\": \"cases/k3e-table/observation.json\", \"reason\": \"Control not exercised\", \"scorer_rule_version\": \"knowledge-observation-scorer-v1\", \"sha256\": \"fdb85e78b20cbf8d79eea73e6a3dfdd93d0737515c81a4455bdac42dd24afce3\"}"
+        }
+      },
+      "errors": [],
+      "latency_ms": 5.049,
+      "cost_usd": null,
+      "total_tokens": null,
+      "legacy_issue_set": null
+    }
+  ]
+}

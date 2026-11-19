@@ -1,0 +1,53 @@
+{
+  "schema_version": "dynamic-registration-v1",
+  "data_origin": "SYNTHETIC",
+  "tenant_id": "synthetic-demo",
+  "service_id": "permit",
+  "config_version": "v1",
+  "state": "registered",
+  "connection": {
+    "transport": "stdio",
+    "executable_ref": "synthetic-reference-server",
+    "argv": [
+      "--scenario",
+      "permit"
+    ],
+    "credential_ref": "fake-credential-ref"
+  },
+  "factories": [
+    {
+      "factory_id": "F001",
+      "aliases": [
+        "一厂",
+        "1工厂"
+      ]
+    },
+    {
+      "factory_id": "F002",
+      "aliases": [
+        "二厂",
+        "2工厂"
+      ]
+    }
+  ],
+  "bindings": [
+    {
+      "capability": "permit.ticket.query",
+      "contract_version": "1",
+      "tool_name": "permit_ticket_query",
+      "factory_ids": [
+        "F001",
+        "F002"
+      ]
+    },
+    {
+      "capability": "permit.overlap.query",
+      "contract_version": "1",
+      "tool_name": "permit_overlap_query",
+      "factory_ids": [
+        "F001",
+        "F002"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,217 @@
+{
+  "schema_version": "enterprise-observation-v1",
+  "eval_run_id": "123a7fc5-343f-48f6-9aad-629ed41f2138",
+  "case_run_id": "8f08064c-fc81-41bb-b061-6a3ac7611d0c",
+  "case_id": "e2a-fact-bad-citation",
+  "family": "fact_loop",
+  "manifest_sha256": "e2d76bb7ed1371e4dc5321e21993bbb4cdc2cc1d5f811141b13c64bf1ca5a29a",
+  "input_sha256": "e5e1e213a8f2368ccf6d6a0910cda09aa09879345824ebc6733ef61d31cc7968",
+  "input_content_sha256": "05490d464b1d3a251719932d04c1065e402c67cc1a09ff1c6eb3a59b13226873",
+  "inputs": {
+    "scenario": {
+      "case_id": "e2a-fact-bad-citation",
+      "family": "fact_loop",
+      "slice": "fact-bad-citation",
+      "severity": "critical",
+      "effective_at": "2026-09-20T12:00:00Z",
+      "checked_at": "2026-09-20T12:00:00Z"
+    },
+    "materials": {
+      "work_location_description": "SYNTHETIC 北侧实训平台2号台",
+      "work_object_description": "SYNTHETIC 管段P-02支架",
+      "work_method_description": "SYNTHETIC 手工电弧焊连接支架",
+      "attachment_description": "SYNTHETIC 支架定位示意图"
+    },
+    "references": {
+      "worker_id": "worker-001",
+      "qualification_type": "welding",
+      "area_id": "area-001"
+    },
+    "actor": "synthetic-owner"
+  },
+  "loop_run_id": "db058456-4719-452a-9ca2-7f395ea3df62",
+  "native": {
+    "schema_version": "fact-agent-evidence-v1",
+    "data_origin": "SYNTHETIC",
+    "mode": "scripted_double",
+    "task_id": "951d46ff-dd6a-4c01-8044-ee3dedef8034",
+    "correlation_id": "dcaa3d92-5ca2-460d-b4a1-8475b84480bd",
+    "revision": 1,
+    "source_run_id": "ff6326fc-62c7-40f1-a0e9-bbb73746ad9a",
+    "source_material_status": "awaiting_review",
+    "run_id": "db058456-4719-452a-9ca2-7f395ea3df62",
+    "status": "awaiting_review",
+    "results": [
+      {
+        "data_origin": "SYNTHETIC",
+        "tool": "query_worker_qualification",
+        "object_id": "worker-001",
+        "queried_at": "2026-09-20T12:00:00Z",
+        "outcome": "ok",
+        "reason": null,
+        "source": {
+          "resource": "qualifications.json",
+          "version": "qualifications-v1",
+          "sha256": "7d0677c99b67a49d3692329dc028e6a9a9a8358ff571f780ac34927b641cc8d9",
+          "record_id": "qualification-worker-001",
+          "observed_at": "2026-09-20T00:00:00Z",
+          "valid_from": "2026-01-01T00:00:00Z",
+          "valid_until": "2027-01-01T00:00:00Z"
+        },
+        "facts": {
+          "status": "active",
+          "qualification_type": "welding"
+        },
+        "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+        "elapsed_ms": 3.29,
+        "executed": true,
+        "evidence_valid": true,
+        "call_id": "worker-call"
+      },
+      {
+        "data_origin": "SYNTHETIC",
+        "tool": "query_area_status",
+        "object_id": "area-001",
+        "queried_at": "2026-09-20T12:00:00Z",
+        "outcome": "ok",
+        "reason": null,
+        "source": {
+          "resource": "areas.json",
+          "version": "areas-v1",
+          "sha256": "0c428010228391b635a7ea4ebd32d874b01b6fb1242ee6cd1e582267f21b2e21",
+          "record_id": "observation-area-001",
+          "observed_at": "2026-09-20T00:00:00Z",
+          "valid_from": "2026-09-20T00:00:00Z",
+          "valid_until": "2026-09-21T00:00:00Z"
+        },
+        "facts": {
+          "status": "restricted"
+        },
+        "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+        "elapsed_ms": 4.02,
+        "executed": true,
+        "evidence_valid": true,
+        "call_id": "area-call"
+      }
+    ],
+    "model_steps": 2,
+    "tool_calls": 2,
+    "model_attempts": [
+      {
+        "step": 1,
+        "attempt_id": null,
+        "error": null,
+        "usage": null
+      },
+      {
+        "step": 2,
+        "attempt_id": null,
+        "error": null,
+        "usage": null
+      }
+    ],
+    "requests_this_run": 0,
+    "summary": null,
+    "summary_status": "not_available",
+    "stop_reason": "unsupported_citation",
+    "trace_warning": null,
+    "limits": {
+      "max_model_steps": 3,
+      "max_tool_calls": 4,
+      "timeout_seconds": 75
+    },
+    "notice": "合成事实与模型候选分别呈现，需人工复核；不是作业批准或合规结论。",
+    "elapsed_ms": 9.33
+  },
+  "exception": null,
+  "counts": {
+    "model": 2,
+    "handler": 2,
+    "reader": 4
+  },
+  "calls": [
+    {
+      "kind": "native_api",
+      "name": "check_facts_agent"
+    },
+    {
+      "kind": "scripted_turn",
+      "run_id": "db058456-4719-452a-9ca2-7f395ea3df62",
+      "turn": {
+        "calls": [
+          {
+            "id": "worker-call",
+            "name": "query_worker_qualification",
+            "arguments": "{\"worker_id\": \"worker-001\", \"qualification_type\": \"welding\"}"
+          },
+          {
+            "id": "area-call",
+            "name": "query_area_status",
+            "arguments": "{\"area_id\": \"area-001\"}"
+          }
+        ],
+        "final": null,
+        "usage": null,
+        "attempt_id": null
+      }
+    },
+    {
+      "kind": "handler",
+      "tool": "query_worker_qualification"
+    },
+    {
+      "kind": "reader",
+      "file": "access.json"
+    },
+    {
+      "kind": "reader",
+      "file": "qualifications.json"
+    },
+    {
+      "kind": "handler",
+      "tool": "query_area_status"
+    },
+    {
+      "kind": "reader",
+      "file": "access.json"
+    },
+    {
+      "kind": "reader",
+      "file": "areas.json"
+    },
+    {
+      "kind": "scripted_turn",
+      "run_id": "db058456-4719-452a-9ca2-7f395ea3df62",
+      "turn": {
+        "calls": [],
+        "final": {
+          "summary": "SYNTHETIC 不支持引用刺激，非发布输出",
+          "evidence_call_ids": [
+            "invented-call"
+          ],
+          "knowledge_citations": []
+        },
+        "usage": null,
+        "attempt_id": null
+      }
+    },
+    {
+      "kind": "state_integrity",
+      "source_run_id": "ff6326fc-62c7-40f1-a0e9-bbb73746ad9a",
+      "task_id": "951d46ff-dd6a-4c01-8044-ee3dedef8034",
+      "correlation_id": "dcaa3d92-5ca2-460d-b4a1-8475b84480bd",
+      "revision": 1,
+      "before_sha256": "57d9a398b79a1ba2c26e0870363c45a0d0ac35e27d9be638671ad804f35bd543",
+      "after_sha256": "57d9a398b79a1ba2c26e0870363c45a0d0ac35e27d9be638671ad804f35bd543",
+      "history_before": 1,
+      "history_after": 1
+    }
+  ],
+  "diagnostics": {
+    "state_unchanged": true,
+    "history_unchanged": true,
+    "binding_consistent": true
+  },
+  "runner_errors": [],
+  "elapsed_ms": 26.378
+}

@@ -1,0 +1,214 @@
+{
+  "schema_version": "enterprise-observation-v1",
+  "eval_run_id": "123a7fc5-343f-48f6-9aad-629ed41f2138",
+  "case_run_id": "00c0ba22-a58d-414d-a0c3-6542924e2cff",
+  "case_id": "e2a-fact-tool-error",
+  "family": "fact_loop",
+  "manifest_sha256": "e2d76bb7ed1371e4dc5321e21993bbb4cdc2cc1d5f811141b13c64bf1ca5a29a",
+  "input_sha256": "8d0e1d52315658e88d2802d90a547debc0c3f51d51bde3aa2a99b78c5744f443",
+  "input_content_sha256": "f98cfb9fab0d24afe0f148bdc465bf2d3296a0e758e45cc77295c374c9bafbae",
+  "inputs": {
+    "scenario": {
+      "case_id": "e2a-fact-tool-error",
+      "family": "fact_loop",
+      "slice": "fact-tool-error",
+      "severity": "critical",
+      "effective_at": "2026-09-20T12:00:00Z",
+      "checked_at": "2026-09-20T12:00:00Z"
+    },
+    "materials": {
+      "work_location_description": "SYNTHETIC 北侧实训平台2号台",
+      "work_object_description": "SYNTHETIC 管段P-02支架",
+      "work_method_description": "SYNTHETIC 手工电弧焊连接支架",
+      "attachment_description": "SYNTHETIC 支架定位示意图"
+    },
+    "references": {
+      "worker_id": "worker-001",
+      "qualification_type": "welding",
+      "area_id": "area-001"
+    },
+    "actor": "synthetic-owner"
+  },
+  "loop_run_id": "1c7e5d2c-84d9-4107-8445-ee309f572531",
+  "native": {
+    "schema_version": "fact-agent-evidence-v1",
+    "data_origin": "SYNTHETIC",
+    "mode": "scripted_double",
+    "task_id": "de48a7b5-ca7d-4cdb-a9f3-1620f1f2d7a1",
+    "correlation_id": "c4e0478d-d1eb-445f-b1cb-5ccb606e06e6",
+    "revision": 1,
+    "source_run_id": "82cdccc5-6ef1-4a36-9ab8-f0d2fc48b181",
+    "source_material_status": "awaiting_review",
+    "run_id": "1c7e5d2c-84d9-4107-8445-ee309f572531",
+    "status": "awaiting_review",
+    "results": [
+      {
+        "data_origin": "SYNTHETIC",
+        "tool": "query_worker_qualification",
+        "object_id": "worker-001",
+        "queried_at": "2026-09-20T12:00:00Z",
+        "outcome": "error",
+        "reason": "data_error",
+        "source": null,
+        "facts": null,
+        "message": "合成来源无法读取或不符合数据合同，当前事实未知。",
+        "elapsed_ms": 2.26,
+        "executed": true,
+        "evidence_valid": true,
+        "call_id": "worker-call"
+      },
+      {
+        "data_origin": "SYNTHETIC",
+        "tool": "query_area_status",
+        "object_id": "area-001",
+        "queried_at": "2026-09-20T12:00:00Z",
+        "outcome": "ok",
+        "reason": null,
+        "source": {
+          "resource": "areas.json",
+          "version": "areas-v1",
+          "sha256": "0c428010228391b635a7ea4ebd32d874b01b6fb1242ee6cd1e582267f21b2e21",
+          "record_id": "observation-area-001",
+          "observed_at": "2026-09-20T00:00:00Z",
+          "valid_from": "2026-09-20T00:00:00Z",
+          "valid_until": "2026-09-21T00:00:00Z"
+        },
+        "facts": {
+          "status": "restricted"
+        },
+        "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+        "elapsed_ms": 4.08,
+        "executed": true,
+        "evidence_valid": true,
+        "call_id": "area-call"
+      }
+    ],
+    "model_steps": 2,
+    "tool_calls": 2,
+    "model_attempts": [
+      {
+        "step": 1,
+        "attempt_id": null,
+        "error": null,
+        "usage": null
+      },
+      {
+        "step": 2,
+        "attempt_id": null,
+        "error": null,
+        "usage": null
+      }
+    ],
+    "requests_this_run": 0,
+    "summary": {
+      "summary": "SYNTHETIC替身：请按工具事实/未知项人工复核，未执行模型推理。",
+      "evidence_call_ids": [
+        "worker-call",
+        "area-call"
+      ],
+      "knowledge_citations": []
+    },
+    "summary_status": "unverified_candidate",
+    "stop_reason": "completed",
+    "trace_warning": null,
+    "limits": {
+      "max_model_steps": 3,
+      "max_tool_calls": 4,
+      "timeout_seconds": 75
+    },
+    "notice": "合成事实与模型候选分别呈现，需人工复核；不是作业批准或合规结论。",
+    "elapsed_ms": 9.13
+  },
+  "exception": null,
+  "counts": {
+    "model": 2,
+    "handler": 2,
+    "reader": 4
+  },
+  "calls": [
+    {
+      "kind": "native_api",
+      "name": "check_facts_agent"
+    },
+    {
+      "kind": "scripted_turn",
+      "run_id": "1c7e5d2c-84d9-4107-8445-ee309f572531",
+      "turn": {
+        "calls": [
+          {
+            "id": "worker-call",
+            "name": "query_worker_qualification",
+            "arguments": "{\"worker_id\": \"worker-001\", \"qualification_type\": \"welding\"}"
+          },
+          {
+            "id": "area-call",
+            "name": "query_area_status",
+            "arguments": "{\"area_id\": \"area-001\"}"
+          }
+        ],
+        "final": null,
+        "usage": null,
+        "attempt_id": null
+      }
+    },
+    {
+      "kind": "handler",
+      "tool": "query_worker_qualification"
+    },
+    {
+      "kind": "reader",
+      "file": "access.json"
+    },
+    {
+      "kind": "reader",
+      "file": "qualifications.json"
+    },
+    {
+      "kind": "handler",
+      "tool": "query_area_status"
+    },
+    {
+      "kind": "reader",
+      "file": "access.json"
+    },
+    {
+      "kind": "reader",
+      "file": "areas.json"
+    },
+    {
+      "kind": "scripted_turn",
+      "run_id": "1c7e5d2c-84d9-4107-8445-ee309f572531",
+      "turn": {
+        "calls": [],
+        "final": {
+          "summary": "SYNTHETIC替身：请按工具事实/未知项人工复核，未执行模型推理。",
+          "evidence_call_ids": [
+            "worker-call",
+            "area-call"
+          ],
+          "knowledge_citations": []
+        },
+        "usage": null,
+        "attempt_id": null
+      }
+    },
+    {
+      "kind": "state_integrity",
+      "source_run_id": "82cdccc5-6ef1-4a36-9ab8-f0d2fc48b181",
+      "task_id": "de48a7b5-ca7d-4cdb-a9f3-1620f1f2d7a1",
+      "correlation_id": "c4e0478d-d1eb-445f-b1cb-5ccb606e06e6",
+      "revision": 1,
+      "before_sha256": "089debc6e1712e2d0c3becd5c77b0fd308f30fb14103046361dce529ee7310c6",
+      "after_sha256": "089debc6e1712e2d0c3becd5c77b0fd308f30fb14103046361dce529ee7310c6",
+      "history_before": 1,
+      "history_after": 1
+    }
+  ],
+  "diagnostics": {
+    "state_unchanged": true,
+    "history_unchanged": true,
+    "binding_consistent": true
+  },
+  "runner_errors": [],
+  "elapsed_ms": 27.696
+}

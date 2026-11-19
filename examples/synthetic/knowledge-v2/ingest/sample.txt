@@ -1,0 +1,3 @@
+SYNTHETIC TXT candidate only, not an operating procedure.
+
+SYNTHETIC 数值10与否定词不得修改，仅用于精确行定位测试。

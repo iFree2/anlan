@@ -1,0 +1,62 @@
+{
+  "schema_version": "dynamic-registration-v1",
+  "data_origin": "SYNTHETIC",
+  "tenant_id": "synthetic-demo",
+  "service_id": "contractor-person",
+  "config_version": "v1",
+  "state": "registered",
+  "connection": {
+    "transport": "stdio",
+    "executable_ref": "synthetic-reference-server",
+    "argv": [
+      "--scenario",
+      "contractor-person"
+    ],
+    "credential_ref": "fake-credential-ref"
+  },
+  "factories": [
+    {
+      "factory_id": "F001",
+      "aliases": [
+        "一厂",
+        "1工厂"
+      ]
+    },
+    {
+      "factory_id": "F002",
+      "aliases": [
+        "二厂",
+        "2工厂"
+      ]
+    }
+  ],
+  "bindings": [
+    {
+      "capability": "contractor.qualification.query",
+      "contract_version": "1",
+      "tool_name": "contractor_qualification_query",
+      "factory_ids": [
+        "F001",
+        "F002"
+      ]
+    },
+    {
+      "capability": "person.training.query",
+      "contract_version": "1",
+      "tool_name": "person_training_query",
+      "factory_ids": [
+        "F001",
+        "F002"
+      ]
+    },
+    {
+      "capability": "person.access.query",
+      "contract_version": "1",
+      "tool_name": "person_access_query",
+      "factory_ids": [
+        "F001",
+        "F002"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,225 @@
+{
+  "schema_version": "enterprise-observation-v1",
+  "eval_run_id": "123a7fc5-343f-48f6-9aad-629ed41f2138",
+  "case_run_id": "73d4be96-bdab-4bfa-a1f0-5afe0b9fc629",
+  "case_id": "e2a-fact-normal",
+  "family": "fact_loop",
+  "manifest_sha256": "e2d76bb7ed1371e4dc5321e21993bbb4cdc2cc1d5f811141b13c64bf1ca5a29a",
+  "input_sha256": "15382f9c8026bb44bf50e233918abed932f8e287de17391b8e30597d3d7efeeb",
+  "input_content_sha256": "aa91227adcd8d1052fe736fa732f9e96dc8e19a9cbc2acc913afc908e2e3b27f",
+  "inputs": {
+    "scenario": {
+      "case_id": "e2a-fact-normal",
+      "family": "fact_loop",
+      "slice": "fact-normal",
+      "severity": "critical",
+      "effective_at": "2026-09-20T12:00:00Z",
+      "checked_at": "2026-09-20T12:00:00Z"
+    },
+    "materials": {
+      "work_location_description": "SYNTHETIC 北侧实训平台2号台",
+      "work_object_description": "SYNTHETIC 管段P-02支架",
+      "work_method_description": "SYNTHETIC 手工电弧焊连接支架",
+      "attachment_description": "SYNTHETIC 支架定位示意图"
+    },
+    "references": {
+      "worker_id": "worker-001",
+      "qualification_type": "welding",
+      "area_id": "area-001"
+    },
+    "actor": "synthetic-owner"
+  },
+  "loop_run_id": "c117df70-7d5c-4da8-a054-69cf6ee8d113",
+  "native": {
+    "schema_version": "fact-agent-evidence-v1",
+    "data_origin": "SYNTHETIC",
+    "mode": "scripted_double",
+    "task_id": "4acfe418-65d0-4844-a434-3cace1287bb2",
+    "correlation_id": "d5ae2f28-913d-413c-8368-507af65e6f1c",
+    "revision": 1,
+    "source_run_id": "509eb193-36c7-45a4-b063-66e1bdf248a9",
+    "source_material_status": "awaiting_review",
+    "run_id": "c117df70-7d5c-4da8-a054-69cf6ee8d113",
+    "status": "awaiting_review",
+    "results": [
+      {
+        "data_origin": "SYNTHETIC",
+        "tool": "query_worker_qualification",
+        "object_id": "worker-001",
+        "queried_at": "2026-09-20T12:00:00Z",
+        "outcome": "ok",
+        "reason": null,
+        "source": {
+          "resource": "qualifications.json",
+          "version": "qualifications-v1",
+          "sha256": "7d0677c99b67a49d3692329dc028e6a9a9a8358ff571f780ac34927b641cc8d9",
+          "record_id": "qualification-worker-001",
+          "observed_at": "2026-09-20T00:00:00Z",
+          "valid_from": "2026-01-01T00:00:00Z",
+          "valid_until": "2027-01-01T00:00:00Z"
+        },
+        "facts": {
+          "status": "active",
+          "qualification_type": "welding"
+        },
+        "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+        "elapsed_ms": 4.04,
+        "executed": true,
+        "evidence_valid": true,
+        "call_id": "worker-call"
+      },
+      {
+        "data_origin": "SYNTHETIC",
+        "tool": "query_area_status",
+        "object_id": "area-001",
+        "queried_at": "2026-09-20T12:00:00Z",
+        "outcome": "ok",
+        "reason": null,
+        "source": {
+          "resource": "areas.json",
+          "version": "areas-v1",
+          "sha256": "0c428010228391b635a7ea4ebd32d874b01b6fb1242ee6cd1e582267f21b2e21",
+          "record_id": "observation-area-001",
+          "observed_at": "2026-09-20T00:00:00Z",
+          "valid_from": "2026-09-20T00:00:00Z",
+          "valid_until": "2026-09-21T00:00:00Z"
+        },
+        "facts": {
+          "status": "restricted"
+        },
+        "message": "已读取合成事实，仍需人工复核；不是作业批准。",
+        "elapsed_ms": 3.55,
+        "executed": true,
+        "evidence_valid": true,
+        "call_id": "area-call"
+      }
+    ],
+    "model_steps": 2,
+    "tool_calls": 2,
+    "model_attempts": [
+      {
+        "step": 1,
+        "attempt_id": null,
+        "error": null,
+        "usage": null
+      },
+      {
+        "step": 2,
+        "attempt_id": null,
+        "error": null,
+        "usage": null
+      }
+    ],
+    "requests_this_run": 0,
+    "summary": {
+      "summary": "SYNTHETIC替身：请按工具事实/未知项人工复核，未执行模型推理。",
+      "evidence_call_ids": [
+        "worker-call",
+        "area-call"
+      ],
+      "knowledge_citations": []
+    },
+    "summary_status": "unverified_candidate",
+    "stop_reason": "completed",
+    "trace_warning": null,
+    "limits": {
+      "max_model_steps": 3,
+      "max_tool_calls": 4,
+      "timeout_seconds": 75
+    },
+    "notice": "合成事实与模型候选分别呈现，需人工复核；不是作业批准或合规结论。",
+    "elapsed_ms": 10.67
+  },
+  "exception": null,
+  "counts": {
+    "model": 2,
+    "handler": 2,
+    "reader": 4
+  },
+  "calls": [
+    {
+      "kind": "native_api",
+      "name": "check_facts_agent"
+    },
+    {
+      "kind": "scripted_turn",
+      "run_id": "c117df70-7d5c-4da8-a054-69cf6ee8d113",
+      "turn": {
+        "calls": [
+          {
+            "id": "worker-call",
+            "name": "query_worker_qualification",
+            "arguments": "{\"worker_id\": \"worker-001\", \"qualification_type\": \"welding\"}"
+          },
+          {
+            "id": "area-call",
+            "name": "query_area_status",
+            "arguments": "{\"area_id\": \"area-001\"}"
+          }
+        ],
+        "final": null,
+        "usage": null,
+        "attempt_id": null
+      }
+    },
+    {
+      "kind": "handler",
+      "tool": "query_worker_qualification"
+    },
+    {
+      "kind": "reader",
+      "file": "access.json"
+    },
+    {
+      "kind": "reader",
+      "file": "qualifications.json"
+    },
+    {
+      "kind": "handler",
+      "tool": "query_area_status"
+    },
+    {
+      "kind": "reader",
+      "file": "access.json"
+    },
+    {
+      "kind": "reader",
+      "file": "areas.json"
+    },
+    {
+      "kind": "scripted_turn",
+      "run_id": "c117df70-7d5c-4da8-a054-69cf6ee8d113",
+      "turn": {
+        "calls": [],
+        "final": {
+          "summary": "SYNTHETIC替身：请按工具事实/未知项人工复核，未执行模型推理。",
+          "evidence_call_ids": [
+            "worker-call",
+            "area-call"
+          ],
+          "knowledge_citations": []
+        },
+        "usage": null,
+        "attempt_id": null
+      }
+    },
+    {
+      "kind": "state_integrity",
+      "source_run_id": "509eb193-36c7-45a4-b063-66e1bdf248a9",
+      "task_id": "4acfe418-65d0-4844-a434-3cace1287bb2",
+      "correlation_id": "d5ae2f28-913d-413c-8368-507af65e6f1c",
+      "revision": 1,
+      "before_sha256": "398aec93605677fee08221a9d5ae0a8506c419eb1d3adc51136815c0a38b5420",
+      "after_sha256": "398aec93605677fee08221a9d5ae0a8506c419eb1d3adc51136815c0a38b5420",
+      "history_before": 1,
+      "history_after": 1
+    }
+  ],
+  "diagnostics": {
+    "state_unchanged": true,
+    "history_unchanged": true,
+    "binding_consistent": true
+  },
+  "runner_errors": [],
+  "elapsed_ms": 40.982
+}

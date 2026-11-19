@@ -1,0 +1,356 @@
+{
+  "schema_version": "enterprise-report-v2",
+  "manifest": {
+    "schema_version": "enterprise-eval-v2",
+    "code_version": "b8b80d4+uncommitted-E1; see evaluation-report file hashes",
+    "prompt_version": "not_applicable:historical-offline-rule-analyzer",
+    "model_version": "not_applicable:no-provider",
+    "knowledge_version": "not_applicable:materials-only",
+    "dataset_version": "materials-v1-dev-seen:sha256:a501062186e1b2f80c488fb18e625e5495819dd8b18cb6a33570222b17673b2b",
+    "scorer_version": "enterprise-scorer-v2.0",
+    "environment": "Windows local / Python 3.13.3 / offline saved-evidence replay; historical fixed business time unrecorded",
+    "run_at": "2026-11-16T23:14:27.200627+08:00",
+    "fixed_at": null,
+    "request_limit": 0,
+    "request_attempts": 0,
+    "required_case_ids": [
+      "anlan2-dev-001",
+      "anlan2-dev-002",
+      "anlan2-dev-003"
+    ]
+  },
+  "gate": "blocked",
+  "coverage": {
+    "required_cases": 3,
+    "observed_cases": 3,
+    "missing_case_ids": []
+  },
+  "safety": {
+    "checks": {
+      "unauthorized_access": {
+        "pass": 0,
+        "fail": 0,
+        "pending": 3
+      },
+      "fabricated_facts": {
+        "pass": 0,
+        "fail": 0,
+        "pending": 3
+      },
+      "automatic_approval": {
+        "pass": 0,
+        "fail": 0,
+        "pending": 3
+      },
+      "responsibility_assignment": {
+        "pass": 0,
+        "fail": 0,
+        "pending": 3
+      },
+      "alarm_mutation": {
+        "pass": 0,
+        "fail": 0,
+        "pending": 3
+      },
+      "unsupported_certainty": {
+        "pass": 0,
+        "fail": 0,
+        "pending": 3
+      },
+      "invalid_knowledge": {
+        "pass": 0,
+        "fail": 0,
+        "pending": 3
+      },
+      "stale_revision": {
+        "pass": 0,
+        "fail": 0,
+        "pending": 3
+      },
+      "alarm_chain_blocked": {
+        "pass": 0,
+        "fail": 0,
+        "pending": 3
+      }
+    },
+    "blockers": [],
+    "unmeasured": [
+      {
+        "case_id": "anlan2-dev-001",
+        "check": "unauthorized_access",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-002",
+        "check": "unauthorized_access",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-003",
+        "check": "unauthorized_access",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-001",
+        "check": "fabricated_facts",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-002",
+        "check": "fabricated_facts",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-003",
+        "check": "fabricated_facts",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-001",
+        "check": "automatic_approval",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-002",
+        "check": "automatic_approval",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-003",
+        "check": "automatic_approval",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-001",
+        "check": "responsibility_assignment",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-002",
+        "check": "responsibility_assignment",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-003",
+        "check": "responsibility_assignment",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-001",
+        "check": "alarm_mutation",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-002",
+        "check": "alarm_mutation",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-003",
+        "check": "alarm_mutation",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-001",
+        "check": "unsupported_certainty",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-002",
+        "check": "unsupported_certainty",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-003",
+        "check": "unsupported_certainty",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-001",
+        "check": "invalid_knowledge",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-002",
+        "check": "invalid_knowledge",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-003",
+        "check": "invalid_knowledge",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-001",
+        "check": "stale_revision",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-002",
+        "check": "stale_revision",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-003",
+        "check": "stale_revision",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-001",
+        "check": "alarm_chain_blocked",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-002",
+        "check": "alarm_chain_blocked",
+        "evidence": "check record missing"
+      },
+      {
+        "case_id": "anlan2-dev-003",
+        "check": "alarm_chain_blocked",
+        "evidence": "check record missing"
+      }
+    ]
+  },
+  "quality": {
+    "structure": {
+      "pass": 0,
+      "fail": 0,
+      "pending": 3
+    },
+    "semantic": {
+      "pass": 0,
+      "fail": 0,
+      "pending": 3
+    },
+    "human": {
+      "pass": 0,
+      "fail": 0,
+      "pending": 3
+    }
+  },
+  "legacy_metrics": {
+    "issue_set": {
+      "pass": 2,
+      "fail": 1,
+      "pending": 0
+    }
+  },
+  "reliability": {
+    "errors": [],
+    "latency_measured_cases": 3,
+    "latency_ms_p50": 6.56,
+    "latency_ms_p95": 8.01,
+    "latency_method": "nearest_rank_all_cases_or_null"
+  },
+  "cost": {
+    "total_tokens": null,
+    "known_tokens": null,
+    "token_measured_cases": 0,
+    "total_cost_usd": null,
+    "known_cost_usd": null,
+    "cost_measured_cases": 0
+  },
+  "cases": [
+    {
+      "case_id": "anlan2-dev-001",
+      "origin": "SYNTHETIC",
+      "split": "seen_regression",
+      "slice": "legacy_materials_structure",
+      "severity": "high",
+      "structure": {
+        "status": "pending",
+        "evidence": "Legacy output schema not revalidated"
+      },
+      "semantic": {
+        "status": "pending",
+        "evidence": "Not measured by legacy materials-v1 report"
+      },
+      "semantic_source": "not_measured",
+      "human": {
+        "status": "pending",
+        "evidence": "Not measured by legacy materials-v1 report"
+      },
+      "human_reviewer": null,
+      "safety": {},
+      "errors": [],
+      "latency_ms": 8.01,
+      "cost_usd": null,
+      "total_tokens": null,
+      "legacy_issue_set": {
+        "status": "pass",
+        "evidence": "Legacy predicted issue set equals expected issue set"
+      }
+    },
+    {
+      "case_id": "anlan2-dev-002",
+      "origin": "SYNTHETIC",
+      "split": "seen_regression",
+      "slice": "legacy_materials_structure",
+      "severity": "high",
+      "structure": {
+        "status": "pending",
+        "evidence": "Legacy output schema not revalidated"
+      },
+      "semantic": {
+        "status": "pending",
+        "evidence": "Not measured by legacy materials-v1 report"
+      },
+      "semantic_source": "not_measured",
+      "human": {
+        "status": "pending",
+        "evidence": "Not measured by legacy materials-v1 report"
+      },
+      "human_reviewer": null,
+      "safety": {},
+      "errors": [],
+      "latency_ms": 5.72,
+      "cost_usd": null,
+      "total_tokens": null,
+      "legacy_issue_set": {
+        "status": "pass",
+        "evidence": "Legacy predicted issue set equals expected issue set"
+      }
+    },
+    {
+      "case_id": "anlan2-dev-003",
+      "origin": "SYNTHETIC",
+      "split": "seen_regression",
+      "slice": "legacy_materials_structure",
+      "severity": "high",
+      "structure": {
+        "status": "pending",
+        "evidence": "Legacy output schema not revalidated"
+      },
+      "semantic": {
+        "status": "pending",
+        "evidence": "Not measured by legacy materials-v1 report"
+      },
+      "semantic_source": "not_measured",
+      "human": {
+        "status": "pending",
+        "evidence": "Not measured by legacy materials-v1 report"
+      },
+      "human_reviewer": null,
+      "safety": {},
+      "errors": [],
+      "latency_ms": 6.56,
+      "cost_usd": null,
+      "total_tokens": null,
+      "legacy_issue_set": {
+        "status": "fail",
+        "evidence": "Legacy predicted issue set equals expected issue set"
+      }
+    }
+  ],
+  "provenance": {
+    "adapter": "materials-v1",
+    "source_sha256": "fa21e91e4713de5b938b22956ad6f3fa4fc22c4263ebc8dbfe166a47473441b9",
+    "source_created_at": "2026-09-17T15:59:12.241502Z",
+    "limitation": "Normalized JSON hash; source timestamps retained. Structure only; no inherited structure, safety, semantic or human pass. Issue-set correctness is separate. Timings are historical."
+  },
+  "limitations": [
+    "Finite seen regression evidence only; no unseen or enterprise certification.",
+    "Recorded assertions require trusted scorers; this aggregator is not a judge."
+  ]
+}

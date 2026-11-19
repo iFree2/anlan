@@ -1,0 +1,638 @@
+{
+  "schema_version": "knowledge-evaluation-observation-v1",
+  "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+  "case_run_id": "cec3ace4-b701-4a28-b531-96a76319ced5",
+  "case_id": "k3e-table",
+  "manifest_sha256": "e4325f7f807e06622822d3a2d2846be5b33ac8057a80e963826cd2afb20b5c6a",
+  "input_content_sha256": "0cf5f4fe5495882cd0a7c54d09c128ef9ebb1833a9ae0225abff0ceb9c9b5205",
+  "inputs": {
+    "case_id": "k3e-table",
+    "sources": [
+      {
+        "name": "table-ir.json",
+        "logical": "table",
+        "hex": "7b0d0a202022736368656d615f76657273696f6e223a20226b6e6f776c656467652e646f63756d656e742e7632222c0d0a202022646174615f6f726967696e223a202253594e544845544943222c0d0a20202274656e616e745f6964223a202274656e616e742d6576616c222c0d0a2020226c6f676963616c5f646f63756d656e745f6964223a20227461626c65222c0d0a202022646f63756d656e745f76657273696f6e5f6964223a20227461626c652d7631222c0d0a20202267656e65726174696f6e223a20312c0d0a2020227469746c65223a202253594e5448455449432073747275637475726564207461626c652066697874757265222c0d0a202022736f757263655f757269223a202273796e7468657469633a2f2f6576616c756174696f6e2f737472756374757265642d69722d6e6f742d776f726b626f6f6b222c0d0a202022736f757263655f666f726d6174223a2022786c7378222c0d0a202022736f757263655f736861323536223a202264653730303333386232636466333463626633363663303231323866366630633033646136626166323339333764656232303932613638643737356161363032222c0d0a2020226c696e65616765223a207b0d0a2020202022706172736572223a202273796e7468657469632d737472756374757265642d66697874757265222c0d0a20202020227061727365725f76657273696f6e223a202231222c0d0a2020202022636f6e6669675f736861323536223a202262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c0d0a20202020227472616e73666f726d6174696f6e73223a205b5d2c0d0a20202020227175616c697479223a2022756e7665726966696564220d0a20207d2c0d0a202022626c6f636b73223a205b0d0a202020207b0d0a20202020202022626c6f636b5f6964223a20227461626c65222c0d0a202020202020226b696e64223a20227461626c65222c0d0a202020202020226f72646572223a20302c0d0a20202020202022736f757263655f74657874223a202253594e544845544943206974656d30203130206974656d3120392e39206669787475726520666f6f746e6f7465222c0d0a2020202020202272657472696576616c5f74657874223a202253594e544845544943206c696d697473222c0d0a202020202020226c6f6361746f72223a207b0d0a2020202020202020226b696e64223a2022786c7378222c0d0a2020202020202020227368656574223a202253594e544845544943222c0d0a20202020202020202263656c6c5f72616e6765223a202241313a4234220d0a2020202020207d2c0d0a202020202020227461626c65223a207b0d0a20202020202020202268656164657273223a205b0d0a202020202020202020205b0d0a2020202020202020202020202253594e544845544943222c0d0a202020202020202020202020226c696d6974220d0a202020202020202020205d2c0d0a202020202020202020205b0d0a202020202020202020202020226e616d65222c0d0a2020202020202020202020202276616c7565220d0a202020202020202020205d0d0a20202020202020205d2c0d0a202020202020202022726f7773223a205b0d0a202020202020202020205b0d0a202020202020202020202020226974656d30222c0d0a202020202020202020202020223130220d0a202020202020202020205d2c0d0a202020202020202020205b0d0a202020202020202020202020226974656d31222c0d0a20202020202020202020202022392e39220d0a202020202020202020205d0d0a20202020202020205d2c0d0a202020202020202022756e697473223a205b0d0a2020202020202020202022222c0d0a20202020202020202020226d220d0a20202020202020205d2c0d0a202020202020202022666f6f746e6f746573223a205b0d0a202020202020202020202253594e544845544943206669787475726520666f6f746e6f7465220d0a20202020202020205d0d0a2020202020207d0d0a202020207d0d0a20205d0d0a7d",
+        "sha256": "c86ae7db2203190ba6039df6c53d7211c040fe72b930b10b0c2925289ad1540e"
+      }
+    ],
+    "initial_governance": {
+      "table": [
+        {
+          "tenant_id": "tenant-eval",
+          "logical_document_id": "table",
+          "revision": 1,
+          "updated_at": "2026-11-17T00:00:00Z",
+          "allowed_users": [
+            "reader"
+          ],
+          "scope": [
+            "synthetic-plant"
+          ]
+        },
+        {
+          "tenant_id": "tenant-eval",
+          "logical_document_id": "table",
+          "revision": 1,
+          "updated_at": "2026-11-17T00:00:00Z",
+          "withdrawn": false,
+          "withdrawn_versions": []
+        },
+        {
+          "tenant_id": "tenant-eval",
+          "logical_document_id": "table",
+          "schema_version": "knowledge.release.v2",
+          "generation": 1,
+          "document_version_id": "table-v1",
+          "source_sha256": "de700338b2cdf34cbf366c02128f6f0c03da6baf23937deb2092a68d775aa602",
+          "ir_sha256": "7d6a055def95c4743f201bfc0e6d98408c8666581793890f81e8c1a32eb6a7e7",
+          "review_status": "approved",
+          "reviewer": "SYNTHETIC-evaluation-fixture",
+          "published_at": "2026-11-16T00:00:00Z",
+          "valid_from": "2026-11-16T00:00:00Z",
+          "valid_until": "2026-11-18T00:00:00Z",
+          "scope": [
+            "synthetic-plant"
+          ]
+        }
+      ]
+    }
+  },
+  "drafts": [],
+  "documents": [
+    {
+      "schema_version": "knowledge.document.v2",
+      "data_origin": "SYNTHETIC",
+      "tenant_id": "tenant-eval",
+      "logical_document_id": "table",
+      "document_version_id": "table-v1",
+      "generation": 1,
+      "title": "SYNTHETIC structured table fixture",
+      "source_uri": "synthetic://evaluation/structured-ir-not-workbook",
+      "source_format": "xlsx",
+      "source_sha256": "de700338b2cdf34cbf366c02128f6f0c03da6baf23937deb2092a68d775aa602",
+      "lineage": {
+        "parser": "synthetic-structured-fixture",
+        "parser_version": "1",
+        "config_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "transformations": [],
+        "quality": "unverified"
+      },
+      "blocks": [
+        {
+          "block_id": "table",
+          "kind": "table",
+          "order": 0,
+          "parent_id": null,
+          "dependencies": [],
+          "source_text": "SYNTHETIC item0 10 item1 9.9 fixture footnote",
+          "retrieval_text": "SYNTHETIC limits",
+          "locator": {
+            "kind": "xlsx",
+            "sheet": "SYNTHETIC",
+            "cell_range": "A1:B4"
+          },
+          "table": {
+            "headers": [
+              [
+                "SYNTHETIC",
+                "limit"
+              ],
+              [
+                "name",
+                "value"
+              ]
+            ],
+            "rows": [
+              [
+                "item0",
+                "10"
+              ],
+              [
+                "item1",
+                "9.9"
+              ]
+            ],
+            "units": [
+              "",
+              "m"
+            ],
+            "footnotes": [
+              "SYNTHETIC fixture footnote"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "calls": [
+    {
+      "operation": "query_table",
+      "request": {
+        "request_id": "cec3ace4-b701-4a28-b531-96a76319ced5-0",
+        "tenant_id": "tenant-eval",
+        "user_id": "reader",
+        "effective_at": "2026-11-17T00:00:00Z",
+        "scope": [
+          "synthetic-plant"
+        ]
+      },
+      "params": {
+        "selector": {
+          "logical_document_id": "table",
+          "document_version_id": "table-v1",
+          "generation": 1,
+          "block_id": "table"
+        },
+        "filters": [
+          {
+            "column": 1,
+            "op": "ge",
+            "value": "10",
+            "expected_unit": "m"
+          }
+        ],
+        "row_limit": 10
+      },
+      "packet": {
+        "schema_version": "knowledge.evidence.v2",
+        "operation": "query_table",
+        "request_id": "cec3ace4-b701-4a28-b531-96a76319ced5-0",
+        "requested_at": "2026-11-17T00:00:00Z",
+        "effective_at": "2026-11-17T00:00:00Z",
+        "finished_at": "2026-11-17T00:00:00Z",
+        "catalog_revision": "6958dcc9f62528a9d48e518fa8d61cffa4cfd1e0e11bd59b6dbac9bf496a5e32",
+        "processor_version": "knowledge-retrieval-k3a/1",
+        "tokenizer_version": "cjk-bigram-asciiword-v1",
+        "provider_versions": [],
+        "status": "evidence_found",
+        "coverage": "table_range",
+        "items": [
+          {
+            "key": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "table",
+              "document_version_id": "table-v1",
+              "generation": 1,
+              "block_id": "table"
+            },
+            "data_origin": "SYNTHETIC",
+            "reference_kind": "synthetic_reference",
+            "title": "SYNTHETIC structured table fixture",
+            "source_uri": "synthetic://evaluation/structured-ir-not-workbook",
+            "source_text": "SYNTHETIC item0 10 item1 9.9 fixture footnote",
+            "locator": {
+              "kind": "xlsx",
+              "sheet": "SYNTHETIC",
+              "cell_range": "A1:B4"
+            },
+            "source_sha256": "de700338b2cdf34cbf366c02128f6f0c03da6baf23937deb2092a68d775aa602",
+            "ir_sha256": "7d6a055def95c4743f201bfc0e6d98408c8666581793890f81e8c1a32eb6a7e7",
+            "generation": 1,
+            "lineage": {
+              "parser": "synthetic-structured-fixture",
+              "parser_version": "1",
+              "config_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "transformations": [],
+              "quality": "unverified"
+            },
+            "checked_at": "2026-11-17T00:00:00Z",
+            "release_fingerprint": "c5a2066ae30687eb9e8792d22fb6875b7fbfeea9a10a8e9630cbe8e0cf2be477",
+            "acl_revision": 1,
+            "withdrawal_revision": 1,
+            "dependency_state": "complete",
+            "required_keys": [],
+            "table": {
+              "headers": [
+                [
+                  "SYNTHETIC",
+                  "limit"
+                ],
+                [
+                  "name",
+                  "value"
+                ]
+              ],
+              "rows": [
+                [
+                  "item0",
+                  "10"
+                ],
+                [
+                  "item1",
+                  "9.9"
+                ]
+              ],
+              "units": [
+                "",
+                "m"
+              ],
+              "footnotes": [
+                "SYNTHETIC fixture footnote"
+              ]
+            }
+          }
+        ],
+        "table_rows": [
+          {
+            "table_key": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "table",
+              "document_version_id": "table-v1",
+              "generation": 1,
+              "block_id": "table"
+            },
+            "row_index": 0,
+            "cells": [
+              {
+                "value": "item0",
+                "locator": {
+                  "schema_version": "knowledge.table-cell.v1",
+                  "sheet": "SYNTHETIC",
+                  "cell": "A3",
+                  "data_row": 0,
+                  "column": 0,
+                  "derivation": "derived_from_reviewed_ir"
+                }
+              },
+              {
+                "value": "10",
+                "locator": {
+                  "schema_version": "knowledge.table-cell.v1",
+                  "sheet": "SYNTHETIC",
+                  "cell": "B3",
+                  "data_row": 0,
+                  "column": 1,
+                  "derivation": "derived_from_reviewed_ir"
+                }
+              }
+            ]
+          }
+        ],
+        "issues": [],
+        "audit": [
+          {
+            "stage": "governance",
+            "decision_code": "allowed",
+            "key_digest": null
+          },
+          {
+            "stage": "governance",
+            "decision_code": "allowed",
+            "key_digest": null
+          },
+          {
+            "stage": "projection",
+            "decision_code": "matched",
+            "key_digest": "d7804569534b31a91f98b4f81af4f6c7685f12918adc76dc0ed7e0403feee1a6"
+          },
+          {
+            "stage": "governance",
+            "decision_code": "allowed",
+            "key_digest": null
+          }
+        ],
+        "audit_truncated": false,
+        "authority_reads": 3,
+        "projection_reads": 1,
+        "elapsed_ms": 2.455899986671284
+      }
+    }
+  ],
+  "events": [
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": null,
+      "seq": 0,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "cec3ace4-b701-4a28-b531-96a76319ced5",
+      "case_id": "k3e-table",
+      "kind": "case_started",
+      "data": {
+        "case_id": "k3e-table"
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "cec3ace4-b701-4a28-b531-96a76319ced5-0",
+      "seq": 1,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "cec3ace4-b701-4a28-b531-96a76319ced5",
+      "case_id": "k3e-table",
+      "kind": "api_started",
+      "data": {
+        "operation": "query_table",
+        "request": {
+          "request_id": "cec3ace4-b701-4a28-b531-96a76319ced5-0",
+          "tenant_id": "tenant-eval",
+          "user_id": "reader",
+          "effective_at": "2026-11-17T00:00:00Z",
+          "scope": [
+            "synthetic-plant"
+          ]
+        },
+        "params": {
+          "selector": {
+            "logical_document_id": "table",
+            "document_version_id": "table-v1",
+            "generation": 1,
+            "block_id": "table"
+          },
+          "filters": [
+            {
+              "column": 1,
+              "op": "ge",
+              "value": "10",
+              "expected_unit": "m"
+            }
+          ],
+          "row_limit": 10
+        }
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "cec3ace4-b701-4a28-b531-96a76319ced5-0",
+      "seq": 2,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "cec3ace4-b701-4a28-b531-96a76319ced5",
+      "case_id": "k3e-table",
+      "kind": "ledger_read",
+      "data": {
+        "tenant_id": "tenant-eval",
+        "logical_document_id": "table",
+        "checked_at": "2026-11-17T00:00:00+00:00",
+        "result": {
+          "schema_version": "knowledge.governance-read.v1",
+          "authority": {
+            "schema_version": "knowledge.authority.v2",
+            "checked_at": "2026-11-17T00:00:00Z",
+            "acl": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "table",
+              "revision": 1,
+              "updated_at": "2026-11-17T00:00:00Z",
+              "allowed_users": [
+                "reader"
+              ],
+              "scope": [
+                "synthetic-plant"
+              ]
+            },
+            "withdrawal": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "table",
+              "revision": 1,
+              "updated_at": "2026-11-17T00:00:00Z",
+              "withdrawn": false,
+              "withdrawn_versions": []
+            }
+          },
+          "manifest": {
+            "tenant_id": "tenant-eval",
+            "logical_document_id": "table",
+            "schema_version": "knowledge.release.v2",
+            "generation": 1,
+            "document_version_id": "table-v1",
+            "source_sha256": "de700338b2cdf34cbf366c02128f6f0c03da6baf23937deb2092a68d775aa602",
+            "ir_sha256": "7d6a055def95c4743f201bfc0e6d98408c8666581793890f81e8c1a32eb6a7e7",
+            "review_status": "approved",
+            "reviewer": "SYNTHETIC-evaluation-fixture",
+            "published_at": "2026-11-16T00:00:00Z",
+            "valid_from": "2026-11-16T00:00:00Z",
+            "valid_until": "2026-11-18T00:00:00Z",
+            "scope": [
+              "synthetic-plant"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "cec3ace4-b701-4a28-b531-96a76319ced5-0",
+      "seq": 3,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "cec3ace4-b701-4a28-b531-96a76319ced5",
+      "case_id": "k3e-table",
+      "kind": "resolver_started",
+      "data": {
+        "key": {
+          "tenant_id": "tenant-eval",
+          "logical_document_id": "table",
+          "document_version_id": "table-v1",
+          "generation": 1,
+          "block_id": "table"
+        }
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "cec3ace4-b701-4a28-b531-96a76319ced5-0",
+      "seq": 4,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "cec3ace4-b701-4a28-b531-96a76319ced5",
+      "case_id": "k3e-table",
+      "kind": "resolver_finished",
+      "data": {
+        "key": {
+          "tenant_id": "tenant-eval",
+          "logical_document_id": "table",
+          "document_version_id": "table-v1",
+          "generation": 1,
+          "block_id": "table"
+        },
+        "block": {
+          "block_id": "table",
+          "kind": "table",
+          "order": 0,
+          "parent_id": null,
+          "dependencies": [],
+          "source_text": "SYNTHETIC item0 10 item1 9.9 fixture footnote",
+          "retrieval_text": "SYNTHETIC limits",
+          "locator": {
+            "kind": "xlsx",
+            "sheet": "SYNTHETIC",
+            "cell_range": "A1:B4"
+          },
+          "table": {
+            "headers": [
+              [
+                "SYNTHETIC",
+                "limit"
+              ],
+              [
+                "name",
+                "value"
+              ]
+            ],
+            "rows": [
+              [
+                "item0",
+                "10"
+              ],
+              [
+                "item1",
+                "9.9"
+              ]
+            ],
+            "units": [
+              "",
+              "m"
+            ],
+            "footnotes": [
+              "SYNTHETIC fixture footnote"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "cec3ace4-b701-4a28-b531-96a76319ced5-0",
+      "seq": 5,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "cec3ace4-b701-4a28-b531-96a76319ced5",
+      "case_id": "k3e-table",
+      "kind": "ledger_read",
+      "data": {
+        "tenant_id": "tenant-eval",
+        "logical_document_id": "table",
+        "checked_at": "2026-11-17T00:00:00+00:00",
+        "result": {
+          "schema_version": "knowledge.governance-read.v1",
+          "authority": {
+            "schema_version": "knowledge.authority.v2",
+            "checked_at": "2026-11-17T00:00:00Z",
+            "acl": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "table",
+              "revision": 1,
+              "updated_at": "2026-11-17T00:00:00Z",
+              "allowed_users": [
+                "reader"
+              ],
+              "scope": [
+                "synthetic-plant"
+              ]
+            },
+            "withdrawal": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "table",
+              "revision": 1,
+              "updated_at": "2026-11-17T00:00:00Z",
+              "withdrawn": false,
+              "withdrawn_versions": []
+            }
+          },
+          "manifest": {
+            "tenant_id": "tenant-eval",
+            "logical_document_id": "table",
+            "schema_version": "knowledge.release.v2",
+            "generation": 1,
+            "document_version_id": "table-v1",
+            "source_sha256": "de700338b2cdf34cbf366c02128f6f0c03da6baf23937deb2092a68d775aa602",
+            "ir_sha256": "7d6a055def95c4743f201bfc0e6d98408c8666581793890f81e8c1a32eb6a7e7",
+            "review_status": "approved",
+            "reviewer": "SYNTHETIC-evaluation-fixture",
+            "published_at": "2026-11-16T00:00:00Z",
+            "valid_from": "2026-11-16T00:00:00Z",
+            "valid_until": "2026-11-18T00:00:00Z",
+            "scope": [
+              "synthetic-plant"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "cec3ace4-b701-4a28-b531-96a76319ced5-0",
+      "seq": 6,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "cec3ace4-b701-4a28-b531-96a76319ced5",
+      "case_id": "k3e-table",
+      "kind": "ledger_read",
+      "data": {
+        "tenant_id": "tenant-eval",
+        "logical_document_id": "table",
+        "checked_at": "2026-11-17T00:00:00+00:00",
+        "result": {
+          "schema_version": "knowledge.governance-read.v1",
+          "authority": {
+            "schema_version": "knowledge.authority.v2",
+            "checked_at": "2026-11-17T00:00:00Z",
+            "acl": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "table",
+              "revision": 1,
+              "updated_at": "2026-11-17T00:00:00Z",
+              "allowed_users": [
+                "reader"
+              ],
+              "scope": [
+                "synthetic-plant"
+              ]
+            },
+            "withdrawal": {
+              "tenant_id": "tenant-eval",
+              "logical_document_id": "table",
+              "revision": 1,
+              "updated_at": "2026-11-17T00:00:00Z",
+              "withdrawn": false,
+              "withdrawn_versions": []
+            }
+          },
+          "manifest": {
+            "tenant_id": "tenant-eval",
+            "logical_document_id": "table",
+            "schema_version": "knowledge.release.v2",
+            "generation": 1,
+            "document_version_id": "table-v1",
+            "source_sha256": "de700338b2cdf34cbf366c02128f6f0c03da6baf23937deb2092a68d775aa602",
+            "ir_sha256": "7d6a055def95c4743f201bfc0e6d98408c8666581793890f81e8c1a32eb6a7e7",
+            "review_status": "approved",
+            "reviewer": "SYNTHETIC-evaluation-fixture",
+            "published_at": "2026-11-16T00:00:00Z",
+            "valid_from": "2026-11-16T00:00:00Z",
+            "valid_until": "2026-11-18T00:00:00Z",
+            "scope": [
+              "synthetic-plant"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": "cec3ace4-b701-4a28-b531-96a76319ced5-0",
+      "seq": 7,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "cec3ace4-b701-4a28-b531-96a76319ced5",
+      "case_id": "k3e-table",
+      "kind": "api_finished",
+      "data": {
+        "operation": "query_table",
+        "request_id": "cec3ace4-b701-4a28-b531-96a76319ced5-0",
+        "packet_sha256": "c70807994f1533ee8862e0d74f855cf55561f7bf2025f8eb609e46c33354ab52"
+      }
+    },
+    {
+      "producer": "evaluation_knowledge_runner",
+      "request_id": null,
+      "seq": 8,
+      "eval_run_id": "983a5a6f-2c66-430c-adbc-3e32f20e3865",
+      "case_run_id": "cec3ace4-b701-4a28-b531-96a76319ced5",
+      "case_id": "k3e-table",
+      "kind": "case_finished",
+      "data": {
+        "case_id": "k3e-table",
+        "errors": []
+      }
+    }
+  ],
+  "diagnostics": {
+    "inputs_unchanged": true
+  },
+  "errors": [],
+  "elapsed_ms": 5.049
+}

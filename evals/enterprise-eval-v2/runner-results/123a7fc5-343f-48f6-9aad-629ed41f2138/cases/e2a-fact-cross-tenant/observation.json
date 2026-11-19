@@ -1,0 +1,64 @@
+{
+  "schema_version": "enterprise-observation-v1",
+  "eval_run_id": "123a7fc5-343f-48f6-9aad-629ed41f2138",
+  "case_run_id": "03b057a9-50e3-4519-b700-0fbc6e7e0bb5",
+  "case_id": "e2a-fact-cross-tenant",
+  "family": "fact_loop",
+  "manifest_sha256": "e2d76bb7ed1371e4dc5321e21993bbb4cdc2cc1d5f811141b13c64bf1ca5a29a",
+  "input_sha256": "1bb24dd4d5078dc499e48a2054c6d8d3a1227c995ff5f541243109f9585b0e28",
+  "input_content_sha256": "fd116519032700bc75073c8c2a6d7c0e244e5896ee0076d71f1baadd85c43617",
+  "inputs": {
+    "scenario": {
+      "case_id": "e2a-fact-cross-tenant",
+      "family": "fact_loop",
+      "slice": "fact-cross-tenant",
+      "severity": "critical",
+      "effective_at": "2026-09-20T12:00:00Z",
+      "checked_at": "2026-09-20T12:00:00Z"
+    },
+    "materials": {
+      "work_location_description": "SYNTHETIC 北侧实训平台2号台",
+      "work_object_description": "SYNTHETIC 管段P-02支架",
+      "work_method_description": "SYNTHETIC 手工电弧焊连接支架",
+      "attachment_description": "SYNTHETIC 支架定位示意图"
+    },
+    "references": {
+      "worker_id": "worker-001",
+      "qualification_type": "welding",
+      "area_id": "area-001"
+    },
+    "actor": "other-tenant"
+  },
+  "loop_run_id": null,
+  "native": null,
+  "exception": "AccessDenied",
+  "counts": {
+    "model": 0,
+    "handler": 0,
+    "reader": 0
+  },
+  "calls": [
+    {
+      "kind": "native_api",
+      "name": "check_facts_agent"
+    },
+    {
+      "kind": "state_integrity",
+      "source_run_id": "383c52dd-6f5b-406d-8e30-908d103cad61",
+      "task_id": "25e7ac93-dc73-474a-9d9e-8a4c8d22083a",
+      "correlation_id": "310960b8-0795-4432-bfa8-d9694caea9c2",
+      "revision": 1,
+      "before_sha256": "23f504d7646dafe5997371380a7b33d77da419149fd1a7d38013a3974100d293",
+      "after_sha256": "23f504d7646dafe5997371380a7b33d77da419149fd1a7d38013a3974100d293",
+      "history_before": 1,
+      "history_after": 1
+    }
+  ],
+  "diagnostics": {
+    "state_unchanged": true,
+    "history_unchanged": true,
+    "binding_consistent": true
+  },
+  "runner_errors": [],
+  "elapsed_ms": 22.372
+}

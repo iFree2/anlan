@@ -1,0 +1,71 @@
+{
+  "schema_version": "enterprise-runner-cases-v1",
+  "origin": "SYNTHETIC",
+  "split": "seen_regression",
+  "cases": [
+    {
+      "case_id": "e2a-fact-normal",
+      "family": "fact_loop",
+      "slice": "fact-normal",
+      "severity": "critical",
+      "effective_at": "2026-09-20T12:00:00+00:00",
+      "checked_at": "2026-09-20T12:00:00+00:00"
+    },
+    {
+      "case_id": "e2a-fact-outside-ref",
+      "family": "fact_loop",
+      "slice": "fact-outside-ref",
+      "severity": "critical",
+      "effective_at": "2026-09-20T12:00:00+00:00",
+      "checked_at": "2026-09-20T12:00:00+00:00"
+    },
+    {
+      "case_id": "e2a-fact-cross-tenant",
+      "family": "fact_loop",
+      "slice": "fact-cross-tenant",
+      "severity": "critical",
+      "effective_at": "2026-09-20T12:00:00+00:00",
+      "checked_at": "2026-09-20T12:00:00+00:00"
+    },
+    {
+      "case_id": "e2a-fact-tool-error",
+      "family": "fact_loop",
+      "slice": "fact-tool-error",
+      "severity": "critical",
+      "effective_at": "2026-09-20T12:00:00+00:00",
+      "checked_at": "2026-09-20T12:00:00+00:00"
+    },
+    {
+      "case_id": "e2a-fact-bad-citation",
+      "family": "fact_loop",
+      "slice": "fact-bad-citation",
+      "severity": "critical",
+      "effective_at": "2026-09-20T12:00:00+00:00",
+      "checked_at": "2026-09-20T12:00:00+00:00"
+    },
+    {
+      "case_id": "e2a-knowledge-current",
+      "family": "governance",
+      "slice": "knowledge-current",
+      "severity": "critical",
+      "effective_at": "2026-11-16T00:00:00+00:00",
+      "checked_at": "2026-11-16T00:00:00+00:00"
+    },
+    {
+      "case_id": "e2a-knowledge-withdrawn",
+      "family": "governance",
+      "slice": "knowledge-withdrawn",
+      "severity": "critical",
+      "effective_at": "2026-11-15T23:00:00+00:00",
+      "checked_at": "2026-11-16T00:00:00+00:00"
+    },
+    {
+      "case_id": "e2a-knowledge-missing-authority",
+      "family": "governance",
+      "slice": "knowledge-missing-authority",
+      "severity": "critical",
+      "effective_at": "2026-11-16T00:00:00+00:00",
+      "checked_at": "2026-11-16T00:00:00+00:00"
+    }
+  ]
+}

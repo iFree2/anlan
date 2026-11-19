@@ -1,0 +1,22 @@
+{
+  "scenario": {
+    "case_id": "e2a-fact-bad-citation",
+    "family": "fact_loop",
+    "slice": "fact-bad-citation",
+    "severity": "critical",
+    "effective_at": "2026-09-20T12:00:00Z",
+    "checked_at": "2026-09-20T12:00:00Z"
+  },
+  "materials": {
+    "work_location_description": "SYNTHETIC 北侧实训平台2号台",
+    "work_object_description": "SYNTHETIC 管段P-02支架",
+    "work_method_description": "SYNTHETIC 手工电弧焊连接支架",
+    "attachment_description": "SYNTHETIC 支架定位示意图"
+  },
+  "references": {
+    "worker_id": "worker-001",
+    "qualification_type": "welding",
+    "area_id": "area-001"
+  },
+  "actor": "synthetic-owner"
+}
