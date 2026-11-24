@@ -1,3 +1,12 @@
 # Evidence fixtures are raw byte inputs; preserve CRLF/LF and source hashes.
+/evals/enterprise-eval-v2/runner-v1/**/*.json -text
 /evals/enterprise-eval-v2/knowledge-runner-v1/*.txt -text
 /examples/synthetic/knowledge-v2/ingest/*.txt -text
+/evals/evaluate_enterprise.py -text
+/src/anlan/evaluation/contracts.py -text
+/src/anlan/evaluation/offline_fixtures.py -text
+/src/anlan/evaluation/report.py -text
+/src/anlan/evaluation/runner.py -text
+/src/anlan/evaluation/runner_contracts.py -text
+/src/anlan/evaluation/runner_verification.py -text
+/src/anlan/evaluation/scoring.py -text

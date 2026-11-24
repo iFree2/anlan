@@ -25,6 +25,14 @@
 - 用户改动：16路径32行译文、.idea和learning-log整文件保持unstaged；不恢复或整体stage工作树。旧项目只读。AI编写/运行不升级本人掌握：[能力矩阵](capability-matrix.md)、[学习记录](learning-log.md)、[P8学习五题](phases/phase-08-console/wp01-learning.md)。
 - 用户已要求把企业级评测优化方向写入仓库；新增[P9评测强化计划](phases/phase-09-enterprise-evaluation/plan.md)与[验收条件](phases/phase-09-enterprise-evaluation/acceptance.md)。2026-10-14另完成一个真实DeepSeek单案例评测，用于讲解数据→调用→自动评分→人工复核，不计作P9工作包或模型可靠性证明；新数据集、人工金标和统一评分器仍未实施。推荐首包为P9-WP01评测合同与统一报告。原自动化2-0已删除，长期授权不等于无限扩栈或无限付费。
 
+- 2026-10-15 用户确认新增[P10企业动态MCP接入计划](phases/phase-10-dynamic-mcp/plan.md)与[验收条件](phases/phase-10-dynamic-mcp/acceptance.md)：设备查询、承包商人员核查、作业票查询；动态注册/发现/调用、企业厂区别名与来源选择、同类MCP冲突处理及企业业务合同。状态为仅规划、待实施；用户明确“先不实现”，不得按历史持续执行约定启动本阶段编码、注册、部署或真实模型调用。P9仍保持独立待实施，未因此完成或替换。
+
 - 2026-10-21 P11对话入口已完成本地 scripted 有限工程验收：对话 + 任务侧栏、二次确认、受控补充/新建/切换、PG幂等/恢复及事件/核查可达已验。49个SYNTHETIC路由案例全部已见，修复前38/49、修复后40/49，不声称未见泛化或live质量。wheel离源码启动、重启后同会话/任务恢复已验；本地冻结学习账本前后46/100且P11-WP01零记录，不代表云端余额。本次0真实模型请求、未SSH/未部署，原DeepSeek线上版未发布本改造。见[P11验收](phases/phase-11-conversation/acceptance.md)与[Gate](phases/phase-11-conversation/evidence/gate-report.md)。
 
 冷启动：适用AGENTS → 本状态 → P8交接/部署与ADR014 → Git/index及最小必要smoke。云端服务保持运行；本地PG17/55432仅供offline学习和独立测试授权，系统PG10未动。管理凭据只在连接进程中使用，不打印、不提交；不要重复bootstrap/activate，不为证明完成重复付费实验。
+
+- 2026-11-16 用户启动优化1/2/3/4，覆盖P10历史“先不实现”。三个独立窗口按文件所有权推进；工具/MCP同窗口串行。首轮T1/M1、K1、E1已交付并由主窗口151项新增测试复验；二轮TXT摄取、离线原生评测运行器和动态注册设计/实施继续进行。完整集成Gate尚未通过，不代表企业RAG/P9/P10全部完成。详见[总计划](superpowers/plans/2026-11-16-engineering-evolution.md)与[包报告目录](phases/engineering-20261116)。无付费模型调用/部署，旧预算/令牌/业务安全边界保持；本人掌握不升级。
+
+- 2026-11-18 本轮有限工程增量完成A–I门禁：T1统一Registry/Policy/Executor及旧三工具迁移，知识v2 IR/治理/TXT/内存结构证据三API，统一评测与8+3真实离线场景，MCP注册/发现/启停及设备三能力受控SDK调用。最终连续1673 passed、0失败/错误/跳过，排除1 live、1第三方警告；Ruff、wheel187源码资源/154模块/23资源/9兼容命令和新CLI通过。309源码文件未变，16原dirty内容保留；无提交/部署/真实模型实验，本人掌握不升级。四项全阶段仍有真实语料、专家金标、多格式/持久化、人员/票据、普通对话装配等后续，见[最终交接](handoff/2026-11-18-engineering-evolution-final.md)与[本轮验收](phases/engineering-20261116/acceptance.md)。原失败和冷启动/清理限制保留，不以成功改写历史。
+
+- 2026-11-22 上述有限工程增量已整合业务问答基线并自动发布ECS：当前`/opt/anlan2/releases/engineering-20261119`，应用57c7c8b、发布9014962、wheel `9b8f72e5…`，PID4107178。发布前后旧行/账本146次模型尝试/配置/环境/systemd/三身份/迁移均保持，六类pending为0，本批0模型请求、零业务写入probe。SQL022/023未应用，未注册或启用MCP；只说明工程模块在线，不升级企业接入、模型效果或本人掌握。见[发布记录](deployments/2026-11-22-engineering.md)。

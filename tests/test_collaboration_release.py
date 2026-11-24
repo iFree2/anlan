@@ -377,7 +377,7 @@ const context = {renders:0, AbortController, clearTimeout(){},
     return elements.get(id);
   }}};
 vm.createContext(context);
-const source = fs.readFileSync(process.argv[2], 'utf8').replace(/^import .*\\n/, '');
+const source = fs.readFileSync(process.argv[2], 'utf8').replace(/^import .*\\r?\\n/, '');
 vm.runInContext(source + `
 state.snapshot = ${JSON.stringify(before)};
 renderSnapshot = () => {globalThis.renders++;};

@@ -1,0 +1,41 @@
+{
+  "schema_version": "anlan-dataset-manifest-v2.0",
+  "dataset_version": "safety-baseline-v2.0",
+  "rubric_version": "safety-rubric-v2.0",
+  "catalog_sha256": "05b135331398914c7853f0eca0bee2024f20519391ce3630a27daf9d3284c8d8",
+  "cases": [
+    {
+      "case_id": "ds2-qualification-boundary",
+      "family": "qualification-context",
+      "split": "seen_regression",
+      "case_sha256": "7bbef24b1a62ddfbb355669951c21a6505dcba116b02e5f30e62194e3c36dae7",
+      "source_sha256": [
+        "7d0677c99b67a49d3692329dc028e6a9a9a8358ff571f780ac34927b641cc8d9"
+      ],
+      "human": "pending"
+    },
+    {
+      "case_id": "ds2-location-question",
+      "family": "materials-missing-location",
+      "split": "seen_regression",
+      "case_sha256": "8b45fe591ea3b2d074e652c3554d484917d435a9fca2118b4dbbf25603cc98dd",
+      "source_sha256": [
+        "7d0677c99b67a49d3692329dc028e6a9a9a8358ff571f780ac34927b641cc8d9"
+      ],
+      "human": "pending"
+    },
+    {
+      "case_id": "ds2-knowledge-authority-unknown",
+      "family": "knowledge-missing-authority",
+      "split": "seen_regression",
+      "case_sha256": "868ebea8b06dbab04fddc001516f141e30214a115500d5b1f6e19d1aecfbea8b",
+      "source_sha256": [
+        "cb56715a2d44ab045ff014e325314a7c4a0a5a0dc28371d387faff730cabfc32"
+      ],
+      "human": "pending"
+    }
+  ],
+  "sealed_registry_entries": 0,
+  "quality": "not_evaluated",
+  "model_requests": 0
+}

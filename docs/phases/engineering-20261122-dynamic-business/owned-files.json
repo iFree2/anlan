@@ -1,0 +1,65 @@
+{
+  "files": [
+    {
+      "path": "src/anlan/tools/dynamic_mcp/personnel.py",
+      "sha256": "7b9a5e89dd81c23af7ea60f9b85efa745877885a23a6b1812834d6cbf0c867c9",
+      "bytes": 10365
+    },
+    {
+      "path": "src/anlan/workflows/external_inquiry_personnel.py",
+      "sha256": "337b1a1de0c290495102a8a0f13913c78a2ed3cf01c3270ebd89f1397e824d73",
+      "bytes": 16342
+    },
+    {
+      "path": "tests/test_dynamic_mcp_personnel.py",
+      "sha256": "48f0e4859a5952033374ddac7dac76e364222ad60758d35270009f65c57e57e7",
+      "bytes": 9742
+    },
+    {
+      "path": "tests/test_dynamic_mcp_personnel_inquiry.py",
+      "sha256": "d17f724eaddb3e04ca50aed1abe6895fd5172a9127d86da778f261075617ac10",
+      "bytes": 20766
+    },
+    {
+      "path": "tests/test_dynamic_mcp_personnel_e2e.py",
+      "sha256": "840f36803e0f470750e0132fe9f17eee2ade1f224bcf6d186c9dd88567053b64",
+      "bytes": 9365
+    },
+    {
+      "path": "tests/fixtures/dynamic_mcp_personnel_server.py",
+      "sha256": "04baad45bb2a817a8ffd1dcddf7a19ac366cb25fae6bd1de81a24b1a05cdd562",
+      "bytes": 5246
+    },
+    {
+      "path": "examples/synthetic/dynamic-mcp-v1/personnel/README.md",
+      "sha256": "1adace91436ab525773d9c2f624157e33910d20c073e78bc9b7252d0c279b225",
+      "bytes": 2456
+    },
+    {
+      "path": "docs/phases/engineering-20261122-dynamic-business/design.md",
+      "sha256": "abe4e2718ba264b170006e8250f38a179d27f10d828f8d84d5653b07141d654a",
+      "bytes": 5045
+    },
+    {
+      "path": "docs/phases/engineering-20261122-dynamic-business/evidence.json",
+      "sha256": "c2bbf2f449357b825a4efb201689692e4e2a77a6db2fa76fd31de18dba4402e1",
+      "bytes": 2373
+    },
+    {
+      "path": "docs/phases/engineering-20261122-dynamic-business/plan.md",
+      "sha256": "2f7dbf75840c4c02e0e7c9dedb400b0b30a68a0f4ceb66f9cd3a839599d8ba2e",
+      "bytes": 1897
+    },
+    {
+      "path": "docs/phases/engineering-20261122-dynamic-business/report.md",
+      "sha256": "1b3d849ba966717dcf797c21a58cd9e8c35df19916c4a9c62e777cebf21ae0b1",
+      "bytes": 8863
+    },
+    {
+      "path": "docs/phases/engineering-20261122-dynamic-business/review.md",
+      "sha256": "52e65456aa72525f5ffb4317550a2d3323f0ac56264c7370dd90ad81040df15e",
+      "bytes": 1120
+    }
+  ],
+  "manifest_excludes_itself": true
+}

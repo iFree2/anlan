@@ -1,0 +1,50 @@
+{
+  "schema_version": "personnel-package-verification-v1",
+  "data_origin": "SYNTHETIC",
+  "date": "2026-11-23",
+  "personnel_tests": {
+    "passed": 55,
+    "failed": 0,
+    "skipped": 0
+  },
+  "serial_gate": {
+    "passed": 334,
+    "failed": 4,
+    "total": 338,
+    "seconds": 367.7,
+    "failures": [
+      [
+        "tests.test_dynamic_mcp_device_e2e",
+        "test_real_three_capability_scripted_device_chain_preserves_query_time_and_audit"
+      ],
+      [
+        "tests.test_dynamic_mcp_execution",
+        "test_real_pg_revocation_during_sdk_call_cancels_actual_wire_and_rejects_publish[disable]"
+      ],
+      [
+        "tests.test_dynamic_mcp_execution",
+        "test_real_pg_revocation_during_sdk_call_cancels_actual_wire_and_rejects_publish[refresh]"
+      ],
+      [
+        "tests.test_dynamic_mcp_execution",
+        "test_real_pg_revocation_during_sdk_call_cancels_actual_wire_and_rejects_publish[replace]"
+      ]
+    ]
+  },
+  "frozen_core_unchanged": {
+    "src/anlan/tools/dynamic_mcp/routing.py": "0854afd4799ab2086cf75be76ee3497dc6d50f6361d2b94c0951e14f84133f8e",
+    "src/anlan/tools/dynamic_mcp/execution.py": "3fa8d45a4a2a428b108931e237e57d17956b6bd42eec8def5c31a653c976ce12",
+    "src/anlan/tools/dynamic_mcp/registry.py": "6b6fcc824d206f4962f4c22cf5f4069e237758ce609e5a53584084fe3f549c24",
+    "src/anlan/tools/dynamic_mcp/runtime.py": "62d3864d2e311c274a7f1e56228fceec4975ad3c4d6b785e946b2a1919d5455a",
+    "src/anlan/tools/dynamic_mcp/catalog.py": "8635eefe178e2b66ff0de4932f3a6dd7a114417e7ad5b48b3f1085f3c111a41a",
+    "src/anlan/tools/policy.py": "e315e8c8a96551e63fc0d2785484452c26feeb1466f5d8c74900764e5942f8eb",
+    "src/anlan/tools/executor.py": "c7fb531b3cd956bddc861ed9648d6aee5070fa5e6f8ba6e8eabf2c522e898e35",
+    "src/anlan/tools/registry.py": "142a5808363f54d06559e874382a83db276756e7ed588e5a38c3efc88d425250",
+    "src/anlan/workflows/external_inquiry.py": "af2bf71a3d61ecc90edc7317eff20c30978e693921059e2781267a100de66fbe",
+    "src/anlan/sql/022_dynamic_mcp.sql": "5175546c702f5850a145e2ccbb08357759738a842008cc19b695916c74331cb2",
+    "src/anlan/sql/023_dynamic_mcp_calls.sql": "f1e04cb646ca90ea2836d24f94345595d1d7706439e72305ba74f412333b994b"
+  },
+  "paid_model_requests": 0,
+  "deployed": false,
+  "status": "personnel_verified_broader_gate_requires_coordinator_review"
+}

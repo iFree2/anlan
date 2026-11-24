@@ -63,3 +63,7 @@ P7-WP02：[Mem0有限比较与合成任务复用](phases/phase-07-takeover-caree
 P7-WP03：[两张合成图真实对照](phases/phase-07-takeover-career/multimodal-report.md)4请求，图像/结构化各2/2，图片token更多；只证明有限图示处理，真实视频/现场泛化未验证，个人掌握不变。
 
 P7-WP04：如实项目/架构/求职资料与本人接管清单已交付，最终工程Gate通过。个人接管未勾选；不以456测试、文档数量或AI回答升级任何“我的掌握”。
+
+2026-11-16 四项演进：工具Registry/Policy/Executor、知识v2 IR/治理和统一评测合同已有本地工程增量；动态MCP当前仅能力合同，后续注册/SDK/执行仍在推进。实现证据见[计划与各包报告](superpowers/plans/2026-11-16-engineering-evolution.md)。本次仍由AI实施与验证，所有“我的掌握”保持原状态，不据测试数或工程完成升级。
+
+2026-11-18 本轮有限增量工程门禁通过：统一工具执行、知识v2本地结构证据、评测重算链及设备动态MCP首链已验；1673项连续非live回归与wheel检查见[交接](handoff/2026-11-18-engineering-evolution-final.md)。真实企业/领域语义/未见集/本人接管仍待验，所有“我的掌握”保持原状态。

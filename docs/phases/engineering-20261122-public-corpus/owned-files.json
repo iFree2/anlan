@@ -1,0 +1,75 @@
+{
+  "scope": "Task A only; excludes this inventory and generated __pycache__",
+  "files": [
+    {
+      "path": "docs/phases/engineering-20261122-public-corpus/design.md",
+      "sha256": "ac679aa16cdced961fb67b279bcbff6e4aaf018bd5c23b24d0d9e87d3cae152d",
+      "bytes": 3575
+    },
+    {
+      "path": "docs/phases/engineering-20261122-public-corpus/package-check.json",
+      "sha256": "6a13480b278a2f9eb5cb9dac1ec4dcd5b00d9bf04d69a9ad6297014ae384493e",
+      "bytes": 614
+    },
+    {
+      "path": "docs/phases/engineering-20261122-public-corpus/plan.md",
+      "sha256": "c9907ebe3f886f46b2e2a68a5fb04db96c84e046b8a98a80633d379f9ff16cb0",
+      "bytes": 1040
+    },
+    {
+      "path": "docs/phases/engineering-20261122-public-corpus/report-page-observation.json",
+      "sha256": "904ef0a27c26ae31e1a9670eeab8833641ae83ce170435cfe47df06e7542eea2",
+      "bytes": 429
+    },
+    {
+      "path": "docs/phases/engineering-20261122-public-corpus/report.md",
+      "sha256": "681d49cb63d02891e1bed59a5c20bf1b6ca96d70ac7fd771a6e6a8e83d4d8a3c",
+      "bytes": 7252
+    },
+    {
+      "path": "docs/phases/engineering-20261122-public-corpus/upstream-evidence.md",
+      "sha256": "2b6f391825ff15301a2b24aaf39af19b24465b0c76b460f2cfbe99e72c49fe3f",
+      "bytes": 3437
+    },
+    {
+      "path": "evals/safety-knowledge-v2/public-pilot/manifest.json",
+      "sha256": "6e510f27cd0a01f4321c609936995d286ff679151a4ec677aab6a73c85aaebb3",
+      "bytes": 4174
+    },
+    {
+      "path": "evals/safety-knowledge-v2/public-pilot/README.md",
+      "sha256": "dedbb961d972d53456bb270a4c738be817462a5f8fb0bab84eadf325bc141211",
+      "bytes": 1897
+    },
+    {
+      "path": "evals/safety-knowledge-v2/public-pilot/sample.txt",
+      "sha256": "60cb5e9a90ad5283395ba8c087a06e52be6172fcd9abba60cf0fcdcab5d1fbdc",
+      "bytes": 49
+    },
+    {
+      "path": "scripts/curate_public_safety_corpus.py",
+      "sha256": "830ddacb91f2d258db2e3d953ccc5da0218b0ea6b02ba4dc1850a2a1fdddbe97",
+      "bytes": 2811
+    },
+    {
+      "path": "src/anlan/knowledge/sources/__init__.py",
+      "sha256": "9e513dd897cbc0c964958c99cacda77219f262bc2a015d53e476060170bec639",
+      "bytes": 76
+    },
+    {
+      "path": "src/anlan/knowledge/sources/contracts.py",
+      "sha256": "9976643c223d793d197facde8c924ed667237caae154b9bfb35a35e55d01ae5e",
+      "bytes": 3500
+    },
+    {
+      "path": "src/anlan/knowledge/sources/validation.py",
+      "sha256": "bc4892ed3a8af2782500a70358a4115f1a774020bfbd4a6dd17f069d82f2706e",
+      "bytes": 2900
+    },
+    {
+      "path": "tests/test_public_safety_sources.py",
+      "sha256": "0e9d313a9d801b1d3f180e265a514609845a0a8d0f4848bcd927e8fd27551d82",
+      "bytes": 9608
+    }
+  ]
+}

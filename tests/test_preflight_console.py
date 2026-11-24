@@ -28,7 +28,7 @@ const elements = new Map();
 const get = id => { if (!elements.has(id)) elements.set(id, new Element("div")); return elements.get(id); };
 const context = {AbortController, clearTimeout(){}, setTimeout(){ return 0; }, queueMicrotask(fn){ fn(); }, crypto:{getRandomValues(v){ return v; }}, document:{getElementById:get, querySelectorAll(){ return []; }, createElement:t => new Element(t), createTextNode:t => new Element("text", t)}, request:async () => ({workers:[], areas:[]}), mutate:async (_path, body) => { context.sent = body; return context.nextSnapshot; }, subscribeSnapshot(){}, ApiError:class extends Error {}};
 vm.createContext(context);
-const source = fs.readFileSync(process.argv[2], "utf8").replace(/^import .*\n/, "");
+const source = fs.readFileSync(process.argv[2], "utf8").replace(/^import .*\r?\n/, "");
 vm.runInContext(source + `
 globalThis.subject = {state, renderPreflight, renderBinding, renderCitations, resetIdentityState};
 renderSnapshot = () => {};

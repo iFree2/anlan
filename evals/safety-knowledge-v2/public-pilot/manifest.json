@@ -1,0 +1,90 @@
+{
+  "schema_version": "public-sources-v1",
+  "manifest_version": "2026-11-23.2",
+  "sources": [
+    {
+      "retrieved_at": "2026-11-22T15:02:07.850110+00:00",
+      "upstream_revision": null,
+      "revision_note": "No immutable content revision obtained; URL and observation only.",
+      "validity": "not_enterprise_authority",
+      "review_state": "candidate",
+      "access": "public_web",
+      "import_policy": "metadata_only",
+      "content_sha256": null,
+      "source_id": "mem-xiangshui-2019",
+      "publisher": "应急管理部 / 国务院事故调查组",
+      "source_url": "https://www.mem.gov.cn/gk/sgcc/tbzdsgdcbg/2019tbzdsgcc/201911/t20191115_340720.shtml",
+      "content_kind": "accident_case",
+      "license": {
+        "identifier": "unknown",
+        "redistribution": "unknown",
+        "evidence_url": "https://www.mem.gov.cn/gk/sgcc/tbzdsgdcbg/2019tbzdsgcc/201911/t20191115_340720.shtml",
+        "evidence_note": "No explicit redistribution permission established; metadata only."
+      },
+      "data_origin": "public_source"
+    },
+    {
+      "retrieved_at": "2026-11-22T15:02:07.850110+00:00",
+      "upstream_revision": "249ea52f1ee412303e9741ae69fdd2109c0f8e1c",
+      "revision_note": "README commit link observed in publisher web UI; immutable content fetch returned 401, payload hash unavailable.",
+      "validity": "not_enterprise_authority",
+      "review_state": "candidate",
+      "access": "gated_or_unverified",
+      "import_policy": "metadata_only",
+      "content_sha256": null,
+      "source_id": "baai-industrycorpus2-card",
+      "publisher": "BAAI",
+      "source_url": "https://huggingface.co/datasets/BAAI/IndustryCorpus2/blob/main/README.md",
+      "content_kind": "dataset_card",
+      "license": {
+        "identifier": "Apache-2.0 (card declaration only)",
+        "redistribution": "unknown",
+        "evidence_url": "https://huggingface.co/datasets/BAAI/IndustryCorpus2/blob/main/README.md",
+        "evidence_note": "Publisher card declares Apache-2.0 plus extra gated fields. Underlying records/subsets and per-record rights not reviewed."
+      },
+      "data_origin": "public_source"
+    },
+    {
+      "retrieved_at": "2026-11-22T15:02:07.850110+00:00",
+      "upstream_revision": null,
+      "revision_note": "No immutable content revision obtained; URL and observation only.",
+      "validity": "not_enterprise_authority",
+      "review_state": "candidate",
+      "access": "gated_or_unverified",
+      "import_policy": "metadata_only",
+      "content_sha256": null,
+      "source_id": "modelscope-industrycorpus2-discovery",
+      "publisher": "ModelScope / BAAI",
+      "source_url": "https://modelscope.cn/datasets/BAAI/IndustryCorpus2",
+      "content_kind": "discovery_page",
+      "license": {
+        "identifier": "unknown",
+        "redistribution": "unknown",
+        "evidence_url": "https://modelscope.cn/datasets/BAAI/IndustryCorpus2",
+        "evidence_note": "No explicit redistribution permission established; metadata only."
+      },
+      "data_origin": "public_source"
+    },
+    {
+      "retrieved_at": "2026-11-22T15:02:07.850110+00:00",
+      "upstream_revision": "fixture-v1",
+      "revision_note": "Repository owned bytes sample.txt; not upstream government content.",
+      "validity": "not_enterprise_authority",
+      "review_state": "candidate",
+      "access": "offline_fixture",
+      "import_policy": "licensed_sample",
+      "content_sha256": "60cb5e9a90ad5283395ba8c087a06e52be6172fcd9abba60cf0fcdcab5d1fbdc",
+      "source_id": "synthetic-pilot-v1",
+      "publisher": "Anlan project authored synthetic fixture",
+      "source_url": "synthetic://public-pilot/sample.txt",
+      "content_kind": "synthetic_case",
+      "license": {
+        "identifier": "CC0-1.0",
+        "redistribution": "allowed",
+        "evidence_url": "synthetic://public-pilot/sample.txt",
+        "evidence_note": "Project-authored synthetic fixture dedicated under CC0-1.0; synthetic URI identifies repository sample.txt only. See README.md."
+      },
+      "data_origin": "project_fixture"
+    }
+  ]
+}

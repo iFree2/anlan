@@ -1,0 +1,15 @@
+{
+  "wheel_sha256": "7e040f7108ec93bef3e2c700fb37e8f6c99f2aaeef402dc80fb2f8f59ec37897",
+  "source_files_matched": 3,
+  "isolated_replay": {
+    "source_id": "synthetic-pilot-v1",
+    "upstream_revision": "fixture-v1",
+    "sha256": "60cb5e9a90ad5283395ba8c087a06e52be6172fcd9abba60cf0fcdcab5d1fbdc",
+    "size_bytes": 49,
+    "review_state": "candidate",
+    "validity": "not_enterprise_authority"
+  },
+  "synthetic_uri": "synthetic://public-pilot/sample.txt",
+  "network_evidence_hashes_unchanged": true,
+  "scope": "Task A only; concurrent workspace wheel is not an integrated release approval"
+}

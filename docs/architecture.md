@@ -176,3 +176,23 @@ P3新增的上下文和综合边界见[ADR007](decisions/007-bounded-review-cont
 宿主Bearer配置 → 可信Identity → 原WorkflowService/EventStore/PerceptionRuntime → PG。材料锁与Saver共用连接；原始事件先独立提交，重核结果/反馈校验材料revision、来源水位和时效。review运行锁防止恢复时重发，cancel_requested由PG保存并在终态事务中复核。SSE只是受权读取持久快照与摘要ID，断流不取消业务，不保证传递全部历史中间事件。
 
 [ADR011](decisions/011-synthetic-event-association.md)、[ADR012](decisions/012-material-revision-and-perception-review.md)、[ADR013](decisions/013-local-api-and-snapshot-stream.md)与[P5模块入口](phases/phase-05-events-service/module-map.md)记录当前实现；[Q-P5-001](quality-items.md)保留真实模型质量未通过，不以接口/替身通过替代。
+
+## 2026-11-16 四项工程演进（本地进行中）
+
+工具模型链已改为可信任务快照 → tools/builtin.py 注册原人员/区域/知识处理器 → ToolPolicy 冻结任务目录 → 模型绑定目录副本 → ToolExecutor 严格输入/对象/结果/时点/大小/超时校验 → 原查询实现 → 观察/审计 → 原引用门禁。DeepSeek 每任务绑定网关状态独立，真实预算账本仍共享。原 P13 确定性预核查不改为模型决策。
+
+新增 knowledge/documents 与 governance 是独立 v2 合同和纯授权边界：IR 内容摘要绑定审核发布清单，当前 ACL/撤回记录独立于可回滚 IR；尚未装配旧 query_knowledge。新增 evaluation 包分离结构、语义、人工、安全、可靠性/费用，缺例缺检查不可通过；历史 issue-set 正确性独立保留。dynamic_mcp/contracts 仅提供能力/注册/证据合同，不代表动态注册调用已开放。
+
+总蓝图、依赖图、门禁与后续包见 [工程蓝图](superpowers/specs/2026-11-16-engineering-evolution-design.md) 和 [实施计划](superpowers/plans/2026-11-16-engineering-evolution.md)。详细证据在 phases/engineering-20261116 各报告；仍有二轮摄取/运行器/MCP注册包进行中，完整 Gate 尚待最终复验。零真实模型调用、未部署；项目实现不等于模型泛化或本人掌握。
+
+## 2026-11-17 工程增量实际调用链
+
+本节更新上方首轮“仅合同/进行中”的历史描述，最终门禁与限制以 engineering-20261116/gate-report.md 为准。
+
+动态设备链：WorkflowService.get 校验任务归属 → dynamic_mcp/routing 按可信企业目录解析厂区别名、核对设备/能力授权、选择唯一来源并冻结 catalog/lease → ToolPolicy.bind_task_grant → 同一 TaskCatalog 绑定模型与 ToolExecutor → execution 中独占 SDK 会话、Schema复验和真正 tools/call → M1 请求/来源/完整性绑定 → registry 业务代次与 reader 复验 → SQL023 发布审计共享锁与 disable/refresh 更新互斥 → 结构候选/当前观察/未知/partial/unusable 分开返回。跨轮 call_id 去重，attempt 与 wire 各6次，查询时钟/实际接收UTC/单调截止分开。执行截止后清理可额外耗时，不承诺总墙钟等于工作限额。
+
+SQL022 的独立管理员CLI提供注册/发现/校验/启停/刷新与不可变版本；普通Bearer不获得管理权。主initializer不自动开MCP，管理和调用审计均显式初始化。M2公开运行时没有任意call或diagnose；动态业务只能经本地Registry/Policy/Executor。当前只完成设备asset/inspection/fault首链，人员/票据、历史双源、分页和普通对话入口装配仍需后续增量，不把scripted当真实模型自主选择效果。
+
+知识v2：受限UTF-8 TXT原bytes → 原字节hash/精确行定位/未发布DocumentIR → 独立当前ACL/撤回/审核清单与IR摘要 → 内存BM25及可替换向量排名协议/RRF → 每路provider前、结构依赖展开与最终发布前重检 → search/get_clause/query_table只读证据包。表格地址由合成审核矩形IR推导，不认证原workbook；当前没有真实多格式解析/持久化索引/真实embedding质量证明。旧query_knowledge与预核查链保持原接口，未冒称已整体替换。
+
+评测v2：版本清单/必测目录 → 实际原生API运行 → 原始输入、调用、trace、authority与返回观测 → 依赖/引用/版本检查 → 从观测逐例重评分 → 统一报告。E2八场景保留故障blocked；知识三场景保留语义/人工pending；安全pass仅对应实际刺激与观测。已见合成夹具不是企业金标或未见留出，项目工程完成不升级本人掌握。
